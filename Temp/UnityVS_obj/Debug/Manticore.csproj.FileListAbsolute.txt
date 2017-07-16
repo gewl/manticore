@@ -1,0 +1,2 @@
+/Users/lawsong/Manticore/Temp/UnityVS_obj/Debug/Manticore.csprojResolveAssemblyReference.cache
+/Users/lawsong/Manticore/Temp/UnityVS_obj/Debug/Manticore.csproj.CoreCompileInputs.cache
