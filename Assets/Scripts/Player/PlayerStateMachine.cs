@@ -33,7 +33,6 @@ public class PlayerStateMachine : ScriptableObject {
 
 	
 	public void Update () {
-        Debug.Log(currentState);
 		if (nextState != null)
 		{
 			if (currentState != null)

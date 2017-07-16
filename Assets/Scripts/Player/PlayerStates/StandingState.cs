@@ -9,6 +9,7 @@ public class StandingState : PlayerState
 	{
 		base.Enter();
 
+        Machine.PlayerController.Stop();
 	}
 
 	public override void Update()
@@ -16,7 +17,7 @@ public class StandingState : PlayerState
 		float horizontalKeyValue = Input.GetAxis("HorizontalKey");
 		float verticalKeyValue = Input.GetAxis("VerticalKey");
 
-		if (System.Math.Abs(verticalKeyValue) > 0f || System.Math.Abs(verticalKeyValue) > 0f)
+        if (System.Math.Abs(verticalKeyValue) > 0f || System.Math.Abs(horizontalKeyValue) > 0f)
 		{
             Machine.SwitchState(new MovingState(Machine));
 		}

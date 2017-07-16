@@ -21,13 +21,21 @@ public class MovingState : PlayerState
 		float horizontalKeyValue = Input.GetAxis("HorizontalKey");
 		float verticalKeyValue = Input.GetAxis("VerticalKey");
 
-		Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
-		Machine.PlayerController.ChangeVelocity(direction);
 
         Vector3 currentVelocity = Machine.PlayerRigidbody.velocity;
 
-        if (Mathf.Approximately(currentVelocity.x, 0) && Mathf.Approximately(currentVelocity.z, 0)) {
-            Machine.SwitchState(new StandingState(Machine));
-        }
-	}
+        if (Mathf.Abs(horizontalKeyValue) < 0.1f && Mathf.Abs(verticalKeyValue) < 0.1f)
+		{
+			Machine.SwitchState(new StandingState(Machine));
+		}
+        else
+        {
+			Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
+			Machine.PlayerController.ChangeVelocity(direction);
+		}
+
+        //if (Mathf.Approximately(currentVelocity.x, 0) && Mathf.Approximately(currentVelocity.z, 0)) {
+        //    Machine.SwitchState(new StandingState(Machine));
+        //}
+    }
 }
