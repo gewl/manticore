@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 
     // config for functions
 	private float speed = 18f;
+    private Vector3 lastSafeRotation = new Vector3(0f, 0f, -1.0f);
 
 	void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -37,52 +38,54 @@ public class PlayerController : MonoBehaviour {
 		{
 			Vector3 hitPoint = hit.point;
             Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
-            Debug.Log(characterToHitpoint);
 
             UpdateBodyRotation(characterToHitpoint);
 		}
     }
 
+    private float SnapValuesToBreakpoint(float initialValue) {
+		float[] breakpoints = new float[4] { -1f, -.7f, .7f, 1f };
+
+        // 0f is default breakpoint because it's harder to check for
+        float closestBreakpoint = 0f;
+        float newValue = initialValue;
+
+        for (int i = 0; i < breakpoints.Length; i++)
+        {
+            float tempRemainder = initialValue - breakpoints[i];
+
+            if (Mathf.Abs(tempRemainder) < Mathf.Abs(newValue)) {
+                newValue = tempRemainder;
+                closestBreakpoint = breakpoints[i];
+            }
+
+        }
+
+        return closestBreakpoint;
+	}
+
 	private void UpdateBodyRotation(Vector3 normalMousePosition)
 	{
+        if (Mathf.Abs(normalMousePosition.y) > .01f) {
+            normalMousePosition = lastSafeRotation;
+        } else {
+			normalMousePosition.x = SnapValuesToBreakpoint(normalMousePosition.x);
+			normalMousePosition.z = SnapValuesToBreakpoint(normalMousePosition.z);
+			if (Mathf.Abs(normalMousePosition.x) == 0.7f)
+			{
+				normalMousePosition.z = Mathf.Sign(normalMousePosition.z) * 0.7f;
+			}
+			if (Mathf.Abs(normalMousePosition.z) == 0.7f)
+			{
+				normalMousePosition.x = Mathf.Sign(normalMousePosition.x) * 0.7f;
+			}
+
+            lastSafeRotation = normalMousePosition;
+		}
+		Debug.Log(normalMousePosition);
 
 		Quaternion invertedVelocityRotation = Quaternion.LookRotation(-normalMousePosition);
 		transform.rotation = invertedVelocityRotation;
-
-        if (normalMousePosition.x > 0f) {
-            
-        } else {
-            
-        }
-
-
-		//if (playerRigidbody.velocity.x > 0.1f)
-		//{
-		//	tempRotation.z = -30f;
-		//}
-		//else if (playerRigidbody.velocity.x < -0.1f)
-		//{
-		//	tempRotation.z = 30f;
-		//}
-		//else
-		//{
-		//	tempRotation.z = 0f;
-		//}
-
-		//if (playerRigidbody.velocity.z > 0.1f)
-		//{
-		//	tempRotation.x = -30f;
-		//}
-		//else if (playerRigidbody.velocity.z < -0.1f)
-		//{
-		//	tempRotation.x = 30f;
-		//}
-		//else
-		//{
-		//	tempRotation.x = 0f;
-		//}
-
-		//playerBody.transform.rotation = Quaternion.Euler(tempRotation);
 	}
 
     void FixedUpdate()
@@ -97,39 +100,14 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody.velocity = direction * speed;
 
         UpdateBodyOrientation();
-        //UpdateBodyRotation();
 	}
 
     private void UpdateBodyOrientation() {
 
-        float[] breakpoints = new float[4] { -.7f, -.3f, .3f, .7f };
 
         Quaternion invertedVelocityRotation = Quaternion.LookRotation(-playerRigidbody.velocity);
 		transform.rotation = invertedVelocityRotation;
 	}
-
-    //private void UpdateBodyRotation() {
-    //    Vector3 tempRotation = playerBody.transform.rotation.eulerAngles;
-
-    //    if (playerRigidbody.velocity.x > 0.1f)
-    //    {
-    //        tempRotation.z = -30f;
-    //    } else if (playerRigidbody.velocity.x < -0.1f) {
-    //        tempRotation.z = 30f;
-    //    } else {
-    //        tempRotation.z = 0f;
-    //    }
-
-    //    if (playerRigidbody.velocity.z > 0.1f) {
-    //        tempRotation.x = -30f; 
-    //    } else if (playerRigidbody.velocity.z < -0.1f) {
-    //        tempRotation.x = 30f; 
-    //    } else {
-    //        tempRotation.x = 0f; 
-    //    }
-
-    //    playerBody.transform.rotation = Quaternion.Euler(tempRotation);
-    //}
 
     public void Stop() {
         playerRigidbody.velocity = Vector3.zero;
