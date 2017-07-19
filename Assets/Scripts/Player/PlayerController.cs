@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void UpdateBodyRotation(Vector3 normalMousePosition)
 	{
+        // "Facing" rotation
         if (Mathf.Abs(normalMousePosition.y) > .01f) {
             normalMousePosition = lastSafeRotation;
         } else {
@@ -82,10 +83,31 @@ public class PlayerController : MonoBehaviour {
 
             lastSafeRotation = normalMousePosition;
 		}
-		Debug.Log(normalMousePosition);
 
-		Quaternion invertedVelocityRotation = Quaternion.LookRotation(-normalMousePosition);
-		transform.rotation = invertedVelocityRotation;
+		// "Body" rotation
+		Vector3 tempRotation = playerBody.transform.rotation.eulerAngles;
+        if (normalMousePosition.x > 0.1f)
+	    {
+	        tempRotation.z = -30f;
+	    } else if (normalMousePosition.x < -0.1f) {
+	        tempRotation.z = 30f;
+	    } else {
+	        tempRotation.z = 0f;
+	    }
+
+	    if (normalMousePosition.z > 0.1f) {
+	        tempRotation.x = -30f; 
+	    } else if (normalMousePosition.z < -0.1f) {
+	        tempRotation.x = 30f; 
+	    } else {
+	        tempRotation.x = 0f; 
+	    }
+
+        playerBody.transform.rotation = Quaternion.Euler(tempRotation);
+
+
+		transform.rotation = Quaternion.LookRotation(-normalMousePosition);
+        Debug.Log(transform.rotation);
 	}
 
     void FixedUpdate()
@@ -109,7 +131,31 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = invertedVelocityRotation;
 	}
 
+    //private void UpdateBodyRotation() {
+    //    Vector3 tempRotation = playerBody.transform.rotation.eulerAngles;
+
+    //    if (playerRigidbody.velocity.x > 0.1f)
+    //    {
+    //        tempRotation.z = -30f;
+    //    } else if (playerRigidbody.velocity.x < -0.1f) {
+    //        tempRotation.z = 30f;
+    //    } else {
+    //        tempRotation.z = 0f;
+    //    }
+
+    //    if (playerRigidbody.velocity.z > 0.1f) {
+    //        tempRotation.x = -30f; 
+    //    } else if (playerRigidbody.velocity.z < -0.1f) {
+    //        tempRotation.x = 30f; 
+    //    } else {
+    //        tempRotation.x = 0f; 
+    //    }
+
+    //    playerBody.transform.rotation = Quaternion.Euler(tempRotation);
+    //}
+
     public void Stop() {
         playerRigidbody.velocity = Vector3.zero;
     }
+
 }
