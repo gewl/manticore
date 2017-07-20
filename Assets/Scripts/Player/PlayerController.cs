@@ -64,50 +64,60 @@ public class PlayerController : MonoBehaviour {
         return closestBreakpoint;
 	}
 
-	private void UpdateBodyRotation(Vector3 normalMousePosition)
+	private void UpdateBodyRotation(Vector3 normalizedMousePosition)
 	{
         // "Facing" rotation
-        if (Mathf.Abs(normalMousePosition.y) > .01f) {
-            normalMousePosition = lastSafeRotation;
-        } else {
-			normalMousePosition.x = SnapValuesToBreakpoint(normalMousePosition.x);
-			normalMousePosition.z = SnapValuesToBreakpoint(normalMousePosition.z);
-			if (Mathf.Abs(normalMousePosition.x) == 0.7f)
+        if (Mathf.Abs(normalizedMousePosition.y) > .01f) 
+        {
+            normalizedMousePosition = lastSafeRotation;
+        } 
+        else 
+        {
+			normalizedMousePosition.x = SnapValuesToBreakpoint(normalizedMousePosition.x);
+			normalizedMousePosition.z = SnapValuesToBreakpoint(normalizedMousePosition.z);
+			if (Mathf.Abs(normalizedMousePosition.x) == 0.7f)
 			{
-				normalMousePosition.z = Mathf.Sign(normalMousePosition.z) * 0.7f;
+				normalizedMousePosition.z = Mathf.Sign(normalizedMousePosition.z) * 0.7f;
 			}
-			if (Mathf.Abs(normalMousePosition.z) == 0.7f)
+			if (Mathf.Abs(normalizedMousePosition.z) == 0.7f)
 			{
-				normalMousePosition.x = Mathf.Sign(normalMousePosition.x) * 0.7f;
+				normalizedMousePosition.x = Mathf.Sign(normalizedMousePosition.x) * 0.7f;
 			}
 
-            lastSafeRotation = normalMousePosition;
+            lastSafeRotation = normalizedMousePosition;
 		}
 
 		// "Body" rotation
 		Vector3 tempRotation = playerBody.transform.rotation.eulerAngles;
-        if (normalMousePosition.x > 0.1f)
+        if (normalizedMousePosition.x > 0.1f)
 	    {
 	        tempRotation.z = -30f;
-	    } else if (normalMousePosition.x < -0.1f) {
+	    } 
+        else if (normalizedMousePosition.x < -0.1f) 
+        {
 	        tempRotation.z = 30f;
-	    } else {
+	    } 
+        else 
+        {
 	        tempRotation.z = 0f;
 	    }
 
-	    if (normalMousePosition.z > 0.1f) {
+	    if (normalizedMousePosition.z > 0.1f) 
+        {
 	        tempRotation.x = -30f; 
-	    } else if (normalMousePosition.z < -0.1f) {
+	    } 
+        else if (normalizedMousePosition.z < -0.1f)
+        {
 	        tempRotation.x = 30f; 
-	    } else {
+	    } 
+        else 
+        {
 	        tempRotation.x = 0f; 
 	    }
 
         playerBody.transform.rotation = Quaternion.Euler(tempRotation);
 
-
-		transform.rotation = Quaternion.LookRotation(-normalMousePosition);
-        Debug.Log(transform.rotation);
+		transform.rotation = Quaternion.LookRotation(-normalizedMousePosition);
 	}
 
     void FixedUpdate()
@@ -117,44 +127,14 @@ public class PlayerController : MonoBehaviour {
 		Vector3 currentNormalizedVelocity = playerRigidbody.velocity.normalized;
 	}
 
-    public void ChangeVelocity(Vector3 direction) {
+    public void ChangeVelocity(Vector3 direction) 
+    {
 		direction.Normalize();
         playerRigidbody.velocity = direction * speed;
-
-        UpdateBodyOrientation();
 	}
 
-    private void UpdateBodyOrientation() {
-
-
-        Quaternion invertedVelocityRotation = Quaternion.LookRotation(-playerRigidbody.velocity);
-		transform.rotation = invertedVelocityRotation;
-	}
-
-    //private void UpdateBodyRotation() {
-    //    Vector3 tempRotation = playerBody.transform.rotation.eulerAngles;
-
-    //    if (playerRigidbody.velocity.x > 0.1f)
-    //    {
-    //        tempRotation.z = -30f;
-    //    } else if (playerRigidbody.velocity.x < -0.1f) {
-    //        tempRotation.z = 30f;
-    //    } else {
-    //        tempRotation.z = 0f;
-    //    }
-
-    //    if (playerRigidbody.velocity.z > 0.1f) {
-    //        tempRotation.x = -30f; 
-    //    } else if (playerRigidbody.velocity.z < -0.1f) {
-    //        tempRotation.x = 30f; 
-    //    } else {
-    //        tempRotation.x = 0f; 
-    //    }
-
-    //    playerBody.transform.rotation = Quaternion.Euler(tempRotation);
-    //}
-
-    public void Stop() {
+    public void Stop() 
+    {
         playerRigidbody.velocity = Vector3.zero;
     }
 

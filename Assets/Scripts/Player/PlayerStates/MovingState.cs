@@ -33,9 +33,5 @@ public class MovingState : PlayerState
 			Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
 			Machine.PlayerController.ChangeVelocity(direction);
 		}
-
-        //if (Mathf.Approximately(currentVelocity.x, 0) && Mathf.Approximately(currentVelocity.z, 0)) {
-        //    Machine.SwitchState(new StandingState(Machine));
-        //}
     }
 }

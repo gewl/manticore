@@ -32,7 +32,8 @@ public class PlayerStateMachine : ScriptableObject {
 	}
 
 	
-	public void Update () {
+	public void Update () 
+    {
 		if (nextState != null)
 		{
 			if (currentState != null)
