@@ -11,12 +11,9 @@ public class BulletBehavior : MonoBehaviour {
         bulletRigidbody = GetComponent<Rigidbody>();
 
         bulletRigidbody.velocity = transform.forward * speed;
-	}
-	
-	void Update () {
         Debug.Log(bulletRigidbody.velocity);
 	}
-
+	
     void Bounce() {
         bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z);
     }
