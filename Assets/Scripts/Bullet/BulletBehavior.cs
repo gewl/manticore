@@ -18,4 +18,13 @@ public class BulletBehavior : MonoBehaviour {
         bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("Hit player");
+            Destroy(gameObject); 
+        }
+    }
 }

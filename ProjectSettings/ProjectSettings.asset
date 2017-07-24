@@ -582,8 +582,8 @@ PlayerSettings:
   cloudServicesEnabled: {}
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
-  cloudProjectId: 18b6a975-5ed2-49d1-bfa2-b3464436d15f
-  projectName: Manticore
-  organizationId: gillawson
+  cloudProjectId: 
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   enableNewInputSystem: 0

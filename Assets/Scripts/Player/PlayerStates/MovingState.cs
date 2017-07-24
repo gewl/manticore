@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingState : PlayerState
 {
@@ -20,7 +18,6 @@ public class MovingState : PlayerState
 	{
 		float horizontalKeyValue = Input.GetAxis("HorizontalKey");
 		float verticalKeyValue = Input.GetAxis("VerticalKey");
-
 
         Vector3 currentVelocity = Machine.PlayerRigidbody.velocity;
 

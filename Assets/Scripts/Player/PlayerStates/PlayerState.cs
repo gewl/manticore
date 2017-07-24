@@ -1,4 +1,6 @@
-﻿public abstract class PlayerState
+﻿using UnityEngine;
+
+public abstract class PlayerState
 {
 	private PlayerStateMachine machine;
 

@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -138,4 +137,10 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody.velocity = Vector3.zero;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Bullet") {
+            Debug.Log("ow!");
+        }
+    }
 }

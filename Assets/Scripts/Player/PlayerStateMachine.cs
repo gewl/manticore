@@ -31,7 +31,6 @@ public class PlayerStateMachine : ScriptableObject {
 		playerRigidbody = player.GetComponent<Rigidbody>();
 	}
 
-	
 	public void Update () 
     {
 		if (nextState != null)

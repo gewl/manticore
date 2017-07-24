@@ -22,5 +22,4 @@ public class StandingState : PlayerState
             Machine.SwitchState(new MovingState(Machine));
 		}
 	}
-
 }

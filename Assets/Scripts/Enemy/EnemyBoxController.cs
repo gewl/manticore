@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class EnemyBoxController : MonoBehaviour {
 
+    // initialized on instantiation
     int nextBulletTimer = 100;
+
+    // assigned in editor
     public Transform bullet;
 
+    // assigned in Start function
     private Transform bulletSpawner;
-
     private Collider boxCollider;
+    private GameObject bullets;
 
 	void Start () 
     {
         bulletSpawner = transform.Find("BulletSpawner");
-
         boxCollider = transform.Find("Body").GetComponent<Collider>();
+        bullets = GameObject.Find("Bullets");                                                        
 	}
 	
 	void Update () 
@@ -26,8 +30,8 @@ public class EnemyBoxController : MonoBehaviour {
         {
             nextBulletTimer = 100;
 
-            Instantiate(bullet, bulletSpawner.position, bulletSpawner.rotation);
-            //Physics.IgnoreCollision(bullet.GetComponent<Collider>(), boxCollider);
+            Transform createdBullet = Instantiate(bullet, bulletSpawner.position, bulletSpawner.rotation);
+            createdBullet.transform.parent = bullets.transform;
         }
     }
 }
