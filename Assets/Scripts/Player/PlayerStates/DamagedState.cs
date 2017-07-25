@@ -29,7 +29,7 @@ public class DamagedState : PlayerState
 		if (damagedTimer <= 0)
 		{
             Machine.PlayerController.Stop();
-            Machine.SwitchState(new StandingState(Machine));
+            Machine.SwitchState(new StandardState(Machine));
 		}
         damagedTimer--;
 	}

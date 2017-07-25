@@ -25,7 +25,7 @@ public class PlayerStateMachine : ScriptableObject {
 
 	public void Awake()
 	{
-        currentState = new StandingState(this);
+        currentState = new StandardState(this);
 		player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
 		playerRigidbody = player.GetComponent<Rigidbody>();

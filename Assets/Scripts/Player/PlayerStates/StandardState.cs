@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class MovingState : PlayerState
+public class StandardState : PlayerState
 {
-	public MovingState(PlayerStateMachine machine)
+	public StandardState(PlayerStateMachine machine)
 		: base(machine) { }
 
 	public override void Enter()
@@ -23,7 +23,7 @@ public class MovingState : PlayerState
 
         if (Mathf.Abs(horizontalKeyValue) < 0.1f && Mathf.Abs(verticalKeyValue) < 0.1f)
 		{
-			Machine.SwitchState(new StandingState(Machine));
+            Machine.PlayerController.Stop();
 		}
         else
         {
