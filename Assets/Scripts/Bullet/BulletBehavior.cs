@@ -11,7 +11,6 @@ public class BulletBehavior : MonoBehaviour {
         bulletRigidbody = GetComponent<Rigidbody>();
 
         bulletRigidbody.velocity = transform.forward * speed;
-        Debug.Log(bulletRigidbody.velocity);
 	}
 	
     void Bounce() {
@@ -20,11 +19,17 @@ public class BulletBehavior : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Bullet")
         {
-            Debug.Log("Hit player");
             Destroy(gameObject); 
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "DamageZone")
+        {
+            Destroy(gameObject);
         }
     }
 }

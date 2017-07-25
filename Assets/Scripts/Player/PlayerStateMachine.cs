@@ -94,4 +94,12 @@ public class PlayerStateMachine : ScriptableObject {
 	{
 		return currentState.GetType() == type || (nextState != null && nextState.GetType() == type);
 	}
+
+    public void HandleTriggerEnter(Collider co) 
+    {
+        if (currentState != null)
+        {
+            currentState.HandleTriggerEnter(co);
+        }
+    }
 }

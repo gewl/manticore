@@ -137,10 +137,8 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody.velocity = Vector3.zero;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Bullet") {
-            Debug.Log("ow!");
-        }
+        playerMachine.HandleTriggerEnter(other);
     }
 }

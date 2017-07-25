@@ -29,7 +29,6 @@ public class EnemyBoxController : MonoBehaviour {
         if (nextBulletTimer == 0)
         {
             nextBulletTimer = 100;
-
             Transform createdBullet = Instantiate(bullet, bulletSpawner.position, bulletSpawner.rotation);
             createdBullet.transform.parent = bullets.transform;
         }

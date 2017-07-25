@@ -31,4 +31,9 @@ public class MovingState : PlayerState
 			Machine.PlayerController.ChangeVelocity(direction);
 		}
     }
+
+    public override void HandleTriggerEnter(Collider co) 
+    {
+             
+    }
 }

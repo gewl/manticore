@@ -212,6 +212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 894702191}
+  - {fileID: 1853555362}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -644,6 +645,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+--- !u!1 &1853555361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1853555362}
+  - component: {fileID: 1853555363}
+  m_Layer: 0
+  m_Name: Damage Trigger
+  m_TagString: DamageZone
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1853555362
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1853555361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.83, z: 0}
+  m_LocalScale: {x: 1.5, y: 3.7292774, z: 2.5}
+  m_Children: []
+  m_Father: {fileID: 455023621}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1853555363
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1853555361}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1979713393
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,7 +777,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4067991874195556, guid: 18208465c4af44073848f858bab5ae53, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.5722153
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 4067991874195556, guid: 18208465c4af44073848f858bab5ae53, type: 2}
       propertyPath: m_LocalPosition.y
@@ -768,11 +810,6 @@ Prefab:
     - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
       propertyPath: m_Name
       value: EnemyBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 65263619513350514, guid: 18208465c4af44073848f858bab5ae53,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18208465c4af44073848f858bab5ae53, type: 2}
