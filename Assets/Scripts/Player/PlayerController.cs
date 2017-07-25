@@ -126,10 +126,17 @@ public class PlayerController : MonoBehaviour {
 		Vector3 currentNormalizedVelocity = playerRigidbody.velocity.normalized;
 	}
 
-    public void ChangeVelocity(Vector3 direction) 
+    public void ChangeVelocity(Vector3 direction, bool isMovingByChoice = true) 
     {
 		direction.Normalize();
-        playerRigidbody.velocity = direction * speed;
+        if (isMovingByChoice)
+        {
+			playerRigidbody.velocity = direction * speed;
+		}
+        else 
+        {
+            playerRigidbody.velocity = direction * speed * 0.5f;
+        }
 	}
 
     public void Stop() 

@@ -32,8 +32,12 @@ public class MovingState : PlayerState
 		}
     }
 
-    public override void HandleTriggerEnter(Collider co) 
-    {
-             
-    }
+	public override void HandleTriggerEnter(Collider co)
+	{
+		if (co.gameObject.tag == "Bullet")
+		{
+			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+			Machine.SwitchState(new DamagedState(Machine));
+		}
+	}
 }

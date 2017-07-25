@@ -6,7 +6,7 @@ public class DamagedState : PlayerState
 	public DamagedState(PlayerStateMachine machine)
 		: base(machine) { }
 
-    private int damagedTimer = 30;
+    private int damagedTimer = 31;
 
     private GameObject body;
 
@@ -18,7 +18,6 @@ public class DamagedState : PlayerState
 
 	public override void Update()
 	{
-        Debug.Log(damagedTimer);
         if (damagedTimer % 20 == 0) 
         {
             body.SetActive(true);

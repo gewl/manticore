@@ -22,4 +22,13 @@ public class StandingState : PlayerState
             Machine.SwitchState(new MovingState(Machine));
 		}
 	}
+
+    public override void HandleTriggerEnter(Collider co) 
+    {
+        if (co.gameObject.tag == "Bullet")
+        {
+            Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+            Machine.SwitchState(new DamagedState(Machine));
+        }
+    }
 }
