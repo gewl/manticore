@@ -12,6 +12,10 @@ public class StandardState : PlayerState
 
 	public override void Update()
 	{
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Machine.PlayerController.Parry();
+        }
 	}
 
 	public override void FixedUpdate()
@@ -34,9 +38,11 @@ public class StandardState : PlayerState
 
 	public override void HandleTriggerEnter(Collider co)
 	{
-		if (co.gameObject.tag == "Bullet")
+        GameObject colliderGo = co.gameObject;
+		if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
 		{
 			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+            Debug.Log("Ouch!");
 			Machine.SwitchState(new DamagedState(Machine));
 		}
 	}

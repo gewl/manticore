@@ -109,6 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cad3d5a401044ee3ad512d72eb90b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyBulletSkin: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
+  playerBulletSkin: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f, type: 2}
 --- !u!135 &135758704189025598
 SphereCollider:
   m_ObjectHideFlags: 1

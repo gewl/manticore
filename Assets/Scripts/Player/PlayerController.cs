@@ -42,6 +42,27 @@ public class PlayerController : MonoBehaviour {
 		}
     }
 
+    void FixedUpdate()
+    {
+        playerMachine.FixedUpdate();
+
+		Vector3 currentNormalizedVelocity = playerRigidbody.velocity.normalized;
+	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        playerMachine.HandleTriggerEnter(other);
+    }
+
+    #region actions
+    public void Parry()
+    {
+        Debug.Log("Parry");
+    }
+    #endregion
+
+    #region movement
+    // used for limiting/handling rotation
     private float SnapValuesToBreakpoint(float initialValue) {
 		float[] breakpoints = new float[4] { -1f, -.7f, .7f, 1f };
 
@@ -119,13 +140,6 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.LookRotation(-normalizedMousePosition);
 	}
 
-    void FixedUpdate()
-    {
-        playerMachine.FixedUpdate();
-
-		Vector3 currentNormalizedVelocity = playerRigidbody.velocity.normalized;
-	}
-
     public void ChangeVelocity(Vector3 direction, bool isMovingByChoice = true) 
     {
 		direction.Normalize();
@@ -143,9 +157,6 @@ public class PlayerController : MonoBehaviour {
     {
         playerRigidbody.velocity = Vector3.zero;
     }
+    #endregion
 
-    private void OnTriggerEnter(Collider other)
-    {
-        playerMachine.HandleTriggerEnter(other);
-    }
 }
