@@ -14,8 +14,18 @@ public class StandardState : PlayerState
 	{
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Machine.PlayerController.Parry();
+            Machine.SwitchState(new ParryingState(Machine));
         }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast(ray, out hit, 100))
+		{
+			Vector3 hitPoint = hit.point;
+            Vector3 characterToHitpoint = (hitPoint - Machine.Player.transform.position).normalized;
+
+            Machine.PlayerController.UpdateBodyRotation(characterToHitpoint);
+		}
 	}
 
 	public override void FixedUpdate()

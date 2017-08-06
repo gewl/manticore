@@ -1,0 +1,64 @@
+﻿using UnityEngine;
+
+public class ParryingState : PlayerState
+{
+    public ParryingState(PlayerStateMachine machine)
+        : base(machine) { }
+
+    private int timer;
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        timer = 20;
+        Machine.PlayerController.parryBox.SetActive(true);
+    }
+
+    public override void Update()
+    {
+        if (timer > 0)
+        {
+            timer--;
+        }
+        else
+        {
+            Machine.SwitchState(new StandardState(Machine));
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        float horizontalKeyValue = Input.GetAxis("HorizontalKey");
+        float verticalKeyValue = Input.GetAxis("VerticalKey");
+
+        Vector3 currentVelocity = Machine.PlayerRigidbody.velocity;
+
+        if (Mathf.Abs(horizontalKeyValue) < 0.1f && Mathf.Abs(verticalKeyValue) < 0.1f)
+        {
+            Machine.PlayerController.Stop();
+        }
+        else
+        {
+            Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
+            Machine.PlayerController.ChangeVelocity(direction);
+        }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        Machine.PlayerController.parryBox.SetActive(false);
+    }
+
+    public override void HandleTriggerEnter(Collider co)
+    {
+        GameObject colliderGo = co.gameObject;
+        if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
+        {
+            Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+            Debug.Log("Ouch!");
+            Machine.SwitchState(new DamagedState(Machine));
+        }
+    }
+}

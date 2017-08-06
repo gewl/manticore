@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     // ref to objs
     private Camera mainCamera;
+    public GameObject parryBox;
 
     // ref to components
 	private Rigidbody playerRigidbody;
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour {
 	private float speed = 18f;
     private Vector3 lastSafeRotation = new Vector3(0f, 0f, -1.0f);
 
+    // cooldown on actions
+    private int parryCooldown;
+
 	void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
         playerMachine = ScriptableObject.CreateInstance<PlayerStateMachine>();
@@ -30,16 +34,6 @@ public class PlayerController : MonoBehaviour {
     private void Update()
     {
         playerMachine.Update();
-
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-            Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
-
-            UpdateBodyRotation(characterToHitpoint);
-		}
     }
 
     void FixedUpdate()
@@ -53,13 +47,6 @@ public class PlayerController : MonoBehaviour {
     {
         playerMachine.HandleTriggerEnter(other);
     }
-
-    #region actions
-    public void Parry()
-    {
-        Debug.Log("Parry");
-    }
-    #endregion
 
     #region movement
     // used for limiting/handling rotation
@@ -84,7 +71,7 @@ public class PlayerController : MonoBehaviour {
         return closestBreakpoint;
 	}
 
-	private void UpdateBodyRotation(Vector3 normalizedMousePosition)
+	public void UpdateBodyRotation(Vector3 normalizedMousePosition)
 	{
         // "Facing" rotation
         if (Mathf.Abs(normalizedMousePosition.y) > .01f) 

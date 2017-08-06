@@ -23,7 +23,11 @@ public class PlayerStateMachine : ScriptableObject {
 
 	private bool forced = false;
 
-	public void Awake()
+    #region actionobjects
+    public GameObject parryBox;
+    #endregion
+
+    public void Awake()
 	{
         currentState = new StandardState(this);
 		player = GameObject.FindGameObjectWithTag("Player");
