@@ -41,7 +41,7 @@ public class ParryingState : PlayerState
         else
         {
             Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
-            Machine.PlayerController.ChangeVelocity(direction);
+            Machine.PlayerController.ChangeVelocity(direction, 0.7f);
         }
     }
 
@@ -56,7 +56,7 @@ public class ParryingState : PlayerState
         GameObject colliderGo = co.gameObject;
         if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
         {
-            Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+            Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.7f);
             Debug.Log("Ouch!");
             Machine.SwitchState(new DamagedState(Machine));
         }

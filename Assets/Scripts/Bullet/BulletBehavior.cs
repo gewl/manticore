@@ -30,8 +30,8 @@ public class BulletBehavior : MonoBehaviour {
         lastVelocity = bulletRigidbody.velocity;
     }
 
-    void Bounce() {
-        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z);
+    void Bounce(float speed = 1f) {
+        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * speed;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -61,7 +61,7 @@ public class BulletBehavior : MonoBehaviour {
     {
         if (bulletType == BulletType.enemyBullet)
         {
-            Bounce();
+            Bounce(1.4f);
             bulletType = BulletType.playerBullet;
             meshRenderer.material = playerBulletSkin;
         }

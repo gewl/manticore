@@ -51,7 +51,7 @@ public class StandardState : PlayerState
         GameObject colliderGo = co.gameObject;
 		if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
 		{
-			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, false);
+			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.5f);
             Debug.Log("Ouch!");
 			Machine.SwitchState(new DamagedState(Machine));
 		}

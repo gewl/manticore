@@ -127,17 +127,10 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.LookRotation(-normalizedMousePosition);
 	}
 
-    public void ChangeVelocity(Vector3 direction, bool isMovingByChoice = true) 
+    public void ChangeVelocity(Vector3 direction, float movementModifier = 1f) 
     {
 		direction.Normalize();
-        if (isMovingByChoice)
-        {
-			playerRigidbody.velocity = direction * speed;
-		}
-        else 
-        {
-            playerRigidbody.velocity = direction * speed * 0.5f;
-        }
+        playerRigidbody.velocity = direction * speed * movementModifier;
 	}
 
     public void Stop() 
