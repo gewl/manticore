@@ -5,14 +5,21 @@ public class StandardState : PlayerState
 	public StandardState(PlayerStateMachine machine)
 		: base(machine) { }
 
+    int actionCooldown;
+
 	public override void Enter()
 	{
 		base.Enter();
+        actionCooldown = 20;
 	}
 
 	public override void Update()
 	{
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (actionCooldown > 0)
+        {
+            actionCooldown--;
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Machine.SwitchState(new ParryingState(Machine));
         }

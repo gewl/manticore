@@ -30,9 +30,13 @@ public class BulletBehavior : MonoBehaviour {
         lastVelocity = bulletRigidbody.velocity;
     }
 
-    void Bounce(float speed = 1f) {
-        //bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * speed;
+    void Bounce(float speed = 1f)
+    {
+        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * speed;
+    }
 
+    void Reflect(float speed = 1f)
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit, 100))
@@ -71,7 +75,7 @@ public class BulletBehavior : MonoBehaviour {
     {
         if (bulletType == BulletType.enemyBullet)
         {
-            Bounce(1.4f);
+            Reflect(1.4f);
             bulletType = BulletType.playerBullet;
             meshRenderer.material = playerBulletSkin;
         }
