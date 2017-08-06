@@ -31,7 +31,17 @@ public class BulletBehavior : MonoBehaviour {
     }
 
     void Bounce(float speed = 1f) {
-        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * speed;
+        //bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * speed;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            Vector3 hitPoint = hit.point;
+            Vector3 bulletToHitpoint = (hitPoint - transform.position).normalized;
+
+            bulletRigidbody.velocity = bulletToHitpoint * bulletRigidbody.velocity.magnitude * speed;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -51,7 +61,7 @@ public class BulletBehavior : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "DamageZone")
+        if (other.gameObject.tag == "DamageZone" && bulletType == BulletType.enemyBullet)
         {
             Destroy(gameObject);
         }
