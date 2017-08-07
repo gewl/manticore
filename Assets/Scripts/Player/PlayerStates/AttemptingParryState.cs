@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ParryingState : PlayerState
+public class AttemptingParryState : PlayerState
 {
-    public ParryingState(PlayerStateMachine machine)
+    public AttemptingParryState(PlayerStateMachine machine)
         : base(machine) { }
 
     private int timer;
@@ -13,6 +13,7 @@ public class ParryingState : PlayerState
 
         timer = 20;
         Machine.PlayerController.parryBox.SetActive(true);
+        Machine.PlayerController.parryBox.GetComponent<ParryHandler>().ParriedBullet += (bullet) => Machine.SwitchState(new SuccessfulParryState(Machine, bullet));
     }
 
     public override void Update()

@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     // ref to objs
-    private Camera mainCamera;
     public GameObject parryBox;
 
     // ref to components
@@ -27,7 +26,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
         playerMachine = ScriptableObject.CreateInstance<PlayerStateMachine>();
-        mainCamera = Camera.main;
         playerBody = transform.GetChild(0);
     }
 

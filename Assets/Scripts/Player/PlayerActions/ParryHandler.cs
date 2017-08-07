@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ParryHandler : MonoBehaviour {
 
+    public GameObject manticore;
+
+    public delegate void ParryEventHandler(GameObject bullet);
+    public event ParryEventHandler ParriedBullet;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Bullet")
@@ -12,7 +17,8 @@ public class ParryHandler : MonoBehaviour {
             BulletBehavior bulletHandler = bullet.GetComponent<BulletBehavior>();
             if (bulletHandler && bulletHandler.CurrentBulletType == BulletBehavior.BulletType.enemyBullet)
             {
-                bulletHandler.convertToPlayerBullet();
+                bulletHandler.WasParriedBy(manticore);
+                ParriedBullet(bullet);
             } 
         }
     }

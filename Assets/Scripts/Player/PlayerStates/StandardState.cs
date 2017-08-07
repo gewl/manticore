@@ -21,7 +21,7 @@ public class StandardState : PlayerState
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Machine.SwitchState(new ParryingState(Machine));
+            Machine.SwitchState(new AttemptingParryState(Machine));
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class EnemyBoxController : EnemyController {
 
-    // initialized on instantiation
-    int nextBulletTimer = 100;
-
     // assigned in editor
     public Transform bullet;
 
