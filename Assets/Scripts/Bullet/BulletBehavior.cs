@@ -14,6 +14,7 @@ public class BulletBehavior : MonoBehaviour
 
     public Material enemyBulletSkin;
     public Material playerBulletSkin;
+    public GameObject bullets;
 
     public enum BulletType { enemyBullet, parryingBullet, playerBullet };
     private BulletType bulletType;
@@ -35,6 +36,7 @@ public class BulletBehavior : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(bulletRigidbody.velocity);
         if (bulletType == BulletType.parryingBullet)
         {
             transform.localPosition = lockedPosition;
@@ -71,6 +73,7 @@ public class BulletBehavior : MonoBehaviour
     }
     #endregion
 
+    #region parrying
     public void WasParriedBy(GameObject parryObject)
     {
         bulletRigidbody.velocity = Vector3.zero;
@@ -90,32 +93,6 @@ public class BulletBehavior : MonoBehaviour
 		bulletType = BulletType.parryingBullet;
 	}
 
-    public void DrawLineToMouse()
-    {
-        if (!lineRenderer.enabled)
-        {
-            lineRenderer.enabled = true;
-        }
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(ray, out hit, 100))
-        {
-            Vector3 hitPoint = hit.point;
-
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, hitPoint);
-        }
-    }
-
-    #region methods for explicit movement
-    void Bounce(float newSpeed = 1f)
-    {
-        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * newSpeed;
-    }
-
-    #endregion
-
-    #region changing allegiance
 	public void CompleteParry(float newSpeed = 1f)
 	{
 		bulletType = nextType;
@@ -127,7 +104,8 @@ public class BulletBehavior : MonoBehaviour
 		{
 			meshRenderer.material = enemyBulletSkin;
 		}
-        lineRenderer.enabled = false;
+		lineRenderer.enabled = false;
+        transform.SetParent(bullets.transform, true);
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit = new RaycastHit();
@@ -136,9 +114,36 @@ public class BulletBehavior : MonoBehaviour
 			Vector3 hitPoint = hit.point;
 			Vector3 bulletToHitpoint = (hitPoint - transform.position).normalized;
 
-			bulletRigidbody.velocity = bulletToHitpoint * lastVelocity.magnitude * newSpeed;
+			bulletRigidbody.velocity = new Vector3(bulletToHitpoint.x, 0f, bulletToHitpoint.z) * lastVelocity.magnitude * newSpeed;
 		}
 	}
+    #endregion
+
+    public void DrawLineToMouse()
+	{
+		if (!lineRenderer.enabled)
+		{
+			lineRenderer.enabled = true;
+		}
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast(ray, out hit, 100))
+		{
+			Vector3 hitPoint = hit.point;
+
+			lineRenderer.SetPosition(0, transform.position);
+			lineRenderer.SetPosition(1, hitPoint);
+		}
+	}
+
+
+	#region methods for explicit movement
+	void Bounce(float newSpeed = 1f)
+    {
+        bulletRigidbody.velocity = new Vector3(bulletRigidbody.velocity.x, 0f, -bulletRigidbody.velocity.z) * newSpeed;
+    }
+
+    #endregion
 
 	public bool IsFriendly(GameObject go)
     {
@@ -166,5 +171,4 @@ public class BulletBehavior : MonoBehaviour
 
         }
     }
-    #endregion
 }

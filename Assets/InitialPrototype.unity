@@ -152,6 +152,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114954223717415040, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: bullets
+      value: 
+      objectReference: {fileID: 432056318}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   m_IsPrefabParent: 0
@@ -951,6 +956,10 @@ Prefab:
     - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
       propertyPath: m_TagString
       value: EnemyBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18208465c4af44073848f858bab5ae53, type: 2}
