@@ -46,6 +46,7 @@ public class PlayerStateMachine : ScriptableObject {
 			}
 
 			currentState = nextState;
+            Debug.Log(currentState);
 			currentState.Enter();
 
 			nextState = null;

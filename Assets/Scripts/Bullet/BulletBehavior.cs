@@ -14,7 +14,7 @@ public class BulletBehavior : MonoBehaviour
 
     public Material enemyBulletSkin;
     public Material playerBulletSkin;
-    public GameObject bullets;
+    private GameObject bullets;
 
     public enum BulletType { enemyBullet, parryingBullet, playerBullet };
     private BulletType bulletType;
@@ -32,11 +32,11 @@ public class BulletBehavior : MonoBehaviour
         bulletRigidbody.velocity = transform.forward * speed;
 
         bulletType = BulletType.enemyBullet;
+        bullets = transform.parent.gameObject;
     }
 
     private void Update()
     {
-        Debug.Log(bulletRigidbody.velocity);
         if (bulletType == BulletType.parryingBullet)
         {
             transform.localPosition = lockedPosition;
@@ -145,11 +145,11 @@ public class BulletBehavior : MonoBehaviour
 
     #endregion
 
-	public bool IsFriendly(GameObject go)
+    public bool IsUnfriendly(GameObject go)
     {
         if (go.tag == "Player")
         {
-            if (bulletType == BulletType.playerBullet)
+            if (bulletType == BulletType.enemyBullet)
             {
                 return true;
             }
@@ -160,7 +160,7 @@ public class BulletBehavior : MonoBehaviour
         }
         else
         {
-            if (bulletType == BulletType.enemyBullet)
+            if (bulletType == BulletType.playerBullet)
             {
                 return true;
             }

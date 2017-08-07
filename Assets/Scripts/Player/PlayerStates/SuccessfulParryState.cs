@@ -26,7 +26,11 @@ public class SuccessfulParryState : PlayerState
 
 	public override void Update()
 	{
-		if (timer > 0)
+        if (bulletHandler == null)
+        {
+            Machine.SwitchState(new StandardState(Machine));
+        }
+        if (timer > 0)
 		{
 			timer--;
 		}
@@ -64,7 +68,7 @@ public class SuccessfulParryState : PlayerState
 	public override void HandleTriggerEnter(Collider co)
 	{
 		GameObject colliderGo = co.gameObject;
-		if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
+		if (colliderGo.tag == "Bullet" && colliderGo.GetComponent<BulletBehavior>().IsUnfriendly(Machine.Player))
 		{
 			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.7f);
 			Debug.Log("Ouch!");

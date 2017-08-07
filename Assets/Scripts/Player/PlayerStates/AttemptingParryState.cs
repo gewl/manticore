@@ -55,7 +55,7 @@ public class AttemptingParryState : PlayerState
     public override void HandleTriggerEnter(Collider co)
     {
         GameObject colliderGo = co.gameObject;
-        if (colliderGo.tag == "Bullet" && !colliderGo.GetComponent<BulletBehavior>().IsFriendly(Machine.Player))
+        if (colliderGo.tag == "Bullet" && colliderGo.GetComponent<BulletBehavior>().IsUnfriendly(Machine.Player))
         {
             Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.7f);
             Debug.Log("Ouch!");
