@@ -51,7 +51,7 @@ public class EnemyStateMachine : ScriptableObject
             }
 
             currentState = nextState;
-            currentState.Enter();
+			currentState.Enter();
 
             nextState = null;
 

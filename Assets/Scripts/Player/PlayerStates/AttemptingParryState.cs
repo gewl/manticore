@@ -59,7 +59,8 @@ public class AttemptingParryState : PlayerState
         {
             Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.7f);
             Debug.Log("Ouch!");
-            Machine.SwitchState(new DamagedState(Machine));
+			Object.Destroy(co.gameObject);
+			Machine.SwitchState(new DamagedState(Machine));
         }
     }
 }

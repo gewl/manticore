@@ -60,6 +60,7 @@ public class StandardState : PlayerState
 		{
 			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.5f);
             Debug.Log("Ouch!");
+			Object.Destroy(co.gameObject);
 			Machine.SwitchState(new DamagedState(Machine));
 		}
 	}

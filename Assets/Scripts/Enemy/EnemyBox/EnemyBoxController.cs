@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBoxController : EnemyController {
+public class EnemyBoxController : EnemyController
+{
 
     // assigned in editor
     public Transform bullet;
@@ -20,21 +21,26 @@ public class EnemyBoxController : EnemyController {
         enemyMachine.init(gameObject, this);
     }
 
-	void Start () 
+    void Start()
     {
         bulletSpawner = transform.Find("BulletSpawner");
         boxCollider = transform.Find("Body").GetComponent<Collider>();
         bullets = GameObject.Find("Bullets");
-	}
-	
-	void Update () 
+    }
+
+    void Update()
     {
         enemyMachine.Update();
     }
 
     public override void Attack()
     {
-        Transform createdBullet = GameObject.Instantiate(bullet, bulletSpawner.position, bulletSpawner.rotation);
+        Transform createdBullet = Object.Instantiate(bullet, bulletSpawner.position, bulletSpawner.rotation);
         createdBullet.transform.parent = bullets.transform;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        enemyMachine.HandleTriggerEnter(other);
     }
 }

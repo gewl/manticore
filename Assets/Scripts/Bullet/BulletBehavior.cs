@@ -66,10 +66,10 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "DamageZone" && bulletType == BulletType.enemyBullet)
-        {
-            Destroy(gameObject);
-        }
+        //if (other.gameObject.tag == "DamageZone")
+        //{
+        //    Destroy(gameObject);
+        //}
     }
     #endregion
 

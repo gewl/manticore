@@ -20,4 +20,13 @@ public class AggressiveBoxState : EnemyState {
             nextBulletTimer = 100;
         }
     }
+
+    public override void HandleTriggerEnter(Collider co)
+    {
+        base.HandleTriggerEnter(co);
+        if (co.gameObject.tag == "Bullet" && co.gameObject.GetComponent<BulletBehavior>().IsUnfriendly(Machine.Enemy)) {
+			Object.Destroy(Machine.Enemy);
+			Object.Destroy(co.gameObject);
+		}
+    }
 }

@@ -39,6 +39,15 @@ public class SuccessfulParryState : PlayerState
             bulletHandler.CompleteParry(1.4f);
 			Machine.SwitchState(new StandardState(Machine));
 		}
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast(ray, out hit, 100))
+		{
+			Vector3 hitPoint = hit.point;
+			Vector3 characterToHitpoint = (hitPoint - Machine.Player.transform.position).normalized;
+
+			Machine.PlayerController.UpdateBodyRotation(characterToHitpoint);
+		}
 	}
 
 	public override void FixedUpdate()
@@ -72,6 +81,7 @@ public class SuccessfulParryState : PlayerState
 		{
 			Machine.PlayerController.ChangeVelocity(co.attachedRigidbody.velocity, 0.7f);
 			Debug.Log("Ouch!");
+            Object.Destroy(co.gameObject);
 			Machine.SwitchState(new DamagedState(Machine));
 		}
 	}
