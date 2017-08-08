@@ -8,10 +8,14 @@ public class EnemyStateMachine : ScriptableObject
     Rigidbody _enemyRigidbody;
     Collider _enemyCollider;
 
+    GameObject _player;
+
 	public GameObject Enemy { get { return _enemy; } }
 	public EnemyController EnemyController { get { return _enemyController; } }
 	public Rigidbody EnemyRigidbody { get { return _enemyRigidbody; } }
     public Collider EnemyCollider { get { return _enemyCollider; } }
+
+    public GameObject Player { get { return _player; }}
 
 	public void Init(GameObject enemy, EnemyController enemyController, Rigidbody enemyRigidbody) {
         _enemy = enemy;
@@ -19,6 +23,8 @@ public class EnemyStateMachine : ScriptableObject
         _enemyRigidbody = enemyRigidbody;
 
         _enemyCollider = enemy.GetComponent<Collider>();
+
+        _player = GameObject.FindWithTag("Player");
 
         if (_enemy.tag == "EnemyBox")
         {

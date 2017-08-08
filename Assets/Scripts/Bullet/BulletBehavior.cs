@@ -6,6 +6,7 @@ public class BulletBehavior : MonoBehaviour
 {
 
     private float speed = 25f;
+    private int damageValue = 1;
 
     private Rigidbody bulletRigidbody;
     private MeshRenderer meshRenderer;
@@ -47,7 +48,6 @@ public class BulletBehavior : MonoBehaviour
         }
     }
 
-    #region collisionhandling
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
@@ -63,14 +63,31 @@ public class BulletBehavior : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        //if (other.gameObject.tag == "DamageZone")
-        //{
-        //    Destroy(gameObject);
-        //}
+        if (collision.gameObject.tag == "BouncyWall")
+        {
+            IncreaseDamageValue();
+        }
     }
-    #endregion
+
+    private void IncreaseDamageValue()
+    {
+        if (damageValue >= 5) 
+        {
+            return;
+        }
+
+        damageValue++;
+        transform.localScale *= 1.2f;
+        bulletRigidbody.velocity *= 1.2f;
+    }
+
+    private void ResetDamageValue()
+    {
+        damageValue = 1;
+        transform.localScale = new Vector3(1f, 1f, 1f);
+    }
 
     #region parrying
     public void WasParriedBy(GameObject parryObject)
@@ -89,6 +106,7 @@ public class BulletBehavior : MonoBehaviour
 			nextType = BulletType.playerBullet;
 		}
 
+        ResetDamageValue();
 		bulletType = BulletType.parryingBullet;
 	}
 

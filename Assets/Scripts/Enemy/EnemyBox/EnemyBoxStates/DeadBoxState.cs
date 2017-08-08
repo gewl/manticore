@@ -17,7 +17,6 @@ public class DeadBoxState : EnemyState
 
 	public override void Enter()
 	{
-        Debug.Log(bulletVelocity);
         Machine.Enemy.transform.position = new Vector3(Machine.Enemy.transform.position.x, Machine.Enemy.transform.position.y + 1f, Machine.Enemy.transform.position.z);
         Machine.EnemyRigidbody.constraints = RigidbodyConstraints.None;
         Machine.EnemyRigidbody.useGravity = true;
