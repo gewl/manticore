@@ -4,6 +4,8 @@ public class DeadBoxState : EnemyState
 {
 
     Vector3 bulletVelocity;
+	int damagedTimer = 31;
+    GameObject body;
 
 	public DeadBoxState(EnemyStateMachine machine, Vector3 colliderVelocity)
 		: base(machine) 
@@ -22,10 +24,24 @@ public class DeadBoxState : EnemyState
 
         Machine.EnemyRigidbody.AddForce(bulletVelocity, ForceMode.Impulse);
         Machine.EnemyRigidbody.AddTorque(bulletVelocity.z, 0f, -bulletVelocity.x, ForceMode.Impulse);
+
+        body = Machine.Enemy.transform.GetChild(0).gameObject;
 	}
 
 	public override void Update()
 	{
-        
+        if (damagedTimer % 20 == 0)
+        {
+            body.SetActive(true);
+        }
+        else if (damagedTimer % 10 == 0)
+        {
+            body.SetActive(false);
+        }
+
+		if (damagedTimer <= 0)
+		{
+		}
+		damagedTimer--;      
 	}
 }
