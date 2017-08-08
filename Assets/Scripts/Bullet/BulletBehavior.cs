@@ -6,7 +6,6 @@ public class BulletBehavior : MonoBehaviour
 {
 
     private float speed = 25f;
-    private bool isAttached = false;
 
     private Rigidbody bulletRigidbody;
     private MeshRenderer meshRenderer;

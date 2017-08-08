@@ -13,12 +13,16 @@ public class EnemyBoxController : EnemyController
     private Collider boxCollider;
     private GameObject bullets;
 
+    private MeshRenderer meshRenderer;
+    public override MeshRenderer MeshRenderer { get { return meshRenderer; }}
+
     private EnemyStateMachine enemyMachine;
 
     private void Awake()
     {
         enemyMachine = ScriptableObject.CreateInstance<EnemyStateMachine>();
         enemyMachine.Init(gameObject, this, GetComponent<Rigidbody>());
+        meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     void Start()
