@@ -18,7 +18,7 @@ public class EnemyBoxController : EnemyController
     private void Awake()
     {
         enemyMachine = ScriptableObject.CreateInstance<EnemyStateMachine>();
-        enemyMachine.init(gameObject, this);
+        enemyMachine.Init(gameObject, this, GetComponent<Rigidbody>());
     }
 
     void Start()

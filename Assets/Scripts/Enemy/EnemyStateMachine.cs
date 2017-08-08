@@ -5,10 +5,20 @@ public class EnemyStateMachine : ScriptableObject
 {
     GameObject _enemy;
     EnemyController _enemyController;
+    Rigidbody _enemyRigidbody;
+    Collider _enemyCollider;
 
-    public void init(GameObject enemy, EnemyController enemyController) {
+	public GameObject Enemy { get { return _enemy; } }
+	public EnemyController EnemyController { get { return _enemyController; } }
+	public Rigidbody EnemyRigidbody { get { return _enemyRigidbody; } }
+    public Collider EnemyCollider { get { return _enemyCollider; } }
+
+	public void Init(GameObject enemy, EnemyController enemyController, Rigidbody enemyRigidbody) {
         _enemy = enemy;
         _enemyController = enemyController;
+        _enemyRigidbody = enemyRigidbody;
+
+        _enemyCollider = enemy.GetComponent<Collider>();
 
         if (_enemy.tag == "EnemyBox")
         {
@@ -25,11 +35,7 @@ public class EnemyStateMachine : ScriptableObject
         }
     }
 
-    public GameObject Enemy { get { return _enemy; } }
-
-    public EnemyController EnemyController { get { return _enemyController; } }
-
-    private EnemyState previousState;
+	private EnemyState previousState;
     public EnemyState PreviousState { get { return previousState; } }
 
     private EnemyState currentState;
@@ -52,6 +58,8 @@ public class EnemyStateMachine : ScriptableObject
 
             currentState = nextState;
 			currentState.Enter();
+            Debug.Log("Enemy state:");
+            Debug.Log(currentState);
 
             nextState = null;
 

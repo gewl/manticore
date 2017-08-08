@@ -25,8 +25,8 @@ public class AggressiveBoxState : EnemyState {
     {
         base.HandleTriggerEnter(co);
         if (co.gameObject.tag == "Bullet" && co.gameObject.GetComponent<BulletBehavior>().IsUnfriendly(Machine.Enemy)) {
-			Object.Destroy(Machine.Enemy);
 			Object.Destroy(co.gameObject);
+            Machine.SwitchState(new DeadBoxState(Machine, co.attachedRigidbody.velocity));
 		}
     }
 }

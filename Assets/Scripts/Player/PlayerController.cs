@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour {
     public void Stop() 
     {
         playerRigidbody.velocity = Vector3.zero;
+        playerRigidbody.angularVelocity = Vector3.zero;
     }
     #endregion
 
