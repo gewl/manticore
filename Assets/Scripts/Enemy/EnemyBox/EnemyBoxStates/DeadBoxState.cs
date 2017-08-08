@@ -4,8 +4,10 @@ public class DeadBoxState : EnemyState
 {
 
     Vector3 bulletVelocity;
-	int damagedTimer = 55;
+    float damagedTimer = 55f;
+    float originalTimer;
     GameObject body;
+    Material originalSkin;
 
 	public DeadBoxState(EnemyStateMachine machine, Vector3 colliderVelocity)
 		: base(machine) 
@@ -27,21 +29,26 @@ public class DeadBoxState : EnemyState
 
         body = Machine.Enemy.transform.GetChild(0).gameObject;
 
-        Machine.EnemyController.MeshRenderer.material = Machine.EnemyController.deathSkin;
+        originalSkin = Machine.EnemyController.MeshRenderer.material;
+        originalTimer = damagedTimer;
 	}
 
     public override void Update()
     {
         if (damagedTimer >= 0)
         {
-            if (damagedTimer % 20 == 0)
-            {
-                body.SetActive(true);
-            }
-            else if (damagedTimer % 10 == 0)
-            {
-                body.SetActive(false);
-            }
+            //if (System.Math.Abs(damagedTimer % 20) < 0.1f)
+            //{
+            //    body.SetActive(true);
+            //}
+            //else if (System.Math.Abs(damagedTimer % 10) < 0.1f)
+            //{
+            //    body.SetActive(false);
+            //}
+
+            float percentageDone = (originalTimer - damagedTimer) / originalTimer;
+            percentageDone = Mathf.Pow(percentageDone, 2f);
+            Machine.EnemyController.MeshRenderer.material.Lerp(originalSkin, Machine.EnemyController.deathSkin, percentageDone);
 
 			damagedTimer--;
 		}
@@ -51,7 +58,6 @@ public class DeadBoxState : EnemyState
             Machine.EnemyRigidbody.drag = 10f;
             Machine.EnemyRigidbody.freezeRotation = true;
             Machine.EnemyRigidbody.AddForce(new Vector3(0f, -100f, 0f));
-            Debug.Log(Machine.Enemy.transform.position.y);
             if (Machine.Enemy.transform.position.y <= -2f)
             {
                 Object.Destroy(Machine.Enemy);
