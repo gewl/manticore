@@ -7,6 +7,9 @@ public class BulletBehavior : MonoBehaviour
 
     private float speed = 25f;
     private int damageValue = 1;
+    private Collider lastWallHit;
+    private Material nextSkin;
+    private Material currentSkin;
 
     private Rigidbody bulletRigidbody;
     private MeshRenderer meshRenderer;
@@ -67,7 +70,11 @@ public class BulletBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "BouncyWall")
         {
-            IncreaseDamageValue();
+            if (lastWallHit != collision.collider)
+            {
+                IncreaseDamageValue();
+                lastWallHit = collision.collider;
+            }
         }
     }
 
@@ -96,14 +103,17 @@ public class BulletBehavior : MonoBehaviour
 
         transform.SetParent(parryObject.transform, true);
         lockedPosition = transform.localPosition;
+        currentSkin = meshRenderer.material;
 
 		if (bulletType == BulletType.playerBullet)
 		{
 			nextType = BulletType.enemyBullet;
+            nextSkin = enemyBulletSkin;
 		}
 		else if (bulletType == BulletType.enemyBullet)
 		{
 			nextType = BulletType.playerBullet;
+            nextSkin = playerBulletSkin;
 		}
 
         ResetDamageValue();
@@ -113,14 +123,7 @@ public class BulletBehavior : MonoBehaviour
 	public void CompleteParry(float newSpeed = 1f)
 	{
 		bulletType = nextType;
-		if (bulletType == BulletType.playerBullet)
-		{
-			meshRenderer.material = playerBulletSkin;
-		}
-		else if (bulletType == BulletType.enemyBullet)
-		{
-			meshRenderer.material = enemyBulletSkin;
-		}
+        meshRenderer.material = nextSkin;
 		lineRenderer.enabled = false;
         transform.SetParent(bullets.transform, true);
 
@@ -134,6 +137,12 @@ public class BulletBehavior : MonoBehaviour
 			bulletRigidbody.velocity = new Vector3(bulletToHitpoint.x, 0f, bulletToHitpoint.z) * lastVelocity.magnitude * newSpeed;
 		}
 	}
+
+    public void UpdateMaterial(float percentageDone) 
+    {
+        meshRenderer.material.Lerp(currentSkin, nextSkin, percentageDone);     
+    }
+
     #endregion
 
     public void DrawLineToMouse()

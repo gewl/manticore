@@ -17,7 +17,7 @@ public class ParryHandler : MonoBehaviour {
             BulletBehavior bulletHandler = bullet.GetComponent<BulletBehavior>();
             if (bulletHandler && bulletHandler.CurrentBulletType == BulletBehavior.BulletType.enemyBullet)
             {
-                bulletHandler.WasParriedBy(manticore);
+                //bulletHandler.WasParriedBy(manticore);
                 ParriedBullet(bullet);
             } 
         }

@@ -4,7 +4,8 @@ public class SuccessfulParryState : PlayerState
 {
     GameObject parriedBullet;
     BulletBehavior bulletHandler;
-	private int timer;
+	private float timer;
+    private float originalTimer;
 
 	public SuccessfulParryState(PlayerStateMachine machine, GameObject bullet)
 		: base(machine) 
@@ -20,8 +21,10 @@ public class SuccessfulParryState : PlayerState
 			bulletHandler = parriedBullet.GetComponent<BulletBehavior>();
 		}
 
-		timer = 20;
+        timer = 20f;
+        originalTimer = timer;
 		Machine.PlayerController.parryBox.SetActive(true);
+        bulletHandler.WasParriedBy(Machine.Player);
 	}
 
 	public override void Update()
@@ -33,6 +36,10 @@ public class SuccessfulParryState : PlayerState
         if (timer > 0)
 		{
 			timer--;
+            float percentageDone = (originalTimer - timer) / originalTimer;
+			percentageDone = Mathf.Pow(percentageDone, 2f);
+            Debug.Log(percentageDone);
+            bulletHandler.UpdateMaterial(percentageDone);
 		}
 		else
 		{

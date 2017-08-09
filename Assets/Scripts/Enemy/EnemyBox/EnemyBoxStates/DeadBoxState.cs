@@ -36,15 +36,6 @@ public class DeadBoxState : EnemyState
     {
         if (damagedTimer >= 0)
         {
-            //if (System.Math.Abs(damagedTimer % 20) < 0.1f)
-            //{
-            //    body.SetActive(true);
-            //}
-            //else if (System.Math.Abs(damagedTimer % 10) < 0.1f)
-            //{
-            //    body.SetActive(false);
-            //}
-
             float percentageDone = (originalTimer - damagedTimer) / originalTimer;
             percentageDone = Mathf.Pow(percentageDone, 2f);
             Machine.EnemyController.MeshRenderer.material.Lerp(originalSkin, Machine.EnemyController.deathSkin, percentageDone);
