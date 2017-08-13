@@ -7,9 +7,11 @@ public class AggressiveBoxState : EnemyState {
 
     int nextBulletTimer;
     float rotateStrength = 3f;
+    Vector3 nextCheckpoint;
 
     public override void Enter () {
         nextBulletTimer = 100;
+        nextCheckpoint = Machine.Enemy.transform.position;
 	}
 	
 	public override void Update () {
@@ -22,6 +24,23 @@ public class AggressiveBoxState : EnemyState {
         }
 
         Machine.EnemyController.RotateToFace(Machine.Player);
+
+        Vector3 positionDifference = Machine.Enemy.transform.position - Machine.Player.transform.position;
+        float positionDifferenceMagnitude = positionDifference.magnitude;
+
+        if (positionDifferenceMagnitude < 15f)
+        {
+            Debug.Log("Too close!");
+        }
+        else 
+        {
+            if (Mathf.Abs(Machine.Enemy.transform.position.x - nextCheckpoint.x) <= 0.3f && Mathf.Abs(Machine.Enemy.transform.position.z - nextCheckpoint.z) <= 0.3f)
+            {
+                nextCheckpoint = Machine.EnemyController.GenerateCombatMovementPosition(Machine.Player.transform.position, positionDifference);
+
+                Machine.EnemyController.ChangeVelocity(nextCheckpoint - Machine.Enemy.transform.position);
+            }
+        }
     }
 
     public override void HandleTriggerEnter(Collider co)

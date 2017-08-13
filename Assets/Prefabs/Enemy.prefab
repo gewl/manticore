@@ -222,9 +222,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!65 &65699823353188636
 BoxCollider:
@@ -251,4 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationStrength: 3
   deathSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
+  enemyRigidbody: {fileID: 54728065150677964}
+  speed: 10
   bullet: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
