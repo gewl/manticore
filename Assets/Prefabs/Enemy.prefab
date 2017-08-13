@@ -249,6 +249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e722e26bbd7724ab1b97e286f75acbfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshRenderer: {fileID: 23639254240588002}
+  rotationStrength: 3
   deathSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   bullet: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}

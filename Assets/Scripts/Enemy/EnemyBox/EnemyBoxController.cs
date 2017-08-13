@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyBoxController : EnemyController
 {
-
     // assigned in editor
     public Transform bullet;
 

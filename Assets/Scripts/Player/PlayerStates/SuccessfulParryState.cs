@@ -38,7 +38,7 @@ public class SuccessfulParryState : PlayerState
 			timer--;
             float percentageDone = (originalTimer - timer) / originalTimer;
 			percentageDone = Mathf.Pow(percentageDone, 2f);
-            Debug.Log(percentageDone);
+
             bulletHandler.UpdateMaterial(percentageDone);
 		}
 		else

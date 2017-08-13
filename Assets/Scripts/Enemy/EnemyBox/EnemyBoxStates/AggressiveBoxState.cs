@@ -6,7 +6,7 @@ public class AggressiveBoxState : EnemyState {
 		: base(machine) { }
 
     int nextBulletTimer;
-    float rotateStrength = 2f;
+    float rotateStrength = 3f;
 
     public override void Enter () {
         nextBulletTimer = 100;
@@ -21,9 +21,7 @@ public class AggressiveBoxState : EnemyState {
             nextBulletTimer = 100;
         }
 
-        Quaternion targetRotation = Quaternion.LookRotation(Machine.Player.transform.position - Machine.Enemy.transform.position);
-        float str = Mathf.Min(rotateStrength * Time.deltaTime, 1);
-        Machine.Enemy.transform.rotation = Quaternion.Lerp(Machine.Enemy.transform.rotation, targetRotation, str);
+        Machine.EnemyController.RotateToFace(Machine.Player);
     }
 
     public override void HandleTriggerEnter(Collider co)
