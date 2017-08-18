@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class AggressiveBoxState : EnemyState {
+public class BoxMiddleState : EnemyState {
 
-    public AggressiveBoxState(EnemyStateMachine machine)
+    public BoxMiddleState(EnemyStateMachine machine)
 		: base(machine) { }
 
     int nextBulletTimer;
@@ -23,17 +23,17 @@ public class AggressiveBoxState : EnemyState {
             nextBulletTimer = 100;
         }
 
-        Machine.EnemyController.RotateToFace(Machine.Player);
-
         Vector3 positionDifference = Machine.Enemy.transform.position - Machine.Player.transform.position;
         float positionDifferenceMagnitude = positionDifference.magnitude;
 
         if (positionDifferenceMagnitude < 15f)
         {
-            Debug.Log("Too close!");
+            Machine.SwitchState(new BoxCloseState(Machine));
         }
         else 
         {
+            Machine.EnemyController.RotateToFace(Machine.Player);
+
             if (Mathf.Abs(Machine.Enemy.transform.position.x - nextCheckpoint.x) <= 0.3f && Mathf.Abs(Machine.Enemy.transform.position.z - nextCheckpoint.z) <= 0.3f)
             {
                 nextCheckpoint = Machine.EnemyController.GenerateCombatMovementPosition(Machine.Player.transform.position, positionDifference);

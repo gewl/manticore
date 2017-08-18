@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     private PlayerStateMachine playerMachine;
 
     // config for functions
-	private float speed = 18f;
+	[SerializeField]float speed = 18f;
     private Vector3 lastSafeRotation = new Vector3(0f, 0f, -1.0f);
 
     // cooldown on actions

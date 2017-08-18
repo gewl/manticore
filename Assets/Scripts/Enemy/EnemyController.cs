@@ -20,6 +20,13 @@ public abstract class EnemyController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
     }
 
+    public void RotateToFace(Vector3 target)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(target);
+        float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+    }
+
     public void ChangeVelocity(Vector3 direction, float movementModifier = 1f)
     {
         direction.Normalize();

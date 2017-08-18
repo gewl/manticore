@@ -28,12 +28,13 @@ public class EnemyStateMachine : ScriptableObject
 
         if (_enemy.tag == "EnemyBox")
         {
-            currentState = new AggressiveBoxState(this);
+            currentState = new BoxMiddleState(this);
         }
 
         if (currentState != null)
         {
             currentState.Enter();
+            Debug.Log(currentState);
         }
         else
         {

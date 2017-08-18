@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parryBox: {fileID: 1160480285}
+  speed: 24.69
 --- !u!54 &455023623
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -765,7 +766,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 35
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
