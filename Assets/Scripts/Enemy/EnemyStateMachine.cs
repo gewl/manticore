@@ -28,7 +28,7 @@ public class EnemyStateMachine : ScriptableObject
 
         if (_enemy.tag == "EnemyBox")
         {
-            currentState = new BoxMiddleState(this);
+            currentState = new BoxPatrolState(this);
         }
 
         if (currentState != null)

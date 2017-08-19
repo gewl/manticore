@@ -32,7 +32,7 @@ public class BoxMiddleState : EnemyState {
         }
         else 
         {
-            Machine.EnemyController.RotateToFace(Machine.Player);
+            Machine.EnemyController.RotateToFace(Machine.Player, rotateStrength);
 
             if (Mathf.Abs(Machine.Enemy.transform.position.x - nextCheckpoint.x) <= 0.3f && Mathf.Abs(Machine.Enemy.transform.position.z - nextCheckpoint.z) <= 0.3f)
             {
@@ -51,4 +51,5 @@ public class BoxMiddleState : EnemyState {
             Machine.SwitchState(new DeadBoxState(Machine, co.attachedRigidbody.velocity));
 		}
     }
+
 }

@@ -16,6 +16,7 @@ public class EnemyBoxController : EnemyController
     public override MeshRenderer MeshRenderer { get { return meshRenderer; }}
 
     private EnemyStateMachine enemyMachine;
+    public override EnemyStateMachine EnemyMachine { get { return enemyMachine; } }
 
     private void Awake()
     {

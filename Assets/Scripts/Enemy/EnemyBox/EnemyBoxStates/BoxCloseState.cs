@@ -6,7 +6,7 @@ public class BoxCloseState : EnemyState
     public BoxCloseState(EnemyStateMachine machine)
         : base(machine) { }
 
-    float rotateStrength = 9f;
+    float rotateStrength = 3f;
     Vector3 fleeToPosition;
     bool fleeing = true;
 
@@ -14,16 +14,13 @@ public class BoxCloseState : EnemyState
     {
         fleeToPosition = -2f * (Machine.Player.transform.position - Machine.Enemy.transform.position);
         fleeToPosition.y = 1.5f;
-        Debug.Log(Machine.Enemy.transform.position);
-        Debug.Log(Machine.Player.transform.position);
-        Debug.Log("fleeposition");
-        Debug.Log(fleeToPosition);
         Machine.EnemyController.ChangeVelocity(fleeToPosition);
+        Machine.EnemyController.RotateToFace(fleeToPosition, rotateStrength);
     }
 
     public override void Update()
     {
-        Machine.EnemyController.RotateToFace(fleeToPosition);
+        Machine.EnemyController.RotateToFace(fleeToPosition, rotateStrength);
 
         Vector3 positionDifference = Machine.Enemy.transform.position - Machine.Player.transform.position;
         float positionDifferenceMagnitude = positionDifference.magnitude;

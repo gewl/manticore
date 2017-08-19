@@ -24,4 +24,5 @@ public abstract class EnemyState
     public virtual void FixedUpdate() { }
 
     public virtual void HandleTriggerEnter(Collider co) { }
+
 }

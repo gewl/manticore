@@ -3,7 +3,9 @@
 public abstract class EnemyController : MonoBehaviour
 {
     abstract public MeshRenderer MeshRenderer { get; }
-    public float rotationStrength;
+    abstract public EnemyStateMachine EnemyMachine { get; }
+
+    public float defaultRotationStrength;
     public Material deathSkin;
     public Rigidbody enemyRigidbody;
 
@@ -11,9 +13,20 @@ public abstract class EnemyController : MonoBehaviour
     public float minCombatMovementDistance = 20f;
     public float maxCombatMovementDistance = 25f;
 
+    [SerializeField]Transform[] patrolPoints;
+    public Transform[] PatrolPoints { get { return patrolPoints; } }
+
     public virtual void Attack() { }
 
+    #region different rotates
     public void RotateToFace(GameObject target)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        float str = Mathf.Min(defaultRotationStrength * Time.deltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+    }
+
+    public void RotateToFace(GameObject target, float rotationStrength)
     {
         Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
         float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
@@ -22,10 +35,18 @@ public abstract class EnemyController : MonoBehaviour
 
     public void RotateToFace(Vector3 target)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(target);
+        Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
+        float str = Mathf.Min(defaultRotationStrength * Time.deltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+    }
+
+    public void RotateToFace(Vector3 target, float rotationStrength)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
         float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
     }
+    #endregion
 
     public void ChangeVelocity(Vector3 direction, float movementModifier = 1f)
     {
