@@ -12,6 +12,10 @@ public class EnemyBoxController : EnemyController
     private Collider boxCollider;
     private GameObject bullets;
 
+    [SerializeField]
+    int startingHealth;
+    public override int StartingHealth { get { return startingHealth; } }
+
     private MeshRenderer meshRenderer;
     public override MeshRenderer MeshRenderer { get { return meshRenderer; }}
 

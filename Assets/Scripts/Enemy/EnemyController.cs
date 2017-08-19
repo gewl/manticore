@@ -4,9 +4,17 @@ public abstract class EnemyController : MonoBehaviour
 {
     abstract public MeshRenderer MeshRenderer { get; }
     abstract public EnemyStateMachine EnemyMachine { get; }
+    abstract public int StartingHealth { get; }
 
     public float defaultRotationStrength;
-    public Material deathSkin;
+
+    [SerializeField]
+    Material damagedSkin;
+    public Material DamagedSkin { get { return damagedSkin; } }
+    [SerializeField]
+    Material deathSkin;
+    public Material DeathSkin { get { return deathSkin; } }
+
     public Rigidbody enemyRigidbody;
 
     public float baseMoveSpeed = 10f;
@@ -63,8 +71,8 @@ public abstract class EnemyController : MonoBehaviour
     public Vector3 GenerateCombatMovementPosition(Vector3 target, Vector3 currentPositionDifference)
     {
         Vector3 tempCheckpoint = currentPositionDifference.normalized;
-        tempCheckpoint.x = tempCheckpoint.x + Random.Range(-.2f, .2f);
-        tempCheckpoint.z = tempCheckpoint.z + Random.Range(-.2f, .2f);
+        tempCheckpoint.x = tempCheckpoint.x + Random.Range(-.5f, .5f);
+        tempCheckpoint.z = tempCheckpoint.z + Random.Range(-.5f, .5f);
 
         tempCheckpoint.x = target.x + (tempCheckpoint.x * Random.Range(minCombatMovementDistance, maxCombatMovementDistance));
         tempCheckpoint.z = target.z + (tempCheckpoint.z * Random.Range(minCombatMovementDistance, maxCombatMovementDistance));

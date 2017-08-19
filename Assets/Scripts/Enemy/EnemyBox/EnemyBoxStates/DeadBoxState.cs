@@ -2,7 +2,6 @@
 
 public class DeadBoxState : EnemyState
 {
-
     Vector3 bulletVelocity;
     float damagedTimer = 55f;
     float originalTimer;
@@ -36,9 +35,9 @@ public class DeadBoxState : EnemyState
     {
         if (damagedTimer >= 0)
         {
-            float percentageDone = (originalTimer - damagedTimer) / originalTimer;
-            percentageDone = Mathf.Pow(percentageDone, 2f);
-            Machine.EnemyController.MeshRenderer.material.Lerp(originalSkin, Machine.EnemyController.deathSkin, percentageDone);
+            float skinTransitionComplete = (originalTimer - damagedTimer) / originalTimer;
+            skinTransitionComplete = Mathf.Pow(skinTransitionComplete, 2f);
+            Machine.EnemyController.MeshRenderer.material.Lerp(originalSkin, Machine.EnemyController.DeathSkin, skinTransitionComplete);
 
 			damagedTimer--;
 		}

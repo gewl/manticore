@@ -7,6 +7,7 @@ public class EnemyStateMachine : ScriptableObject
     EnemyController _enemyController;
     Rigidbody _enemyRigidbody;
     Collider _enemyCollider;
+    int currentHealth;
 
     GameObject _player;
 
@@ -14,6 +15,7 @@ public class EnemyStateMachine : ScriptableObject
 	public EnemyController EnemyController { get { return _enemyController; } }
 	public Rigidbody EnemyRigidbody { get { return _enemyRigidbody; } }
     public Collider EnemyCollider { get { return _enemyCollider; } }
+    public int CurrentHealth { get { return currentHealth; } }
 
     public GameObject Player { get { return _player; }}
 
@@ -21,6 +23,7 @@ public class EnemyStateMachine : ScriptableObject
         _enemy = enemy;
         _enemyController = enemyController;
         _enemyRigidbody = enemyRigidbody;
+        currentHealth = enemyController.StartingHealth;
 
         _enemyCollider = enemy.GetComponent<Collider>();
 
@@ -34,7 +37,6 @@ public class EnemyStateMachine : ScriptableObject
         if (currentState != null)
         {
             currentState.Enter();
-            Debug.Log(currentState);
         }
         else
         {
@@ -65,8 +67,6 @@ public class EnemyStateMachine : ScriptableObject
 
             currentState = nextState;
 			currentState.Enter();
-            Debug.Log("Enemy state:");
-            Debug.Log(currentState);
 
             nextState = null;
 
@@ -124,6 +124,19 @@ public class EnemyStateMachine : ScriptableObject
         if (currentState != null)
         {
             currentState.HandleTriggerEnter(co);
+        }
+    }
+
+    public void HandleDamage(Vector3 bulletVelocity)
+    {
+        currentHealth--;
+        if (currentHealth > 0)
+        {
+            SwitchState(new DamagedBoxState(this, bulletVelocity));
+        }
+        else
+        {
+            SwitchState(new DeadBoxState(this, bulletVelocity));
         }
     }
 }

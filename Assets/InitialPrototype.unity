@@ -1069,11 +1069,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114128439992799784, guid: 18208465c4af44073848f858bab5ae53,
-        type: 2}
-      propertyPath: patrolPoints.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4067991874195556, guid: 18208465c4af44073848f858bab5ae53, type: 2}
       propertyPath: m_LocalPosition.x
       value: 30.2
@@ -1106,10 +1101,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
-      propertyPath: m_Name
-      value: EnemyBox
-      objectReference: {fileID: 0}
     - target: {fileID: 114128439992799784, guid: 18208465c4af44073848f858bab5ae53,
         type: 2}
       propertyPath: patrolPoints.Array.data[0]
@@ -1120,16 +1111,15 @@ Prefab:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1198158389}
-    - target: {fileID: 114128439992799784, guid: 18208465c4af44073848f858bab5ae53,
-        type: 2}
-      propertyPath: patrolPoints.Array.data[2]
-      value: 
-      objectReference: {fileID: 1198158389}
-    - target: {fileID: 114128439992799784, guid: 18208465c4af44073848f858bab5ae53,
-        type: 2}
-      propertyPath: defaultRotationStrength
-      value: 3
+    - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
+      propertyPath: m_Name
+      value: EnemyBox
       objectReference: {fileID: 0}
+    - target: {fileID: 114128439992799784, guid: 18208465c4af44073848f858bab5ae53,
+        type: 2}
+      propertyPath: damagedSkin
+      value: 
+      objectReference: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18208465c4af44073848f858bab5ae53, type: 2}
   m_IsPrefabParent: 0

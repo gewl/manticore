@@ -23,7 +23,7 @@ public class BoxPatrolState : EnemyState
         float playerDistance = (Machine.Enemy.transform.position - Machine.Player.transform.position).magnitude;
         if (playerDistance < 25f)
         {
-            Machine.EnemyController.RotateToFace(Machine.Enemy, 8f);
+            Machine.EnemyController.RotateToFace(Machine.Player, 8f);
             Machine.SwitchState(new BoxMiddleState(Machine));
         }
         if (waitTimer > 0)
@@ -51,7 +51,8 @@ public class BoxPatrolState : EnemyState
         if (co.gameObject.tag == "Bullet" && co.gameObject.GetComponent<BulletBehavior>().IsUnfriendly(Machine.Enemy))
         {
             Object.Destroy(co.gameObject);
-            Machine.SwitchState(new DeadBoxState(Machine, co.attachedRigidbody.velocity));
+            //Machine.SwitchState(new DeadBoxState(Machine, co.attachedRigidbody.velocity));
+            Machine.HandleDamage(co.attachedRigidbody.velocity);
         }
     }
 

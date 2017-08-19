@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class DamagedState : PlayerState
 {
-	public DamagedState(PlayerStateMachine machine)
-		: base(machine) { }
+    Vector3 bulletVelocity;
+
+	public DamagedState(PlayerStateMachine machine, Vector3 colliderVelocity)
+		: base(machine)
+    {
+        bulletVelocity = colliderVelocity;
+    }
 
     private int damagedTimer = 31;
 
@@ -14,6 +19,7 @@ public class DamagedState : PlayerState
 	{
 		base.Enter();
         body = Machine.Player.transform.GetChild(0).gameObject;
+        Machine.PlayerController.ChangeVelocity(bulletVelocity, 0.5f);
 	}
 
 	public override void Update()
