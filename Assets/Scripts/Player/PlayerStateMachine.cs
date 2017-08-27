@@ -24,7 +24,7 @@ public class PlayerStateMachine : ScriptableObject {
 	private bool forced = false;
 
     #region actionobjects
-    public GameObject parryBox;
+    public GameObject BlinkBody;
     #endregion
 
     public void Awake()
@@ -33,6 +33,7 @@ public class PlayerStateMachine : ScriptableObject {
 		player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
 		playerRigidbody = player.GetComponent<Rigidbody>();
+        BlinkBody = player.transform.GetChild(3).gameObject;
 	}
 
 	public void Update () 

@@ -24,7 +24,7 @@ public class DamagedBoxState : EnemyState
         Machine.EnemyController.ChangeVelocity(bulletVelocity, 0.5f);
 
         Machine.EnemyRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        Machine.EnemyRigidbody.AddTorque(0f, Mathf.Sqrt(bulletVelocity.x * bulletVelocity.z), 0f);
+        Machine.EnemyRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(bulletVelocity.x * bulletVelocity.z)), 0f);
 
         originalSkin = Machine.EnemyController.MeshRenderer.material;
         originalTimer = damagedTimer;

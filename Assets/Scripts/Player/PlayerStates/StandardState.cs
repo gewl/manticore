@@ -23,6 +23,10 @@ public class StandardState : PlayerState
         {
             Machine.SwitchState(new AttemptingParryState(Machine));
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Machine.SwitchState(new BlinkingState(Machine));
+        }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit = new RaycastHit();
