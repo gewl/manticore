@@ -6,16 +6,9 @@ using System.Reflection;
 
 public class Emitter : MonoBehaviour {
 
-    Dictionary<EntityEvent, List<UnityAction>> eventSubscriptions;
+    Dictionary<string, List<UnityAction>> eventSubscriptions;
 
-	void Start () {
-		
-	}
-	
-	void Update () {
-	}
-
-    void SubscribeToEvent(EntityEvent entityEvent, UnityAction listener)
+    void SubscribeToEvent(string entityEvent, UnityAction listener)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
@@ -24,7 +17,7 @@ public class Emitter : MonoBehaviour {
         eventSubscriptions[entityEvent].Add(listener);
     }
 
-    void UnsubscribeFromEvent(EntityEvent entityEvent, UnityAction listener)
+    void UnsubscribeFromEvent(string entityEvent, UnityAction listener)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
@@ -33,7 +26,7 @@ public class Emitter : MonoBehaviour {
         eventSubscriptions[entityEvent].Remove(listener);
     }
 
-    void EmitEvent(EntityEvent entityEvent)
+    void EmitEvent(string entityEvent)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
