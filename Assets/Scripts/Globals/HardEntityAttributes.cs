@@ -8,16 +8,16 @@ public enum HardEntityAttributes
 
 public static class HardEntityAttributeTypes
 {
-    public static Type GetType(HardEntityAttributes attribute)
+    public static string GetType(HardEntityAttributes attribute)
     {
         switch (attribute)
         {
             case HardEntityAttributes.StartingHealth:
-                return typeof(float);
+                return "float";
             case HardEntityAttributes.BaseMoveSpeed:
-                return typeof(float);
+                return "float";
             default:
-                return typeof(string);
+                return "string";
         }
     }
 }

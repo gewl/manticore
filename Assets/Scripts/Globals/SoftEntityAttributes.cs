@@ -9,18 +9,18 @@ public enum SoftEntityAttributes
 
 public static class SoftEntityAttributeTypes
 {
-    public static Type GetType(SoftEntityAttributes attribute)
+    public static string GetType(SoftEntityAttributes attribute)
     {
         switch (attribute)
         {
             case SoftEntityAttributes.CurrentHealth:
-                return typeof(float);
+                return "float";
             case SoftEntityAttributes.CurrentMoveSpeed:
-                return typeof(float);
+                return "float";
             case SoftEntityAttributes.IsFriendly:
-                return typeof(bool);
+                return "bool";
             default:
-                return typeof(string);
+                return "string";
         }
     }
 }
