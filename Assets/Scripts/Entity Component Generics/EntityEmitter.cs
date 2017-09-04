@@ -8,8 +8,19 @@ public class EntityEmitter : MonoBehaviour {
 
     Dictionary<string, List<UnityAction>> eventSubscriptions;
 
-    void SubscribeToEvent(string entityEvent, UnityAction listener)
+    private void Awake()
     {
+        eventSubscriptions = new Dictionary<string, List<UnityAction>>();
+    }
+
+    private void Update()
+    {
+        EmitEvent(EntityEvents.Update);
+    }
+
+    public void SubscribeToEvent(string entityEvent, UnityAction listener)
+    {
+        Debug.Log("subscribed");
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
             eventSubscriptions[entityEvent] = new List<UnityAction>();
@@ -17,7 +28,7 @@ public class EntityEmitter : MonoBehaviour {
         eventSubscriptions[entityEvent].Add(listener);
     }
 
-    void UnsubscribeFromEvent(string entityEvent, UnityAction listener)
+    public void UnsubscribeFromEvent(string entityEvent, UnityAction listener)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
@@ -26,7 +37,7 @@ public class EntityEmitter : MonoBehaviour {
         eventSubscriptions[entityEvent].Remove(listener);
     }
 
-    void EmitEvent(string entityEvent)
+    public void EmitEvent(string entityEvent)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {

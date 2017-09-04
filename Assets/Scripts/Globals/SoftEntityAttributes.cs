@@ -4,23 +4,29 @@ public enum SoftEntityAttributes
 {
     CurrentHealth,
     CurrentMoveSpeed,
-    IsFriendly
+    IsFriendly,
+    NextWaypoint,
+    CurrentRotationSpeed
 }
 
 public static class SoftEntityAttributeTypes
 {
-    public static string GetType(SoftEntityAttributes attribute)
+    public static Type GetType(SoftEntityAttributes attribute)
     {
         switch (attribute)
         {
             case SoftEntityAttributes.CurrentHealth:
-                return "float";
+                return typeof(float);
             case SoftEntityAttributes.CurrentMoveSpeed:
-                return "float";
+                return typeof(float);
             case SoftEntityAttributes.IsFriendly:
-                return "bool";
+                return typeof(bool);
+            case SoftEntityAttributes.NextWaypoint:
+                return typeof(UnityEngine.Vector3);
+            case SoftEntityAttributes.CurrentRotationSpeed:
+                return typeof(float);
             default:
-                return "string";
+                return typeof(float);
         }
     }
 }

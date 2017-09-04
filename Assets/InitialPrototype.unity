@@ -238,7 +238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &455023621
 Transform:
   m_ObjectHideFlags: 0
@@ -932,6 +932,7 @@ GameObject:
   - component: {fileID: 1545124554}
   - component: {fileID: 1545124553}
   - component: {fileID: 1545124552}
+  - component: {fileID: 1545124556}
   - component: {fileID: 1545124551}
   m_Layer: 0
   m_Name: Cube
@@ -948,11 +949,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1545124550}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dedc69e9a8ed4c45b8f07dba37d4ace, type: 3}
+  m_Script: {fileID: 11500000, guid: e696bd3ea38b4ea468459d6cb92a5509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  softAttributeList: []
-  hardAttributeList: []
 --- !u!23 &1545124552
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1017,6 +1016,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1545124556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd0d5f0a40fb134d9048e675b6b9ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hardAttributeList:
+  - HardAttribute: 1
+    value: 10
+  - HardAttribute: 2
+    value: 1
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,6 +1384,10 @@ Prefab:
       propertyPath: damagedSkin
       value: 
       objectReference: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
+    - target: {fileID: 1805051889127644, guid: 18208465c4af44073848f858bab5ae53, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18208465c4af44073848f858bab5ae53, type: 2}
   m_IsPrefabParent: 0

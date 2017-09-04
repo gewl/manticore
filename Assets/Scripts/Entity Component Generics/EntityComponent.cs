@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EntityEmitter))]
+[RequireComponent(typeof(EntityEmitter), typeof(EntityData))]
 public abstract class EntityComponent : MonoBehaviour {
 
-    private EntityEmitter emitter;
+    protected EntityEmitter entityEmitter;
+    protected EntityData entityData;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        emitter = GetComponent<EntityEmitter>();
+        entityEmitter = GetComponent<EntityEmitter>();
+        entityData = GetComponent<EntityData>();
     }
 
-    public virtual void Initialize() { }
+    public abstract void Initialize();
 }

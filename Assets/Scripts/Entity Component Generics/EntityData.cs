@@ -5,6 +5,11 @@ using UnityEngine;
 [Serializable]
 public class EntityData : MonoBehaviour {
 
+    Rigidbody entityRigidbody;
+    public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
+    Collider entityCollider;
+    public Collider EntityCollider { get { return entityCollider; } }
+
     // Dictionaries to hold attributes at runtime
     protected Dictionary<HardEntityAttributes, object> HardAttributes;
     protected Dictionary<SoftEntityAttributes, object> SoftAttributes;
@@ -17,9 +22,36 @@ public class EntityData : MonoBehaviour {
     // Init dictionaries, populate from lists
     private void Awake()
     {
+        entityCollider = GetComponent<Collider>();
+        entityRigidbody = GetComponent<Rigidbody>();
         HardAttributes = new Dictionary<HardEntityAttributes, object>();
+        SoftAttributes = new Dictionary<SoftEntityAttributes, object>();
 
         InitializeHardAttributes();
+    }
+
+    // Components call this during initialization to be certain that any SoftAttribute data values they need will be
+    // in the entity's data, populated from HardAttributes.
+
+    public void Expect(SoftEntityAttributes attribute)
+    {
+        switch (attribute)
+        {
+            case SoftEntityAttributes.CurrentHealth:
+                SoftAttributes[SoftEntityAttributes.CurrentHealth] = HardAttributes[HardEntityAttributes.StartingHealth];
+                break;
+            case SoftEntityAttributes.CurrentMoveSpeed:
+                SoftAttributes[SoftEntityAttributes.CurrentMoveSpeed] = HardAttributes[HardEntityAttributes.BaseMoveSpeed];
+                break;
+            case SoftEntityAttributes.IsFriendly:
+                SoftAttributes[SoftEntityAttributes.IsFriendly] = HardAttributes[HardEntityAttributes.StartsFriendly];
+                break;
+            case SoftEntityAttributes.CurrentRotationSpeed:
+                SoftAttributes[SoftEntityAttributes.CurrentRotationSpeed] = HardAttributes[HardEntityAttributes.BaseRotationSpeed];
+                break;
+            default:
+                break;
+        }
     }
 
     // Functions for taking string values from inspectors, casting them to correct value,
@@ -31,7 +63,7 @@ public class EntityData : MonoBehaviour {
         {
             HardEntityAttributes attribute = hardAttributeList[i].HardAttribute;
             string stringValue = hardAttributeList[i].value;
-            Type intendedType = Type.GetType(HardEntityAttributeTypes.GetType(attribute));
+            Type intendedType = HardEntityAttributeTypes.GetType(attribute);
 
             HardAttributes[attribute] = Convert.ChangeType(stringValue, intendedType);
         }
@@ -45,13 +77,22 @@ public class EntityData : MonoBehaviour {
 
     public object GetSoftAttribute(SoftEntityAttributes attribute)
     {
-        return SoftAttributes[attribute];
+        try
+        {
+            return SoftAttributes[attribute];
+        }
+        catch (Exception)
+        {
+            Debug.Log("Soft attribute not found:");
+            Debug.Log(attribute);
+            return null;
+        }
     }
 
     // Setter for soft attribute that checks input value against expected type for that attribute.
     public void SetSoftAttribute(SoftEntityAttributes attribute, object newValue)
     {
-        if (object.ReferenceEquals(newValue.GetType(), Type.GetType(SoftEntityAttributeTypes.GetType(attribute))))
+        if (object.ReferenceEquals(newValue.GetType(), SoftEntityAttributeTypes.GetType(attribute)))
         {
             Debug.Log("Tried to update SoftAttribute with invalid type.");
             Debug.Log("Attribute:");
