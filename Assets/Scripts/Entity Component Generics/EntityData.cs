@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class BaseEntityData : MonoBehaviour {
+public class EntityData : MonoBehaviour {
 
     // Dictionaries to hold attributes at runtime
     protected Dictionary<HardEntityAttributes, object> HardAttributes;
@@ -12,18 +12,14 @@ public class BaseEntityData : MonoBehaviour {
     // Serializable lists holding information to be moved to dictionaries;
     // edited in inspector
     [SerializeField]
-    protected List<SoftAttributeEntry> softAttributeList;
-    [SerializeField]
     protected List<HardAttributeEntry> hardAttributeList;
 
     // Init dictionaries, populate from lists
     private void Awake()
     {
         HardAttributes = new Dictionary<HardEntityAttributes, object>();
-        SoftAttributes = new Dictionary<SoftEntityAttributes, object>();
 
         InitializeHardAttributes();
-        InitializeSoftAttributes();
     }
 
     // Functions for taking string values from inspectors, casting them to correct value,
@@ -41,18 +37,6 @@ public class BaseEntityData : MonoBehaviour {
         }
     }
 
-    protected void InitializeSoftAttributes()
-    {
-        for (int i = 0; i < softAttributeList.Count; i++)
-        {
-            SoftEntityAttributes attribute = softAttributeList[i].SoftAttribute;
-            string stringValue = softAttributeList[i].value;
-            Type intendedType = Type.GetType(SoftEntityAttributeTypes.GetType(attribute));
-
-            SoftAttributes[attribute] = Convert.ChangeType(stringValue, intendedType);
-        }
-    }
-
     // Simple getters.
     public object GetHardAttribute(HardEntityAttributes attribute)
     {
@@ -65,7 +49,7 @@ public class BaseEntityData : MonoBehaviour {
     }
 
     // Setter for soft attribute that checks input value against expected type for that attribute.
-    public void ChangeSoftAttribute(SoftEntityAttributes attribute, object newValue)
+    public void SetSoftAttribute(SoftEntityAttributes attribute, object newValue)
     {
         if (object.ReferenceEquals(newValue.GetType(), Type.GetType(SoftEntityAttributeTypes.GetType(attribute))))
         {

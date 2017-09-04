@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Reflection;
 
-public class Emitter : MonoBehaviour {
+public class EntityEmitter : MonoBehaviour {
 
     Dictionary<string, List<UnityAction>> eventSubscriptions;
 
