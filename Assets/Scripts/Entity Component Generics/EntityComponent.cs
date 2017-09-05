@@ -15,4 +15,5 @@ public abstract class EntityComponent : MonoBehaviour {
     }
 
     public abstract void Initialize();
+    public abstract void Cleanup();
 }

@@ -20,7 +20,6 @@ public class EntityEmitter : MonoBehaviour {
 
     public void SubscribeToEvent(string entityEvent, UnityAction listener)
     {
-        Debug.Log("subscribed");
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
             eventSubscriptions[entityEvent] = new List<UnityAction>();
@@ -39,6 +38,8 @@ public class EntityEmitter : MonoBehaviour {
 
     public void EmitEvent(string entityEvent)
     {
+        Debug.Log("emitting event:");
+        Debug.Log(entityEvent);
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
             return;

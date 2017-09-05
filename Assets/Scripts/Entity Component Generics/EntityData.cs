@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class EntityData : MonoBehaviour {
-
+public class EntityData : MonoBehaviour 
+{
+    // Holds references to components that all entities will have. If they don't, something is wrong,
+    // so the game _should_ break then.
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     Collider entityCollider;
     public Collider EntityCollider { get { return entityCollider; } }
+    Transform entityTransform;
+    public Transform EntityTransform { get { return entityTransform; } }
 
     // Dictionaries to hold attributes at runtime
     protected Dictionary<HardEntityAttributes, object> HardAttributes;
-    protected Dictionary<SoftEntityAttributes, object> SoftAttributes;
+    public Dictionary<SoftEntityAttributes, object> SoftAttributes;
 
     // Serializable lists holding information to be moved to dictionaries;
     // edited in inspector
@@ -24,6 +28,8 @@ public class EntityData : MonoBehaviour {
     {
         entityCollider = GetComponent<Collider>();
         entityRigidbody = GetComponent<Rigidbody>();
+        entityTransform = GetComponent<Transform>();
+
         HardAttributes = new Dictionary<HardEntityAttributes, object>();
         SoftAttributes = new Dictionary<SoftEntityAttributes, object>();
 
@@ -35,23 +41,37 @@ public class EntityData : MonoBehaviour {
 
     public void Expect(SoftEntityAttributes attribute)
     {
+        HardEntityAttributes matchingHardAttribute;
+            
         switch (attribute)
         {
             case SoftEntityAttributes.CurrentHealth:
                 SoftAttributes[SoftEntityAttributes.CurrentHealth] = HardAttributes[HardEntityAttributes.StartingHealth];
+                matchingHardAttribute = HardEntityAttributes.StartingHealth;
                 break;
             case SoftEntityAttributes.CurrentMoveSpeed:
                 SoftAttributes[SoftEntityAttributes.CurrentMoveSpeed] = HardAttributes[HardEntityAttributes.BaseMoveSpeed];
+                matchingHardAttribute = HardEntityAttributes.BaseMoveSpeed;
                 break;
             case SoftEntityAttributes.IsFriendly:
                 SoftAttributes[SoftEntityAttributes.IsFriendly] = HardAttributes[HardEntityAttributes.StartsFriendly];
+                matchingHardAttribute = HardEntityAttributes.StartsFriendly;
                 break;
             case SoftEntityAttributes.CurrentRotationSpeed:
-                SoftAttributes[SoftEntityAttributes.CurrentRotationSpeed] = HardAttributes[HardEntityAttributes.BaseRotationSpeed];
+                matchingHardAttribute = HardEntityAttributes.BaseRotationSpeed;
                 break;
             default:
-                break;
+                Debug.LogError(attribute);
+                throw new Exception("No case for expected soft attribute (identified above.)");
         }
+
+        SoftAttributes[attribute] = DegenericizeHardAttribute(matchingHardAttribute, HardAttributes[matchingHardAttribute]);
+    }
+
+    private object DegenericizeHardAttribute(HardEntityAttributes attribute, object attributeValue)
+    {
+        Type intendedType = HardEntityAttributeTypes.GetType(attribute);
+        return Convert.ChangeType(attribute, intendedType);
     }
 
     // Functions for taking string values from inspectors, casting them to correct value,
@@ -63,9 +83,8 @@ public class EntityData : MonoBehaviour {
         {
             HardEntityAttributes attribute = hardAttributeList[i].HardAttribute;
             string stringValue = hardAttributeList[i].value;
-            Type intendedType = HardEntityAttributeTypes.GetType(attribute);
 
-            HardAttributes[attribute] = Convert.ChangeType(stringValue, intendedType);
+            HardAttributes[attribute] = DegenericizeHardAttribute(attribute, stringValue);
         }
     }
 
@@ -79,6 +98,7 @@ public class EntityData : MonoBehaviour {
     {
         try
         {
+            Type attributeType = SoftEntityAttributeTypes.GetType(attribute);
             return SoftAttributes[attribute];
         }
         catch (Exception)
@@ -92,7 +112,7 @@ public class EntityData : MonoBehaviour {
     // Setter for soft attribute that checks input value against expected type for that attribute.
     public void SetSoftAttribute(SoftEntityAttributes attribute, object newValue)
     {
-        if (object.ReferenceEquals(newValue.GetType(), SoftEntityAttributeTypes.GetType(attribute)))
+        if (!object.ReferenceEquals(newValue.GetType(), SoftEntityAttributeTypes.GetType(attribute)))
         {
             Debug.Log("Tried to update SoftAttribute with invalid type.");
             Debug.Log("Attribute:");
