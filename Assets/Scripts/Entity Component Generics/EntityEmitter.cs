@@ -38,8 +38,6 @@ public class EntityEmitter : MonoBehaviour {
 
     public void EmitEvent(string entityEvent)
     {
-        Debug.Log("emitting event:");
-        Debug.Log(entityEvent);
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
             return;
