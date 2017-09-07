@@ -238,7 +238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &455023621
 Transform:
   m_ObjectHideFlags: 0
@@ -937,6 +937,7 @@ GameObject:
   - component: {fileID: 1545124551}
   - component: {fileID: 1545124557}
   - component: {fileID: 1545124559}
+  - component: {fileID: 1545124560}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1077,6 +1078,17 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 1197849790}
   - {fileID: 1198158389}
+--- !u!114 &1545124560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc8c18a93836e844a281f5b40018870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0
