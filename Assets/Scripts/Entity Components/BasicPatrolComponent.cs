@@ -10,11 +10,6 @@ public class BasicPatrolComponent : EntityComponent {
     int patrolPointer = 0;
     int pauseTimer = 0;
 
-    void Start()
-    {
-        Initialize();
-    }
-
     public override void Initialize()
     {
         if (patrolPoints.Length <= 1)
@@ -23,6 +18,7 @@ public class BasicPatrolComponent : EntityComponent {
         }
         base.entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
         base.entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        base.entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
 
         SetNewWaypoint();
     }
@@ -30,7 +26,11 @@ public class BasicPatrolComponent : EntityComponent {
     public override void Cleanup()
     {
         base.entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        base.entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        base.entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
     }
+
+    #region EntityEvent handlers
 
     void OnUpdate()
     {
@@ -51,6 +51,13 @@ public class BasicPatrolComponent : EntityComponent {
 
         SetNewWaypoint();
     }
+
+    void OnAggro()
+    {
+        this.enabled = false;
+    }
+
+    #endregion
 
     void SetNewWaypoint()
     {

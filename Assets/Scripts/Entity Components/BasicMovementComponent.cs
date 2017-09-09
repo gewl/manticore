@@ -12,11 +12,6 @@ public class BasicMovementComponent : EntityComponent {
     float baseMoveSpeed;
     float currentMoveSpeed;
 
-    void Start()
-    {
-        Initialize();
-    }
-
     public override void Initialize()
     {
         base.entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);

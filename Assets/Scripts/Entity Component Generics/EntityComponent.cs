@@ -8,6 +8,16 @@ public abstract class EntityComponent : MonoBehaviour {
     protected EntityEmitter entityEmitter;
     protected EntityData entityData;
 
+    protected void OnEnable()
+    {
+        Initialize();
+    }
+
+    protected void OnDisable()
+    {
+        Cleanup();
+    }
+
     protected virtual void Awake()
     {
         entityEmitter = GetComponent<EntityEmitter>();

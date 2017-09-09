@@ -7,6 +7,7 @@
     public const string Hurt = "hurt";
     public const string Dead = "dead";
     public const string Aggro = "aggro";
+    public const string Deaggro = "deaggro";
 
     public const string WaypointReached = "waypoint_reached";
     public const string Stop = "stop";
