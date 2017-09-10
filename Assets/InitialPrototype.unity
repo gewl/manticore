@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -154,6 +154,16 @@ Prefab:
     - target: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 120437426340101018, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 120437426340101018, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: m_UseWorldSpace
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
@@ -975,9 +985,9 @@ GameObject:
   - component: {fileID: 1545124552}
   - component: {fileID: 1545124556}
   - component: {fileID: 1545124551}
+  - component: {fileID: 1545124560}
   - component: {fileID: 1545124557}
   - component: {fileID: 1545124559}
-  - component: {fileID: 1545124560}
   - component: {fileID: 1545124561}
   m_Layer: 0
   m_Name: Cube
@@ -1077,6 +1087,8 @@ MonoBehaviour:
     value: 20
   - HardAttribute: 2
     value: 1
+  - HardAttribute: 3
+    value: false
 --- !u!114 &1545124557
 MonoBehaviour:
   m_ObjectHideFlags: 0

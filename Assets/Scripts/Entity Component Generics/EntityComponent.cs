@@ -13,12 +13,12 @@ public abstract class EntityComponent : MonoBehaviour {
 
     protected void OnEnable()
     {
-        Initialize();
+        Subscribe();
     }
 
     protected void OnDisable()
     {
-        Cleanup();
+        Unsubscribe();
     }
 
     protected virtual void Awake()
@@ -30,10 +30,10 @@ public abstract class EntityComponent : MonoBehaviour {
     /// <summary>
     /// Subscribes component to the events it requires, sets up anything else required for functionality.
     /// </summary>
-    public abstract void Initialize();
+    protected abstract void Subscribe();
 
     /// <summary>
     /// Unsubscribes component from events in preparation to be disabled/removed.
     /// </summary>
-    public abstract void Cleanup();
+    protected abstract void Unsubscribe();
 }

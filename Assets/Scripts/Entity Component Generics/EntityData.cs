@@ -39,6 +39,19 @@ public class EntityData : MonoBehaviour
         InitializeHardAttributes();
     }
 
+    object TryToRetrieveHardValue(HardEntityAttributes attribute)
+    {
+        object value;
+        if (HardAttributes.TryGetValue(attribute, out value))
+        {
+            return value;
+        }
+        else
+        {
+            throw new Exception("Key not found in HardAttributes.");
+        }
+    }
+
     // Components call this during initialization to be certain that any SoftAttribute data values they need will be
     // in the entity's data, populated from HardAttributes.
     public void Expect(SoftEntityAttributes attribute)
@@ -48,26 +61,22 @@ public class EntityData : MonoBehaviour
         switch (attribute)
         {
             case SoftEntityAttributes.CurrentHealth:
-                SoftAttributes[SoftEntityAttributes.CurrentHealth] = HardAttributes[HardEntityAttributes.StartingHealth];
                 matchingHardAttribute = HardEntityAttributes.StartingHealth;
                 break;
             case SoftEntityAttributes.CurrentMoveSpeed:
-                SoftAttributes[SoftEntityAttributes.CurrentMoveSpeed] = HardAttributes[HardEntityAttributes.BaseMoveSpeed];
                 matchingHardAttribute = HardEntityAttributes.BaseMoveSpeed;
                 break;
-            case SoftEntityAttributes.IsFriendly:
-                SoftAttributes[SoftEntityAttributes.IsFriendly] = HardAttributes[HardEntityAttributes.StartsFriendly];
-                matchingHardAttribute = HardEntityAttributes.StartsFriendly;
-                break;
             case SoftEntityAttributes.CurrentRotationSpeed:
-                matchingHardAttribute = HardEntityAttributes.BaseRotationSpeed;
+				matchingHardAttribute = HardEntityAttributes.BaseRotationSpeed;
                 break;
             default:
                 Debug.LogError(attribute);
                 throw new Exception("No case for expected soft attribute (identified above.)");
         }
 
-        SoftAttributes[attribute] = DegenericizeHardAttribute(matchingHardAttribute, HardAttributes[matchingHardAttribute]);
+        object matchingHardValue = TryToRetrieveHardValue(matchingHardAttribute);
+
+        SoftAttributes[attribute] = DegenericizeHardAttribute(matchingHardAttribute, matchingHardValue);
     }
 
     private object DegenericizeHardAttribute(HardEntityAttributes attribute, object attributeValue)

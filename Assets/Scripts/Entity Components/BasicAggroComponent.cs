@@ -18,14 +18,20 @@ public class BasicAggroComponent : EntityComponent {
     [SerializeField]
     EntityComponent[] enableOnAggroComponents;
 
-    public override void Initialize()
+    protected override void Subscribe()
     {
-        base.entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        // This has to happen somewhere, and bundling it into EntityData is a little too prescriptive
+        // about what sorts of entities will be composed in this system.
+        // This makes the (reasonable) assumption that an entity with the aggro component can be 'aggroed'
+        // from its initial state; still, it's a little bizarre.
+        entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, false);
+
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
     }
 
-    public override void Cleanup()
+    protected override void Unsubscribe()
     {
-        base.entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
     }
 
     public void OnUpdate()
@@ -36,20 +42,28 @@ public class BasicAggroComponent : EntityComponent {
 
         if (squareDistance <= aggroRange * aggroRange)
         {
-            base.entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.Instance.GetPlayerTransform());
-            base.entityEmitter.EmitEvent(EntityEvents.Aggro);
-
-            for (int i = 0; i < disableOnAggroComponents.Length; i++)
-            {
-                EntityComponent component = disableOnAggroComponents[i];
-                component.enabled = false;
-            }
-
-            for (int i = 0; i < enableOnAggroComponents.Length; i++)
-            {
-                EntityComponent component = enableOnAggroComponents[i];
-                component.enabled = true;
-            }
+            SwitchToAggro();
         }
     }
+
+    void SwitchToAggro()
+    {
+		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.Instance.GetPlayerTransform());
+		entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, true);
+		entityEmitter.EmitEvent(EntityEvents.Aggro);
+
+		//for (int i = 0; i < disableOnAggroComponents.Length; i++)
+		//{
+		//	EntityComponent component = disableOnAggroComponents[i];
+		//	component.enabled = false;
+		//}
+
+		//for (int i = 0; i < enableOnAggroComponents.Length; i++)
+		//{
+		//	EntityComponent component = enableOnAggroComponents[i];
+		//	component.enabled = true;
+		//}
+
+        Unsubscribe();
+	}
 }

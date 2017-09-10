@@ -14,25 +14,48 @@ public class BasicPatrolComponent : EntityComponent {
 
     int patrolPointer = 0;
 
-    public override void Initialize()
+    // This initialization assumes that the entity is beginning in a deaggroed state.
+    // It seems a little rigid, but it should be very unusual that an entity spawns aggroed;
+    // especially since "spawns aggroed" functionality could be managed by creating new component,
+    // increasing range on BasicAggroComponent to cover point that player enters the level, etc.
+    protected override void Subscribe()
     {
         if (patrolPoints.Length <= 1)
         {
             throw new System.Exception("Not enough patrol points in BasicPatrolComponent.");
         }
         entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
 
-        GenerateAndMoveToWaypoint();
+        // This check should rarely be relevant, just want to avoid a condition where
+        // the entity aggros very quickly & this component somehow sneaks a waypoint
+        // at the right time to override the component responsible for handling movement
+        // in combat.
+		GenerateAndMoveToWaypoint();
     }
 
-    public override void Cleanup()
+    protected override void Unsubscribe()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
+	}
+
+    #region EntityEvent handlers
+
+    void OnAggro()
     {
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-
         entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
     }
 
-    #region EntityEvent handlers
+    void OnDeaggro()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
+
+        GenerateAndMoveToWaypoint();
+	}
 
     void OnWaypointReached()
     {

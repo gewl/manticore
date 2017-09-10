@@ -14,7 +14,7 @@ public class MiddleDistanceCombatComponent : EntityComponent {
 
     Vector3 nextWaypoint;
 
-    public override void Initialize()
+    protected override void Subscribe()
     {
         if (minimumDistanceToMove > maximumDistanceToMove || minimumDistanceToMove < 0 || maximumDistanceToMove <= 0)
         {
@@ -25,7 +25,7 @@ public class MiddleDistanceCombatComponent : EntityComponent {
         GenerateAndMoveToWaypoint();
     }
 
-    public override void Cleanup()
+    protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
     }

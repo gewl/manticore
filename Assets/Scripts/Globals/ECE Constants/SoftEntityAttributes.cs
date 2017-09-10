@@ -4,7 +4,7 @@ public enum SoftEntityAttributes
 {
     CurrentHealth,
     CurrentMoveSpeed,
-    IsFriendly,
+    IsAggroed,
     NextWaypoint,
     CurrentRotationSpeed,
     CurrentTarget
@@ -20,7 +20,7 @@ public static class SoftEntityAttributeTypes
                 return typeof(float);
             case SoftEntityAttributes.CurrentMoveSpeed:
                 return typeof(float);
-            case SoftEntityAttributes.IsFriendly:
+            case SoftEntityAttributes.IsAggroed:
                 return typeof(bool);
             case SoftEntityAttributes.NextWaypoint:
                 return typeof(UnityEngine.Vector3);

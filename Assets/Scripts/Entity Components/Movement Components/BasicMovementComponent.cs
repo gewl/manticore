@@ -15,7 +15,7 @@ public class BasicMovementComponent : EntityComponent {
     float baseMoveSpeed;
     float currentMoveSpeed;
 
-    public override void Initialize()
+    protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnMove);
@@ -25,7 +25,7 @@ public class BasicMovementComponent : EntityComponent {
         entityData.Expect(SoftEntityAttributes.CurrentMoveSpeed);
     }
 
-    public override void Cleanup()
+    protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
     }
