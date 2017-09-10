@@ -978,6 +978,7 @@ GameObject:
   - component: {fileID: 1545124557}
   - component: {fileID: 1545124559}
   - component: {fileID: 1545124560}
+  - component: {fileID: 1545124561}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1054,7 +1055,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545124550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8753768, y: 1.5, z: -6.320701}
+  m_LocalPosition: {x: 19.7, y: 1.5, z: -6.320701}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1118,6 +1119,7 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 1197849790}
   - {fileID: 1198158389}
+  pauseTimer: 0.5
 --- !u!114 &1545124560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1129,7 +1131,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc8c18a93836e844a281f5b40018870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRange: 5
+  aggroRange: 15
+  disableOnAggroComponents:
+  - {fileID: 1545124559}
+  enableOnAggroComponents:
+  - {fileID: 1545124561}
+--- !u!114 &1545124561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a743d04f53627c4aa1125f53d133f85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumPause: 0
+  maximumPause: 0.75
+  minimumDistanceToMove: 15
+  maximumDistanceToMove: 25
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0

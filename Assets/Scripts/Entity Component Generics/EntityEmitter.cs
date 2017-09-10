@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Reflection;
 
+/// <summary>
+/// EntityEmitter is a generic event system for communicating to/between an entity's components.
+/// </summary>
 public class EntityEmitter : MonoBehaviour {
 
     Dictionary<string, List<UnityAction>> eventSubscriptions;

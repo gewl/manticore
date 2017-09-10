@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Global GameManager exposes information about gamestate & references to GameObjects to prevent expensive Find calls.
+/// </summary>
 public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
@@ -27,6 +30,11 @@ public class GameManager : MonoBehaviour {
     {
         playerObject = GameObject.Find("Manticore");
         playerTransform = playerObject.transform;
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return playerTransform;
     }
 
     public Vector3 GetPlayerPosition()

@@ -6,7 +6,8 @@ public enum SoftEntityAttributes
     CurrentMoveSpeed,
     IsFriendly,
     NextWaypoint,
-    CurrentRotationSpeed
+    CurrentRotationSpeed,
+    CurrentTarget
 }
 
 public static class SoftEntityAttributeTypes
@@ -23,6 +24,8 @@ public static class SoftEntityAttributeTypes
                 return typeof(bool);
             case SoftEntityAttributes.NextWaypoint:
                 return typeof(UnityEngine.Vector3);
+            case SoftEntityAttributes.CurrentTarget:
+                return typeof(UnityEngine.Transform);
             case SoftEntityAttributes.CurrentRotationSpeed:
                 return typeof(float);
             default:

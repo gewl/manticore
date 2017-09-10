@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Generic class stores data for the entity to which it's assigned, as well as implementing functionality for accessing/updating that data.
+/// </summary>
 [Serializable]
 public class EntityData : MonoBehaviour 
 {
@@ -38,7 +41,6 @@ public class EntityData : MonoBehaviour
 
     // Components call this during initialization to be certain that any SoftAttribute data values they need will be
     // in the entity's data, populated from HardAttributes.
-
     public void Expect(SoftEntityAttributes attribute)
     {
         HardEntityAttributes matchingHardAttribute;
@@ -98,7 +100,6 @@ public class EntityData : MonoBehaviour
     {
         try
         {
-            Type attributeType = SoftEntityAttributeTypes.GetType(attribute);
             return SoftAttributes[attribute];
         }
         catch (Exception)
