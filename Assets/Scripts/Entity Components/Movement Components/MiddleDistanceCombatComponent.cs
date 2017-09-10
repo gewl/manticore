@@ -4,6 +4,8 @@ using UnityEngine;
 public class MiddleDistanceCombatComponent : EntityComponent {
 
     [SerializeField]
+    float combatMoveSpeed;
+    [SerializeField]
     float minimumPause;
     [SerializeField]
     float maximumPause;
@@ -14,6 +16,7 @@ public class MiddleDistanceCombatComponent : EntityComponent {
 
     Vector3 nextWaypoint;
 
+    // This is assuming that the entity will not spawn aggroed.
     protected override void Subscribe()
     {
         if (minimumDistanceToMove > maximumDistanceToMove || minimumDistanceToMove < 0 || maximumDistanceToMove <= 0)
@@ -21,13 +24,15 @@ public class MiddleDistanceCombatComponent : EntityComponent {
             throw new Exception("Invalid range for entity's 'distance to move' values.");
         }
 
-        entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
-        GenerateAndMoveToWaypoint();
+        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
     }
 
     #region EntityEvent handlers
@@ -39,12 +44,28 @@ public class MiddleDistanceCombatComponent : EntityComponent {
         Invoke("GenerateAndMoveToWaypoint", UnityEngine.Random.Range(minimumPause, maximumPause));
     }
 
+    void OnAggro()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
+
+        GenerateAndMoveToWaypoint();
+    }
+
+    void OnDeaggro()
+    {
+        entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
+        CancelInvoke();
+
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+    }
+
     #endregion
 
     void GenerateAndMoveToWaypoint()
     {
         Vector3 nextWaypoint = GenerateCombatMovementPosition();
         entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }

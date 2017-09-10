@@ -52,18 +52,6 @@ public class BasicAggroComponent : EntityComponent {
 		entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, true);
 		entityEmitter.EmitEvent(EntityEvents.Aggro);
 
-		//for (int i = 0; i < disableOnAggroComponents.Length; i++)
-		//{
-		//	EntityComponent component = disableOnAggroComponents[i];
-		//	component.enabled = false;
-		//}
-
-		//for (int i = 0; i < enableOnAggroComponents.Length; i++)
-		//{
-		//	EntityComponent component = enableOnAggroComponents[i];
-		//	component.enabled = true;
-		//}
-
         Unsubscribe();
 	}
 }

@@ -3,9 +3,8 @@
 public enum HardEntityAttributes
 {
     StartingHealth,
-    BaseMoveSpeed,
     BaseRotationSpeed,
-    StartsFriendly
+    StartsAggroed
 }
 
 public static class HardEntityAttributeTypes
@@ -16,11 +15,9 @@ public static class HardEntityAttributeTypes
         {
             case HardEntityAttributes.StartingHealth:
                 return typeof(float);
-            case HardEntityAttributes.BaseMoveSpeed:
-                return typeof(float);
             case HardEntityAttributes.BaseRotationSpeed:
                 return typeof(float);
-            case HardEntityAttributes.StartsFriendly:
+            case HardEntityAttributes.StartsAggroed:
                 return typeof(bool);
             default:
                 return typeof(float);

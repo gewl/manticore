@@ -8,6 +8,8 @@ using UnityEngine;
 public class BasicPatrolComponent : EntityComponent {
 
     [SerializeField]
+    float patrolMoveSpeed;
+    [SerializeField]
     Transform[] patrolPoints;
     [SerializeField]
     float pauseTimer;
@@ -48,6 +50,7 @@ public class BasicPatrolComponent : EntityComponent {
     {
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        CancelInvoke();
     }
 
     void OnDeaggro()
@@ -81,6 +84,7 @@ public class BasicPatrolComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         SetNewWaypoint();
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, patrolMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }

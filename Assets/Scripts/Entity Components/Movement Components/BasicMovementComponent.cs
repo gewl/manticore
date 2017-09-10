@@ -12,7 +12,6 @@ public class BasicMovementComponent : EntityComponent {
     [SerializeField]
     bool isMoving = true;
     [SerializeField]
-    float baseMoveSpeed;
     float currentMoveSpeed;
 
     protected override void Subscribe()
@@ -20,9 +19,6 @@ public class BasicMovementComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnMove);
         entityEmitter.SubscribeToEvent(EntityEvents.ClearWaypoint, OnStop);
-        currentMoveSpeed = baseMoveSpeed;
-
-        entityData.Expect(SoftEntityAttributes.CurrentMoveSpeed);
     }
 
     protected override void Unsubscribe()
@@ -36,7 +32,8 @@ public class BasicMovementComponent : EntityComponent {
         {
             Vector3 nextWaypointPosition = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.NextWaypoint);
             Vector3 differenceBetweenPosition = (nextWaypointPosition - entityData.transform.position);
-            if (differenceBetweenPosition.magnitude <= 0.1f)
+            currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+            if (differenceBetweenPosition.magnitude <= 0.2f)
             {
                 entityEmitter.EmitEvent(EntityEvents.WaypointReached);
             }
@@ -52,7 +49,7 @@ public class BasicMovementComponent : EntityComponent {
     void OnMove()
     {
         isMoving = true;
-        currentMoveSpeed = baseMoveSpeed;
+        currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
     }
 
     void OnStop()

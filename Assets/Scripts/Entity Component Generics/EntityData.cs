@@ -18,7 +18,7 @@ public class EntityData : MonoBehaviour
     public Transform EntityTransform { get { return entityTransform; } }
 
     // Dictionaries to hold attributes at runtime
-    protected Dictionary<HardEntityAttributes, object> HardAttributes;
+    protected Dictionary<HardEntityAttributes, string> HardAttributes;
     public Dictionary<SoftEntityAttributes, object> SoftAttributes;
 
     // Serializable lists holding information to be moved to dictionaries;
@@ -33,15 +33,15 @@ public class EntityData : MonoBehaviour
         entityRigidbody = GetComponent<Rigidbody>();
         entityTransform = GetComponent<Transform>();
 
-        HardAttributes = new Dictionary<HardEntityAttributes, object>();
+        HardAttributes = new Dictionary<HardEntityAttributes, string>();
         SoftAttributes = new Dictionary<SoftEntityAttributes, object>();
 
         InitializeHardAttributes();
     }
 
-    object TryToRetrieveHardValue(HardEntityAttributes attribute)
+    string TryToRetrieveHardValue(HardEntityAttributes attribute)
     {
-        object value;
+        string value;
         if (HardAttributes.TryGetValue(attribute, out value))
         {
             return value;
@@ -63,25 +63,27 @@ public class EntityData : MonoBehaviour
             case SoftEntityAttributes.CurrentHealth:
                 matchingHardAttribute = HardEntityAttributes.StartingHealth;
                 break;
-            case SoftEntityAttributes.CurrentMoveSpeed:
-                matchingHardAttribute = HardEntityAttributes.BaseMoveSpeed;
-                break;
             case SoftEntityAttributes.CurrentRotationSpeed:
 				matchingHardAttribute = HardEntityAttributes.BaseRotationSpeed;
+                break;
+            case SoftEntityAttributes.IsAggroed:
+                matchingHardAttribute = HardEntityAttributes.StartsAggroed;
                 break;
             default:
                 Debug.LogError(attribute);
                 throw new Exception("No case for expected soft attribute (identified above.)");
         }
 
-        object matchingHardValue = TryToRetrieveHardValue(matchingHardAttribute);
+        string matchingHardValue = TryToRetrieveHardValue(matchingHardAttribute);
 
         SoftAttributes[attribute] = DegenericizeHardAttribute(matchingHardAttribute, matchingHardValue);
+        Debug.Log(SoftAttributes[SoftEntityAttributes.IsAggroed]);
     }
 
-    private object DegenericizeHardAttribute(HardEntityAttributes attribute, object attributeValue)
+    private object DegenericizeHardAttribute(HardEntityAttributes attribute, string attributeValue)
     {
         Type intendedType = HardEntityAttributeTypes.GetType(attribute);
+
         return Convert.ChangeType(attribute, intendedType);
     }
 
@@ -95,7 +97,7 @@ public class EntityData : MonoBehaviour
             HardEntityAttributes attribute = hardAttributeList[i].HardAttribute;
             string stringValue = hardAttributeList[i].value;
 
-            HardAttributes[attribute] = DegenericizeHardAttribute(attribute, stringValue);
+            HardAttributes[attribute] = stringValue;
         }
     }
 
