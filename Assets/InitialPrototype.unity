@@ -989,6 +989,8 @@ GameObject:
   - component: {fileID: 1545124557}
   - component: {fileID: 1545124559}
   - component: {fileID: 1545124561}
+  - component: {fileID: 1545124562}
+  - component: {fileID: 1545124563}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1046,7 +1048,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545124550}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1113,7 +1115,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1545124559
 MonoBehaviour:
@@ -1146,7 +1148,7 @@ MonoBehaviour:
   disableOnAggroComponents:
   - {fileID: 1545124559}
   enableOnAggroComponents:
-  - {fileID: 1545124561}
+  - {fileID: 0}
 --- !u!114 &1545124561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,6 +1165,34 @@ MonoBehaviour:
   maximumPause: 1
   minimumDistanceToMove: 15
   maximumDistanceToMove: 25
+--- !u!114 &1545124562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e58457147cb6a4fb5a5861fcccd327f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireCooldown: 1
+  bulletsParent: {fileID: 432056319}
+  projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
+  arcOfFire: 20
+  maximumDistanceOfFire: 30
+--- !u!114 &1545124563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede6a94ddf77a284db19c9af1d89d24d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationStrength: 3
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0

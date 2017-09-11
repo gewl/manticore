@@ -27,6 +27,11 @@ public class EntityEmitter : MonoBehaviour {
         {
             eventSubscriptions[entityEvent] = new List<UnityAction>();
         }
+        if (eventSubscriptions[entityEvent].Contains(listener))
+        {
+            Debug.LogError(entityEvent + " already contains " + listener);
+            return;
+        }
         eventSubscriptions[entityEvent].Add(listener);
     }
 
@@ -34,6 +39,7 @@ public class EntityEmitter : MonoBehaviour {
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))
         {
+            Debug.LogError(entityEvent + " does not contain " + listener);
             return;
         }
         eventSubscriptions[entityEvent].Remove(listener);

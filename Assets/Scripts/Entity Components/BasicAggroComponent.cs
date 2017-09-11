@@ -49,6 +49,7 @@ public class BasicAggroComponent : EntityComponent {
     void SwitchToAggro()
     {
 		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.Instance.GetPlayerTransform());
+		entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
 		entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, true);
 		entityEmitter.EmitEvent(EntityEvents.Aggro);
 
