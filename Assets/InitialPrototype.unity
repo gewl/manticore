@@ -1162,8 +1162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatMoveSpeed: 15
-  minimumPause: 0.5
-  maximumPause: 1
+  minimumPause: 1
+  maximumPause: 1.5
   minimumDistanceToMove: 15
   maximumDistanceToMove: 25
 --- !u!114 &1545124562
@@ -1211,6 +1211,7 @@ MonoBehaviour:
   damagedSkin: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
+  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0

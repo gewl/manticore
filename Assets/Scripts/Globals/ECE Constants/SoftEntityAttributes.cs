@@ -7,7 +7,8 @@ public enum SoftEntityAttributes
     IsAggroed,
     NextWaypoint,
     CurrentRotationSpeed,
-    CurrentTarget
+    CurrentTarget,
+    AttackRange
 }
 
 public static class SoftEntityAttributeTypes

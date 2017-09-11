@@ -24,6 +24,8 @@ public class StandardFirer : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
+
+        entityData.SetSoftAttribute(SoftEntityAttributes.AttackRange, maximumDistanceOfFire);
     }
 
     protected override void Unsubscribe()

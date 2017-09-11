@@ -17,6 +17,8 @@ public class MobileEntityHealthComponent : EntityComponent {
     Material deadSkin;
     [SerializeField]
     Material flashSkin;
+    [SerializeField]
+    Material darkFlashSkin;
 
     MeshRenderer meshRenderer;
     float currentRecoveryTimer;
@@ -103,7 +105,6 @@ public class MobileEntityHealthComponent : EntityComponent {
             if (currentRecoveryTimer > 0f)
             {
                 float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
-                skinTransitionCompletion = Mathf.Sqrt(1 - skinTransitionCompletion);
                 meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
 
                 currentRecoveryTimer -= Time.deltaTime;
@@ -127,7 +128,6 @@ public class MobileEntityHealthComponent : EntityComponent {
             if (currentRecoveryTimer > 0f)
             {
                 float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
-                skinTransitionCompletion = Mathf.Sqrt(1 - skinTransitionCompletion);
                 meshRenderer.material.Lerp(originalSkin, deadSkin, skinTransitionCompletion);
 
                 currentRecoveryTimer -= Time.deltaTime;
@@ -140,6 +140,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;
                 entityData.EntityRigidbody.AddForce(new Vector3(0f, -100f, 0f));
+                StartCoroutine("DarkFlash");
                 if (transform.position.y <= -2f)
                 {
                     UnityEngine.Object.Destroy(gameObject);
@@ -161,6 +162,26 @@ public class MobileEntityHealthComponent : EntityComponent {
                 meshRenderer.material = flashSkin;
                 hasFlashed = true;
                 yield return new WaitForSeconds(0.02f);
+            }
+            else
+            {
+                meshRenderer.material = originalMaterial;
+                yield break;
+            }
+        }
+    }
+
+    IEnumerator DarkFlash()
+    {
+        bool hasFlashed = false;
+        Material originalMaterial = meshRenderer.material;
+        while (true)
+        {
+            if (!hasFlashed)
+            {
+                meshRenderer.material = darkFlashSkin;
+                hasFlashed = true;
+                yield return new WaitForSeconds(0.05f);
             }
             else
             {
