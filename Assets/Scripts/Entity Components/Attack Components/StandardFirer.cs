@@ -21,6 +21,8 @@ public class StandardFirer : EntityComponent {
     {
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
     }
 
     protected override void Unsubscribe()
@@ -28,7 +30,11 @@ public class StandardFirer : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
     }
+
+    #region EntityEvent handlers
 
     void OnUpdate()
     {
@@ -38,11 +44,9 @@ public class StandardFirer : EntityComponent {
             Vector3 directionToTarget = currentTarget.position - transform.position;
             float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
             float squaredDistanceToTarget = directionToTarget.sqrMagnitude;
-            Debug.Log("ready to fire");
 
             if (Mathf.Abs(angleToTarget) <= arcOfFire && squaredDistanceToTarget <= maximumDistanceOfFire * maximumDistanceOfFire)
             {
-                Debug.Log("firing!");
                 FireProjectile(currentTarget);
                 currentFireTimer = fireCooldown; 
             }
@@ -63,9 +67,23 @@ public class StandardFirer : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
     }
 
+    void OnHurt()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void OnRecovered()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    #endregion
+
     void FireProjectile(Transform currentTarget)
     {
-        Transform createdBullet = Object.Instantiate(projectile, transform.position, transform.rotation);
+        Vector3 relativePos = currentTarget.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePos);
+        Transform createdBullet = Object.Instantiate(projectile, transform.position, rotation);
         createdBullet.transform.parent = bulletsParent.transform;
     }
 }

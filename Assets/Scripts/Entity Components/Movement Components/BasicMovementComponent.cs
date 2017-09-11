@@ -19,11 +19,15 @@ public class BasicMovementComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnMove);
         entityEmitter.SubscribeToEvent(EntityEvents.ClearWaypoint, OnStop);
+        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
     }
 
     void OnUpdate()
@@ -57,5 +61,15 @@ public class BasicMovementComponent : EntityComponent {
         isMoving = false;
         base.entityData.EntityRigidbody.velocity = Vector3.zero;
         currentMoveSpeed = 0f;
+    }
+
+    void OnHurt()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void OnRecovered()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
     }
 }

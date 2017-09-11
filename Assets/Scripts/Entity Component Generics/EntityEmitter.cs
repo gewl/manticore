@@ -21,6 +21,11 @@ public class EntityEmitter : MonoBehaviour {
         EmitEvent(EntityEvents.Update);
     }
 
+    private void FixedUpdate()
+    {
+        EmitEvent(EntityEvents.FixedUpdate);
+    }
+
     public void SubscribeToEvent(string entityEvent, UnityAction listener)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))

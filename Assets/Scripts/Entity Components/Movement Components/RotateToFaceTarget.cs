@@ -12,11 +12,15 @@ public class RotateToFaceTarget : EntityComponent {
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
+        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
         if (currentTarget != null)
         {
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
@@ -36,6 +40,20 @@ public class RotateToFaceTarget : EntityComponent {
         {
             currentTarget = null;
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        }
+    }
+
+    void OnHurt()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void OnRecovered()
+    {
+        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        if (currentTarget != null)
+        {
+            entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         }
     }
 

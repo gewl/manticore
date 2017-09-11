@@ -171,6 +171,33 @@ public class BulletBehavior : MonoBehaviour
 
     #endregion
 
+    public bool IsUnfriendly(Transform entity)
+    {
+        if (entity.tag == "Player")
+        {
+            if (bulletType == BulletType.enemyBullet)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (bulletType == BulletType.playerBullet)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+    }
+
     public bool IsUnfriendly(GameObject go)
     {
         if (go.tag == "Player")

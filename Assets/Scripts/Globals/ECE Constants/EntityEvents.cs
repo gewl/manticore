@@ -8,6 +8,7 @@ public class EntityEvents
     public const string LateUpdate = "late_update";
 
     public const string Hurt = "hurt";
+    public const string Recovered = "recovered";
     public const string Dead = "dead";
 
     public const string Aggro = "aggro";
