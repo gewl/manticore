@@ -10,6 +10,8 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     float recoveryTime;
     [SerializeField]
+    float timeToDie;
+    [SerializeField]
     Material damagedSkin;
     [SerializeField]
     Material deadSkin;
@@ -30,30 +32,9 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     protected override void Unsubscribe() { }
 
-    void OnFixedUpdate()
-    {
-        if (currentRecoveryTimer > 0f)
-        {
-            float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
-            skinTransitionCompletion = Mathf.Sqrt(1 - skinTransitionCompletion);
-            meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
-
-            currentRecoveryTimer -= Time.deltaTime;
-        }
-        else
-        {
-            meshRenderer.material = damagedSkin;
-            entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-            entityEmitter.EmitEvent(EntityEvents.Recovered);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
-            StartCoroutine("Flash");
-        }
-    }
-
     public void OnTriggerEnter(Collider projectile)
     {
         if (projectile.gameObject.tag == "Bullet" && projectile.gameObject.GetComponent<BulletBehavior>().IsUnfriendly(transform)) {
-            Debug.Log("Hit by bullet");
 			UnityEngine.Object.Destroy(projectile.gameObject);
 
             if (!isInvulnerable)
@@ -75,7 +56,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         entityEmitter.EmitEvent(EntityEvents.Hurt);
-        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 
         // Knock back
         Vector3 projectileVelocity = damagingProjectile.attachedRigidbody.velocity;
@@ -89,10 +69,84 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         // Store original skin for lerping
         originalSkin = meshRenderer.material;
+
+        StartCoroutine("DamagedProcess");
     }
 
     void Die(Collider killingProjectile)
     {
+        entityEmitter.EmitEvent(EntityEvents.Dead);
+
+        // Knock back
+        Vector3 projectileVelocity = killingProjectile.attachedRigidbody.velocity;
+        entityData.EntityRigidbody.velocity = projectileVelocity;
+
+        entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
+        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(projectileVelocity.x * projectileVelocity.z)), 0f);
+        entityData.EntityRigidbody.AddForce(projectileVelocity, ForceMode.Impulse);
+        entityData.EntityRigidbody.AddTorque(projectileVelocity.z, 0f, -projectileVelocity.x, ForceMode.Impulse);
+
+        // Initialize timer from set values
+        currentRecoveryTimer = recoveryTime;
+
+        // Store original skin for lerping
+        originalSkin = meshRenderer.material;
+
+        StartCoroutine("DyingProcess");
+
+    }
+
+    IEnumerator DamagedProcess()
+    {
+        while (true)
+        {
+            if (currentRecoveryTimer > 0f)
+            {
+                float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
+                skinTransitionCompletion = Mathf.Sqrt(1 - skinTransitionCompletion);
+                meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
+
+                currentRecoveryTimer -= Time.deltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+            else
+            {
+                meshRenderer.material = damagedSkin;
+                entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                entityEmitter.EmitEvent(EntityEvents.Recovered);
+                StartCoroutine("Flash");
+                yield break;
+            }
+        }
+    }
+
+    IEnumerator DyingProcess()
+    {
+        while (true)
+        {
+            if (currentRecoveryTimer > 0f)
+            {
+                float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
+                skinTransitionCompletion = Mathf.Sqrt(1 - skinTransitionCompletion);
+                meshRenderer.material.Lerp(originalSkin, deadSkin, skinTransitionCompletion);
+
+                currentRecoveryTimer -= Time.deltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+            else
+            {
+                meshRenderer.material = deadSkin;
+                entityData.EntityRigidbody.detectCollisions = false;
+                entityData.EntityRigidbody.drag = 10f;
+                entityData.EntityRigidbody.freezeRotation = true;
+                entityData.EntityRigidbody.AddForce(new Vector3(0f, -100f, 0f));
+                if (transform.position.y <= -2f)
+                {
+                    UnityEngine.Object.Destroy(gameObject);
+                }
+                yield return null;
+            }
+        }
 
     }
 

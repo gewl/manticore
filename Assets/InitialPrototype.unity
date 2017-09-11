@@ -1069,7 +1069,7 @@ Transform:
   m_GameObject: {fileID: 1545124550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.7, y: 1.5, z: -6.320701}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -1207,6 +1207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 2
   recoveryTime: 1
+  timeToDie: 0
   damagedSkin: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}

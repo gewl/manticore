@@ -14,7 +14,7 @@ public class BlinkingState : PlayerState
         Machine.BlinkBody.SetActive(true);
         playerBody = Machine.Player.transform.GetChild(0).gameObject;
 
-        timer = 20;
+        timer = 5;
     }
 
     public override void Update()
@@ -70,7 +70,7 @@ public class BlinkingState : PlayerState
         else
         {
             Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
-            Machine.PlayerController.ChangeVelocity(direction, .6f);
+            Machine.PlayerController.ChangeVelocity(direction, .1f);
         }
     }
 

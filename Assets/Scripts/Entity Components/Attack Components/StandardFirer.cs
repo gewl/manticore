@@ -22,6 +22,7 @@ public class StandardFirer : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
     }
 
@@ -31,6 +32,7 @@ public class StandardFirer : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
     }
 
@@ -68,6 +70,11 @@ public class StandardFirer : EntityComponent {
     }
 
     void OnHurt()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void OnDead()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
     }

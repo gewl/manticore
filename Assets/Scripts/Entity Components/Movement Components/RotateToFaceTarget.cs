@@ -13,6 +13,7 @@ public class RotateToFaceTarget : EntityComponent {
     {
         entityEmitter.SubscribeToEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
         entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
     }
 
@@ -20,11 +21,17 @@ public class RotateToFaceTarget : EntityComponent {
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
         if (currentTarget != null)
         {
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         }
+    }
+
+    void OnDead()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
     }
 
     void OnTargetUpdated()
