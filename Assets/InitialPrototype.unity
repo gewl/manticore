@@ -992,6 +992,7 @@ GameObject:
   - component: {fileID: 1545124562}
   - component: {fileID: 1545124563}
   - component: {fileID: 1545124564}
+  - component: {fileID: 1545124565}
   m_Layer: 0
   m_Name: Cube
   m_TagString: EnemyBox
@@ -1068,7 +1069,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545124550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.7, y: 1.5, z: -6.320701}
+  m_LocalPosition: {x: 13.23, y: 1.5, z: 12.59}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1156,7 +1157,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545124550}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a743d04f53627c4aa1125f53d133f85, type: 3}
   m_Name: 
@@ -1177,11 +1178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e58457147cb6a4fb5a5861fcccd327f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: 1
   bulletsParent: {fileID: 432056319}
   projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
-  arcOfFire: 15
-  maximumDistanceOfFire: 30
 --- !u!114 &1545124563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,11 +1205,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 2
   recoveryTime: 1
-  timeToDie: 0
+  timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
   darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+--- !u!114 &1545124565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545124550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e8a5b9f8b7a654aa0ec0e1080fd5d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireCooldown: 1
+  arcOfFire: 15
+  maximumDistanceOfFire: 30
+  combatMoveSpeed: 15
+  minimumMovementPause: 1
+  maximumMovementPause: 1.5
+  minimumDistanceToMove: 15
+  maximumDistanceToMove: 25
 --- !u!1 &1668555615
 GameObject:
   m_ObjectHideFlags: 0

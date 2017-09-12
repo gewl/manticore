@@ -48,7 +48,6 @@ public class BasicPatrolComponent : EntityComponent {
 
     void OnAggro()
     {
-        entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
         CancelInvoke();
     }

@@ -7,6 +7,13 @@ public class EntityEvents
     public const string FixedUpdate = "fixed_update";
     public const string LateUpdate = "late_update";
 
+    public const string PrimaryFire = "primary_fire";
+    public const string SecondaryFire = "secondary_fire";
+    public const string Blink = "blink";
+
+    public const string Move = "move";
+    public const string Stop = "stop";
+
     public const string Hurt = "hurt";
     public const string Recovered = "recovered";
     public const string Dead = "dead";

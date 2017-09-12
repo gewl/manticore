@@ -22,6 +22,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     MeshRenderer meshRenderer;
     float currentRecoveryTimer;
+    float currentDeathTimer;
     Material originalSkin;
 
     bool isInvulnerable = false;
@@ -69,6 +70,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
 
+        meshRenderer.material = flashSkin;
         // Store original skin for lerping
         originalSkin = meshRenderer.material;
 
@@ -84,13 +86,15 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityData.EntityRigidbody.velocity = projectileVelocity;
 
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
+        projectileVelocity.Normalize();
         entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(projectileVelocity.x * projectileVelocity.z)), 0f);
         entityData.EntityRigidbody.AddForce(projectileVelocity, ForceMode.Impulse);
         entityData.EntityRigidbody.AddTorque(projectileVelocity.z, 0f, -projectileVelocity.x, ForceMode.Impulse);
 
         // Initialize timer from set values
-        currentRecoveryTimer = recoveryTime;
+        currentDeathTimer = timeToDie;
 
+        meshRenderer.material = darkFlashSkin;
         // Store original skin for lerping
         originalSkin = meshRenderer.material;
 
@@ -115,7 +119,6 @@ public class MobileEntityHealthComponent : EntityComponent {
                 meshRenderer.material = damagedSkin;
                 entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 entityEmitter.EmitEvent(EntityEvents.Recovered);
-                StartCoroutine("Flash");
                 yield break;
             }
         }
@@ -125,12 +128,13 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         while (true)
         {
-            if (currentRecoveryTimer > 0f)
+            if (currentDeathTimer > 0f)
             {
-                float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
+                float skinTransitionCompletion = (timeToDie - currentDeathTimer) / timeToDie;
+                skinTransitionCompletion = Mathf.Sqrt(skinTransitionCompletion);
                 meshRenderer.material.Lerp(originalSkin, deadSkin, skinTransitionCompletion);
 
-                currentRecoveryTimer -= Time.deltaTime;
+                currentDeathTimer -= Time.deltaTime;
                 yield return new WaitForFixedUpdate();
             }
             else
@@ -140,7 +144,6 @@ public class MobileEntityHealthComponent : EntityComponent {
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;
                 entityData.EntityRigidbody.AddForce(new Vector3(0f, -100f, 0f));
-                StartCoroutine("DarkFlash");
                 if (transform.position.y <= -2f)
                 {
                     UnityEngine.Object.Destroy(gameObject);

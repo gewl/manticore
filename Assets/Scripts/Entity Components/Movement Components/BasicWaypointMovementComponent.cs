@@ -7,7 +7,7 @@ using UnityEngine;
 /// BasicMovementComponent moves at a constant speed in a linear direction to the next waypoint, stopping the entity if the CLEARWAYPOINT event is emitted on the entity.
 /// </summary>
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-public class BasicMovementComponent : EntityComponent {
+public class BasicWaypointMovementComponent : EntityComponent {
 
     [SerializeField]
     bool isMoving = true;

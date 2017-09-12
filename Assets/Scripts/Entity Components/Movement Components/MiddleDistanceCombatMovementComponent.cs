@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+// Deprecated: Wrapped into CubeCombatAIComponent.
 public class MiddleDistanceCombatMovementComponent : EntityComponent {
 
     [SerializeField]
