@@ -7,12 +7,13 @@ public class CubeCombatAIComponent : EntityComponent {
 
     bool isAggroed = false;
     bool isFunctioning = false;
+    bool isChasing = false;
     [SerializeField]
     float fireCooldown;
     [SerializeField]
     float arcOfFire;
     [SerializeField]
-    float maximumDistanceOfFire;
+    float attackRange;
 
     [SerializeField]
     float combatMoveSpeed;
@@ -60,6 +61,21 @@ public class CubeCombatAIComponent : EntityComponent {
         {
             TryToFirePrimary();
         }
+
+        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+
+        if (!isChasing && !IsInRange(currentTarget))
+        {
+            entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
+            isChasing = true;
+            Invoke("GenerateAndSetWaypoint", 0.5f);
+        }
+        else if (isChasing && IsInRange(currentTarget))
+        {
+            entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
+            isChasing = false;
+            Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
+        }
     }
 
     void OnDeaggro()
@@ -71,6 +87,7 @@ public class CubeCombatAIComponent : EntityComponent {
     void OnWaypointReached()
     {
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
+        isChasing = false;
 
         Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
     }
@@ -84,9 +101,8 @@ public class CubeCombatAIComponent : EntityComponent {
         Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-        float squaredDistanceToTarget = directionToTarget.sqrMagnitude;
 
-        if (Mathf.Abs(angleToTarget) <= arcOfFire && squaredDistanceToTarget <= maximumDistanceOfFire * maximumDistanceOfFire)
+        if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
             currentFireCooldown = fireCooldown; 
@@ -95,8 +111,17 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void GenerateAndSetWaypoint()
     {
-        Vector3 nextWaypoint = GenerateCombatMovementPosition();
-        entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+        if (isChasing)
+        {
+            Vector3 nextWaypoint = GenerateChaseMovementPosition();
+            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+        }
+        else
+        {
+            Vector3 nextWaypoint = GenerateCombatMovementPosition();
+            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+        }
+
         entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
@@ -105,7 +130,7 @@ public class CubeCombatAIComponent : EntityComponent {
     Vector3 GenerateCombatMovementPosition()
     {
         Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
-        Vector3 currentPositionDifference = entityData.EntityTransform.position - currentTarget.position;
+        Vector3 currentPositionDifference = currentTarget.position - transform.position;
 
         Vector3 tempWaypoint = currentPositionDifference.normalized;
         tempWaypoint.x = tempWaypoint.x + UnityEngine.Random.Range(-.5f, .5f);
@@ -116,6 +141,30 @@ public class CubeCombatAIComponent : EntityComponent {
         tempWaypoint.y = transform.position.y;
 
         return tempWaypoint;
+    }
+
+    Vector3 GenerateChaseMovementPosition()
+    {
+        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+
+        Vector3 lineToTarget = Vector3.Lerp(currentTarget.position, transform.position, 0.5f);
+        lineToTarget.y = 1.5f;
+
+        return lineToTarget;
+    }
+
+    bool IsInRange(Transform target)
+    {
+        float squaredDistanceToTarget = (target.position - transform.position).sqrMagnitude;
+
+        if (squaredDistanceToTarget >= attackRange * attackRange)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     #endregion
