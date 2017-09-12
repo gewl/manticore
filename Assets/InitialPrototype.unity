@@ -165,6 +165,10 @@ Prefab:
       propertyPath: m_UseWorldSpace
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1947742881152404, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   m_IsPrefabParent: 0
@@ -217,7 +221,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &432056319
 Transform:
   m_ObjectHideFlags: 0
@@ -1173,7 +1177,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545124550}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e58457147cb6a4fb5a5861fcccd327f6, type: 3}
   m_Name: 
@@ -1224,7 +1228,8 @@ MonoBehaviour:
   fireCooldown: 1
   arcOfFire: 15
   attackRange: 30
-  combatMoveSpeed: 15
+  combatMoveSpeed: 5
+  chaseMoveSpeed: 7
   minimumMovementPause: 1
   maximumMovementPause: 1.5
   minimumDistanceToMove: 15

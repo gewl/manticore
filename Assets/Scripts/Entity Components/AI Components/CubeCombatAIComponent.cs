@@ -18,6 +18,8 @@ public class CubeCombatAIComponent : EntityComponent {
     [SerializeField]
     float combatMoveSpeed;
     [SerializeField]
+    float chaseMoveSpeed;
+    [SerializeField]
     float minimumMovementPause;
     [SerializeField]
     float maximumMovementPause;
@@ -68,7 +70,7 @@ public class CubeCombatAIComponent : EntityComponent {
         {
             entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
             isChasing = true;
-            Invoke("GenerateAndSetWaypoint", 0.5f);
+            Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
         }
         else if (isChasing && IsInRange(currentTarget))
         {
@@ -105,6 +107,7 @@ public class CubeCombatAIComponent : EntityComponent {
         if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
+            Debug.Log("Fire");
             currentFireCooldown = fireCooldown; 
         }
     }
@@ -115,42 +118,33 @@ public class CubeCombatAIComponent : EntityComponent {
         {
             Vector3 nextWaypoint = GenerateChaseMovementPosition();
             entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, chaseMoveSpeed);
         }
         else
         {
             Vector3 nextWaypoint = GenerateCombatMovementPosition();
             entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
         }
-
-        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }
 
     Vector3 GenerateCombatMovementPosition()
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
-        Vector3 currentPositionDifference = currentTarget.position - transform.position;
-
-        Vector3 tempWaypoint = currentPositionDifference.normalized;
-        tempWaypoint.x = tempWaypoint.x + UnityEngine.Random.Range(-.5f, .5f);
-        tempWaypoint.z = tempWaypoint.z + UnityEngine.Random.Range(-.5f, .5f);
-
-        tempWaypoint.x = currentTarget.position.x + (tempWaypoint.x * UnityEngine.Random.Range(minimumDistanceToMove, maximumDistanceToMove));
-        tempWaypoint.z = currentTarget.position.z + (tempWaypoint.z * UnityEngine.Random.Range(minimumDistanceToMove, maximumDistanceToMove));
-        tempWaypoint.y = transform.position.y;
-
-        return tempWaypoint;
+        return transform.position;
     }
 
     Vector3 GenerateChaseMovementPosition()
     {
         Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Vector3 toTarget = currentTarget.position - transform.position;
+        Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), attackRange * 2 / 3);
 
-        Vector3 lineToTarget = Vector3.Lerp(currentTarget.position, transform.position, 0.5f);
-        lineToTarget.y = 1.5f;
+        Vector3 chaseWaypoint = toTarget + clampedFromTarget;
+        chaseWaypoint.y = transform.position.y;
 
-        return lineToTarget;
+        return chaseWaypoint;
     }
 
     bool IsInRange(Transform target)
