@@ -21,6 +21,9 @@ public class EntityEvents
     public const string Aggro = "aggro";
     public const string Deaggro = "deaggro";
     public const string TargetUpdated = "target_updated";
+    public const string TargetPositionUpdated = "target_position_updated";
+
+    public const string DirectionChanged = "direction_changed";
 
     public const string WaypointReached = "waypoint_reached";
     public const string ClearWaypoint = "clear_waypoint";

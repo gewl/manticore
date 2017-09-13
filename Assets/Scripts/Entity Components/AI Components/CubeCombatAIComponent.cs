@@ -15,10 +15,14 @@ public class CubeCombatAIComponent : EntityComponent {
     [SerializeField]
     float attackRange;
 
+    //[SerializeField]
+    //float combatMoveSpeed;
+    //[SerializeField]
+    //float chaseMoveSpeed;
     [SerializeField]
-    float combatMoveSpeed;
+    float combatMoveSpeedModifier = 1f;
     [SerializeField]
-    float chaseMoveSpeed;
+    float chaseMoveSpeedModifier = 1f;
     [SerializeField]
     float minimumMovementPause;
     [SerializeField]
@@ -117,14 +121,18 @@ public class CubeCombatAIComponent : EntityComponent {
         if (isChasing)
         {
             Vector3 nextWaypoint = GenerateChaseMovementPosition();
+            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
             entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, chaseMoveSpeed);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
         else
         {
             Vector3 nextWaypoint = GenerateCombatMovementPosition();
+            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
             entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);

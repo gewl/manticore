@@ -8,7 +8,7 @@ using UnityEngine;
 public class BasicPatrolComponent : EntityComponent {
 
     [SerializeField]
-    float patrolMoveSpeed;
+    float patrolMoveSpeedModifier = 1f;
     [SerializeField]
     Transform[] patrolPoints;
     [SerializeField]
@@ -30,10 +30,6 @@ public class BasicPatrolComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
 
-        // This check should rarely be relevant, just want to avoid a condition where
-        // the entity aggros very quickly & this component somehow sneaks a waypoint
-        // at the right time to override the component responsible for handling movement
-        // in combat.
 		GenerateAndMoveToWaypoint();
     }
 
@@ -83,7 +79,9 @@ public class BasicPatrolComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         SetNewWaypoint();
-        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, patrolMoveSpeed);
+        float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+        float adjustedMoveSpeed = baseMoveSpeed * patrolMoveSpeedModifier;
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }

@@ -33,6 +33,7 @@ public class StandardState : PlayerState
 		if (Physics.Raycast(ray, out hit, 100))
 		{
 			Vector3 hitPoint = hit.point;
+            hitPoint.y = 0f;
             Vector3 characterToHitpoint = (hitPoint - Machine.Player.transform.position).normalized;
 
             Machine.PlayerController.UpdateBodyRotation(characterToHitpoint);

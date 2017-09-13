@@ -144,7 +144,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;
                 entityData.EntityRigidbody.AddForce(new Vector3(0f, -100f, 0f));
-                if (transform.position.y <= -2f)
+                if (transform.position.y <= -4f)
                 {
                     UnityEngine.Object.Destroy(gameObject);
                 }

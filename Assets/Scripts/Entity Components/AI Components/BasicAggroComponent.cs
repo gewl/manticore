@@ -13,11 +13,6 @@ public class BasicAggroComponent : EntityComponent {
     [SerializeField]
     float aggroRange = 0f;
 
-    [SerializeField]
-    EntityComponent[] disableOnAggroComponents;
-    [SerializeField]
-    EntityComponent[] enableOnAggroComponents;
-
     protected override void Subscribe()
     {
         // This has to happen somewhere, and bundling it into EntityData is a little too prescriptive

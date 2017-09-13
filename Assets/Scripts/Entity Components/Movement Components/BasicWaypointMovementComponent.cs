@@ -12,7 +12,15 @@ public class BasicWaypointMovementComponent : EntityComponent {
     [SerializeField]
     bool isMoving = true;
     [SerializeField]
+    float baseMoveSpeed;
+    [SerializeField]
     float currentMoveSpeed;
+
+    private void OnEnable()
+    {
+        entityData.SetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed, baseMoveSpeed);
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
+    }
 
     protected override void Subscribe()
     {

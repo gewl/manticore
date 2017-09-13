@@ -24,13 +24,13 @@ public class BlinkingState : PlayerState
 		if (Physics.Raycast(ray, out hit, 100))
 		{
 			Vector3 hitPoint = hit.point;
-            hitPoint.y = 1.5f;
+            hitPoint.y = Machine.Player.transform.position.y;
             Vector3 characterToHitpoint = (hitPoint - Machine.Player.transform.position);
 
             if (characterToHitpoint.magnitude >= 10f)
             {
                 characterToHitpoint = Vector3.ClampMagnitude(characterToHitpoint, 10f);
-                characterToHitpoint.y = 1.5f;
+                characterToHitpoint.y = Machine.PlayerRigidbody.transform.position.y;
             }
             Machine.BlinkBody.transform.position = Machine.Player.transform.position + characterToHitpoint;
 
