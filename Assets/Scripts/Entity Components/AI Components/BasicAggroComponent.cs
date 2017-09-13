@@ -32,7 +32,7 @@ public class BasicAggroComponent : EntityComponent {
     public void OnUpdate()
     {
         Vector3 entityPosition = base.entityData.EntityTransform.position;
-        Vector3 playerPosition = GameManager.Instance.GetPlayerPosition();
+        Vector3 playerPosition = GameManager.GetPlayerPosition();
         float squareDistance = (entityPosition - playerPosition).sqrMagnitude;
 
         if (squareDistance <= aggroRange * aggroRange)
@@ -43,7 +43,7 @@ public class BasicAggroComponent : EntityComponent {
 
     void SwitchToAggro()
     {
-		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.Instance.GetPlayerTransform());
+		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.GetPlayerTransform());
 		entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
 		entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, true);
 		entityEmitter.EmitEvent(EntityEvents.Aggro);

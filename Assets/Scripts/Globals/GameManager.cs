@@ -5,40 +5,35 @@ using UnityEngine;
 /// <summary>
 /// Global GameManager exposes information about gamestate & references to GameObjects to prevent expensive Find calls.
 /// </summary>
-public class GameManager : MonoBehaviour {
+public static class GameManager {
 
-    private static GameManager instance = null;
+    static GameObject playerObject;
+    static Transform playerTransform;
 
-    public static GameManager Instance
+    public static GameObject GetPlayerObject()
     {
-        get 
+        if (playerObject == null)
         {
-            if (instance == null)
-            {
-                GameObject managerObject = new GameObject();
-                instance = managerObject.AddComponent<GameManager>();
-                managerObject.name = "Game Manager Object";
-            }
-            return instance;
+            playerObject = GameObject.FindGameObjectWithTag("Player");
         }
+        return playerObject;
     }
 
-    GameObject playerObject;
-    Transform playerTransform;
-
-    void Awake()
+    public static Transform GetPlayerTransform()
     {
-        playerObject = GameObject.Find("Manticore");
-        playerTransform = playerObject.transform;
-    }
-
-    public Transform GetPlayerTransform()
-    {
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         return playerTransform;
     }
 
-    public Vector3 GetPlayerPosition()
+    public static Vector3 GetPlayerPosition()
     {
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         return playerTransform.position;
     }
 }
