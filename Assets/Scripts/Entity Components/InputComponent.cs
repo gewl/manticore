@@ -25,23 +25,16 @@ public class InputComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, Reconnect);
     }
 
+    #region Event listeners
+
     void OnUpdate()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-            Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
-
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTargetPosition, characterToHitpoint);
-            entityEmitter.EmitEvent(EntityEvents.TargetPositionUpdated);
-		}
+        SetRotationFromMousePosition();
     }
 
     void OnFixedUpdate()
     {
-
+        SetDirectionalMovementFromKeys();
     }
 
     void Disconnect()
@@ -55,4 +48,41 @@ public class InputComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
     }
+
+    #endregion
+
+    #region Movement functions
+
+    void SetRotationFromMousePosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit = new RaycastHit();
+		if (Physics.Raycast(ray, out hit, 100))
+		{
+			Vector3 hitPoint = hit.point;
+            Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
+
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTargetPosition, characterToHitpoint);
+            entityEmitter.EmitEvent(EntityEvents.TargetPositionUpdated);
+		}
+    }
+
+    void SetDirectionalMovementFromKeys()
+    {
+        float horizontalKeyValue = Input.GetAxis("HorizontalKey");
+        float verticalKeyValue = Input.GetAxis("VerticalKey");
+
+        if (Mathf.Abs(horizontalKeyValue) < 0.1f && Mathf.Abs(verticalKeyValue) < 0.1f)
+        {
+            entityEmitter.EmitEvent(EntityEvents.Stop);
+        }
+        else
+        {
+            Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentDirection, direction);
+            entityEmitter.EmitEvent(EntityEvents.DirectionChanged);
+        }
+    }
+
+    #endregion
 }
