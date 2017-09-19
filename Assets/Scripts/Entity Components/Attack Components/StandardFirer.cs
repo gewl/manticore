@@ -9,8 +9,6 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     Transform projectile;
 
-    float currentFireTimer = 0f;
-    
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);

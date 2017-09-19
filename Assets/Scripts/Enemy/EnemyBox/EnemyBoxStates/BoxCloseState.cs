@@ -8,7 +8,6 @@ public class BoxCloseState : EnemyState
 
     float rotateStrength = 3f;
     Vector3 fleeToPosition;
-    bool fleeing = true;
 
     public override void Enter()
     {

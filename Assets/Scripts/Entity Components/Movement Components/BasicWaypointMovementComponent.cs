@@ -35,7 +35,9 @@ public class BasicWaypointMovementComponent : EntityComponent {
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.SetWaypoint, OnMove);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.ClearWaypoint, OnStop);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
     }

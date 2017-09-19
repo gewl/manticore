@@ -5,7 +5,6 @@ public class DeadBoxState : EnemyState
     Vector3 bulletVelocity;
     float damagedTimer = 55f;
     float originalTimer;
-    GameObject body;
     Material originalSkin;
 
 	public DeadBoxState(EnemyStateMachine machine, Vector3 colliderVelocity)
@@ -25,7 +24,6 @@ public class DeadBoxState : EnemyState
         Machine.EnemyRigidbody.AddForce(bulletVelocity, ForceMode.Impulse);
         Machine.EnemyRigidbody.AddTorque(bulletVelocity.z, 0f, -bulletVelocity.x, ForceMode.Impulse);
 
-        body = Machine.Enemy.transform.GetChild(0).gameObject;
 
         originalSkin = Machine.EnemyController.MeshRenderer.material;
         originalTimer = damagedTimer;

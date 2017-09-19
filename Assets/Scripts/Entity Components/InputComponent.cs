@@ -30,6 +30,8 @@ public class InputComponent : EntityComponent {
     void OnUpdate()
     {
         SetRotationFromMousePosition();
+
+        TransmitPlayerAction();
     }
 
     void OnFixedUpdate()
@@ -47,6 +49,18 @@ public class InputComponent : EntityComponent {
     {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+    }
+
+    #endregion
+
+    #region Action functions
+
+    void TransmitPlayerAction()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            entityEmitter.EmitEvent(EntityEvents.Parry);
+        }
     }
 
     #endregion

@@ -9,7 +9,6 @@ public class EnemyBoxController : EnemyController
 
     // assigned in Start function
     private Transform bulletSpawner;
-    private Collider boxCollider;
     private GameObject bullets;
 
     [SerializeField]
@@ -32,7 +31,6 @@ public class EnemyBoxController : EnemyController
     void Start()
     {
         bulletSpawner = transform.Find("BulletSpawner");
-        boxCollider = transform.Find("Body").GetComponent<Collider>();
         bullets = GameObject.Find("Bullets");
     }
 

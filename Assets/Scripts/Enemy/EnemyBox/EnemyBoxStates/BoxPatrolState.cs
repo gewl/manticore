@@ -9,7 +9,6 @@ public class BoxPatrolState : EnemyState
     // Initialized to -1 because updater, called on entry, increments before retrieving
     int currentPatrolIndex = -1;
 
-    float rotateStrength = 4f;
     Transform nextPatrolPoint;
     int waitTimer = 0;
 

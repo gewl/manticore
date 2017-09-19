@@ -9,9 +9,11 @@ public class EntityEvents
 
     public const string PrimaryFire = "primary_fire";
     public const string SecondaryFire = "secondary_fire";
-    public const string Blink = "blink";
 
-    public const string Move = "move";
+	public const string Parry = "parry";
+	public const string Blink = "blink";
+
+	public const string Move = "move";
     public const string Stop = "stop";
 
     public const string Hurt = "hurt";

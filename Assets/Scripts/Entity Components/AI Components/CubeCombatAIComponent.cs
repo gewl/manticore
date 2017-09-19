@@ -27,10 +27,6 @@ public class CubeCombatAIComponent : EntityComponent {
     float minimumMovementPause;
     [SerializeField]
     float maximumMovementPause;
-    [SerializeField]
-    float minimumDistanceToMove = 15;
-    [SerializeField]
-    float maximumDistanceToMove = 25;
 
     float currentFireCooldown;
 
@@ -111,7 +107,6 @@ public class CubeCombatAIComponent : EntityComponent {
         if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
-            Debug.Log("Fire");
             currentFireCooldown = fireCooldown; 
         }
     }
