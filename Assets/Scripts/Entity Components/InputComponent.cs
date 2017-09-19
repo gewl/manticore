@@ -10,7 +10,7 @@ public class InputComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 
-        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, Disconnect);
+		entityEmitter.SubscribeToEvent(EntityEvents.Hurt, Disconnect);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
         entityEmitter.SubscribeToEvent(EntityEvents.Recovered, Reconnect);
     }
@@ -29,8 +29,6 @@ public class InputComponent : EntityComponent {
 
     void OnUpdate()
     {
-        SetRotationFromMousePosition();
-
         TransmitPlayerAction();
     }
 
@@ -66,20 +64,6 @@ public class InputComponent : EntityComponent {
     #endregion
 
     #region Movement functions
-
-    void SetRotationFromMousePosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-            Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
-
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTargetPosition, characterToHitpoint);
-            entityEmitter.EmitEvent(EntityEvents.TargetPositionUpdated);
-		}
-    }
 
     void SetDirectionalMovementFromKeys()
     {

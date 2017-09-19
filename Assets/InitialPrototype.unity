@@ -541,14 +541,14 @@ TrailRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 804024547}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  - {fileID: 2100000, guid: 686aeada910974503b7eb3eeded1ce4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -567,7 +567,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.2
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 2
@@ -587,8 +587,8 @@ TrailRenderer:
         outSlope: 0
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.9761304
-        value: 0.028987408
+        time: 0.6491651
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -598,7 +598,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -624,7 +624,7 @@ TrailRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 5
     numCapVertices: 0
     alignment: 0
     textureMode: 0
@@ -1368,28 +1368,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0
+      time: -0.0041656494
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0.4477926
+      outSlope: 0.4477926
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.49345893
-      value: 0.996683
-      inSlope: 0.15998904
-      outSlope: 0.15998904
+      time: 0.3620234
+      value: 0.18121159
+      inSlope: 1.7170608
+      outSlope: 1.7170608
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.61307657
+      value: 0.8977011
+      inSlope: 0.91289115
+      outSlope: 0.91289115
       tangentMode: 0
     - serializedVersion: 2
       time: 1
-      value: 0.002117157
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  timeToCompleteParry: 0.2
-  timeToCombo: 0.2
+  timeToCompleteParry: 0.4
+  timeToCombo: 0.3
 --- !u!1 &1512986111
 GameObject:
   m_ObjectHideFlags: 0

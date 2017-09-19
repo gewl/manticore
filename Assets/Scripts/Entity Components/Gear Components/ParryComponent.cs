@@ -16,12 +16,10 @@ public class ParryComponent : EntityComponent {
 	float timeToCombo;
     // Current expiration timer on combo chain.
     float currentComboTimer;
+    bool parryQueued = false;
 
 	Vector3 parryReadyPosition;
     Quaternion parryReadyRotation;
-
-    Vector3 afterParryPosition;
-    Quaternion afterParryRotation;
 
 	enum ParryState {
         Ready,
@@ -38,9 +36,6 @@ public class ParryComponent : EntityComponent {
         base.Awake();
 		parryReadyPosition = parryBox.transform.localPosition;
 		parryReadyRotation = parryBox.transform.localRotation;
-
-		afterParryPosition = new Vector3(-parryReadyPosition.x, 0f, parryReadyPosition.z);
-		afterParryRotation = Quaternion.Euler(0f, -parryReadyRotation.eulerAngles.y, 0f);
 	}
 
     // Generally use to prime parry box (and controller) for "Ready" state.
@@ -67,8 +62,17 @@ public class ParryComponent : EntityComponent {
 		StartCoroutine("ForwardParry"); 
     }
 
+	void OnParry_DuringParry()
+	{
+        parryQueued = true;
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_DuringParry);
+	}
+
 	void OnParry_AfterFirstParry()
 	{
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+        StartCoroutine("BackwardParry");
 	}
 
 	void OnUpdate_AfterFirstParry()
@@ -81,6 +85,7 @@ public class ParryComponent : EntityComponent {
         {
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+			entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 			Subscribe();
 		}
     }
@@ -90,45 +95,79 @@ public class ParryComponent : EntityComponent {
     IEnumerator ForwardParry()
     {
         parryBox.SetActive(true);
+        entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
+		yield return new WaitForSeconds(0.05f);
 
-        float step = 0f;
-        float smoothStep;
+		float step = 0f;
         float lastStep = 0f;
+		float rate = 1 / timeToCompleteParry;
 		currentState = ParryState.InFirstParry;
 
-        yield return new WaitForSeconds(0.05f);
-
-        float rate = 1 / timeToCompleteParry;
+        bool openedComboWindow = false;
 
         while (step < 1f)
         {
             step += Time.deltaTime * rate;
 
-            smoothStep = Mathf.SmoothStep(0.0f, 1.0f, step);
+            float smoothStep = swingCurve.Evaluate(step);
             parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (smoothStep - lastStep));
             lastStep = smoothStep;
+
+            if (step >= 0.85f && !openedComboWindow)
+            {
+                entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_DuringParry);
+                openedComboWindow = true;
+			}
+
             yield return null;
         }
 
-        //while (timeInParry < timeToCompleteParry)
-        //{
-        //    timeInParry += Time.smoothDeltaTime;
-        //    float percentageComplete = timeInParry / timeToCompleteParry;
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_DuringParry);
 
-        //    parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * percentageComplete);
-        //    //parryBox.transform.localPosition = Vector3.Lerp(parryReadyPosition, afterParryPosition, swingCurve.Evaluate(percentageComplete));
-        //    //parryBox.transform.localRotation = Quaternion.Lerp(parryReadyRotation, afterParryRotation, swingCurve.Evaluate(percentageComplete));
-        //    yield return null;
-        //}
-
-        //parryBox.transform.localPosition = afterParryPosition;
-        //parryBox.transform.localRotation = afterParryRotation;
-
+		if (parryQueued)
+        {
+			parryQueued = false;
+			StartCoroutine("BackwardParry");
+            yield break;
+        }
         currentComboTimer = timeToCombo;
         currentState = ParryState.AfterFirstParry;
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
 		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
+		yield break;
+	}
+
+	IEnumerator BackwardParry()
+	{
+		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
+
+		float step = 0f;
+		float smoothStep;
+		float lastStep = 0f;
+		currentState = ParryState.InSecondParry;
+
+		yield return new WaitForSeconds(0.05f);
+
+        float rate = 1 / (timeToCompleteParry * 2/3);
+
+		while (step < 1f)
+		{
+			step += Time.deltaTime * rate;
+
+			smoothStep = swingCurve.Evaluate(step);
+			parryBox.transform.RotateAround(transform.position, Vector3.up, 150f * (smoothStep - lastStep));
+			lastStep = smoothStep;
+			yield return null;
+		}
+
+		currentState = ParryState.Ready;
+
+        parryBox.transform.localPosition = parryReadyPosition;
+        parryBox.transform.localRotation = parryReadyRotation;
+        parryBox.SetActive(false);
+
+		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
 		yield break;
 	}
 }

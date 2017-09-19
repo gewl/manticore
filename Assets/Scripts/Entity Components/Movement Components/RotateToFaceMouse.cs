@@ -6,20 +6,41 @@ using UnityEngine;
 public class RotateToFaceMouse : EntityComponent {
 
     Vector3 lastSafeRotation;
+    bool rotationFrozen = false;
 
     protected override void Subscribe()
     {
         lastSafeRotation = Vector3.zero;
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
-    }
+
+		entityEmitter.SubscribeToEvent(EntityEvents.FreezeRotation, OnFreezeRotation);
+		entityEmitter.SubscribeToEvent(EntityEvents.ResumeRotation, OnResumeRotation);
+	}
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-    }
-    
-    void OnUpdate()
+
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.FreezeRotation, OnFreezeRotation);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.ResumeRotation, OnResumeRotation);
+	}
+
+	void OnFreezeRotation()
+	{
+		rotationFrozen = true;
+	}
+
+	void OnResumeRotation()
+	{
+		rotationFrozen = false;
+	}
+
+	void OnUpdate()
     {
+        if (rotationFrozen)
+        {
+            return;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit = new RaycastHit();
 		if (Physics.Raycast(ray, out hit, 100))
