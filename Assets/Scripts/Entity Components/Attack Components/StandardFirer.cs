@@ -34,6 +34,7 @@ public class StandardFirer : EntityComponent {
         Vector3 relativePos = currentTarget.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos);
         Transform createdBullet = Object.Instantiate(projectile, transform.position, rotation);
+        createdBullet.GetComponent<BasicBullet>().firer = transform;
         createdBullet.transform.parent = bulletsParent.transform;
     }
 }

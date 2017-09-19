@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ParryHandler : MonoBehaviour {
 
-    public GameObject manticore;
-
     public delegate void ParryEventHandler(GameObject bullet);
     public event ParryEventHandler ParriedBullet;
 
@@ -17,7 +15,6 @@ public class ParryHandler : MonoBehaviour {
             BulletBehavior bulletHandler = bullet.GetComponent<BulletBehavior>();
             if (bulletHandler && bulletHandler.CurrentBulletType == BulletBehavior.BulletType.enemyBullet)
             {
-                //bulletHandler.WasParriedBy(manticore);
                 ParriedBullet(bullet);
             } 
         }

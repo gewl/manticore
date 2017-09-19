@@ -24,8 +24,10 @@ GameObject:
   - component: {fileID: 23754850670682814}
   - component: {fileID: 54213273796349374}
   - component: {fileID: 114954223717415040}
+  - component: {fileID: 114392065188491070}
   - component: {fileID: 120437426340101018}
-  m_Layer: 0
+  - component: {fileID: 96787907787702388}
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -38,9 +40,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1947742881152404}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -0.59, y: 1.5, z: 17.21039}
-  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,7 +101,110 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &114954223717415040
+--- !u!96 &96787907787702388
+TrailRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1947742881152404}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Time: 0.3
+  m_Parameters:
+    serializedVersion: 2
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.8695717
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.16232952
+        value: 0.26140052
+        inSlope: -0.034570694
+        outSlope: -0.034570694
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.33890063
+        value: 0.07971811
+        inSlope: -0.72041297
+        outSlope: -0.72041297
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.92839855
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 2
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    generateLightingData: 1
+  m_MinVertexDistance: 0.1
+  m_Autodestruct: 0
+--- !u!114 &114392065188491070
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -107,12 +212,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1947742881152404}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c9efb0839d342978e83b0297f9d2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBulletMaterial: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
+  friendlyBulletMaterial: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f,
+    type: 2}
+  speed: 35
+  firer: {fileID: 0}
+  target: {fileID: 0}
+--- !u!114 &114954223717415040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1947742881152404}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cad3d5a401044ee3ad512d72eb90b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBulletSkin: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
   playerBulletSkin: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f, type: 2}
-  bullets: {fileID: 0}
   lastVelocity: {x: 19.89557, y: 0, z: 28.70881}
   lockedPosition: {x: 0.19908416, y: 1.5000278, z: -2.559135}
 --- !u!120 &120437426340101018
@@ -199,7 +320,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
     generateLightingData: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0
 --- !u!135 &135758704189025598
 SphereCollider:

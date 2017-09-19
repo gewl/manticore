@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - DamageZone
   - EnemyBox
+  - FriendlyBullet
   layers:
   - Default
   - TransparentFX
@@ -17,11 +18,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ParryCollider
+  - EnemyBullet
+  - Terrain
+  - Player
+  - FriendlyBullet
   - 
   - 
   - 

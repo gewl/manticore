@@ -37,7 +37,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     public void OnTriggerEnter(Collider projectile)
     {
-        if (projectile.gameObject.tag == "Bullet" && projectile.gameObject.GetComponent<BulletBehavior>().IsUnfriendly(transform)) {
+        if (projectile.gameObject.CompareTag("FriendlyBullet")) {
 			UnityEngine.Object.Destroy(projectile.gameObject);
 
             if (!isInvulnerable)
