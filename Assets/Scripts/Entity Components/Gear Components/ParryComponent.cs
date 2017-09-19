@@ -113,7 +113,7 @@ public class ParryComponent : EntityComponent {
             parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (smoothStep - lastStep));
             lastStep = smoothStep;
 
-            if (step >= 0.85f && !openedComboWindow)
+            if (step >= 0.9f && !openedComboWindow)
             {
                 entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_DuringParry);
                 openedComboWindow = true;
@@ -166,6 +166,7 @@ public class ParryComponent : EntityComponent {
         parryBox.transform.localPosition = parryReadyPosition;
         parryBox.transform.localRotation = parryReadyRotation;
         parryBox.SetActive(false);
+		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 
 		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
 		yield break;

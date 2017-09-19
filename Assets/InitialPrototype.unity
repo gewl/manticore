@@ -462,8 +462,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.9819443, y: 1, z: 1.5276198}
-  m_Center: {x: -0.10976662, y: 0, z: -0.3773459}
+  m_Size: {x: 2.588166, y: 1, z: 1.2917906}
+  m_Center: {x: -0.30665824, y: 0, z: -0.2594308}
 --- !u!33 &804024551
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1092,6 +1092,11 @@ Prefab:
     - target: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: speed
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
@@ -2024,6 +2029,16 @@ Prefab:
         type: 2}
       propertyPath: fireCooldown
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: currentMoveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: currentHealth
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114908028024112862, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
