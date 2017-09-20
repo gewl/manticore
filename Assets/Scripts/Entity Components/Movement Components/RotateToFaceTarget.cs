@@ -12,17 +12,17 @@ public class RotateToFaceTarget : EntityComponent {
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
-        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
-        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, OnRecovered);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnRecovered);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, OnRecovered);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnRecovered);
         if (currentTarget != null)
         {
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);

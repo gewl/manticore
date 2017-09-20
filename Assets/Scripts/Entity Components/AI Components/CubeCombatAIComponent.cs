@@ -33,7 +33,7 @@ public class CubeCombatAIComponent : EntityComponent {
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, BeginFunctioning);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, BeginFunctioning);
         if (isAggroed)
         {
             BeginFunctioning();
@@ -44,7 +44,7 @@ public class CubeCombatAIComponent : EntityComponent {
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, BeginFunctioning);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, BeginFunctioning);
         if (isAggroed)
         {
             StopFunctioning();
@@ -178,7 +178,7 @@ public class CubeCombatAIComponent : EntityComponent {
             isFunctioning = true;
             entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
             entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.SubscribeToEvent(EntityEvents.Hurt, StopFunctioning);
+            entityEmitter.SubscribeToEvent(EntityEvents.Stun, StopFunctioning);
             entityEmitter.SubscribeToEvent(EntityEvents.Dead, StopFunctioning);
 
             entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
@@ -195,7 +195,7 @@ public class CubeCombatAIComponent : EntityComponent {
             isFunctioning = false;
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, StopFunctioning);
+            entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, StopFunctioning);
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, StopFunctioning);
 
             entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);

@@ -1298,6 +1298,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   timeToCompleteParry: 0.12
+  movementPenalty: 0.5
   timeToCombo: 0.3
 --- !u!114 &1369184825
 MonoBehaviour:

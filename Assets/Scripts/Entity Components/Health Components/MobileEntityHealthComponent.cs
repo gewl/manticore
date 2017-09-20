@@ -77,7 +77,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     void Damage(Collision damagingProjectileCollision)
     {
         // Announce hurt; subscribe to handle timer, lerping material, etc.
-        entityEmitter.EmitEvent(EntityEvents.Hurt);
+        entityEmitter.EmitEvent(EntityEvents.Stun);
 
         // Knock back
         Vector3 collisionVelocity = damagingProjectileCollision.relativeVelocity;
@@ -137,7 +137,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 meshRenderer.material = damagedSkin;
                 entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                entityEmitter.EmitEvent(EntityEvents.Recovered);
+                entityEmitter.EmitEvent(EntityEvents.Unstun);
                 isInvulnerable = false;
                 yield break;
             }
@@ -163,7 +163,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 entityData.EntityRigidbody.detectCollisions = false;
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;
-                entityData.EntityRigidbody.AddForce(new Vector3(0f, -300, 0f), ForceMode.Impulse);
+                entityData.EntityRigidbody.AddForce(new Vector3(0f, -100, 0f), ForceMode.Impulse);
                 if (transform.position.y <= -4f)
                 {
                     UnityEngine.Object.Destroy(gameObject);

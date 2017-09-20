@@ -9,6 +9,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     float baseMoveSpeed;
 
     float currentMoveSpeed;
+    Vector3 currentDirection;
 
     private void OnEnable()
     {
@@ -18,23 +19,23 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.DirectionChanged, OnDirectionChanged);
-        entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+		entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.DirectionChanged, OnDirectionChanged);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
     }
 
-    void OnDirectionChanged()
+    void OnFixedUpdate()
     {
-        Vector3 newDirection = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentDirection);
-        float currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+        Vector3 currentDirection = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentDirection);
+		float currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
 
-        ChangeVelocity(newDirection, currentMoveSpeed);
-    }
+		ChangeVelocity(currentDirection, currentMoveSpeed);
+	}
 
     void OnStop()
     {

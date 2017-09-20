@@ -10,6 +10,8 @@ public class ParryComponent : EntityComponent {
     // Speed of swing.
     [SerializeField]
     float timeToCompleteParry;
+    [SerializeField]
+    float movementPenalty = 1f;
 
     // How quickly user has to chain inputs.
 	[SerializeField]
@@ -88,7 +90,7 @@ public class ParryComponent : EntityComponent {
         {
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-			entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
+			UnlimitEntityAfterParry();
 			Subscribe();
 		}
     }
@@ -97,9 +99,9 @@ public class ParryComponent : EntityComponent {
 
     IEnumerator ForwardParry()
     {
-        parryBox.SetActive(true);
+        LimitEntityInParry();
+		parryBox.SetActive(true);
         parryCollider.enabled = true;
-        entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
 		yield return new WaitForSeconds(0.05f);
 
 		float step = 0f;
@@ -145,7 +147,6 @@ public class ParryComponent : EntityComponent {
 
 	IEnumerator BackwardParry()
 	{
-		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
         parryCollider.enabled = true;
 
 		float step = 0f;
@@ -171,15 +172,36 @@ public class ParryComponent : EntityComponent {
                 parryCollider.enabled = false;
             }
         }
+		entityEmitter.EmitEvent(EntityEvents.Available);
 
 		currentState = ParryState.Ready;
 
         parryBox.transform.localPosition = parryReadyPosition;
         parryBox.transform.localRotation = parryReadyRotation;
         parryBox.SetActive(false);
-		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
+        UnlimitEntityAfterParry();
 
 		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
 		yield break;
+	}
+
+    void LimitEntityInParry()
+    {
+        float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+        float adjustedMovementSpeed = currentMovementSpeed * movementPenalty;
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
+
+		entityEmitter.EmitEvent(EntityEvents.Busy);
+		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
+	}
+
+	void UnlimitEntityAfterParry()
+	{
+		float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+		float restoredMovementSpeed = currentMovementSpeed / movementPenalty;
+		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
+
+		entityEmitter.EmitEvent(EntityEvents.Available);
+		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 	}
 }

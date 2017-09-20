@@ -19,9 +19,18 @@ public class EntityEvents
 	public const string Move = "move";
     public const string Stop = "stop";
 
-    public const string Hurt = "hurt";
-    public const string Recovered = "recovered";
-    public const string Dead = "dead";
+    // 'Stun' is both a status effect and the name for the state which the
+    // entity enters upon being damaged. It refers to total disonnect between
+    // input and action (or AI and action). 
+    public const string Stun = "stun";
+    public const string Unstun = "unstun";
+
+    // 'Busy' is emitted by actions when they've begun successfully firing. Unlike
+    // 'stun', busy state allows (reduced) movement.
+    public const string Busy = "busy";
+	public const string Available = "available";
+
+	public const string Dead = "dead";
 
     public const string Aggro = "aggro";
     public const string Deaggro = "deaggro";

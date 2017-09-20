@@ -7,12 +7,13 @@ public class InputComponent : EntityComponent {
 
     protected override void Subscribe()
     {
+        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentDirection, Vector3.zero);
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 
-		entityEmitter.SubscribeToEvent(EntityEvents.Hurt, Disconnect);
+		entityEmitter.SubscribeToEvent(EntityEvents.Stun, Disconnect);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
-        entityEmitter.SubscribeToEvent(EntityEvents.Recovered, Reconnect);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, Reconnect);
     }
 
     protected override void Unsubscribe()
@@ -20,9 +21,9 @@ public class InputComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, Disconnect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, Disconnect);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, Disconnect);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Recovered, Reconnect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, Reconnect);
     }
 
     #region Event listeners
