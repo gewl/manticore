@@ -8,8 +8,12 @@ public class StandardFirer : EntityComponent {
     Transform bulletsParent;
     [SerializeField]
     Transform projectile;
+    [SerializeField]
+    Transform firer;
+	[SerializeField]
+    float bulletSpeed;
 
-    protected override void Subscribe()
+	protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
     }
@@ -33,8 +37,12 @@ public class StandardFirer : EntityComponent {
     {
         Vector3 relativePos = currentTarget.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos);
-        Transform createdBullet = Object.Instantiate(projectile, transform.position, rotation);
-        createdBullet.GetComponent<BasicBullet>().firer = transform;
+        Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
+        BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();
+        bulletController.firer = transform;
+        bulletController.target = currentTarget;
+        bulletController.speed = bulletSpeed;
+
         createdBullet.transform.parent = bulletsParent.transform;
     }
 }

@@ -13,9 +13,8 @@ public class BasicBullet : MonoBehaviour {
     TrailRenderer trailRenderer;
     Rigidbody bulletRigidbody;
 
-    [SerializeField]
-    float speed = 25f;
-    int strength = 1;
+    public float speed = 5f;
+    public int strength = 1;
 
     public Transform firer;
     public Transform target;
@@ -32,19 +31,28 @@ public class BasicBullet : MonoBehaviour {
         meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
-        bulletRigidbody.velocity = transform.forward * speed;
+        bulletRigidbody.velocity = (target.transform.position - firer.position).normalized * speed;
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+		Destroy(gameObject);
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 11)
+        {
+			Destroy(gameObject);
+		}
+	}
 
     public void Parry(Transform newFirer)
     {
         gameObject.layer = 12;
         gameObject.tag = "FriendlyBullet";
-        bulletRigidbody.velocity = -bulletRigidbody.velocity;
+        target = firer;
+        bulletRigidbody.velocity = (target.transform.position - newFirer.position).normalized * speed * 2f;
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;

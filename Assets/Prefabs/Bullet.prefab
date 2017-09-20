@@ -23,13 +23,12 @@ GameObject:
   - component: {fileID: 135758704189025598}
   - component: {fileID: 23754850670682814}
   - component: {fileID: 54213273796349374}
-  - component: {fileID: 114954223717415040}
   - component: {fileID: 114392065188491070}
   - component: {fileID: 120437426340101018}
   - component: {fileID: 96787907787702388}
   m_Layer: 9
   m_Name: Bullet
-  m_TagString: Bullet
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,24 +217,9 @@ MonoBehaviour:
   enemyBulletMaterial: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
   friendlyBulletMaterial: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f,
     type: 2}
-  speed: 35
+  speed: 50
   firer: {fileID: 0}
   target: {fileID: 0}
---- !u!114 &114954223717415040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1947742881152404}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cad3d5a401044ee3ad512d72eb90b37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBulletSkin: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
-  playerBulletSkin: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f, type: 2}
-  lastVelocity: {x: 19.89557, y: 0, z: 28.70881}
-  lockedPosition: {x: 0.19908416, y: 1.5000278, z: -2.559135}
 --- !u!120 &120437426340101018
 LineRenderer:
   m_ObjectHideFlags: 1

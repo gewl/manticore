@@ -25,6 +25,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     float currentDeathTimer;
     Material originalSkin;
 
+    enum Allegiance { Friendly, Enemy }
+    [SerializeField]
+    Allegiance entityAllegiance = Allegiance.Enemy;
     bool isInvulnerable = false;
 
     // This is a weird one. For the time being, functionality is triggered by bullet entering,
@@ -35,14 +38,14 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     protected override void Unsubscribe() { }
 
-    public void OnTriggerEnter(Collider projectile)
+    public void OnCollisionEnter(Collision projectile)
     {
-        if (projectile.gameObject.CompareTag("FriendlyBullet")) {
-			UnityEngine.Object.Destroy(projectile.gameObject);
+        if (DoesBulletDamage(projectile.gameObject)) {
 
             if (!isInvulnerable)
             {
                 currentHealth--;
+                isInvulnerable = true;
                 if (currentHealth > 0)
                 {
                     Damage(projectile);
@@ -55,17 +58,33 @@ public class MobileEntityHealthComponent : EntityComponent {
 		}
     }
 
-    void Damage(Collider damagingProjectile)
+    bool DoesBulletDamage(GameObject bullet)
+    {
+        if (entityAllegiance == Allegiance.Enemy)
+        {
+            return bullet.CompareTag("FriendlyBullet");
+        }
+        else if (entityAllegiance == Allegiance.Friendly)
+        {
+            return bullet.CompareTag("EnemyBullet");
+        }
+        else
+        {
+            return false; 
+        }
+    }
+
+    void Damage(Collision damagingProjectileCollision)
     {
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         entityEmitter.EmitEvent(EntityEvents.Hurt);
 
         // Knock back
-        Vector3 projectileVelocity = damagingProjectile.attachedRigidbody.velocity;
-        entityData.EntityRigidbody.velocity = projectileVelocity;
+        Vector3 collisionVelocity = damagingProjectileCollision.relativeVelocity;
+        entityData.EntityRigidbody.velocity = collisionVelocity;
 
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(projectileVelocity.x * projectileVelocity.z)), 0f);
+        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
 
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
@@ -77,19 +96,19 @@ public class MobileEntityHealthComponent : EntityComponent {
         StartCoroutine("DamagedProcess");
     }
 
-    void Die(Collider killingProjectile)
+    void Die(Collision killingProjectileCollision)
     {
-        entityEmitter.EmitEvent(EntityEvents.Dead);
+		entityEmitter.EmitEvent(EntityEvents.Dead);
 
         // Knock back
-        Vector3 projectileVelocity = killingProjectile.attachedRigidbody.velocity;
-        entityData.EntityRigidbody.velocity = projectileVelocity;
+        Vector3 collisionVelocity = killingProjectileCollision.relativeVelocity;
+        entityData.EntityRigidbody.velocity = collisionVelocity;
 
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
-        projectileVelocity.Normalize();
-        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(projectileVelocity.x * projectileVelocity.z)), 0f);
-        entityData.EntityRigidbody.AddForce(projectileVelocity, ForceMode.Impulse);
-        entityData.EntityRigidbody.AddTorque(projectileVelocity.z, 0f, -projectileVelocity.x, ForceMode.Impulse);
+        collisionVelocity.Normalize();
+        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
+        entityData.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
+        entityData.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
 
         // Initialize timer from set values
         currentDeathTimer = timeToDie;
@@ -119,6 +138,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 meshRenderer.material = damagedSkin;
                 entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 entityEmitter.EmitEvent(EntityEvents.Recovered);
+                isInvulnerable = false;
                 yield break;
             }
         }
@@ -143,7 +163,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 entityData.EntityRigidbody.detectCollisions = false;
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;
-                entityData.EntityRigidbody.AddForce(new Vector3(0f, -100f, 0f));
+                entityData.EntityRigidbody.AddForce(new Vector3(0f, -300, 0f), ForceMode.Impulse);
                 if (transform.position.y <= -4f)
                 {
                     UnityEngine.Object.Destroy(gameObject);

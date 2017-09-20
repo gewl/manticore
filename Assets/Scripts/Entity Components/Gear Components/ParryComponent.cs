@@ -17,6 +17,7 @@ public class ParryComponent : EntityComponent {
     // Current expiration timer on combo chain.
     float currentComboTimer;
     bool parryQueued = false;
+    BoxCollider parryCollider;
 
 	Vector3 parryReadyPosition;
     Quaternion parryReadyRotation;
@@ -36,6 +37,8 @@ public class ParryComponent : EntityComponent {
         base.Awake();
 		parryReadyPosition = parryBox.transform.localPosition;
 		parryReadyRotation = parryBox.transform.localRotation;
+
+        parryCollider = parryBox.GetComponent<BoxCollider>();
 	}
 
     // Generally use to prime parry box (and controller) for "Ready" state.
@@ -95,6 +98,7 @@ public class ParryComponent : EntityComponent {
     IEnumerator ForwardParry()
     {
         parryBox.SetActive(true);
+        parryCollider.enabled = true;
         entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
 		yield return new WaitForSeconds(0.05f);
 
@@ -115,6 +119,7 @@ public class ParryComponent : EntityComponent {
 
             if (step >= 0.9f && !openedComboWindow)
             {
+                parryCollider.enabled = false;
                 entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_DuringParry);
                 openedComboWindow = true;
 			}
@@ -141,13 +146,14 @@ public class ParryComponent : EntityComponent {
 	IEnumerator BackwardParry()
 	{
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
+        parryCollider.enabled = true;
 
 		float step = 0f;
 		float smoothStep;
 		float lastStep = 0f;
 		currentState = ParryState.InSecondParry;
 
-		yield return new WaitForSeconds(0.05f);
+		yield return new WaitForSeconds(0.1f);
 
         float rate = 1 / (timeToCompleteParry * 2/3);
 
@@ -159,7 +165,12 @@ public class ParryComponent : EntityComponent {
 			parryBox.transform.RotateAround(transform.position, Vector3.up, 150f * (smoothStep - lastStep));
 			lastStep = smoothStep;
 			yield return null;
-		}
+
+            if (step >= 0.9f)
+            {
+                parryCollider.enabled = false;
+            }
+        }
 
 		currentState = ParryState.Ready;
 

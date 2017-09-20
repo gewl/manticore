@@ -5,10 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - BouncyWall
-  - Bullet
   - DamageZone
   - EnemyBox
   - FriendlyBullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -21,7 +21,7 @@ TagManager:
   - ParryCollider
   - EnemyBullet
   - Terrain
-  - Player
+  - Entity
   - FriendlyBullet
   - 
   - 
