@@ -25,9 +25,12 @@ public class EntityEvents
     public const string Stun = "stun";
     public const string Unstun = "unstun";
 
-    // 'Busy' is emitted by actions when they've begun successfully firing. Unlike
-    // 'stun', busy state allows (reduced) movement.
-    public const string Busy = "busy";
+	public const string Invulnerable = "invuln";
+	public const string Vulnerable = "vuln";
+
+	// 'Busy' is emitted by actions when they've begun successfully firing. Unlike
+	// 'stun', busy state allows (reduced) movement.
+	public const string Busy = "busy";
 	public const string Available = "available";
 
 	public const string Dead = "dead";

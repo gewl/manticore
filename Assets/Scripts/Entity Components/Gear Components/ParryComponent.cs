@@ -115,9 +115,9 @@ public class ParryComponent : EntityComponent {
         {
             step += Time.deltaTime * rate;
 
-            float smoothStep = swingCurve.Evaluate(step);
-            parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (smoothStep - lastStep));
-            lastStep = smoothStep;
+            float curvedStep = swingCurve.Evaluate(step);
+            parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
+            lastStep = curvedStep;
 
             if (step >= 0.9f && !openedComboWindow)
             {

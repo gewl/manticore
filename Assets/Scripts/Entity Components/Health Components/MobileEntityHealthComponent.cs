@@ -30,30 +30,41 @@ public class MobileEntityHealthComponent : EntityComponent {
     Allegiance entityAllegiance = Allegiance.Enemy;
     bool isInvulnerable = false;
 
-    // This is a weird one. For the time being, functionality is triggered by bullet entering,
-    // so no need to actually subscribe it to anything on Initialize.
     protected override void Subscribe() {
         meshRenderer = GetComponent<MeshRenderer>();
+
+        entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
+        entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
+	}
+
+    protected override void Unsubscribe() {
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
+	}
+
+    void OnInvulnerable()
+    {
+        isInvulnerable = true; 
     }
 
-    protected override void Unsubscribe() { }
+    void OnVulnerable()
+    {
+        isInvulnerable = false; 
+    }
 
     public void OnCollisionEnter(Collision projectile)
     {
-        if (DoesBulletDamage(projectile.gameObject)) {
-
-            if (!isInvulnerable)
+        if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
+        {
+            currentHealth--;
+            isInvulnerable = true;
+            if (currentHealth > 0)
             {
-                currentHealth--;
-                isInvulnerable = true;
-                if (currentHealth > 0)
-                {
-                    Damage(projectile);
-                }
-                else
-                {
-                    Die(projectile);
-                }
+                Damage(projectile);
+            }
+            else
+            {
+                Die(projectile);
             }
 		}
     }

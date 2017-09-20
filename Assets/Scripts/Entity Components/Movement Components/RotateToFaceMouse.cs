@@ -14,6 +14,8 @@ public class RotateToFaceMouse : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
 
 		entityEmitter.SubscribeToEvent(EntityEvents.FreezeRotation, OnFreezeRotation);
+		entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnFreezeRotation);
+		entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnResumeRotation);
 		entityEmitter.SubscribeToEvent(EntityEvents.ResumeRotation, OnResumeRotation);
 	}
 
@@ -22,6 +24,8 @@ public class RotateToFaceMouse : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
 
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.FreezeRotation, OnFreezeRotation);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnFreezeRotation);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnResumeRotation);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.ResumeRotation, OnResumeRotation);
 	}
 
@@ -106,7 +110,7 @@ public class RotateToFaceMouse : EntityComponent {
 
         transform.rotation = Quaternion.Euler(tempRotation);
 
-		transform.rotation = Quaternion.LookRotation(-normalizedMousePosition);
+		transform.rotation = Quaternion.LookRotation(normalizedMousePosition);
 	}
 
     float SnapValuesToBreakpoint(float initialValue) {

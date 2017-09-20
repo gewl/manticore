@@ -60,6 +60,10 @@ public class InputComponent : EntityComponent {
         {
             entityEmitter.EmitEvent(EntityEvents.Parry);
         }
+        else if (Input.GetButtonDown("Blink"))
+        {
+            entityEmitter.EmitEvent(EntityEvents.Blink);
+        }
     }
 
     #endregion
@@ -73,6 +77,7 @@ public class InputComponent : EntityComponent {
 
         if (Mathf.Abs(horizontalKeyValue) < 0.1f && Mathf.Abs(verticalKeyValue) < 0.1f)
         {
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentDirection, Vector3.zero);
             entityEmitter.EmitEvent(EntityEvents.Stop);
         }
         else
