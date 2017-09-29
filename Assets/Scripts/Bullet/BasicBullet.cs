@@ -18,6 +18,7 @@ public class BasicBullet : MonoBehaviour {
 
     public Transform firer;
     public Transform target;
+    public Vector3 targetPosition;
 
     enum BulletType {
         FriendlyBullet,
@@ -31,7 +32,7 @@ public class BasicBullet : MonoBehaviour {
         meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
-        bulletRigidbody.velocity = (target.transform.position - firer.position).normalized * speed;
+        bulletRigidbody.velocity = targetPosition.normalized * speed;
 	}
 
     private void OnCollisionEnter(Collision collision)

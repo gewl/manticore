@@ -13,6 +13,10 @@ public class StandardFirer : EntityComponent {
 	[SerializeField]
     float bulletSpeed;
 
+    enum FireType { Direct, Lead }
+    [SerializeField]
+    FireType currentFireType = FireType.Lead;
+
 	protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
@@ -35,10 +39,18 @@ public class StandardFirer : EntityComponent {
 
     void FireProjectile(Transform currentTarget)
     {
-        Vector3 relativePos = currentTarget.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(relativePos);
+        Vector3 relativePos = currentTarget.position - firer.transform.position;
+        if (currentFireType == FireType.Lead)
+        {
+            float timeToImpact = relativePos.sqrMagnitude / (bulletSpeed * bulletSpeed);
+            Vector3 currentTargetVelocity = currentTarget.GetComponent<Rigidbody>().velocity;
+            currentTargetVelocity *= timeToImpact;
+            relativePos += currentTargetVelocity;
+        }
+        Quaternion rotation = Quaternion.LookRotation(Vector3.up);
         Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
         BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();
+        bulletController.targetPosition = relativePos;
         bulletController.firer = transform;
         bulletController.target = currentTarget;
         bulletController.speed = bulletSpeed;
