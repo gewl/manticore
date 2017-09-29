@@ -48,17 +48,21 @@ public class BasicBullet : MonoBehaviour {
 		}
 	}
 
-    public void Parry(Transform newFirer)
+    public void Parry(Transform newFirer, Vector3 targetPosition)
     {
+        target = firer;
+        firer = newFirer;
+        if (targetPosition == Vector3.zero)
+        {
+            targetPosition = target.position; 
+        }
         gameObject.layer = 12;
         gameObject.tag = "FriendlyBullet";
-        target = firer;
-        bulletRigidbody.velocity = (target.transform.position - newFirer.position).normalized * speed * 2f;
+        bulletRigidbody.velocity = (targetPosition - transform.position).normalized * speed * 2f;
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
 
-        firer = newFirer;
         currentBulletType = BulletType.FriendlyBullet;
 	}
 

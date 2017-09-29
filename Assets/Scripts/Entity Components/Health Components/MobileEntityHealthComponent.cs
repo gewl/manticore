@@ -24,11 +24,17 @@ public class MobileEntityHealthComponent : EntityComponent {
     float currentRecoveryTimer;
     float currentDeathTimer;
     Material originalSkin;
+    bool isEnabled = false;
 
     enum Allegiance { Friendly, Enemy }
     [SerializeField]
     Allegiance entityAllegiance = Allegiance.Enemy;
     bool isInvulnerable = false;
+
+    protected void OnEnable()
+    {
+        isEnabled = true;
+    }
 
     protected override void Subscribe() {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -54,6 +60,10 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     public void OnCollisionEnter(Collision projectile)
     {
+        if (!isEnabled)
+        {
+            return;
+        }
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
         {
             currentHealth--;
