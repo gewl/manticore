@@ -14,6 +14,13 @@ public class HealthBarComponent : EntityComponent {
     Image healthBar;
 
     [SerializeField]
+    Image damageBar;
+    [SerializeField]
+    float damageBarAdjustmentTime = 1f;
+    [SerializeField]
+    AnimationCurve damageBarAdjustmentCurve;
+
+    [SerializeField]
     Color healthyColor;
     [SerializeField]
     Color warningColor;
@@ -21,6 +28,8 @@ public class HealthBarComponent : EntityComponent {
     Color dangerColor;
 
     float initialHealth;
+    float barHeight = 15f;
+    bool isAdjustingDamageBar = false;
 
     protected override void Subscribe()
     {
@@ -30,8 +39,10 @@ public class HealthBarComponent : EntityComponent {
         float barWidth = initialHealth;
 
         healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, 19f);
-        healthBarBackground.rectTransform.sizeDelta = new Vector2(barWidth, 15f);
-        healthBar.rectTransform.sizeDelta = new Vector2(barWidth, 15f);
+        Vector2 startingBarSize = new Vector2(barWidth, barHeight);
+        healthBarBackground.rectTransform.sizeDelta = startingBarSize;
+        damageBar.rectTransform.sizeDelta = startingBarSize;
+        healthBar.rectTransform.sizeDelta = startingBarSize;
     }
 
     protected override void Unsubscribe()
@@ -44,7 +55,7 @@ public class HealthBarComponent : EntityComponent {
         float currentHealth = GameManager.GetPlayerCurrentHealth();
         float barWidth = currentHealth;
 
-        healthBar.rectTransform.sizeDelta = new Vector2(barWidth, 15f);
+        healthBar.rectTransform.sizeDelta = new Vector2(barWidth, barHeight);
         float percentageOfHealthRemaining = currentHealth / initialHealth;
         if (percentageOfHealthRemaining <= 0.35f)
         {
@@ -58,5 +69,35 @@ public class HealthBarComponent : EntityComponent {
         {
             healthBar.color = healthyColor;
         }
+        if (isAdjustingDamageBar)
+        {
+            CancelInvoke();
+            isAdjustingDamageBar = false;
+        }
+        StartCoroutine("DamageBarAdjustment");
     }
+
+    IEnumerator DamageBarAdjustment()
+    {
+        isAdjustingDamageBar = true;
+
+        Vector2 initialSize = damageBar.rectTransform.sizeDelta;
+        Vector2 targetSize = healthBar.rectTransform.sizeDelta;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < damageBarAdjustmentTime)
+        {
+            timeElapsed += Time.deltaTime;
+            float percentageComplete = timeElapsed / damageBarAdjustmentTime;
+            float curveCompletion = damageBarAdjustmentCurve.Evaluate(percentageComplete);
+
+            Vector2 newDamageBarSize = new Vector2(Mathf.Lerp(initialSize.x, targetSize.x, curveCompletion), barHeight);
+            damageBar.rectTransform.sizeDelta = newDamageBarSize;
+            yield return null;
+        }
+
+        isAdjustingDamageBar = false;
+        yield return null;
+    }
+     
 }
