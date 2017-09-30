@@ -9,21 +9,33 @@ public static class GameManager {
 
     static GameObject playerObject;
     static Transform playerTransform;
+    static MobileEntityHealthComponent playerHealthManager;
+
+    private static GameObject _player;
+
+    private static GameObject player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag("Player");
+            }
+
+            return _player;
+        }
+    }
 
     public static GameObject GetPlayerObject()
     {
-        if (playerObject == null)
-        {
-            playerObject = GameObject.FindGameObjectWithTag("Player");
-        }
-        return playerObject;
+        return player;
     }
 
     public static Transform GetPlayerTransform()
     {
         if (playerTransform == null)
         {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            playerTransform = player.transform;
         }
         return playerTransform;
     }
@@ -32,8 +44,28 @@ public static class GameManager {
     {
         if (playerTransform == null)
         {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            playerTransform = player.transform;
         }
         return playerTransform.position;
+    }
+
+    public static int GetPlayerInitialHealth()
+    {
+        if (playerHealthManager == null)
+        {
+            playerHealthManager = player.GetComponent<MobileEntityHealthComponent>();
+        }
+
+        return playerHealthManager.InitialHealth();
+    }
+
+    public static int GetPlayerCurrentHealth()
+    {
+        if (playerHealthManager == null)
+        {
+            playerHealthManager = player.GetComponent<MobileEntityHealthComponent>();
+        }
+
+        return playerHealthManager.CurrentHealth();
     }
 }

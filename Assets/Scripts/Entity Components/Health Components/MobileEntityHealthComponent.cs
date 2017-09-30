@@ -30,10 +30,28 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Allegiance entityAllegiance = Allegiance.Enemy;
     bool isInvulnerable = false;
+    int initialHealth;
+
+    #region accessors
+    public int CurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int InitialHealth()
+    {
+        if (initialHealth == 0)
+        {
+            initialHealth = currentHealth;
+        }
+        return initialHealth;
+    }
+    #endregion
 
     protected void OnEnable()
     {
         isEnabled = true;
+        initialHealth = currentHealth;
     }
 
     protected override void Subscribe() {
@@ -144,6 +162,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     IEnumerator DamagedProcess()
     {
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)
         {
             if (currentRecoveryTimer > 0f)
@@ -167,6 +186,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     IEnumerator DyingProcess()
     {
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)
         {
             if (currentDeathTimer > 0f)

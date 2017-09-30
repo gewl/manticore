@@ -25,6 +25,9 @@ public class EntityEvents
     public const string Stun = "stun";
     public const string Unstun = "unstun";
 
+    // Gonna see if we can get by without "damaged" and "healed."
+    public const string HealthChanged = "health_changed";
+
 	public const string Invulnerable = "invuln";
 	public const string Vulnerable = "vuln";
 
