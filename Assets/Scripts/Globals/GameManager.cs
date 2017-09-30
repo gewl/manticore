@@ -49,7 +49,7 @@ public static class GameManager {
         return playerTransform.position;
     }
 
-    public static int GetPlayerInitialHealth()
+    public static float GetPlayerInitialHealth()
     {
         if (playerHealthManager == null)
         {
@@ -59,7 +59,7 @@ public static class GameManager {
         return playerHealthManager.InitialHealth();
     }
 
-    public static int GetPlayerCurrentHealth()
+    public static float GetPlayerCurrentHealth()
     {
         if (playerHealthManager == null)
         {

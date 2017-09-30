@@ -6,7 +6,7 @@ using UnityEngine;
 public class MobileEntityHealthComponent : EntityComponent {
 
     [SerializeField]
-    int currentHealth;
+    float currentHealth;
     [SerializeField]
     float recoveryTime;
     [SerializeField]
@@ -20,7 +20,14 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Material darkFlashSkin;
 
+    [SerializeField]
+    Transform floatingDamageText;
+    [SerializeField]
+    Transform hud;
+
     MeshRenderer meshRenderer;
+    Camera mainCamera;
+
     float currentRecoveryTimer;
     float currentDeathTimer;
     Material originalSkin;
@@ -30,15 +37,15 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Allegiance entityAllegiance = Allegiance.Enemy;
     bool isInvulnerable = false;
-    int initialHealth;
+    float initialHealth;
 
     #region accessors
-    public int CurrentHealth()
+    public float CurrentHealth()
     {
         return currentHealth;
     }
 
-    public int InitialHealth()
+    public float InitialHealth()
     {
         if (initialHealth == 0)
         {
@@ -52,6 +59,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         isEnabled = true;
         initialHealth = currentHealth;
+        mainCamera = Camera.main;
     }
 
     protected override void Subscribe() {
@@ -84,7 +92,15 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
         {
-            currentHealth--;
+            BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
+            float damage = bullet.strength;
+            currentHealth -= damage;
+
+            Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
+            damageTextPosition.y += 15f;
+            Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, hud);
+            instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
+
             isInvulnerable = true;
             if (currentHealth > 0)
             {

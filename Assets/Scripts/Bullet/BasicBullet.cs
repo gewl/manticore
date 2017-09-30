@@ -14,7 +14,7 @@ public class BasicBullet : MonoBehaviour {
     Rigidbody bulletRigidbody;
 
     public float speed = 5f;
-    public int strength = 1;
+    public float strength = 1;
 
     public Transform firer;
     public Transform target;

@@ -27,7 +27,7 @@ public class HealthBarComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.HealthChanged, OnHealthChanged);
         
         initialHealth = GameManager.GetPlayerInitialHealth();
-        float barWidth = (initialHealth * 50);
+        float barWidth = initialHealth;
 
         healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, 19f);
         healthBarBackground.rectTransform.sizeDelta = new Vector2(barWidth, 15f);
@@ -42,7 +42,7 @@ public class HealthBarComponent : EntityComponent {
     void OnHealthChanged()
     {
         float currentHealth = GameManager.GetPlayerCurrentHealth();
-        float barWidth = (currentHealth * 50);
+        float barWidth = currentHealth;
 
         healthBar.rectTransform.sizeDelta = new Vector2(barWidth, 15f);
         float percentageOfHealthRemaining = currentHealth / initialHealth;
