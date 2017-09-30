@@ -8,10 +8,19 @@ public class RotateToFaceTarget : EntityComponent {
     [SerializeField]
     float rotationStrength;
     Transform currentTarget;
+    Vector3 nextWaypoint;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        nextWaypoint = Vector3.forward;
+    }
 
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnSetWaypoint);
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnRecovered);
@@ -20,13 +29,16 @@ public class RotateToFaceTarget : EntityComponent {
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.SetWaypoint, OnSetWaypoint);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnRecovered);
-        if (currentTarget != null)
-        {
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-        }
+    }
+
+    void OnSetWaypoint()
+    {
+        nextWaypoint = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.NextWaypoint);
     }
 
     void OnDead()
@@ -37,17 +49,7 @@ public class RotateToFaceTarget : EntityComponent {
     void OnTargetUpdated()
     {
         Transform newTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
-
-        if (newTarget != null)
-        {
-            entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
-            currentTarget = newTarget;
-        }
-        else
-        {
-            currentTarget = null;
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-        }
+        currentTarget = newTarget;
     }
 
     void OnHurt()
@@ -71,7 +73,16 @@ public class RotateToFaceTarget : EntityComponent {
 
     void Rotate()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(currentTarget.position - transform.position);
+        Vector3 lookPosition;
+        if (currentTarget != null)
+        {
+            lookPosition = currentTarget.position;
+        }
+        else
+        {
+            lookPosition = nextWaypoint;
+        }
+        Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
         float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
     }
