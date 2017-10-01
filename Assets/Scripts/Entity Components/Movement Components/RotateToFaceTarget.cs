@@ -6,7 +6,7 @@ using UnityEngine;
 public class RotateToFaceTarget : EntityComponent {
 
     [SerializeField]
-    float rotationStrength;
+    float rotationStrength = 3f;
     Transform currentTarget;
     Vector3 nextWaypoint;
 

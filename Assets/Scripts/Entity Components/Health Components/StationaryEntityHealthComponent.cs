@@ -137,13 +137,6 @@ public class StationaryEntityHealthComponent : EntityComponent
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         entityEmitter.EmitEvent(EntityEvents.Stun);
 
-        // Knock back
-        Vector3 collisionVelocity = damagingProjectileCollision.relativeVelocity;
-        entityData.EntityRigidbody.velocity = collisionVelocity;
-
-        entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
-
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
 
@@ -157,13 +150,6 @@ public class StationaryEntityHealthComponent : EntityComponent
     void Die(Collision killingProjectileCollision)
     {
         entityEmitter.EmitEvent(EntityEvents.Dead);
-
-        // Knock back
-        Vector3 collisionVelocity = killingProjectileCollision.relativeVelocity;
-        entityData.EntityRigidbody.velocity = collisionVelocity;
-
-        entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
-        collisionVelocity.Normalize();
 
         // Initialize timer from set values
         currentDeathTimer = timeToDie;
@@ -216,6 +202,7 @@ public class StationaryEntityHealthComponent : EntityComponent
             else
             {
                 meshRenderer.material = deadSkin;
+                entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
                 entityData.EntityRigidbody.detectCollisions = false;
                 entityData.EntityRigidbody.drag = 10f;
                 entityData.EntityRigidbody.freezeRotation = true;

@@ -11,7 +11,7 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     Transform firer;
 	[SerializeField]
-    float bulletSpeed;
+    float bulletSpeed = 30f;
 
     enum FireType { Direct, Lead }
     [SerializeField]
