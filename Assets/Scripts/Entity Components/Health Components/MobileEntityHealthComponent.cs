@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MobileEntityHealthComponent : EntityComponent {
 
@@ -24,6 +25,11 @@ public class MobileEntityHealthComponent : EntityComponent {
     Transform floatingDamageText;
     [SerializeField]
     Transform hud;
+    [SerializeField]
+    GameObject unitHealthBarPrefab;
+
+    GameObject unitHealthBarObject;
+    UnitHealthBar unitHealthBar;
 
     MeshRenderer meshRenderer;
     Camera mainCamera;
@@ -57,9 +63,24 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     protected void OnEnable()
     {
+        mainCamera = Camera.main;
         isEnabled = true;
         initialHealth = currentHealth;
-        mainCamera = Camera.main;
+
+        // Instantiate attached health bar, assign values, then hide.
+        if (unitHealthBar == null)
+        {
+            Vector3 healthBarPosition = mainCamera.WorldToScreenPoint(transform.position);
+            healthBarPosition.x -= 30f;
+            healthBarPosition.y -= 30f;
+            Transform unitHealthBarParent = hud.Find("Unit Health Bars");
+            unitHealthBarObject = Instantiate(unitHealthBarPrefab, healthBarPosition, Quaternion.identity, unitHealthBarParent);
+            unitHealthBar = unitHealthBarObject.GetComponent<UnitHealthBar>();
+            unitHealthBar.attachedUnit = transform;
+            unitHealthBar.SetTotalHealth(initialHealth);
+        }
+
+        unitHealthBarObject.SetActive(false);
     }
 
     protected override void Subscribe() {
@@ -92,15 +113,22 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
         {
+            // Get & deal damage.
             BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
             float damage = bullet.strength;
             currentHealth -= damage;
 
+            // Trigger floating damage text.
             Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
             damageTextPosition.y += 15f;
             Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, hud);
             instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
 
+            // Expose & update attached health bar.
+            unitHealthBarObject.SetActive(true);
+            unitHealthBar.UpdateHealth(currentHealth);
+
+            // Damage or kill depending on remaining health.
             isInvulnerable = true;
             if (currentHealth > 0)
             {
@@ -183,6 +211,8 @@ public class MobileEntityHealthComponent : EntityComponent {
         {
             if (currentRecoveryTimer > 0f)
             {
+                // Lerp material while entity is recovering.
+                // TODO: Distinguish recovery period more clearly.
                 float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
                 meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
 
@@ -191,6 +221,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             }
             else
             {
+                // Once entity has recovered, disable physics and resume action.
                 meshRenderer.material = damagedSkin;
                 entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 entityEmitter.EmitEvent(EntityEvents.Unstun);

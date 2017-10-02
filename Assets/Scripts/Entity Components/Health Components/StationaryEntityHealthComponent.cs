@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StationaryEntityHealthComponent : EntityComponent
 {
@@ -25,6 +26,11 @@ public class StationaryEntityHealthComponent : EntityComponent
     Transform floatingDamageText;
     [SerializeField]
     Transform hud;
+    [SerializeField]
+    GameObject unitHealthBarPrefab;
+
+    GameObject unitHealthBarObject;
+    UnitHealthBar unitHealthBar;
 
     MeshRenderer meshRenderer;
     Camera mainCamera;
@@ -61,6 +67,20 @@ public class StationaryEntityHealthComponent : EntityComponent
         isEnabled = true;
         initialHealth = currentHealth;
         mainCamera = Camera.main;
+
+        if (unitHealthBar == null)
+        {
+            Vector3 healthBarPosition = mainCamera.WorldToScreenPoint(transform.position);
+            healthBarPosition.x -= 30f;
+            healthBarPosition.y -= 30f;
+            Transform unitHealthBarParent = hud.Find("Unit Health Bars");
+            unitHealthBarObject = Instantiate(unitHealthBarPrefab, healthBarPosition, Quaternion.identity, unitHealthBarParent);
+            unitHealthBar = unitHealthBarObject.GetComponent<UnitHealthBar>();
+            unitHealthBar.attachedUnit = transform;
+            unitHealthBar.SetTotalHealth(initialHealth);
+        }
+
+        unitHealthBarObject.SetActive(false);
     }
 
     protected override void Subscribe()
@@ -103,6 +123,10 @@ public class StationaryEntityHealthComponent : EntityComponent
             damageTextPosition.y += 15f;
             Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, hud);
             instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
+
+            // Expose & update attached health bar.
+            unitHealthBarObject.SetActive(true);
+            unitHealthBar.UpdateHealth(currentHealth);
 
             isInvulnerable = true;
             if (currentHealth > 0)

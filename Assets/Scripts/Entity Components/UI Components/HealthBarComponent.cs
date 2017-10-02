@@ -38,7 +38,7 @@ public class HealthBarComponent : EntityComponent {
         initialHealth = GameManager.GetPlayerInitialHealth();
         float barWidth = initialHealth;
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, 19f);
+        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         healthBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
