@@ -1169,6 +1169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e696bd3ea38b4ea468459d6cb92a5509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMuted: 0
 --- !u!114 &1369184817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1636,7 +1637,7 @@ GameObject:
   - component: {fileID: 1650193790}
   m_Layer: 5
   m_Name: HUD
-  m_TagString: Untagged
+  m_TagString: HUD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1731,6 +1732,7 @@ GameObject:
   - component: {fileID: 1734111142}
   - component: {fileID: 1734111141}
   - component: {fileID: 1734111146}
+  - component: {fileID: 1734111147}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1820,6 +1822,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 195f86b7fb4f4474e9896d5b936fe46e, type: 2}
+--- !u!114 &1734111147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1734111140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abcac8d2d0b3b34da765eda99b5845b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseProfile: {fileID: 11400000, guid: 8033e91658d880c4baa025041ae8a45f, type: 2}
 --- !u!1 &1920643254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,6 +1972,46 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1935297884}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1951958999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1951959000}
+  - component: {fileID: 1951959001}
+  m_Layer: 0
+  m_Name: GameTyrant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1951959000
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951958999}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 456.5, y: 332, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1951959001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951958999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520f631d5355437469992c2d4b843617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1979713393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,6 +2305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e696bd3ea38b4ea468459d6cb92a5509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMuted: 0
 --- !u!114 &2027683703
 MonoBehaviour:
   m_ObjectHideFlags: 0

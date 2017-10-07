@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3bdb2cd68f901469e7cc149151eb49, type: 3}
-  m_Name: DefaultPostProcessingProfile
+  m_Name: PauseProfile
   m_EditorClassIdentifier: 
   debugViews:
     m_Enabled: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
         motionVectorsResolution: 24
         motionVectorsAmplitude: 64
   fog:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       excludeSkybox: 1
   antialiasing:
@@ -40,9 +40,9 @@ MonoBehaviour:
         stationaryBlending: 0.95
         motionBlending: 0.85
   ambientOcclusion:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
-      intensity: 1
+      intensity: 0.91
       radius: 0.3
       sampleCount: 10
       downsampling: 1
@@ -69,11 +69,11 @@ MonoBehaviour:
       screenEdgeMask:
         intensity: 0.03
   depthOfField:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       focusDistance: 10
-      aperture: 5.6
-      focalLength: 50
+      aperture: 28.9
+      focalLength: 46
       useCameraFov: 0
       kernelSize: 1
   motionBlur:
@@ -97,11 +97,11 @@ MonoBehaviour:
       logMin: -8
       logMax: 4
   bloom:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       bloom:
         intensity: 0.5
-        threshold: 1.5
+        threshold: 1.1
         softKnee: 0.5
         radius: 4
         antiFlicker: 0
@@ -109,23 +109,23 @@ MonoBehaviour:
         texture: {fileID: 0}
         intensity: 3
   colorGrading:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       tonemapping:
-        tonemapper: 0
-        neutralBlackIn: 0.04
-        neutralWhiteIn: 10
-        neutralBlackOut: 0
+        tonemapper: 2
+        neutralBlackIn: 0.042
+        neutralWhiteIn: 13.1
+        neutralBlackOut: -0.029
         neutralWhiteOut: 10
-        neutralWhiteLevel: 5.3
+        neutralWhiteLevel: 1.4
         neutralWhiteClip: 10
       basic:
         postExposure: 0
-        temperature: 0
+        temperature: -6
         tint: 0
         hueShift: 0
-        saturation: 1
-        contrast: 0.91
+        saturation: 0
+        contrast: 2
       channelMixer:
         red: {x: 1, y: 0, z: 0}
         green: {x: 0, y: 1, z: 0}
@@ -284,14 +284,14 @@ MonoBehaviour:
     m_Enabled: 0
     m_Settings:
       spectralTexture: {fileID: 0}
-      intensity: 0.07
+      intensity: 0.1
   grain:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       colored: 1
-      intensity: 0.5
-      size: 1
-      luminanceContribution: 0.8
+      intensity: 0.87
+      size: 0.64
+      luminanceContribution: 0.17
   vignette:
     m_Enabled: 0
     m_Settings:

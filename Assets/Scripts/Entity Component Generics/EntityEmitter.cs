@@ -11,9 +11,21 @@ public class EntityEmitter : MonoBehaviour {
 
     Dictionary<string, List<UnityAction>> eventSubscriptions;
 
+    public bool isMuted = false;
+
     private void Awake()
     {
         eventSubscriptions = new Dictionary<string, List<UnityAction>>();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.RegisterEmitter(this);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.DeregisterEmitter(this);
     }
 
     private void Update()
@@ -52,7 +64,7 @@ public class EntityEmitter : MonoBehaviour {
 
     public void EmitEvent(string entityEvent)
     {
-        if (!eventSubscriptions.ContainsKey(entityEvent))
+        if (isMuted || !eventSubscriptions.ContainsKey(entityEvent))
         {
             return;
         }

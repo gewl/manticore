@@ -9,6 +9,7 @@ TagManager:
   - EnemyBox
   - FriendlyBullet
   - EnemyBullet
+  - HUD
   layers:
   - Default
   - TransparentFX
