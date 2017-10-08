@@ -634,7 +634,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 529f45ff311386f44b0b1cf8e10db017, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2268,7 +2268,7 @@ MonoBehaviour:
   bulletsParent: {fileID: 432056319}
   projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   firer: {fileID: 684420503}
-  bulletSpeed: 30
+  bulletSpeed: 40
   currentFireType: 1
 --- !u!114 &2027683700
 MonoBehaviour:

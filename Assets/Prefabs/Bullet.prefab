@@ -142,24 +142,24 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.8695717
+        value: 0.85290146
+        inSlope: -3.6639676
+        outSlope: -3.6639676
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6219194
+        value: 0
         inSlope: 0
-        outSlope: 0
+        outSlope: Infinity
+        tangentMode: 97
+      - serializedVersion: 2
+        time: 0.94657
+        value: 0
+        inSlope: 0.026645139
+        outSlope: 0.026645139
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.16232952
-        value: 0.26140052
-        inSlope: -0.034570694
-        outSlope: -0.034570694
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.33890063
-        value: 0.07971811
-        inSlope: -0.72041297
-        outSlope: -0.72041297
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.92839855
+        time: 1
         value: 0
         inSlope: 0
         outSlope: 0
