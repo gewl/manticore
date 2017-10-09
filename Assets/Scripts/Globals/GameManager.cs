@@ -42,17 +42,17 @@ public static class GameManager {
     }
 
 
-    static CameraManager _cameraManager;
-    static CameraManager cameraManager
+    static CameraController _cameraController;
+    static CameraController cameraController
     {
         get
         {
-            if (_cameraManager == null)
+            if (_cameraController == null)
             {
-                _cameraManager = Camera.main.GetComponent<CameraManager>();
+                _cameraController = Camera.main.GetComponent<CameraController>();
             }
 
-            return _cameraManager;
+            return _cameraController;
         }
     }
 
@@ -82,14 +82,14 @@ public static class GameManager {
             hud.SetActive(false);
             MuteAllEmitters();
             Time.timeScale = 0f;
-            cameraManager.ApplyPauseFilter();
+            cameraController.ApplyPauseFilter();
         }
         else
         {
             hud.SetActive(true);
             UnmuteAllEmitters();
             Time.timeScale = 1f;
-            cameraManager.RevertToOriginalProfile();
+            cameraController.RevertToOriginalProfile();
         }
     }
 

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarComponent : EntityComponent {
+public class HUDStaminaBar : StaminaBar {
 
     [SerializeField]
-    Image healthBarContainer;
+    Image staminaBarContainer;
     [SerializeField]
-    Image healthBarBackground;
+    Image staminaBarBackground;
     [SerializeField]
-    Image healthBar;
+    Image staminaBar;
 
     [SerializeField]
     Image damageBar;
@@ -20,56 +20,29 @@ public class HealthBarComponent : EntityComponent {
     [SerializeField]
     AnimationCurve damageBarAdjustmentCurve;
 
-    [SerializeField]
-    Color healthyColor;
-    [SerializeField]
-    Color warningColor;
-    [SerializeField]
-    Color dangerColor;
-
-    float totalHealth;
-    float barHeight = 15f;
+    float totalStamina;
+    float barHeight = 6f;
     float barWidth = 0f;
     bool isAdjustingDamageBar = false;
 
-    protected override void Subscribe()
+    public override void UpdateTotalStamina(float newTotalStamina)
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.HealthChanged, OnHealthChanged);
-        
-        totalHealth = GameManager.GetPlayerInitialHealth();
-        barWidth = totalHealth;
+        totalStamina = newTotalStamina;
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
+        barWidth = totalStamina * 2f;
+
+        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
-        healthBarBackground.rectTransform.sizeDelta = startingBarSize;
+        staminaBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
-        healthBar.rectTransform.sizeDelta = startingBarSize;
+        staminaBar.rectTransform.sizeDelta = startingBarSize;
     }
 
-    protected override void Unsubscribe()
+    public override void UpdateCurrentStamina(float newCurrentStamina)
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.HealthChanged, OnHealthChanged);
-    }
+        float newBarWidth = newCurrentStamina * 2f;
 
-    void OnHealthChanged()
-    {
-        float currentHealth = GameManager.GetPlayerCurrentHealth();
-        float newBarWidth = currentHealth;
-
-        healthBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
-        float percentageOfHealthRemaining = currentHealth / totalHealth;
-        if (percentageOfHealthRemaining <= 0.35f)
-        {
-            healthBar.color = dangerColor;
-        }
-        else if (percentageOfHealthRemaining <= 0.5f)
-        {
-            healthBar.color = warningColor;
-        }
-        else
-        {
-            healthBar.color = healthyColor;
-        }
+        staminaBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
 
         if (newBarWidth < barWidth)
         {
@@ -93,7 +66,7 @@ public class HealthBarComponent : EntityComponent {
         isAdjustingDamageBar = true;
 
         Vector2 initialSize = damageBar.rectTransform.sizeDelta;
-        Vector2 targetSize = healthBar.rectTransform.sizeDelta;
+        Vector2 targetSize = staminaBar.rectTransform.sizeDelta;
         float timeElapsed = 0f;
 
         while (timeElapsed < damageBarAdjustmentTime)
@@ -110,5 +83,4 @@ public class HealthBarComponent : EntityComponent {
         isAdjustingDamageBar = false;
         yield return null;
     }
-     
 }

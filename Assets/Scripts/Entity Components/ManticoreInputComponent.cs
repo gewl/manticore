@@ -3,7 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputComponent : EntityComponent {
+public class ManticoreInputComponent : EntityComponent {
+
+    EntityStaminaComponent staminaComponent;
+
+    // This will probably be lifted from a data class managed by the inventory
+    // system later on, but we'll use serialized fields for the time being.
+    [SerializeField]
+    float parryCost;
+    [SerializeField]
+    float blinkCost;
+
+    void OnEnable()
+    {
+        staminaComponent = GetComponent<EntityStaminaComponent>();
+    }
 
     protected override void Subscribe()
     {
@@ -58,11 +72,17 @@ public class InputComponent : EntityComponent {
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            entityEmitter.EmitEvent(EntityEvents.Parry);
+            if (staminaComponent.TryToExpendStamina(parryCost))
+            {
+                entityEmitter.EmitEvent(EntityEvents.Parry);
+            }
         }
         else if (Input.GetButtonDown("Blink"))
         {
-            entityEmitter.EmitEvent(EntityEvents.Blink);
+            if (staminaComponent.TryToExpendStamina(blinkCost))
+            {
+                entityEmitter.EmitEvent(EntityEvents.Blink);
+            }
         }
     }
 

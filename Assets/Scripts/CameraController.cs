@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.PostProcessing;
 
-public class CameraManager : MonoBehaviour {
+public class CameraController : MonoBehaviour {
 
     PostProcessingProfile currentProfile;
     PostProcessingBehaviour postProcessingBehaviour;
