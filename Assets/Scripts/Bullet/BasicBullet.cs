@@ -8,13 +8,15 @@ public class BasicBullet : MonoBehaviour {
     Material enemyBulletMaterial;
     [SerializeField]
     Material friendlyBulletMaterial;
+    [SerializeField]
+    float defaultStrength = 50f;
 
     MeshRenderer meshRenderer;
     TrailRenderer trailRenderer;
     Rigidbody bulletRigidbody;
 
     public float speed = 5f;
-    public float strength = 1;
+    public float strength;
 
     public Transform firer;
     public Transform target;
@@ -33,6 +35,17 @@ public class BasicBullet : MonoBehaviour {
         trailRenderer = GetComponent<TrailRenderer>();
 
         bulletRigidbody.velocity = targetPosition.normalized * speed;
+        if (strength == 0f)
+        {
+            strength = defaultStrength;
+        }
+        else
+        {
+            float proportionToDefault = strength / defaultStrength;
+            float strengthScale = Mathf.Atan(proportionToDefault * Mathf.PI / 2);
+            strengthScale = Mathf.Pow(strengthScale, 2f);
+            transform.localScale *= strengthScale;
+        }
 	}
 
     private void OnCollisionEnter(Collision collision)

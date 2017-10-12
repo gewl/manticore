@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class MobileEntityHealthComponent : EntityComponent {
 
     [SerializeField]
+    bool invulnerableOnDamage = false;
+    [SerializeField]
     float currentHealth;
     [SerializeField]
     float recoveryTime;
@@ -42,8 +44,16 @@ public class MobileEntityHealthComponent : EntityComponent {
     enum Allegiance { Friendly, Enemy }
     [SerializeField]
     Allegiance entityAllegiance = Allegiance.Enemy;
-    bool isInvulnerable = false;
+
     float initialHealth;
+    bool isInvulnerable = false;
+    bool isStunned = false;
+    // Used to slightly delay invulnerability so blasts go through.
+    void SetInvulnerable()
+    {
+        CancelInvoke();
+        isInvulnerable = true;
+    }
 
     #region accessors
     public float CurrentHealth()
@@ -88,11 +98,15 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnUnstun);
 	}
 
     protected override void Unsubscribe() {
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnStun);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnUnstun);
 	}
 
     void OnInvulnerable()
@@ -103,6 +117,16 @@ public class MobileEntityHealthComponent : EntityComponent {
     void OnVulnerable()
     {
         isInvulnerable = false; 
+    }
+
+    void OnStun()
+    {
+        isStunned = true;
+    }
+
+    void OnUnstun()
+    {
+        isStunned = false;
     }
 
     public void OnCollisionEnter(Collision projectile)
@@ -129,7 +153,10 @@ public class MobileEntityHealthComponent : EntityComponent {
             unitHealthBar.UpdateHealth(currentHealth);
 
             // Damage or kill depending on remaining health.
-            isInvulnerable = true;
+            if (invulnerableOnDamage)
+            {
+                Invoke("SetInvulnerable", 0.3f);
+            }
             if (currentHealth > 0)
             {
                 Damage(projectile);
@@ -160,7 +187,10 @@ public class MobileEntityHealthComponent : EntityComponent {
     void Damage(Collision damagingProjectileCollision)
     {
         // Announce hurt; subscribe to handle timer, lerping material, etc.
-        entityEmitter.EmitEvent(EntityEvents.Stun);
+        if (!isStunned)
+        {
+            entityEmitter.EmitEvent(EntityEvents.Stun);
+        }
 
         // Knock back
         Vector3 collisionVelocity = damagingProjectileCollision.relativeVelocity;
@@ -224,8 +254,14 @@ public class MobileEntityHealthComponent : EntityComponent {
                 // Once entity has recovered, disable physics and resume action.
                 meshRenderer.material = damagedSkin;
                 entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                entityEmitter.EmitEvent(EntityEvents.Unstun);
-                isInvulnerable = false;
+                if (isStunned)
+                {
+                    entityEmitter.EmitEvent(EntityEvents.Unstun);
+                }
+                if (invulnerableOnDamage)
+                {
+                    isInvulnerable = false;
+                }
                 yield break;
             }
         }
@@ -247,6 +283,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             }
             else
             {
+                unitHealthBar.enabled = false;
                 meshRenderer.material = deadSkin;
                 entityData.EntityRigidbody.detectCollisions = false;
                 entityData.EntityRigidbody.drag = 10f;
