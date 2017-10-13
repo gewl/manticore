@@ -22,13 +22,6 @@ public class BasicBullet : MonoBehaviour {
     public Transform target;
     public Vector3 targetPosition;
 
-    enum BulletType {
-        FriendlyBullet,
-        EnemyBullet
-    }
-
-    BulletType currentBulletType = BulletType.EnemyBullet;
-
 	void Start () {
         bulletRigidbody = GetComponent<Rigidbody>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -75,8 +68,6 @@ public class BasicBullet : MonoBehaviour {
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
-
-        currentBulletType = BulletType.FriendlyBullet;
 	}
 
 }

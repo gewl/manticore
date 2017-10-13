@@ -26,8 +26,6 @@ public class EntityStaminaComponent : EntityComponent {
     float recoveryTickAmount = 20f;
 
     float currentStamina;
-    float timeSinceLastTick = 0.0f;
-    bool isRecovering = true;
 
     protected override void Awake()
     {
@@ -45,19 +43,12 @@ public class EntityStaminaComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDeath);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDeath);
     }
     
-    void OnDeath()
-    {
-        isRecovering = false;
-    }
-
     public bool TryToExpendStamina(float amountToUse)
     {
         if (currentStamina < amountToUse)

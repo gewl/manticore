@@ -24,16 +24,6 @@ public class ParryComponent : EntityComponent {
 	Vector3 parryReadyPosition;
     Quaternion parryReadyRotation;
 
-	enum ParryState {
-        Ready,
-        InFirstParry,
-        AfterFirstParry,
-        InSecondParry,
-        AfterSecondParry
-    }
-
-    ParryState currentState;
-
     override protected void Awake()
     {
         base.Awake();
@@ -49,7 +39,6 @@ public class ParryComponent : EntityComponent {
 		parryBox.transform.localPosition = parryReadyPosition;
 		parryBox.transform.localRotation = parryReadyRotation;
 		parryBox.SetActive(false);
-		currentState = ParryState.Ready;
         entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
 	}
 
@@ -107,7 +96,6 @@ public class ParryComponent : EntityComponent {
 		float step = 0f;
         float lastStep = 0f;
 		float rate = 1 / timeToCompleteParry;
-		currentState = ParryState.InFirstParry;
 
         bool openedComboWindow = false;
 
@@ -119,7 +107,7 @@ public class ParryComponent : EntityComponent {
             parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
             lastStep = curvedStep;
 
-            if (step >= 0.9f && !openedComboWindow)
+            if (step >= 0.8f && !openedComboWindow)
             {
                 parryCollider.enabled = false;
                 entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_DuringParry);
@@ -138,7 +126,6 @@ public class ParryComponent : EntityComponent {
             yield break;
         }
         currentComboTimer = timeToCombo;
-        currentState = ParryState.AfterFirstParry;
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
 		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
@@ -152,7 +139,6 @@ public class ParryComponent : EntityComponent {
 		float step = 0f;
 		float smoothStep;
 		float lastStep = 0f;
-		currentState = ParryState.InSecondParry;
 
 		yield return new WaitForSeconds(0.1f);
 
@@ -167,14 +153,12 @@ public class ParryComponent : EntityComponent {
 			lastStep = smoothStep;
 			yield return null;
 
-            if (step >= 0.9f)
+            if (step >= 0.8f)
             {
                 parryCollider.enabled = false;
             }
         }
 		entityEmitter.EmitEvent(EntityEvents.Available);
-
-		currentState = ParryState.Ready;
 
         parryBox.transform.localPosition = parryReadyPosition;
         parryBox.transform.localRotation = parryReadyRotation;

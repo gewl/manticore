@@ -41,16 +41,14 @@ public class ShotgunFirer : EntityComponent
         Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
         for (int i = 0; i < numberOfProjectilesFired; i++)
         {
-            //Invoke("FireProjectile", 0.01f * i);
-            FireProjectile();
+            FireProjectile(currentTarget);
         }
     }
 
     #endregion
 
-    void FireProjectile()
+    void FireProjectile(Transform currentTarget)
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
         Vector3 relativePos = currentTarget.position - firer.transform.position;
         if (currentFireType == FireType.Lead)
         {

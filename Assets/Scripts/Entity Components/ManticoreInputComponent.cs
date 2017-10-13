@@ -84,6 +84,10 @@ public class ManticoreInputComponent : EntityComponent {
                 entityEmitter.EmitEvent(EntityEvents.Blink);
             }
         }
+        else if (Input.GetButtonDown("Nullify"))
+        {
+            entityEmitter.EmitEvent(EntityEvents.Nullify);
+        }
     }
 
     #endregion

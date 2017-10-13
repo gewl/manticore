@@ -52,7 +52,7 @@ public class StandardFirer : EntityComponent {
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
         Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
         BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();
-        bulletController.strength = 50f;
+        bulletController.strength = projectileStrength;
         bulletController.targetPosition = relativePos;
         bulletController.firer = transform;
         bulletController.target = currentTarget;
