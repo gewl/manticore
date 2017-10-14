@@ -14,6 +14,10 @@ public class Parry : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         BasicBullet bullet = other.GetComponent<BasicBullet>();
+        if (bullet == null)
+        {
+            return;
+        }
         float parryDamage = parryComponent.ParryDamage;
         bullet.Parry(transform, GetMousePosition(), parryDamage);
     }

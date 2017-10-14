@@ -215,11 +215,10 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         // Knock back
         Vector3 collisionVelocity = killingProjectileCollision.relativeVelocity;
-        entityData.EntityRigidbody.velocity = collisionVelocity;
 
+        gameObject.layer = LayerMask.NameToLayer("DeadEntity");
+        entityData.EntityRigidbody.useGravity = true;
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
-        collisionVelocity.Normalize();
-        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
         entityData.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
         entityData.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
 
@@ -285,15 +284,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 unitHealthBar.enabled = false;
                 meshRenderer.material = deadSkin;
-                entityData.EntityRigidbody.detectCollisions = false;
-                entityData.EntityRigidbody.drag = 10f;
-                entityData.EntityRigidbody.freezeRotation = true;
-                entityData.EntityRigidbody.AddForce(new Vector3(0f, -100, 0f), ForceMode.Impulse);
-                if (transform.position.y <= -4f)
-                {
-                    UnityEngine.Object.Destroy(gameObject);
-                }
-                yield return null;
+                yield break;
             }
         }
 

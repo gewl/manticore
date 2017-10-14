@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerableOnDamage: 0
-  currentHealth: 60
+  currentHealth: 70
   recoveryTime: 0.8
   timeToDie: 1.5
   damagedSkin: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
