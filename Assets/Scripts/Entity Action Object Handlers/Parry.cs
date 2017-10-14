@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Parry : MonoBehaviour {
 
+    ParryComponent parryComponent;
+
+    void Awake()
+    {
+        parryComponent = GetComponentInParent<ParryComponent>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         BasicBullet bullet = other.GetComponent<BasicBullet>();
-        bullet.Parry(transform, GetMousePosition());
+        float parryDamage = parryComponent.ParryDamage;
+        bullet.Parry(transform, GetMousePosition(), parryDamage);
     }
 
     Vector3 GetMousePosition()

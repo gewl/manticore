@@ -28,17 +28,7 @@ public class BasicBullet : MonoBehaviour {
         trailRenderer = GetComponent<TrailRenderer>();
 
         bulletRigidbody.velocity = targetPosition.normalized * speed;
-        if (strength == 0f)
-        {
-            strength = defaultStrength;
-        }
-        else
-        {
-            float proportionToDefault = strength / defaultStrength;
-            float strengthScale = Mathf.Atan(proportionToDefault * Mathf.PI / 2);
-            strengthScale = Mathf.Pow(strengthScale, 2f);
-            transform.localScale *= strengthScale;
-        }
+        UpdateSize();
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -54,8 +44,15 @@ public class BasicBullet : MonoBehaviour {
 		}
 	}
 
+    // If no new strength supplied, executes parry maintaining current strength.
     public void Parry(Transform newFirer, Vector3 targetPosition)
     {
+        Parry(newFirer, targetPosition, strength);
+    }
+    
+    public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength)
+    {
+        strength = newStrength;
         target = firer;
         firer = newFirer;
         if (targetPosition == Vector3.zero)
@@ -68,6 +65,22 @@ public class BasicBullet : MonoBehaviour {
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
+        UpdateSize();
 	}
+
+    void UpdateSize()
+    {
+        if (strength == 0f)
+        {
+            strength = defaultStrength;
+        }
+        else
+        {
+            float proportionToDefault = strength / defaultStrength;
+            float strengthScale = Mathf.Atan(proportionToDefault * Mathf.PI / 2);
+            strengthScale = Mathf.Pow(strengthScale, 2f);
+            transform.localScale *= strengthScale;
+        }
+    }
 
 }

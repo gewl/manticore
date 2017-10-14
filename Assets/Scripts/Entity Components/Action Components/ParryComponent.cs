@@ -5,13 +5,17 @@ using UnityEngine;
 public class ParryComponent : EntityComponent {
 
     [SerializeField]
-    GameObject parryBox;
-    public AnimationCurve swingCurve;
+    float parryDamage = 50f;
+    public float ParryDamage { get { return parryDamage; } }
     // Speed of swing.
     [SerializeField]
     float timeToCompleteParry;
     [SerializeField]
     float movementPenalty = 1f;
+
+    [SerializeField]
+    GameObject parryBox;
+    public AnimationCurve swingCurve;
 
     // How quickly user has to chain inputs.
 	[SerializeField]
