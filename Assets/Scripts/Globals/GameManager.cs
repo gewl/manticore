@@ -6,6 +6,7 @@ public static class GameManager {
 
     // State
     static bool isPaused = false;
+    static IEnumerator freezeCoroutine;
 
     // Player references
     static GameObject playerObject;
@@ -13,6 +14,20 @@ public static class GameManager {
     static MobileEntityHealthComponent playerHealthManager;
 
     #region lazyload references
+    static GameManagerHelper _helper;
+    static GameManagerHelper helper
+    {
+        get
+        {
+            if (_helper == null)
+            {
+                _helper = Component.FindObjectOfType<GameManagerHelper>();
+            }
+
+            return _helper;
+        }
+    }
+
     static GameObject _hud;
     static GameObject hud
     {
@@ -93,6 +108,11 @@ public static class GameManager {
         }
     }
 
+    public static void HandleFreezeEvent(GlobalConstants.GameFreezeEvent freezeEvent)
+    {
+        helper.FreezeFrame(freezeEvent);
+    }
+
     #endregion
 
     #region en-masse entity manipulation
@@ -107,7 +127,7 @@ public static class GameManager {
         activeEmittersInScene.Remove(emitter);
     }
 
-    static void MuteAllEmitters()
+    public static void MuteAllEmitters()
     {
         for (int i = 0; i < activeEmittersInScene.Count; i++)
         {
@@ -115,7 +135,7 @@ public static class GameManager {
         }
     }
 
-    static void UnmuteAllEmitters()
+    public static void UnmuteAllEmitters()
     {
         for (int i = 0; i < activeEmittersInScene.Count; i++)
         {

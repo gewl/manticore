@@ -1181,6 +1181,21 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 432056319}
     m_Modifications:
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.SerializationNodes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.59
@@ -1216,6 +1231,25 @@ Prefab:
     - target: {fileID: 1947742881152404, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"testDict","value":{"$id":0,"$type":"SerializableDictionary`2[[System.String,
+        mscorlib],[System.Int32, mscorlib]], Assembly-CSharp","keys":{"$id":1,"$type":"System.Collections.Generic.List`1[[System.String,
+        mscorlib]], mscorlib","$rlength":0,"$rcontent":[]},"values":{"$id":2,"$type":"System.Collections.Generic.List`1[[System.Int32,
+        mscorlib]], mscorlib","$rlength":0,"$rcontent":[]}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114392065188491070, guid: 9352d8e745d2eae4ca3c4bf769225963,
+        type: 2}
+      propertyPath: serializationData.SerializedFormat
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
@@ -2483,6 +2517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1951959000}
   - component: {fileID: 1951959001}
+  - component: {fileID: 1951959002}
   m_Layer: 0
   m_Name: GameTyrant
   m_TagString: Untagged
@@ -2514,6 +2549,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 520f631d5355437469992c2d4b843617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1951959002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951958999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0ef9c8b8512f44aab6950e79bf9fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: gameFreezeTimers
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[GlobalConstants+GameFreezeEvent,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &1979713393
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MobileEntityHealthComponent : EntityComponent {
 
@@ -186,6 +183,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     void Damage(Collision damagingProjectileCollision)
     {
+        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         if (!isStunned)
         {
@@ -211,6 +209,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     void Die(Collision killingProjectileCollision)
     {
+        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
         // Knock back
