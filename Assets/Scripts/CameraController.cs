@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour {
     float playerZOffset = -24f;
     [SerializeField]
     float smoothTime = 0.05f;
+    [SerializeField]
+    float distanceToMouse = 0.3f;;
 
     Vector3 dampVelocity = Vector3.zero;
 
@@ -29,7 +31,7 @@ public class CameraController : MonoBehaviour {
 
         Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
 
-        Vector3 nextCameraPosition = Vector3.Lerp(playerPosition, mousePosition, 0.3f);
+        Vector3 nextCameraPosition = Vector3.Lerp(playerPosition, mousePosition, distanceToMouse);
 
         nextCameraPosition.y = yDistance;
 
