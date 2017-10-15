@@ -19,20 +19,6 @@ public class Parry : MonoBehaviour {
             return;
         }
         float parryDamage = parryComponent.ParryDamage;
-        bullet.Parry(transform, GetMousePosition(), parryDamage);
-    }
-
-    Vector3 GetMousePosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-            hitPoint.y = 0f;
-            return hitPoint;
-		}
-        
-        return Vector3.zero;
+        bullet.Parry(transform, GameManager.GetMousePositionInWorldSpace(), parryDamage);
     }
 }

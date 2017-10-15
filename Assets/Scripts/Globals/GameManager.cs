@@ -14,6 +14,20 @@ public static class GameManager {
     static MobileEntityHealthComponent playerHealthManager;
 
     #region lazyload references
+    static Camera _mainCamera;
+    static Camera mainCamera
+    {
+        get
+        {
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+            }
+
+            return _mainCamera;
+        }
+    }
+    
     static GameManagerHelper _helper;
     static GameManagerHelper helper
     {
@@ -188,5 +202,24 @@ public static class GameManager {
 
         return playerHealthManager.CurrentHealth();
     }
+    #endregion
+
+    #region input data retrieval
+
+    public static Vector3 GetMousePositionInWorldSpace()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            return hit.point;
+        }
+        else
+        {
+            Debug.LogWarning("Mouse position not found.");
+            return mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        }
+    }
+    
     #endregion
 }

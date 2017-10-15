@@ -45,13 +45,12 @@ public class RotateToFaceMouse : EntityComponent {
         {
             return;
         }
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-            hitPoint.y = 0f;
-            Vector3 characterToHitpoint = (hitPoint - transform.position).normalized;
+
+        Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
+        if (mousePosition != Vector3.zero)
+        {
+            mousePosition.y = 0f;
+            Vector3 characterToHitpoint = (mousePosition - transform.position).normalized;
 
             UpdateBodyRotation(characterToHitpoint);
 		}

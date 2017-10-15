@@ -1390,7 +1390,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1369184813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.37, y: 0, z: -0.13024044}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 1512986112}
@@ -2274,7 +2274,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734111140}
   m_LocalRotation: {x: 0.40284535, y: -0, z: -0, w: 0.9152681}
-  m_LocalPosition: {x: 0, y: 21.5, z: -31.1}
+  m_LocalPosition: {x: 0, y: 21, z: -24.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2304,6 +2304,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseProfile: {fileID: 11400000, guid: 8033e91658d880c4baa025041ae8a45f, type: 2}
+  yDistance: 21
+  playerZOffset: -24
+  smoothTime: 0.3
 --- !u!1001 &1749467592
 Prefab:
   m_ObjectHideFlags: 0

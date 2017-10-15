@@ -127,15 +127,10 @@ public class BulletBehavior : MonoBehaviour
 		lineRenderer.enabled = false;
         transform.SetParent(bullets.transform, true);
 
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
-		{
-			Vector3 hitPoint = hit.point;
-			Vector3 bulletToHitpoint = (hitPoint - transform.position).normalized;
+        Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
+        Vector3 bulletToHitpoint = (mousePosition - transform.position).normalized;
 
-			bulletRigidbody.velocity = new Vector3(bulletToHitpoint.x, 0f, bulletToHitpoint.z) * lastVelocity.magnitude * newSpeed;
-		}
+        bulletRigidbody.velocity = new Vector3(bulletToHitpoint.x, 0f, bulletToHitpoint.z) * lastVelocity.magnitude * newSpeed;
 	}
 
     public void UpdateMaterial(float percentageDone) 
@@ -151,14 +146,11 @@ public class BulletBehavior : MonoBehaviour
 		{
 			lineRenderer.enabled = true;
 		}
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit hit = new RaycastHit();
-		if (Physics.Raycast(ray, out hit, 100))
+        Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
+		if (mousePosition != Vector3.zero)
 		{
-			Vector3 hitPoint = hit.point;
-
 			lineRenderer.SetPosition(0, transform.position);
-			lineRenderer.SetPosition(1, hitPoint);
+			lineRenderer.SetPosition(1, mousePosition);
 		}
 	}
 
