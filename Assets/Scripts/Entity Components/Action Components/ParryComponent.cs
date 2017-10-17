@@ -192,4 +192,13 @@ public class ParryComponent : EntityComponent {
 		entityEmitter.EmitEvent(EntityEvents.Available);
 		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 	}
+
+    #region called by entity action handler (Parry child object)
+
+    public void SuccessfulParryHandler()
+    {
+        entityEmitter.EmitEvent(EntityEvents.ParrySuccessful);
+    }
+
+    #endregion
 }

@@ -11,6 +11,7 @@ public class EntityEvents
     public const string SecondaryFire = "secondary_fire";
 
 	public const string Parry = "parry";
+    public const string ParrySuccessful = "parry_successful";
 	public const string Blink = "blink";
 
     // TODO: Creating specific actions for abilities for the time being.
