@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     float smoothTime = 0.05f;
     [SerializeField]
-    float distanceToMouse = 0.3f;;
+    float distanceToMouse = 0.3f;
 
     Vector3 dampVelocity = Vector3.zero;
 
@@ -35,7 +35,6 @@ public class CameraController : MonoBehaviour {
 
         nextCameraPosition.y = yDistance;
 
-        //transform.position = nextCameraPosition;
         transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
     }
 

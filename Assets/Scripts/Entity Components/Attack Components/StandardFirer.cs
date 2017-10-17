@@ -14,6 +14,8 @@ public class StandardFirer : EntityComponent {
     Transform firer;
 	[SerializeField]
     float bulletSpeed = 30f;
+    [SerializeField]
+    float bulletVarianceAmount = 2f;
 
     enum FireType { Direct, Lead }
     [SerializeField]
@@ -49,6 +51,10 @@ public class StandardFirer : EntityComponent {
             currentTargetVelocity *= timeToImpact;
             relativePos += currentTargetVelocity;
         }
+        float angleAdjustment = Random.Range(-bulletVarianceAmount, bulletVarianceAmount);
+        relativePos = Vector3.RotateTowards(relativePos, transform.right, Mathf.Deg2Rad * angleAdjustment, 1);
+        relativePos.y = 0f;
+
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
         Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
         BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();

@@ -2307,6 +2307,7 @@ MonoBehaviour:
   yDistance: 21
   playerZOffset: -24
   smoothTime: 0.3
+  distanceToMouse: 0.3
 --- !u!1001 &1749467592
 Prefab:
   m_ObjectHideFlags: 0
@@ -2841,7 +2842,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1001 &2096038950
+--- !u!1001 &2026237665
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2880,11 +2881,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: hud
+      propertyPath: bulletsParent
       value: 
-      objectReference: {fileID: 1650193793}
+      objectReference: {fileID: 432056319}
     - target: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: patrolPoints.Array.data[0]
@@ -2895,26 +2896,16 @@ Prefab:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1198158389}
-    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: bulletsParent
+      propertyPath: hud
       value: 
-      objectReference: {fileID: 432056319}
-    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
+      objectReference: {fileID: 1650193793}
+    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: m_Mass
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: m_Drag
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: m_AngularDrag
-      value: 0.5
-      objectReference: {fileID: 0}
+      propertyPath: primaryFireClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
