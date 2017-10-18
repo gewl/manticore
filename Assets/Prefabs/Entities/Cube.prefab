@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e8a5b9f8b7a654aa0ec0e1080fd5d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: 0.8
+  fireCooldown: 0.4
   arcOfFire: 25
   attackRange: 30
   combatMoveSpeedModifier: 1
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50d66c88714c5042a5defdd45463511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryFireClip: {fileID: 0}
+  primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
 --- !u!114 &114793962421634062
 MonoBehaviour:
   m_ObjectHideFlags: 1

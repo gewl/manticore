@@ -1852,7 +1852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc5dd734eba23f4f9082e891f2742ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parrySuccessfulClip: {fileID: 8300000, guid: b924228a29ddf494a817f56cca342d70, type: 3}
+  parrySuccessfulClip: {fileID: 8300000, guid: 228c70b59a59f1f4bb7d87e4b599dfa1, type: 3}
 --- !u!1 &1413684357
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,11 +2975,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: bulletsParent
+      propertyPath: hud
       value: 
-      objectReference: {fileID: 432056319}
+      objectReference: {fileID: 1650193793}
     - target: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: patrolPoints.Array.data[0]
@@ -2990,16 +2990,11 @@ Prefab:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1198158389}
-    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: hud
+      propertyPath: bulletsParent
       value: 
-      objectReference: {fileID: 1650193793}
-    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: primaryFireClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
+      objectReference: {fileID: 432056319}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
