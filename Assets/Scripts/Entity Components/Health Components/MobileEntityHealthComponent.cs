@@ -185,6 +185,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
+        entityEmitter.EmitEvent(EntityEvents.Hurt);
         if (!isStunned)
         {
             entityEmitter.EmitEvent(EntityEvents.Stun);

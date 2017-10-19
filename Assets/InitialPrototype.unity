@@ -1535,7 +1535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerableOnDamage: 1
   currentHealth: 150
-  recoveryTime: 0.8
+  recoveryTime: 0.3
   timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: 6ed1f39f79d6b45c19960a4f8e62f0d3, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
@@ -1853,6 +1853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parrySuccessfulClip: {fileID: 8300000, guid: 228c70b59a59f1f4bb7d87e4b599dfa1, type: 3}
+  hurtClip: {fileID: 8300000, guid: d2ef776ab22c58145aeb2a40843f7ef9, type: 3}
 --- !u!1 &1413684357
 GameObject:
   m_ObjectHideFlags: 0
@@ -2995,6 +2996,21 @@ Prefab:
       propertyPath: bulletsParent
       value: 
       objectReference: {fileID: 432056319}
+    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: hurtClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 15724f3c2710a604e854fd7ae6376663, type: 3}
+    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: deadClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: currentHealth
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0

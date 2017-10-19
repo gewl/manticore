@@ -42,6 +42,8 @@ public class EntityEvents
 	public const string Busy = "busy";
 	public const string Available = "available";
 
+    // Adding Hurt for audio component, so OnDamage will fire Hurt AND Stun. Maybe less than ideal, reconsider later on.
+    public const string Hurt = "hurt";
 	public const string Dead = "dead";
 
     public const string Aggro = "aggro";
