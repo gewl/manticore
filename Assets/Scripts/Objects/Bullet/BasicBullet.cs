@@ -29,6 +29,8 @@ public class BasicBullet : MonoBehaviour {
     GameObject enemyBulletCollisionParticles;
     [SerializeField]
     GameObject friendlyBulletCollisionParticles;
+    [SerializeField]
+    Transform effectParent;
 
 	void Start () {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -59,11 +61,11 @@ public class BasicBullet : MonoBehaviour {
         GameObject particleEffect;
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
-            particleEffect = Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), null);
+            particleEffect = Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
         }
         else
         {
-            particleEffect = Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), null);
+            particleEffect = Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
         }
         Destroy(gameObject);
     }

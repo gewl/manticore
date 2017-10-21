@@ -227,6 +227,7 @@ MonoBehaviour:
     type: 2}
   friendlyBulletCollisionParticles: {fileID: 1175951107517830, guid: 98ff1fd7e0cc04b4ea0a6a081431cc2e,
     type: 2}
+  effectParent: {fileID: 0}
 --- !u!120 &120437426340101018
 LineRenderer:
   m_ObjectHideFlags: 1
