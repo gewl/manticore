@@ -26,6 +26,9 @@ public class CollectibleSpawnerComponent : EntityComponent {
         playerDirection.y = 1f;
 
         GameObject collectibleInstance = GameObject.Instantiate(collectible, transform.position, Quaternion.identity);
-        collectibleInstance.GetComponent<Rigidbody>().AddForce(playerDirection * launchSpeed, ForceMode.Impulse);
+        Rigidbody collectibleRigidbody = collectibleInstance.GetComponent<Rigidbody>();
+
+        collectibleRigidbody.AddForce(playerDirection * launchSpeed, ForceMode.Impulse);
+        collectibleRigidbody.AddTorque(Vector3.forward, ForceMode.Impulse);
     }
 }

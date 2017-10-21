@@ -14,8 +14,11 @@ public class StaminaPillController : MonoBehaviour {
     float timeBetweenBlinks = 1f;
     [SerializeField]
     PhysicMaterial stillMaterial;
+
     [SerializeField]
     AudioClip collectionClip;
+    [SerializeField]
+    GameObject collectionParticles;
 
     bool bouncing = true;
     Collider collider;
@@ -79,6 +82,7 @@ public class StaminaPillController : MonoBehaviour {
         {
             collisionObject.GetComponent<ManticoreAudioComponent>().PlayOutsideSound(collectionClip);
             collisionObject.GetComponent<EntityStaminaComponent>().ChangeStamina(recoveryAmount);
+            Instantiate(collectionParticles, collisionObject.transform.position, Quaternion.Euler(-90f, 0f, 0f), collisionObject.transform);
             Destroy(gameObject);
         }
     }
