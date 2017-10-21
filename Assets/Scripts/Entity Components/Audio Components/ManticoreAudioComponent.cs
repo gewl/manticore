@@ -28,6 +28,12 @@ public class ManticoreAudioComponent : EntityComponent
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
     }
 
+    public void PlayOutsideSound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
     #region event listeners
 
     void OnParrySuccessful()

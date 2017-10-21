@@ -217,6 +217,7 @@ MonoBehaviour:
   enemyBulletMaterial: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
   friendlyBulletMaterial: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f,
     type: 2}
+  defaultStrength: 50
   speed: 50
   strength: 50
   firer: {fileID: 0}

@@ -33,6 +33,14 @@ public class EntityStaminaComponent : EntityComponent {
         currentStamina = maximumStamina;
     }
 
+    protected override void Subscribe()
+    {
+    }
+
+    protected override void Unsubscribe()
+    {
+    }
+
     void OnEnable()
     {
         if (attachedStaminaBar != false) 
@@ -41,14 +49,6 @@ public class EntityStaminaComponent : EntityComponent {
         }
     }
 
-    protected override void Subscribe()
-    {
-    }
-
-    protected override void Unsubscribe()
-    {
-    }
-    
     public bool TryToExpendStamina(float amountToUse)
     {
         if (currentStamina < amountToUse)
@@ -67,6 +67,21 @@ public class EntityStaminaComponent : EntityComponent {
         InvokeRepeating("RecoverStamina", recoveryFreezeDuration, recoveryTickRate);
 
         return true;
+    }
+
+    public void ChangeStamina(float changeAmount)
+    {
+        currentStamina += changeAmount;
+
+        if (currentStamina >= maximumStamina)
+        {
+            currentStamina = maximumStamina;
+        }
+
+        if (attachedStaminaBar != false)
+        {
+            attachedStaminaBar.UpdateCurrentStamina(currentStamina);
+        }
     }
 
     #region callbacks

@@ -2996,16 +2996,10 @@ Prefab:
       propertyPath: bulletsParent
       value: 
       objectReference: {fileID: 432056319}
-    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: hurtClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 15724f3c2710a604e854fd7ae6376663, type: 3}
-    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: deadClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+    - target: {fileID: 1601806513748870, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: currentHealth
@@ -3014,3 +3008,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2026237666 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1601806513748870, guid: edf0a7f7034951a4abeab16b68f80656,
+    type: 2}
+  m_PrefabInternal: {fileID: 2026237665}
+--- !u!114 &2026237667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2026237666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca57053cc7610f940a11f315d2a32a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectible: {fileID: 1584952814091598, guid: 04da908c3b2358b408829fd2cae86026,
+    type: 2}
+  launchSpeed: 100
