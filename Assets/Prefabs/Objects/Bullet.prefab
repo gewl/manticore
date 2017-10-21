@@ -40,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1947742881152404}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.59, y: 1.5, z: 17.21039}
+  m_LocalPosition: {x: -6.2407537, y: -1.4999999, z: 16.943563}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -223,6 +223,10 @@ MonoBehaviour:
   firer: {fileID: 0}
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  enemyBulletCollisionParticles: {fileID: 1940228520169818, guid: 378107c854737224c9c76029e1589afc,
+    type: 2}
+  friendlyBulletCollisionParticles: {fileID: 1175951107517830, guid: 98ff1fd7e0cc04b4ea0a6a081431cc2e,
+    type: 2}
 --- !u!120 &120437426340101018
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -22,6 +22,14 @@ public class BasicBullet : MonoBehaviour {
     public Transform target;
     public Vector3 targetPosition;
 
+    const string ENEMY_BULLET = "EnemyBullet";
+    const string FRIENDLY_BULLET = "FriendlyBullet";
+
+    [SerializeField]
+    GameObject enemyBulletCollisionParticles;
+    [SerializeField]
+    GameObject friendlyBulletCollisionParticles;
+
 	void Start () {
         bulletRigidbody = GetComponent<Rigidbody>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -33,7 +41,9 @@ public class BasicBullet : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-		Destroy(gameObject);
+        Vector3 collisionPoint = collision.contacts[0].point;
+        Vector3 normal = collision.contacts[0].normal;
+        Impact(collisionPoint, normal);
     }
 
     void OnTriggerEnter(Collider other)
@@ -43,6 +53,20 @@ public class BasicBullet : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
+
+    void Impact(Vector3 point, Vector3 normal)
+    {
+        GameObject particleEffect;
+        if (gameObject.CompareTag(FRIENDLY_BULLET))
+        {
+            particleEffect = Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), null);
+        }
+        else
+        {
+            particleEffect = Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), null);
+        }
+        Destroy(gameObject);
+    }
 
     // If no new strength supplied, executes parry maintaining current strength.
     public void Parry(Transform newFirer, Vector3 targetPosition)
