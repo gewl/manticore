@@ -6,7 +6,7 @@ using UnityEngine;
 public class CollectibleSpawnerComponent : EntityComponent {
 
     [SerializeField]
-    GameObject collectible;
+    GlobalConstants.Collectibles collectible;
     [SerializeField]
     float launchSpeed;
 
@@ -22,13 +22,17 @@ public class CollectibleSpawnerComponent : EntityComponent {
 
     void OnDead()
     {
-        Vector3 playerDirection = (GameManager.GetPlayerPosition() - transform.position).normalized / 2f;
-        playerDirection.y = 1f;
+        if (GameManager.TryToRegisterCollectible(collectible))
+        {
+            Vector3 playerDirection = (GameManager.GetPlayerPosition() - transform.position).normalized / 2f;
+            playerDirection.y = 1f;
 
-        GameObject collectibleInstance = GameObject.Instantiate(collectible, transform.position, Quaternion.identity);
-        Rigidbody collectibleRigidbody = collectibleInstance.GetComponent<Rigidbody>();
+            GameObject collectiblePrefab = GameManager.RetrieveCollectiblePrefab(collectible);
+            GameObject collectibleInstance = GameObject.Instantiate(collectiblePrefab, transform.position, Quaternion.identity);
+            Rigidbody collectibleRigidbody = collectibleInstance.GetComponent<Rigidbody>();
 
-        collectibleRigidbody.AddForce(playerDirection * launchSpeed, ForceMode.Impulse);
-        collectibleRigidbody.AddTorque(Vector3.forward, ForceMode.Impulse);
+            collectibleRigidbody.AddForce(playerDirection * launchSpeed, ForceMode.Impulse);
+            collectibleRigidbody.AddTorque(Vector3.forward, ForceMode.Impulse);
+        }
     }
 }

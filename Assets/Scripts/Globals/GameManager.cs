@@ -1,17 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
-public static class GameManager {
+public class GameManager : SerializedMonoBehaviour {
+
+    static GameManager instance;
 
     // State
     static bool isPaused = false;
-    static IEnumerator freezeCoroutine;
+    public static bool[] collectibleTracker;
 
     // Player references
     static GameObject playerObject;
     static Transform playerTransform;
     static MobileEntityHealthComponent playerHealthManager;
+
+    [OdinSerialize]
+    Dictionary<GlobalConstants.GameFreezeEvent, int> gameFreezeTimers;
+    [OdinSerialize]
+    Dictionary<GlobalConstants.Collectibles, GameObject> collectiblePrefabs;
+
+    void Awake()
+    {
+        instance = this;
+        collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
+    }
 
     #region lazyload references
     static Camera _mainCamera;
@@ -28,20 +44,6 @@ public static class GameManager {
         }
     }
     
-    static GameManagerHelper _helper;
-    static GameManagerHelper helper
-    {
-        get
-        {
-            if (_helper == null)
-            {
-                _helper = Component.FindObjectOfType<GameManagerHelper>();
-            }
-
-            return _helper;
-        }
-    }
-
     static GameObject _hud;
     static GameObject hud
     {
@@ -78,7 +80,7 @@ public static class GameManager {
         {
             if (_cameraController == null)
             {
-                _cameraController = Camera.main.GetComponent<CameraController>();
+                _cameraController = mainCamera.GetComponent<CameraController>();
             }
 
             return _cameraController;
@@ -100,7 +102,46 @@ public static class GameManager {
     }
     #endregion
 
+
+    #region Collectible management
+
+    public static bool TryToRegisterCollectible(GlobalConstants.Collectibles collectible)
+    {
+        int collectibleInt = (int)collectible;
+
+        if (collectibleTracker[collectibleInt])
+        {
+            return false;
+        }
+        else
+        {
+            collectibleTracker[collectibleInt] = true;
+            return true;
+        }
+    }
+
+    public static void DeregisterCollectible(GlobalConstants.Collectibles collectible)
+    {
+        int collectibleInt = (int)collectible;
+        collectibleTracker[collectibleInt] = false;
+    }
+
+    public static GameObject RetrieveCollectiblePrefab(GlobalConstants.Collectibles collectible)
+    {
+        return instance.collectiblePrefabs[collectible];
+    }
+
+    #endregion
+
     #region Gamestate handlers
+
+    public static void HandleFreezeEvent(GlobalConstants.GameFreezeEvent freezeEvent)
+    {
+        int freezeFrameCount = instance.gameFreezeTimers[freezeEvent];
+        IEnumerator freezeCoroutine = CoroutineUtilities.PauseForFrames(freezeFrameCount);
+
+        instance.StartCoroutine(freezeCoroutine);
+    }
 
     public static void TogglePause()
     {
@@ -120,11 +161,6 @@ public static class GameManager {
             Time.timeScale = 1f;
             cameraController.RevertToOriginalProfile();
         }
-    }
-
-    public static void HandleFreezeEvent(GlobalConstants.GameFreezeEvent freezeEvent)
-    {
-        helper.FreezeFrame(freezeEvent);
     }
 
     #endregion
@@ -220,6 +256,6 @@ public static class GameManager {
             return mainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
     }
-    
+
     #endregion
 }

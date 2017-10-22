@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StaminaPillController : MonoBehaviour {
 
+    const GlobalConstants.Collectibles collectibleReference = GlobalConstants.Collectibles.StaminaPill;
+
     [SerializeField]
     float recoveryAmount;
     [SerializeField]
@@ -21,8 +23,8 @@ public class StaminaPillController : MonoBehaviour {
     GameObject collectionParticles;
 
     bool bouncing = true;
-    Collider collider;
-    Renderer renderer;
+    new Collider collider;
+    new Renderer renderer;
     float blinkPoint;
 
     void Awake()
@@ -44,6 +46,11 @@ public class StaminaPillController : MonoBehaviour {
         {
             renderer.enabled = true;
         }
+    }
+
+    void OnDestroy()
+    {
+        GameManager.DeregisterCollectible(collectibleReference);
     }
 
     IEnumerator PillLifecycle()

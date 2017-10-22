@@ -10,5 +10,9 @@ public static class GlobalConstants {
         EntityDead
     }
 
+    public enum Collectibles
+    {
+        StaminaPill 
+    }
 
 }

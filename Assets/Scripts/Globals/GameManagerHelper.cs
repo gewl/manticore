@@ -1,15 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
 public class GameManagerHelper : SerializedMonoBehaviour {
 
-    IEnumerator freezeCoroutine;
+    static IEnumerator freezeCoroutine;
+    public static bool[] collectibleTracker;
 
     [OdinSerialize]
     Dictionary<GlobalConstants.GameFreezeEvent, int> gameFreezeTimers;
+    [OdinSerialize]
+    Dictionary<GlobalConstants.Collectibles, GameObject> collectiblePrefabs;
+
+    void Awake()
+    {
+        collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
+    }
 
     public void FreezeFrame(GlobalConstants.GameFreezeEvent freezeEvent)
     {
@@ -19,18 +28,24 @@ public class GameManagerHelper : SerializedMonoBehaviour {
         StartCoroutine(freezeCoroutine);
     }
 
-    //IEnumerator Freeze(int freezeFrameCount)
-    //{
-    //    int frameCounter = 0;
-    //    Time.timeScale = 0f;
-    //    GameManager.MuteAllEmitters();
-    //    while (frameCounter < freezeFrameCount)
-    //    {
-    //        frameCounter++;
-    //        yield return new WaitForFixedUpdate();
-    //    }
-    //    Time.timeScale = 1f;
-    //    GameManager.UnmuteAllEmitters();
-    //}
+    public bool TryToRegisterCollectible(GlobalConstants.Collectibles collectible)
+    {
+        int collectibleInt = (int)collectible;
 
+        if (collectibleTracker[collectibleInt])
+        {
+            return false;
+        }
+        else
+        {
+            collectibleTracker[collectibleInt] = true;
+            return true;
+        }
+    }
+
+    public void DeregisterCollectible(GlobalConstants.Collectibles collectible)
+    {
+        int collectibleInt = (int)collectible;
+        collectibleTracker[collectibleInt] = false;
+    }
 }

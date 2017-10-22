@@ -106,7 +106,9 @@ public class ManticoreInputComponent : EntityComponent {
         }
         else
         {
-            Vector3 direction = new Vector3(horizontalKeyValue, 0, verticalKeyValue);
+            Vector3 horizontalMovement = new Vector3(1f, 0f, 1f) * horizontalKeyValue;
+            Vector3 verticalMovement = new Vector3(-1f, 0f, 1f) * verticalKeyValue;
+            Vector3 direction = horizontalMovement + verticalMovement;
             entityData.SetSoftAttribute(SoftEntityAttributes.CurrentDirection, direction);
             entityEmitter.EmitEvent(EntityEvents.DirectionChanged);
         }

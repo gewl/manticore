@@ -11,7 +11,9 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     float yDistance = 21f;
     [SerializeField]
-    float playerZOffset = -24f;
+    float playerXOffset = 15f;
+    [SerializeField]
+    float playerZOffset = -15f;
     [SerializeField]
     float smoothTime = 0.05f;
     [SerializeField]
@@ -27,6 +29,7 @@ public class CameraController : MonoBehaviour {
     void Update()
     {
         Vector3 playerPosition = GameManager.GetPlayerPosition();
+        playerPosition.x += playerXOffset;
         playerPosition.z += playerZOffset;
 
         Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
