@@ -7,9 +7,13 @@ public class RotateToFaceMouse : EntityComponent {
 
     Vector3 lastSafeRotation;
     bool rotationFrozen = false;
+    Camera mainCamera;
+    float cameraRotation;
 
     protected override void Subscribe()
     {
+        mainCamera = Camera.main;
+        cameraRotation = mainCamera.transform.rotation.eulerAngles.y;
         lastSafeRotation = Vector3.zero;
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
 
@@ -46,71 +50,19 @@ public class RotateToFaceMouse : EntityComponent {
             return;
         }
 
-        Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
-        if (mousePosition != Vector3.zero)
+        Vector2 relativeMousePosition = Input.mousePosition - mainCamera.WorldToScreenPoint(transform.position);
+        if (relativeMousePosition != Vector2.zero)
         {
-            mousePosition.y = 0f;
-            Vector3 characterToHitpoint = (mousePosition - transform.position).normalized;
-
-            UpdateBodyRotation(characterToHitpoint);
+            UpdateBodyRotation(relativeMousePosition);
 		}
     }
 
-	void UpdateBodyRotation(Vector3 normalizedMousePosition)
-	{
-        // "Facing" rotation
-        if (Mathf.Abs(normalizedMousePosition.y) > .01f) 
-        {
-            normalizedMousePosition = lastSafeRotation;
-        } 
-        else 
-        {
-			normalizedMousePosition.x = SnapValuesToBreakpoint(normalizedMousePosition.x);
-			normalizedMousePosition.z = SnapValuesToBreakpoint(normalizedMousePosition.z);
-			if (Mathf.Abs(normalizedMousePosition.x) == 0.7f)
-			{
-				normalizedMousePosition.z = Mathf.Sign(normalizedMousePosition.z) * 0.7f;
-			}
-			if (Mathf.Abs(normalizedMousePosition.z) == 0.7f)
-			{
-				normalizedMousePosition.x = Mathf.Sign(normalizedMousePosition.x) * 0.7f;
-			}
+    void UpdateBodyRotation(Vector2 mousePosition)
+    {
+        Vector3 newPosition = Quaternion.Euler(0f, cameraRotation, 0f) * new Vector3(mousePosition.x, GameManager.GetPlayerPosition().y, mousePosition.y);
 
-            lastSafeRotation = normalizedMousePosition;
-		}
-
-		// "Body" rotation
-		Vector3 tempRotation = transform.rotation.eulerAngles;
-        if (normalizedMousePosition.x > 0.1f)
-	    {
-	        tempRotation.z = -30f;
-	    } 
-        else if (normalizedMousePosition.x < -0.1f) 
-        {
-	        tempRotation.z = 30f;
-	    } 
-        else 
-        {
-	        tempRotation.z = 0f;
-	    }
-
-	    if (normalizedMousePosition.z > 0.1f) 
-        {
-	        tempRotation.x = -30f; 
-	    } 
-        else if (normalizedMousePosition.z < -0.1f)
-        {
-	        tempRotation.x = 30f; 
-	    } 
-        else 
-        {
-	        tempRotation.x = 0f; 
-	    }
-
-        transform.rotation = Quaternion.Euler(tempRotation);
-
-		transform.rotation = Quaternion.LookRotation(normalizedMousePosition);
-	}
+        transform.LookAt(newPosition);
+    }
 
     float SnapValuesToBreakpoint(float initialValue) {
 		float[] breakpoints = new float[4] { -1f, -.7f, .7f, 1f };

@@ -10,6 +10,7 @@ TagManager:
   - FriendlyBullet
   - EnemyBullet
   - HUD
+  - Ramp
   layers:
   - Default
   - TransparentFX

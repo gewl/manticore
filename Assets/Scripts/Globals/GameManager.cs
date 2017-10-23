@@ -18,6 +18,8 @@ public class GameManager : SerializedMonoBehaviour {
     static Transform playerTransform;
     static MobileEntityHealthComponent playerHealthManager;
 
+    static float entityFallSpeed = 30f;
+    static public float GetEntityFallSpeed { get { return entityFallSpeed; } }
     [OdinSerialize]
     Dictionary<GlobalConstants.GameFreezeEvent, int> gameFreezeTimers;
     [OdinSerialize]

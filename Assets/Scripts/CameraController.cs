@@ -20,10 +20,12 @@ public class CameraController : MonoBehaviour {
     float distanceToMouse = 0.3f;
 
     Vector3 dampVelocity = Vector3.zero;
+    Camera mainCamera;
 
     void Start()
     {
         postProcessingBehaviour = GetComponent<PostProcessingBehaviour>();
+        mainCamera = Camera.main;
     }
 
     void Update()
@@ -32,7 +34,7 @@ public class CameraController : MonoBehaviour {
         playerPosition.x += playerXOffset;
         playerPosition.z += playerZOffset;
 
-        Vector3 mousePosition = GameManager.GetMousePositionInWorldSpace();
+        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         Vector3 nextCameraPosition = Vector3.Lerp(playerPosition, mousePosition, distanceToMouse);
 

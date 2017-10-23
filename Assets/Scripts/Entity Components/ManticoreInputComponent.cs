@@ -115,4 +115,5 @@ public class ManticoreInputComponent : EntityComponent {
     }
 
     #endregion
+
 }

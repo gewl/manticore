@@ -36,7 +36,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     float currentRecoveryTimer;
     float currentDeathTimer;
     Material originalSkin;
-    bool isEnabled = false;
 
     enum Allegiance { Friendly, Enemy }
     [SerializeField]
@@ -71,7 +70,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     protected void OnEnable()
     {
         mainCamera = Camera.main;
-        isEnabled = true;
         initialHealth = currentHealth;
 
         // Instantiate attached health bar, assign values, then hide.
@@ -128,10 +126,6 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     public void OnCollisionEnter(Collision projectile)
     {
-        if (!isEnabled)
-        {
-            return;
-        }
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
         {
             // Get & deal damage.
@@ -152,7 +146,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             // Damage or kill depending on remaining health.
             if (invulnerableOnDamage)
             {
-                Invoke("SetInvulnerable", 0.3f);
+                Invoke("SetInvulnerable", recoveryTime - 0.1f);
             }
             if (currentHealth > 0)
             {
@@ -252,7 +246,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 // Once entity has recovered, disable physics and resume action.
                 meshRenderer.material = damagedSkin;
-                entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 if (isStunned)
                 {
                     entityEmitter.EmitEvent(EntityEvents.Unstun);
