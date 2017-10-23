@@ -8099,6 +8099,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  entityFallSpeed: 30
 --- !u!1 &1979713393
 GameObject:
   m_ObjectHideFlags: 0
@@ -8496,6 +8497,21 @@ Prefab:
         type: 2}
       propertyPath: currentHealth
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: currentMoveSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: isMoving
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}

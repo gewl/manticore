@@ -29,6 +29,7 @@ public class CubeCombatAIComponent : EntityComponent {
     float maximumMovementPause;
 
     float currentFireCooldown;
+    Transform currentTarget;
 
     protected override void Subscribe()
     {
@@ -113,7 +114,18 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void GenerateAndSetWaypoint()
     {
-        if (isChasing)
+        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+
+        if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f) 
+        {
+            Vector3 nextWaypoint = currentTarget.position;
+            nextWaypoint.y = transform.position.y;
+            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
+            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+        }
+        else if (isChasing)
         {
             Vector3 nextWaypoint = GenerateChaseMovementPosition();
             float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
@@ -140,7 +152,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     Vector3 GenerateChaseMovementPosition()
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
         Vector3 toTarget = currentTarget.position - transform.position;
         Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), attackRange * 2 / 3);
 

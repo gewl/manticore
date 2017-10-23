@@ -15,6 +15,8 @@ public class BasicWaypointMovementComponent : EntityComponent {
     float baseMoveSpeed;
     [SerializeField]
     float currentMoveSpeed;
+    bool isOnARamp = false;
+    bool isGrounded = false;
 
     private void OnEnable()
     {
@@ -24,7 +26,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnMove);
         entityEmitter.SubscribeToEvent(EntityEvents.ClearWaypoint, OnStop);
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnHurt);
@@ -34,7 +36,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.SetWaypoint, OnMove);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.ClearWaypoint, OnStop);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
@@ -42,8 +44,13 @@ public class BasicWaypointMovementComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnRecovered);
     }
 
-    void OnUpdate()
+    void OnFixedUpdate()
     {
+        if (!isOnARamp && !isGrounded)
+        {
+            entityData.EntityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
+            return;
+        }
         if (isMoving)
         {
             Vector3 nextWaypointPosition = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.NextWaypoint);
@@ -64,7 +71,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     void OnDead()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
     }
 
     void OnMove()
@@ -75,18 +82,45 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     void OnStop()
     {
-        isMoving = false;
-        base.entityData.EntityRigidbody.velocity = Vector3.zero;
-        currentMoveSpeed = 0f;
+        if (isGrounded)
+        {
+            isMoving = false;
+            base.entityData.EntityRigidbody.velocity = Vector3.zero;
+            currentMoveSpeed = 0f;
+        }
     }
 
     void OnHurt()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
     }
 
     void OnRecovered()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            isGrounded = true;
+        }
+        else if (collision.gameObject.CompareTag("Ramp"))
+        {
+            isOnARamp = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            isGrounded = false;
+        }
+        else if (collision.gameObject.CompareTag("Ramp"))
+        {
+            isOnARamp = false;
+        }
     }
 }

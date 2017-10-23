@@ -82,6 +82,7 @@ public class RotateToFaceTarget : EntityComponent {
         {
             lookPosition = nextWaypoint;
         }
+        lookPosition.y = transform.position.y;
         Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
         float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
