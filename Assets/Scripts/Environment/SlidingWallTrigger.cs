@@ -5,6 +5,7 @@ using UnityEngine;
 public class SlidingWallTrigger : MonoBehaviour {
 
     RoomController roomController;
+    bool isPlayerInside = false;
 
     void Awake()
     {
@@ -13,11 +14,19 @@ public class SlidingWallTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        roomController.RegisterEnterTrigger();
+        if (!isPlayerInside)
+        {
+            roomController.RegisterEnterTrigger();
+            isPlayerInside = true;
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
-        roomController.RegisterExitTrigger();
+        if (isPlayerInside)
+        {
+            roomController.RegisterExitTrigger();
+            isPlayerInside = false;
+        }
     }
 }
