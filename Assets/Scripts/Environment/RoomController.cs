@@ -6,6 +6,10 @@ public class RoomController : MonoBehaviour {
 
     [SerializeField]
     List<GameObject> wallList;
+    [SerializeField]
+    GameObject roof;
+
+    MeshRenderer roofRenderer;
 
     List<float> expandedWallScales;
     List<float> collapsedWallScales;
@@ -14,13 +18,15 @@ public class RoomController : MonoBehaviour {
 
     void Awake()
     {
+        roofRenderer = roof.GetComponent<MeshRenderer>();
+
         expandedWallScales = new List<float>();
         collapsedWallScales = new List<float>();
         for (int i = 0; i < wallList.Count; i++)
         {
             Transform wall = wallList[i].transform;
             expandedWallScales.Add(wall.localScale.z);
-            collapsedWallScales.Add(wall.localScale.z * 0.1f);
+            collapsedWallScales.Add(wall.localScale.z * 0.2f);
         }
     }
 
@@ -30,6 +36,7 @@ public class RoomController : MonoBehaviour {
 
         if (currentTriggerCount == 1)
         {
+            StartCoroutine(TransitionRoof(true));
             StartCoroutine(CollapseWalls());
         }
     }
@@ -40,17 +47,41 @@ public class RoomController : MonoBehaviour {
 
         if (currentTriggerCount == 0)
         {
+            StartCoroutine(TransitionRoof(false));
             StartCoroutine(ExpandWalls());
+        }
+    }
+
+    IEnumerator TransitionRoof(bool isFading)
+    {
+        Color originalColor = roofRenderer.material.color;
+        Color finalColor = originalColor;
+
+        finalColor.a = isFading ? 0f : 1f;
+
+        float transitionTime = GameManager.RoomTransitionTime;
+        AnimationCurve transitionCurve = GameManager.RoomTransitionCurve;
+
+        float timeElapsed = 0.0f;
+
+        while (timeElapsed < transitionTime)
+        {
+            timeElapsed += Time.deltaTime;
+
+            float percentageComplete = timeElapsed / transitionTime;
+
+            roofRenderer.material.color = Color.Lerp(originalColor, finalColor, transitionCurve.Evaluate(percentageComplete));
+            yield return null;
         }
     }
 
     IEnumerator CollapseWalls()
     {
-        float wallSlideTime = GameManager.WallSlideTime;
-        AnimationCurve wallSlideCurve = GameManager.WallSlideCurve;
+        float roomTransitionTime = GameManager.RoomTransitionTime;
+        AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallList.Count; i++)
         {
-            StartCoroutine(SlideWallDownward(i, wallSlideTime, wallSlideCurve));
+            StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -60,8 +91,6 @@ public class RoomController : MonoBehaviour {
         GameObject wall = wallList[wallIndex];
 
         Vector3 originalScale = wall.transform.localScale;
-        // TODO: This bases Z scaling off of another dimension (Y, arbitrarily) to fix problem of scaling being repeatedly applied.
-        // There has to be a better way to do this, as it's currently sliding walls multiple times, but additional slides are hidden.
         Vector3 finalScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, collapsedWallScales[wallIndex]);
 
         float timeElapsed = 0.0f;
@@ -79,11 +108,11 @@ public class RoomController : MonoBehaviour {
 
     IEnumerator ExpandWalls()
     {
-        float wallSlideTime = GameManager.WallSlideTime;
-        AnimationCurve wallSlideCurve =GameManager.WallSlideCurve;
+        float roomTransitionTime = GameManager.RoomTransitionTime;
+        AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallList.Count; i++)
         {
-            StartCoroutine(SlideWallUpward(i, wallSlideTime, wallSlideCurve));
+            StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
             yield return new WaitForSeconds(0.1f);
         }
     }

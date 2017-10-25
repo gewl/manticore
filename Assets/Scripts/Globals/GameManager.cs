@@ -264,12 +264,12 @@ public class GameManager : SerializedMonoBehaviour {
     #region Environment management 
 
     [SerializeField]
-    float wallSlideTime;
-    public static float WallSlideTime { get { return instance.wallSlideTime; } }
+    float roomTransitionTime;
+    public static float RoomTransitionTime { get { return instance.roomTransitionTime; } }
 
     [SerializeField]
-    AnimationCurve wallSlideCurve;
-    public static AnimationCurve WallSlideCurve { get { return instance.wallSlideCurve; } }
+    AnimationCurve roomTransitionCurve;
+    public static AnimationCurve RoomTransitionCurve { get { return instance.roomTransitionCurve; } }
 
     #endregion
 }

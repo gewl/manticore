@@ -83,7 +83,9 @@ public class BlinkComponent : EntityComponent
 
         // Get blink destination based on current movement.
         Vector3 currentDirection = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentDirection);
+        currentDirection.Normalize();
         Vector3 origin = transform.position;
+
         if (currentDirection == Vector3.zero)
         {
             currentDirection = transform.forward;
@@ -91,12 +93,15 @@ public class BlinkComponent : EntityComponent
 
         Vector3 destination;
 
+        Vector3 testClearPathOrigin = origin;
+        testClearPathOrigin.y -= entityData.EntityCollider.bounds.extents.y;
         // Check to see if blink can carry target to full range, or if 
         // something is in the way. Set destination accordingly.
         RaycastHit blinkTestHit = new RaycastHit();
-        if (Physics.Raycast(origin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
+        if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
         {
-            float distanceToHit = blinkTestHit.distance - entityData.EntityCollider.bounds.size.z / 2;
+            Debug.Log("Hit something!");
+            float distanceToHit = blinkTestHit.distance - entityData.EntityCollider.bounds.size.z;
             destination = origin + (currentDirection * distanceToHit);
         }
         else
