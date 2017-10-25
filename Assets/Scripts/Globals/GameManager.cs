@@ -105,7 +105,6 @@ public class GameManager : SerializedMonoBehaviour {
     }
     #endregion
 
-
     #region Collectible management
 
     public static bool TryToRegisterCollectible(GlobalConstants.Collectibles collectible)
@@ -259,6 +258,18 @@ public class GameManager : SerializedMonoBehaviour {
             return mainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
     }
+
+    #endregion
+
+    #region Environment management 
+
+    [SerializeField]
+    float wallSlideTime;
+    public static float WallSlideTime { get { return instance.wallSlideTime; } }
+
+    [SerializeField]
+    AnimationCurve wallSlideCurve;
+    public static AnimationCurve WallSlideCurve { get { return instance.wallSlideCurve; } }
 
     #endregion
 }

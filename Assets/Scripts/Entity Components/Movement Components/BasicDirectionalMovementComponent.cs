@@ -11,7 +11,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     LayerMask terrainMask;
     float distanceToGround;
     bool isOnARamp;
-    bool isGrounded;
+    int groundedCount = 0;
 
     float currentMoveSpeed;
     Vector3 currentDirection;
@@ -38,7 +38,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     void OnFixedUpdate()
     {
-        if (!isOnARamp && !isGrounded)
+        if (!isOnARamp && groundedCount == 0)
         {
             entityData.EntityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
@@ -51,7 +51,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     void OnStop()
     {
-        if (isGrounded)
+        if (groundedCount > 0)
         {
             ChangeVelocity(Vector3.zero, 0f);
         }
@@ -72,7 +72,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
-            isGrounded = true;
+            groundedCount++;
         }
         else if (collision.gameObject.CompareTag("Ramp"))
         {
@@ -84,7 +84,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
-            isGrounded = false;
+            groundedCount--;
         }
         else if (collision.gameObject.CompareTag("Ramp"))
         {

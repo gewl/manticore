@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour {
 
         Vector3 nextCameraPosition = Vector3.Lerp(playerPosition, mousePosition, distanceToMouse);
 
-        nextCameraPosition.y = yDistance;
+        nextCameraPosition.y = playerPosition.y + yDistance;
 
         transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
     }
