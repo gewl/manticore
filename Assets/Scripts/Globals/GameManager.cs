@@ -17,6 +17,7 @@ public class GameManager : SerializedMonoBehaviour {
     static GameObject playerObject;
     static Transform playerTransform;
     static MobileEntityHealthComponent playerHealthManager;
+    Plane playerPlane;
 
     [SerializeField]
     float entityFallSpeed = 30f;
@@ -30,6 +31,11 @@ public class GameManager : SerializedMonoBehaviour {
     {
         instance = this;
         collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
+    }
+
+    void Update()
+    {
+        playerPlane = new Plane(Vector3.up, playerTransform.position);
     }
 
     #region lazyload references
@@ -243,6 +249,24 @@ public class GameManager : SerializedMonoBehaviour {
     #endregion
 
     #region input data retrieval
+
+    public static Vector3 GetMousePositionOnPlayerPlane()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        float distance;
+        Vector3 relativeMousePosition;
+        if (instance.playerPlane.Raycast(ray, out distance))
+        {
+            relativeMousePosition = ray.GetPoint(distance);
+        }
+        else
+        {
+            relativeMousePosition = Vector3.zero;
+            relativeMousePosition.y = playerTransform.position.y;
+        }
+
+        return relativeMousePosition;
+    }
 
     public static Vector3 GetMousePositionInWorldSpace()
     {

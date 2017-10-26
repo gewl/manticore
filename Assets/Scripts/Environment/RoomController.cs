@@ -82,7 +82,7 @@ public class RoomController : MonoBehaviour {
         for (int i = 0; i < wallList.Count; i++)
         {
             StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
     }
 
@@ -113,7 +113,7 @@ public class RoomController : MonoBehaviour {
         for (int i = 0; i < wallList.Count; i++)
         {
             StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
     }
 

@@ -19,7 +19,9 @@ public class Parry : MonoBehaviour {
             return;
         }
         float parryDamage = parryComponent.ParryDamage;
-        bullet.Parry(transform, GameManager.GetMousePositionInWorldSpace(), parryDamage);
+
+        Vector3 aimPosition = GameManager.GetMousePositionOnPlayerPlane();
+        bullet.Parry(transform, aimPosition, parryDamage);
 
         parryComponent.SuccessfulParryHandler();
     }

@@ -9,9 +9,11 @@ public class RotateToFaceMouse : EntityComponent {
     bool rotationFrozen = false;
     Camera mainCamera;
     float cameraRotation;
+    Plane playerPlane;
 
     protected override void Subscribe()
     {
+        playerPlane = new Plane(transform.position, Vector3.up);
         mainCamera = Camera.main;
         cameraRotation = mainCamera.transform.rotation.eulerAngles.y;
         lastSafeRotation = Vector3.zero;
@@ -50,16 +52,15 @@ public class RotateToFaceMouse : EntityComponent {
             return;
         }
 
-        Vector2 relativeMousePosition = Input.mousePosition - mainCamera.WorldToScreenPoint(transform.position);
-        if (relativeMousePosition != Vector2.zero)
-        {
-            UpdateBodyRotation(relativeMousePosition);
-		}
+        Vector3 relativeMousePosition = GameManager.GetMousePositionOnPlayerPlane();
+
+        transform.LookAt(relativeMousePosition);
     }
 
     void UpdateBodyRotation(Vector2 mousePosition)
     {
         Vector3 newPosition = Quaternion.Euler(0f, cameraRotation, 0f) * new Vector3(mousePosition.x, GameManager.GetPlayerPosition().y, mousePosition.y);
+        Debug.DrawLine(transform.position, newPosition, Color.green, 0.1f);
 
         transform.LookAt(newPosition);
     }
