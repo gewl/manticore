@@ -44,12 +44,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     float initialHealth;
     bool isInvulnerable = false;
     bool isStunned = false;
-    // Used to slightly delay invulnerability so blasts go through.
-    void SetInvulnerable()
-    {
-        CancelInvoke();
-        isInvulnerable = true;
-    }
+    bool isDead = false;
 
     #region accessors
     public float CurrentHealth()
@@ -159,6 +154,13 @@ public class MobileEntityHealthComponent : EntityComponent {
 		}
     }
 
+    // Used to slightly delay invulnerability so blasts go through.
+    void SetInvulnerable()
+    {
+        CancelInvoke();
+        isInvulnerable = true;
+    }
+
     bool DoesBulletDamage(GameObject bullet)
     {
         if (entityAllegiance == Allegiance.Enemy)
@@ -204,6 +206,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     void Die(Collision killingProjectileCollision)
     {
+        isDead = true;
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
@@ -242,7 +245,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 currentRecoveryTimer -= Time.deltaTime;
                 yield return new WaitForFixedUpdate();
             }
-            else
+            else if (!isDead)
             {
                 // Once entity has recovered, disable physics and resume action.
                 meshRenderer.material = damagedSkin;
@@ -255,8 +258,8 @@ public class MobileEntityHealthComponent : EntityComponent {
                 {
                     isInvulnerable = false;
                 }
-                yield break;
             }
+            yield break;
         }
     }
 
