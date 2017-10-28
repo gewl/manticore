@@ -8372,6 +8372,16 @@ Prefab:
       propertyPath: currentHealth
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 54194332929628326, guid: acc5b33bcf989b5438c6533399e59f6c,
+        type: 2}
+      propertyPath: m_Drag
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114097191913748342, guid: acc5b33bcf989b5438c6533399e59f6c,
+        type: 2}
+      propertyPath: isMoving
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: acc5b33bcf989b5438c6533399e59f6c, type: 2}
   m_IsPrefabParent: 0

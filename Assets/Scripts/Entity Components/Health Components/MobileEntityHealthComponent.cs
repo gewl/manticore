@@ -215,6 +215,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         gameObject.layer = LayerMask.NameToLayer("DeadEntity");
         entityData.EntityRigidbody.useGravity = true;
+        entityData.EntityRigidbody.drag = 1f;
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
         entityData.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
         entityData.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
@@ -258,8 +259,12 @@ public class MobileEntityHealthComponent : EntityComponent {
                 {
                     isInvulnerable = false;
                 }
+                yield break;
             }
-            yield break;
+            else
+            {
+                yield break;
+            }
         }
     }
 
