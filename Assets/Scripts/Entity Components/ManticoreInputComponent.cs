@@ -10,13 +10,14 @@ public class ManticoreInputComponent : EntityComponent {
     // This will probably be lifted from a data class managed by the inventory
     // system later on, but we'll use serialized fields for the time being.
     [SerializeField]
-    float parryCost;
-    [SerializeField]
     float blinkCost;
+
+    ParryComponent parryComponent;
 
     void OnEnable()
     {
         staminaComponent = GetComponent<EntityStaminaComponent>();
+        parryComponent = GetComponent<ParryComponent>();
     }
 
     protected override void Subscribe()
@@ -72,6 +73,7 @@ public class ManticoreInputComponent : EntityComponent {
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            float parryCost = parryComponent.ParryCost;
             if (staminaComponent.TryToExpendStamina(parryCost))
             {
                 entityEmitter.EmitEvent(EntityEvents.Parry);

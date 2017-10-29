@@ -11,6 +11,9 @@ public class ParryComponent : EntityComponent {
     [SerializeField]
     float timeToCompleteParry;
     [SerializeField]
+    float parryCost = 30f;
+    public float ParryCost { get { return parryCost; } }
+    [SerializeField]
     float movementPenalty = 1f;
 
     [SerializeField]
@@ -175,6 +178,7 @@ public class ParryComponent : EntityComponent {
 
     void LimitEntityInParry()
     {
+        parryCost /= 2f;
         float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
         float adjustedMovementSpeed = currentMovementSpeed * movementPenalty;
         entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
@@ -185,6 +189,7 @@ public class ParryComponent : EntityComponent {
 
 	void UnlimitEntityAfterParry()
 	{
+        parryCost *= 2f;
 		float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
 		float restoredMovementSpeed = currentMovementSpeed / movementPenalty;
 		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
