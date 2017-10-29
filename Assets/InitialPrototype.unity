@@ -353,7 +353,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh12950
+  m_Name: pb_Mesh12956
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -5243,7 +5243,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -6784,7 +6784,7 @@ GameObject:
   - component: {fileID: 1348373994}
   - component: {fileID: 1348373993}
   - component: {fileID: 1348373992}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Ramp
   m_Icon: {fileID: 0}
@@ -8331,7 +8331,7 @@ Prefab:
       objectReference: {fileID: 1650193793}
     - target: {fileID: 1980302879845460, guid: acc5b33bcf989b5438c6533399e59f6c, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4173872451703318, guid: acc5b33bcf989b5438c6533399e59f6c, type: 2}
       propertyPath: m_LocalScale.x

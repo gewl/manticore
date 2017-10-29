@@ -100,9 +100,20 @@ public class BlinkComponent : EntityComponent
         RaycastHit blinkTestHit = new RaycastHit();
         if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
         {
-            Debug.Log("Hit something!");
-            float distanceToHit = blinkTestHit.distance - entityData.EntityCollider.bounds.size.z;
-            destination = origin + (currentDirection * distanceToHit);
+            GameObject hitTerrain = blinkTestHit.collider.gameObject;
+            // TODO: If forward cast intersects with a ramp, move player above the ramp so that they'll be put on it or on level that ramp leads up to (depending on
+            // how far Blink carries them). This can lead to a moment of "dropping" onto the ramp when the Blink is complete, so it could be made a little smoother.
+            if (hitTerrain.CompareTag("Ramp"))
+            {
+                destination = origin + (currentDirection * blinkRange);
+                float rampHeight = blinkTestHit.collider.bounds.size.y;
+                destination.y = destination.y + rampHeight + 0.01f;
+            }
+            else
+            {
+                float distanceToHit = blinkTestHit.distance - entityData.EntityCollider.bounds.size.z;
+                destination = origin + (currentDirection * distanceToHit);
+            }
         }
         else
         {
