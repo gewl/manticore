@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: e50842174c162874cb8a6725e14feece
+timeCreated: 1509408984
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: ColumnBuilding
+    100002: ColumnBuilding.001
+    100004: ColumnBuilding.002
+    100006: ColumnBuilding.003
+    100008: ColumnBuilding.004
+    100010: ColumnBuilding.005
+    100012: ColumnBuilding.006
+    100014: ColumnBuilding.007
+    100016: ColumnBuilding.008
+    100018: ColumnBuilding.009
+    100020: //RootNode
+    100022: CatwalkBuilding
+    100024: CatwalkLWall
+    100026: CatwalkRoof
+    100028: CatwalkRWall
+    100030: ColumnLWall
+    100032: ColumnRoof
+    100034: ColumnRWall
+    100036: Ground
+    100038: Ramp
+    400000: ColumnBuilding
+    400002: ColumnBuilding.001
+    400004: ColumnBuilding.002
+    400006: ColumnBuilding.003
+    400008: ColumnBuilding.004
+    400010: ColumnBuilding.005
+    400012: ColumnBuilding.006
+    400014: ColumnBuilding.007
+    400016: ColumnBuilding.008
+    400018: ColumnBuilding.009
+    400020: //RootNode
+    400022: CatwalkBuilding
+    400024: CatwalkLWall
+    400026: CatwalkRoof
+    400028: CatwalkRWall
+    400030: ColumnLWall
+    400032: ColumnRoof
+    400034: ColumnRWall
+    400036: Ground
+    400038: Ramp
+    2300000: ColumnBuilding
+    2300002: ColumnBuilding.001
+    2300004: ColumnBuilding.002
+    2300006: ColumnBuilding.003
+    2300008: ColumnBuilding.004
+    2300010: ColumnBuilding.005
+    2300012: ColumnBuilding.006
+    2300014: ColumnBuilding.007
+    2300016: ColumnBuilding.008
+    2300018: ColumnBuilding.009
+    2300020: CatwalkBuilding
+    2300022: CatwalkLWall
+    2300024: CatwalkRoof
+    2300026: CatwalkRWall
+    2300028: ColumnLWall
+    2300030: ColumnRoof
+    2300032: ColumnRWall
+    2300034: Ground
+    2300036: Ramp
+    3300000: ColumnBuilding
+    3300002: ColumnBuilding.001
+    3300004: ColumnBuilding.002
+    3300006: ColumnBuilding.003
+    3300008: ColumnBuilding.004
+    3300010: ColumnBuilding.005
+    3300012: ColumnBuilding.006
+    3300014: ColumnBuilding.007
+    3300016: ColumnBuilding.008
+    3300018: ColumnBuilding.009
+    3300020: CatwalkBuilding
+    3300022: CatwalkLWall
+    3300024: CatwalkRoof
+    3300026: CatwalkRWall
+    3300028: ColumnLWall
+    3300030: ColumnRoof
+    3300032: ColumnRWall
+    3300034: Ground
+    3300036: Ramp
+    4300000: ColumnBuilding.009
+    4300002: ColumnBuilding.008
+    4300004: ColumnBuilding.007
+    4300006: ColumnBuilding.006
+    4300008: ColumnBuilding.005
+    4300010: ColumnBuilding.004
+    4300012: ColumnBuilding.003
+    4300014: ColumnBuilding.002
+    4300016: ColumnBuilding.001
+    4300018: ColumnBuilding
+    4300020: Ground
+    4300022: CatwalkBuilding
+    4300024: CatwalkRoof
+    4300026: CatwalkRWall
+    4300028: CatwalkLWall
+    4300030: Ramp
+    4300032: ColumnRoof
+    4300034: ColumnRWall
+    4300036: ColumnLWall
+    6400000: ColumnBuilding
+    6400002: ColumnBuilding.001
+    6400004: ColumnBuilding.002
+    6400006: ColumnBuilding.003
+    6400008: ColumnBuilding.004
+    6400010: ColumnBuilding.005
+    6400012: ColumnBuilding.006
+    6400014: ColumnBuilding.007
+    6400016: ColumnBuilding.008
+    6400018: ColumnBuilding.009
+    6400020: CatwalkBuilding
+    6400022: CatwalkLWall
+    6400024: CatwalkRoof
+    6400026: CatwalkRWall
+    6400028: ColumnLWall
+    6400030: ColumnRoof
+    6400032: ColumnRWall
+    6400034: Ground
+    6400036: Ramp
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.2
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
