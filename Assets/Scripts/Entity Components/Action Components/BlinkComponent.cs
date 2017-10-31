@@ -101,13 +101,25 @@ public class BlinkComponent : EntityComponent
         if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
         {
             GameObject hitTerrain = blinkTestHit.collider.gameObject;
-            // TODO: If forward cast intersects with a ramp, move player above the ramp so that they'll be put on it or on level that ramp leads up to (depending on
-            // how far Blink carries them). This can lead to a moment of "dropping" onto the ramp when the Blink is complete, so it could be made a little smoother.
             if (hitTerrain.CompareTag("Ramp"))
             {
                 destination = origin + (currentDirection * blinkRange);
-                float rampHeight = blinkTestHit.collider.bounds.size.y;
-                destination.y = destination.y + rampHeight + 0.01f;
+                Vector3 rampTopBlinkPoint = destination;
+
+                rampTopBlinkPoint.y = blinkTestHit.collider.bounds.max.y + 1f;
+
+                Ray testRay = new Ray(rampTopBlinkPoint, -transform.up);
+                RaycastHit rampHeightHit = new RaycastHit();
+                if (Physics.Raycast(testRay, out rampHeightHit, terrainLayerMask))
+                {
+                    destination.y = rampHeightHit.point.y + entityData.EntityCollider.bounds.extents.y;
+                }
+                else
+                // If it doesn't find the top of the ramp, cancel blink for safety.
+                {
+                    Debug.Log("Top of ramp not found; canceling blink.");
+                    destination = transform.position;
+                }
             }
             else
             {

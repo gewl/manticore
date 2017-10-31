@@ -252,6 +252,10 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static Vector3 GetMousePositionOnPlayerPlane()
     {
+        if (playerTransform == null)
+        {
+            return Vector3.zero;     
+        }
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         float distance;
         Vector3 relativeMousePosition;

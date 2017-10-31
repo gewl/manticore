@@ -37,7 +37,7 @@ public class RoomController : MonoBehaviour {
         if (currentTriggerCount == 1)
         {
             StartCoroutine(TransitionRoof(true));
-            StartCoroutine(CollapseWalls());
+            CollapseWalls();
         }
     }
 
@@ -48,7 +48,7 @@ public class RoomController : MonoBehaviour {
         if (currentTriggerCount == 0)
         {
             StartCoroutine(TransitionRoof(false));
-            StartCoroutine(ExpandWalls());
+            ExpandWalls();
         }
     }
 
@@ -75,14 +75,13 @@ public class RoomController : MonoBehaviour {
         }
     }
 
-    IEnumerator CollapseWalls()
+    void CollapseWalls()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallList.Count; i++)
         {
             StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
-            yield return null;
         }
     }
 
@@ -106,14 +105,13 @@ public class RoomController : MonoBehaviour {
         }
     }
 
-    IEnumerator ExpandWalls()
+    void ExpandWalls()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallList.Count; i++)
         {
             StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
-            yield return null;
         }
     }
 

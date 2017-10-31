@@ -25,6 +25,8 @@ ModelImporter:
     100034: ColumnRWall
     100036: Ground
     100038: Ramp
+    100040: CatwalkBuilding.001
+    100042: CatwalkBackWall
     400000: ColumnBuilding
     400002: ColumnBuilding.001
     400004: ColumnBuilding.002
@@ -45,6 +47,8 @@ ModelImporter:
     400034: ColumnRWall
     400036: Ground
     400038: Ramp
+    400040: CatwalkBuilding.001
+    400042: CatwalkBackWall
     2300000: ColumnBuilding
     2300002: ColumnBuilding.001
     2300004: ColumnBuilding.002
@@ -64,6 +68,8 @@ ModelImporter:
     2300032: ColumnRWall
     2300034: Ground
     2300036: Ramp
+    2300038: CatwalkBuilding.001
+    2300040: CatwalkBackWall
     3300000: ColumnBuilding
     3300002: ColumnBuilding.001
     3300004: ColumnBuilding.002
@@ -83,6 +89,8 @@ ModelImporter:
     3300032: ColumnRWall
     3300034: Ground
     3300036: Ramp
+    3300038: CatwalkBuilding.001
+    3300040: CatwalkBackWall
     4300000: ColumnBuilding.009
     4300002: ColumnBuilding.008
     4300004: ColumnBuilding.007
@@ -102,6 +110,8 @@ ModelImporter:
     4300032: ColumnRoof
     4300034: ColumnRWall
     4300036: ColumnLWall
+    4300038: CatwalkBuilding.001
+    4300040: CatwalkBackWall
     6400000: ColumnBuilding
     6400002: ColumnBuilding.001
     6400004: ColumnBuilding.002
@@ -121,6 +131,8 @@ ModelImporter:
     6400032: ColumnRWall
     6400034: Ground
     6400036: Ramp
+    6400038: CatwalkBuilding.001
+    6400040: CatwalkBackWall
   materials:
     importMaterials: 1
     materialName: 0
