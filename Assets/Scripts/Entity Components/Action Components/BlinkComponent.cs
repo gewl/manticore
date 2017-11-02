@@ -11,7 +11,7 @@ public class BlinkComponent : EntityComponent
 	[SerializeField]
 	float timeToCompleteBlink;
     [SerializeField]
-	AnimationCurve blinkCompletionCurve;
+	AnimationCurve blinkCompletionCurve; 
 
     [SerializeField]
     LayerMask terrainLayerMask;
@@ -91,16 +91,41 @@ public class BlinkComponent : EntityComponent
             currentDirection = transform.forward;
         }
 
-        Vector3 destination;
+        Vector3 destination = GetBlinkDestination(origin, currentDirection);
 
+		float step = 0f;
+        float rate = 1 / timeToCompleteBlink;
+
+        while (step < 1f)
+        {
+            step += Time.deltaTime * rate;
+            float curvedStep = blinkCompletionCurve.Evaluate(step);
+
+			transform.position = Vector3.Lerp(origin, destination, curvedStep);
+            yield return new WaitForEndOfFrame();
+        }
+
+        // Exiting blink state
+        entityMeshRenderer.material = originalSkin;
+        trailRenderer.enabled = false;
+		entityEmitter.EmitEvent(EntityEvents.Unstun);
+		yield break;
+    }
+
+    Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)
+    {
         Vector3 testClearPathOrigin = origin;
         testClearPathOrigin.y -= entityData.EntityCollider.bounds.extents.y;
+        Vector3 destination;
+
         // Check to see if blink can carry target to full range, or if 
         // something is in the way. Set destination accordingly.
         RaycastHit blinkTestHit = new RaycastHit();
+
         if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
         {
             GameObject hitTerrain = blinkTestHit.collider.gameObject;
+
             if (hitTerrain.CompareTag("Ramp"))
             {
                 destination = origin + (currentDirection * blinkRange);
@@ -110,9 +135,23 @@ public class BlinkComponent : EntityComponent
 
                 Ray testRay = new Ray(rampTopBlinkPoint, -transform.up);
                 RaycastHit rampHeightHit = new RaycastHit();
+
+                // Projects a ray from above the ramp down, for blinking "up" the ramp.
                 if (Physics.Raycast(testRay, out rampHeightHit, terrainLayerMask))
                 {
                     destination.y = rampHeightHit.point.y + entityData.EntityCollider.bounds.extents.y;
+
+                    Vector3 directionToDestination = (destination - transform.position).normalized;
+
+                    RaycastHit rampPathHit = new RaycastHit();
+
+                    // If possible "blink up ramp" destination is found, checks again to see if any terrain
+                    // prohibits full length of blink.
+                    if (Physics.Raycast(origin, directionToDestination, out rampPathHit, blinkRange, terrainLayerMask))
+                    {
+                        float distanceToHit = rampPathHit.distance - entityData.EntityCollider.bounds.size.z;
+                        destination = origin + (directionToDestination * distanceToHit);
+                    }
                 }
                 else
                 // If it doesn't find the top of the ramp, cancel blink for safety.
@@ -132,22 +171,6 @@ public class BlinkComponent : EntityComponent
 			destination = origin + (currentDirection * blinkRange);
 		}
 
-		float step = 0f;
-        float rate = 1 / timeToCompleteBlink;
-
-        while (step < 1f)
-        {
-            step += Time.deltaTime * rate;
-            float curvedStep = blinkCompletionCurve.Evaluate(step);
-
-			transform.position = Vector3.Lerp(origin, destination, curvedStep);
-            yield return new WaitForEndOfFrame();
-        }
-
-        // Exiting blink state
-        entityMeshRenderer.material = originalSkin;
-        trailRenderer.enabled = false;
-		entityEmitter.EmitEvent(EntityEvents.Unstun);
-		yield break;
+        return destination;
     }
 }
