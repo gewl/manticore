@@ -402,7 +402,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318617371}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -364.5, y: 152, z: 1}
+  m_LocalPosition: {x: -364.5, y: 227, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1920643255}
@@ -487,6 +487,10 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &381218761 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100052, guid: e50842174c162874cb8a6725e14feece, type: 3}
+  m_PrefabInternal: {fileID: 624855832}
 --- !u!1 &432056318
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +670,7 @@ MonoBehaviour:
   - {fileID: 331594015}
   sectionsToHideWhenAreaFaded:
   - {fileID: 1518258261}
+  - {fileID: 381218761}
   playerInAreaFadeValue: 0
   areaFadedFadeValue: 0.3
   areasToFadeWhenActive: []
@@ -1498,7 +1503,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 581056428}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &822673428
 BoxCollider:
@@ -2986,7 +2991,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1637852425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -364.5, y: 128.98, z: 1}
+  m_LocalPosition: {x: -364.5, y: 203.98, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1413684358}
@@ -3167,7 +3172,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1650193789}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 382.5, y: 170, z: 0}
+  m_LocalPosition: {x: 382.5, y: 245, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 318617372}

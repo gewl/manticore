@@ -115,7 +115,7 @@ public class BlinkComponent : EntityComponent
     Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)
     {
         Vector3 testClearPathOrigin = origin;
-        testClearPathOrigin.y -= entityData.EntityCollider.bounds.extents.y;
+        testClearPathOrigin.y -= entityData.EntityCollider.bounds.extents.y / 2f;
         Vector3 destination;
 
         // Check to see if blink can carry target to full range, or if 
