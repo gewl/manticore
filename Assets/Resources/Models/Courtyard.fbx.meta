@@ -3,7 +3,7 @@ guid: e50842174c162874cb8a6725e14feece
 timeCreated: 1509408984
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: ColumnBuilding
     100002: ColumnBuilding.001
@@ -27,6 +27,11 @@ ModelImporter:
     100038: Ramp
     100040: CatwalkBuilding.001
     100042: CatwalkBackWall
+    100044: CatwalkInterior
+    100046: CatwalkBackLWall
+    100048: CatwalkBackRWall
+    100050: Courtyard
+    100052: CatwalkFloor
     400000: ColumnBuilding
     400002: ColumnBuilding.001
     400004: ColumnBuilding.002
@@ -49,6 +54,11 @@ ModelImporter:
     400038: Ramp
     400040: CatwalkBuilding.001
     400042: CatwalkBackWall
+    400044: CatwalkInterior
+    400046: CatwalkBackLWall
+    400048: CatwalkBackRWall
+    400050: Courtyard
+    400052: CatwalkFloor
     2300000: ColumnBuilding
     2300002: ColumnBuilding.001
     2300004: ColumnBuilding.002
@@ -70,6 +80,11 @@ ModelImporter:
     2300036: Ramp
     2300038: CatwalkBuilding.001
     2300040: CatwalkBackWall
+    2300042: CatwalkInterior
+    2300044: CatwalkBackLWall
+    2300046: CatwalkBackRWall
+    2300048: Courtyard
+    2300050: CatwalkFloor
     3300000: ColumnBuilding
     3300002: ColumnBuilding.001
     3300004: ColumnBuilding.002
@@ -91,6 +106,11 @@ ModelImporter:
     3300036: Ramp
     3300038: CatwalkBuilding.001
     3300040: CatwalkBackWall
+    3300042: CatwalkInterior
+    3300044: CatwalkBackLWall
+    3300046: CatwalkBackRWall
+    3300048: Courtyard
+    3300050: CatwalkFloor
     4300000: ColumnBuilding.009
     4300002: ColumnBuilding.008
     4300004: ColumnBuilding.007
@@ -112,6 +132,11 @@ ModelImporter:
     4300036: ColumnLWall
     4300038: CatwalkBuilding.001
     4300040: CatwalkBackWall
+    4300042: CatwalkInterior
+    4300044: CatwalkBackLWall
+    4300046: CatwalkBackRWall
+    4300048: Courtyard
+    4300050: CatwalkFloor
     6400000: ColumnBuilding
     6400002: ColumnBuilding.001
     6400004: ColumnBuilding.002
@@ -133,10 +158,22 @@ ModelImporter:
     6400036: Ramp
     6400038: CatwalkBuilding.001
     6400040: CatwalkBackWall
+    6400042: CatwalkInterior
+    6400044: CatwalkBackLWall
+    6400046: CatwalkBackRWall
+    6400048: Courtyard
+    6400050: CatwalkFloor
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 8766aacfada33b246846e4d07b07e740, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -149,6 +186,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

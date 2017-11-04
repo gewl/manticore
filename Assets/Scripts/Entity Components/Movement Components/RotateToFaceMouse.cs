@@ -5,18 +5,14 @@ using UnityEngine;
 
 public class RotateToFaceMouse : EntityComponent {
 
-    Vector3 lastSafeRotation;
     bool rotationFrozen = false;
     Camera mainCamera;
     float cameraRotation;
-    Plane playerPlane;
 
     protected override void Subscribe()
     {
-        playerPlane = new Plane(transform.position, Vector3.up);
         mainCamera = Camera.main;
         cameraRotation = mainCamera.transform.rotation.eulerAngles.y;
-        lastSafeRotation = Vector3.zero;
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
 
 		entityEmitter.SubscribeToEvent(EntityEvents.FreezeRotation, OnFreezeRotation);
@@ -60,7 +56,6 @@ public class RotateToFaceMouse : EntityComponent {
     void UpdateBodyRotation(Vector2 mousePosition)
     {
         Vector3 newPosition = Quaternion.Euler(0f, cameraRotation, 0f) * new Vector3(mousePosition.x, GameManager.GetPlayerPosition().y, mousePosition.y);
-        Debug.DrawLine(transform.position, newPosition, Color.green, 0.1f);
 
         transform.LookAt(newPosition);
     }
