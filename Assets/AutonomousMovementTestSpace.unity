@@ -125,7 +125,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4861664536778468, guid: b775d8aa37462a6428312659892f8a63, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861664536778468, guid: b775d8aa37462a6428312659892f8a63, type: 2}
       propertyPath: m_LocalPosition.z
@@ -208,6 +208,16 @@ Prefab:
       propertyPath: m_Name
       value: AutonomousMovementCube
       objectReference: {fileID: 0}
+    - target: {fileID: 114884341736685488, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
     - {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
@@ -230,7 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementBehaviors: 00000000
-  maximumSteeringForce: 10
+  maximumSteeringForce: 100
+  maxSpeed: 100
   currentTarget: {fileID: 1019395495}
 --- !u!1001 &302485438
 Prefab:
@@ -472,7 +483,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 35
+  orthographic size: 50
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

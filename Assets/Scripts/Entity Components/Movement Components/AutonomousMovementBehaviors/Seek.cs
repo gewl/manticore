@@ -8,6 +8,12 @@ public class Seek : AutonomousMovementBehavior {
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
-        return Vector3.zero;
+        Vector3 agentPosition = movementComponent.transform.position;
+        Vector3 targetPosition = movementComponent.currentTarget.position;
+
+        Vector3 toTarget = targetPosition - agentPosition;
+        toTarget = toTarget.normalized * movementComponent.maxSpeed;
+        Debug.DrawLine(agentPosition, targetPosition, Color.red, 0.1f);
+        return toTarget;
     }
 }

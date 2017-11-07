@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class HealthBarComponent : EntityComponent {
 
+    [SerializeField]
     Image healthBarContainer;
+
     Image healthBarBackground;
     Image healthBar;
-
-    [SerializeField]
     Image damageBar;
+
     [SerializeField]
     float damageBarAdjustmentTime = 1f;
     [SerializeField]

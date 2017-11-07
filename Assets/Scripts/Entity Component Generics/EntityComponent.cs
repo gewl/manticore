@@ -11,7 +11,7 @@ public abstract class EntityComponent : MonoBehaviour {
     protected EntityEmitter entityEmitter;
     protected EntityData entityData;
 
-    protected void Start()
+    protected virtual void Start()
     {
         Subscribe();
     }

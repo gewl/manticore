@@ -35,7 +35,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     void Update()
     {
-        playerPlane = new Plane(Vector3.up, playerTransform.position);
+        playerPlane = new Plane(Vector3.up, GetPlayerPosition());
     }
 
     #region lazyload references

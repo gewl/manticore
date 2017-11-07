@@ -26,7 +26,8 @@ public class AutonomousMovementComponent : EntityComponent {
     private SortedList<AutonomousMovementBehavior, int> activeMovementBehaviors;
 
     [SerializeField]
-    float maximumSteeringForce = 10f;
+    float maximumSteeringForce = 50f;
+    public float maxSpeed = 50f;
 
     public Transform currentTarget;
     Rigidbody entityRigidbody;
@@ -44,6 +45,13 @@ public class AutonomousMovementComponent : EntityComponent {
 
             activeMovementBehaviors.Add(behaviorToAdd, behaviorToAdd.Priority);
         }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        entityData.SetAttribute(EntityAttributes.CurrentTarget, currentTarget);
+        entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
     }
 
     protected override void Subscribe()
@@ -89,6 +97,8 @@ public class AutonomousMovementComponent : EntityComponent {
                 break;
             }
         }
+
+        entityRigidbody.AddForce(accumulatedForce);
     }
 
     #region Behavior collection management
