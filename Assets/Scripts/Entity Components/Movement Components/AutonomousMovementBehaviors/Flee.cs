@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Seek : AutonomousMovementBehavior {
+public class Flee : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 1; } set { } }
+    protected override int priority { get { return 2; } set { } }
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
         Vector3 agentPosition = movementComponent.transform.position;
         Vector3 targetPosition = movementComponent.currentTarget.position;
 
-        Vector3 toTarget = targetPosition - agentPosition;
-        toTarget = toTarget.normalized * movementComponent.maxSpeed;
-        return toTarget;
+        Vector3 fromTarget = agentPosition - targetPosition;
+        fromTarget = fromTarget.normalized * movementComponent.maxSpeed;
+        return fromTarget;
     }
 }

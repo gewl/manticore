@@ -156,6 +156,11 @@ Prefab:
       propertyPath: healthBarContainer
       value: 
       objectReference: {fileID: 86690884}
+    - target: {fileID: 114347844457368220, guid: b775d8aa37462a6428312659892f8a63,
+        type: 2}
+      propertyPath: attachedStaminaBar
+      value: 
+      objectReference: {fileID: 1570382097}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b775d8aa37462a6428312659892f8a63, type: 2}
   m_IsPrefabParent: 0
@@ -218,6 +223,11 @@ Prefab:
       propertyPath: m_Drag
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 54430278081559182, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
     - {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
@@ -239,10 +249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1206dc27b34fd1a43b444fb248b3bb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementBehaviors: 00000000
+  movementBehaviors: 01000000
   maximumSteeringForce: 100
   maxSpeed: 100
-  currentTarget: {fileID: 1019395495}
+  currentTarget: {fileID: 826001267}
 --- !u!1001 &302485438
 Prefab:
   m_ObjectHideFlags: 0
@@ -299,7 +309,7 @@ Prefab:
     - target: {fileID: 224501898744672768, guid: 2b8aa1f0e3b2c194d92f8f66d35ffbc2,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 383
+      value: 382.5
       objectReference: {fileID: 0}
     - target: {fileID: 224501898744672768, guid: 2b8aa1f0e3b2c194d92f8f66d35ffbc2,
         type: 2}
@@ -431,6 +441,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4317f649c131a0142b413d250a42e2b6, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &826001267 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4861664536778468, guid: b775d8aa37462a6428312659892f8a63,
+    type: 2}
+  m_PrefabInternal: {fileID: 12356970}
 --- !u!1 &921228428
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,15 +486,15 @@ Camera:
   m_GameObject: {fileID: 921228428}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: -100
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -504,13 +519,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 921228428}
-  m_LocalRotation: {x: 0.5320413, y: -0, z: -0, w: 0.84671843}
-  m_LocalPosition: {x: 0, y: 73, z: -40}
+  m_LocalRotation: {x: 0.31598538, y: -0.3596048, z: 0.13088542, w: 0.8681629}
+  m_LocalPosition: {x: 15, y: 9.92, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 64.287, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40, y: -45, z: 0}
 --- !u!1 &1019395494
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1019395495}
   m_Layer: 0
-  m_Name: SeekTarget
+  m_Name: TestTarget
   m_TagString: Untagged
   m_Icon: {fileID: 1654036009018553494, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -539,6 +554,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1570382097 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114331008965741164, guid: 2b8aa1f0e3b2c194d92f8f66d35ffbc2,
+    type: 2}
+  m_PrefabInternal: {fileID: 617368413}
+  m_Script: {fileID: 11500000, guid: c2e207d6cd8c46749ae31bacb6b5df0a, type: 3}
 --- !u!1001 &1889224309
 Prefab:
   m_ObjectHideFlags: 0

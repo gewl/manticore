@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class AutonomousMovementComponent : EntityComponent {
 
+    bool isOnARamp;
+    int groundedCount = 0;
+
     enum MovementBehaviorTypes
     {
         Seek,
@@ -56,12 +59,23 @@ public class AutonomousMovementComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, AccumulateForce);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, AccumulateForce);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+    }
+
+    void OnFixedUpdate()
+    {
+        if (!isOnARamp && groundedCount == 0)
+        {
+            entityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
+            return;
+        }
+
+        AccumulateForce();
     }
 
     AutonomousMovementBehavior GetMovementBehaviorClass(MovementBehaviorTypes behaviorType)
@@ -112,4 +126,28 @@ public class AutonomousMovementComponent : EntityComponent {
     }
 
     #endregion
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            groundedCount++;
+        }
+        else if (collision.gameObject.CompareTag("Ramp"))
+        {
+            isOnARamp = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        {
+            groundedCount--;
+        }
+        else if (collision.gameObject.CompareTag("Ramp"))
+        {
+            isOnARamp = false;
+        }
+    }
 }
