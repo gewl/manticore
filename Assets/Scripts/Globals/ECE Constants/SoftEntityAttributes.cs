@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public enum SoftEntityAttributes
+public enum EntityAttributes
 {
     CurrentHealth,
     BaseMoveSpeed,
@@ -16,27 +16,27 @@ public enum SoftEntityAttributes
 
 public static class SoftEntityAttributeTypes
 {
-    public static Type GetType(SoftEntityAttributes attribute)
+    public static Type GetType(EntityAttributes attribute)
     {
         switch (attribute)
         {
-            case SoftEntityAttributes.CurrentHealth:
+            case EntityAttributes.CurrentHealth:
                 return typeof(float);
-            case SoftEntityAttributes.BaseMoveSpeed:
+            case EntityAttributes.BaseMoveSpeed:
                 return typeof(float);
-            case SoftEntityAttributes.CurrentMoveSpeed:
+            case EntityAttributes.CurrentMoveSpeed:
                 return typeof(float);
-            case SoftEntityAttributes.IsAggroed:
+            case EntityAttributes.IsAggroed:
                 return typeof(bool);
-            case SoftEntityAttributes.NextWaypoint:
+            case EntityAttributes.NextWaypoint:
                 return typeof(Vector3);
-            case SoftEntityAttributes.CurrentTarget:
+            case EntityAttributes.CurrentTarget:
                 return typeof(Transform);
-            case SoftEntityAttributes.CurrentTargetPosition:
+            case EntityAttributes.CurrentTargetPosition:
                 return typeof(Vector3);
-            case SoftEntityAttributes.CurrentRotationSpeed:
+            case EntityAttributes.CurrentRotationSpeed:
                 return typeof(float);
-            case SoftEntityAttributes.CurrentDirection:
+            case EntityAttributes.CurrentDirection:
                 return typeof(Vector3);
             default:
                 return typeof(float);

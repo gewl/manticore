@@ -179,9 +179,9 @@ public class ParryComponent : EntityComponent {
     void LimitEntityInParry()
     {
         parryCost /= 2f;
-        float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+        float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
         float adjustedMovementSpeed = currentMovementSpeed * movementPenalty;
-        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
+        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
 
 		entityEmitter.EmitEvent(EntityEvents.Busy);
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
@@ -190,9 +190,9 @@ public class ParryComponent : EntityComponent {
 	void UnlimitEntityAfterParry()
 	{
         parryCost *= 2f;
-		float currentMovementSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+		float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
 		float restoredMovementSpeed = currentMovementSpeed / movementPenalty;
-		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
+		entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
 
 		entityEmitter.EmitEvent(EntityEvents.Available);
 		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);

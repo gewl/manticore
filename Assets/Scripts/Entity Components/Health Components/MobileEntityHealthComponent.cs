@@ -23,8 +23,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Transform floatingDamageText;
     [SerializeField]
-    Transform hud;
-    [SerializeField]
     GameObject unitHealthBarPrefab;
 
     GameObject unitHealthBarObject;
@@ -73,7 +71,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             Vector3 healthBarPosition = mainCamera.WorldToScreenPoint(transform.position);
             healthBarPosition.x -= 30f;
             healthBarPosition.y -= 30f;
-            Transform unitHealthBarParent = hud.Find("Unit Health Bars");
+            Transform unitHealthBarParent = GameManager.HUD.transform.Find("Unit Health Bars");
             unitHealthBarObject = Instantiate(unitHealthBarPrefab, healthBarPosition, Quaternion.identity, unitHealthBarParent);
             unitHealthBar = unitHealthBarObject.GetComponent<UnitHealthBar>();
             unitHealthBar.attachedUnit = transform;
@@ -131,7 +129,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             // Trigger floating damage text.
             Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
             damageTextPosition.y += 15f;
-            Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, hud);
+            Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
             instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
 
             // Expose & update attached health bar.

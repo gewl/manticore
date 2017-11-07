@@ -82,7 +82,7 @@ public class BlinkComponent : EntityComponent
 		yield return new WaitForSeconds(0.1f);
 
         // Get blink destination based on current movement.
-        Vector3 currentDirection = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentDirection);
+        Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);
         currentDirection.Normalize();
         Vector3 origin = transform.position;
 

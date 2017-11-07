@@ -35,7 +35,7 @@ public class StandardFirer : EntityComponent {
 
     void OnPrimaryFire()
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         FireProjectile(currentTarget);
     }
 

@@ -65,15 +65,15 @@ public class MiddleDistanceCombatMovementComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         Vector3 nextWaypoint = GenerateCombatMovementPosition();
-        entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
+        entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }
 
     public Vector3 GenerateCombatMovementPosition()
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 currentPositionDifference = entityData.EntityTransform.position - currentTarget.position;
 
         Vector3 tempWaypoint = currentPositionDifference.normalized;

@@ -54,7 +54,7 @@ public class GameManager : SerializedMonoBehaviour {
     }
     
     static GameObject _hud;
-    static GameObject hud
+    public static GameObject HUD
     {
         get
         {
@@ -157,14 +157,14 @@ public class GameManager : SerializedMonoBehaviour {
 
         if (isPaused)
         {
-            hud.SetActive(false);
+            HUD.SetActive(false);
             MuteAllEmitters();
             Time.timeScale = 0f;
             cameraController.ApplyPauseFilter();
         }
         else
         {
-            hud.SetActive(true);
+            HUD.SetActive(true);
             UnmuteAllEmitters();
             Time.timeScale = 1f;
             cameraController.RevertToOriginalProfile();

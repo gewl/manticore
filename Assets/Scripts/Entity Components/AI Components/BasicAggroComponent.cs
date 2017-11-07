@@ -19,7 +19,7 @@ public class BasicAggroComponent : EntityComponent {
         // about what sorts of entities will be composed in this system.
         // This makes the (reasonable) assumption that an entity with the aggro component can be 'aggroed'
         // from its initial state; still, it's a little bizarre.
-        entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, false);
+        entityData.SetAttribute(EntityAttributes.IsAggroed, false);
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
     }
@@ -43,9 +43,9 @@ public class BasicAggroComponent : EntityComponent {
 
     void SwitchToAggro()
     {
-		entityData.SetSoftAttribute(SoftEntityAttributes.CurrentTarget, GameManager.GetPlayerTransform());
+		entityData.SetAttribute(EntityAttributes.CurrentTarget, GameManager.GetPlayerTransform());
 		entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
-		entityData.SetSoftAttribute(SoftEntityAttributes.IsAggroed, true);
+		entityData.SetAttribute(EntityAttributes.IsAggroed, true);
 		entityEmitter.EmitEvent(EntityEvents.Aggro);
 
         Unsubscribe();

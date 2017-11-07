@@ -20,8 +20,8 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     private void OnEnable()
     {
-        entityData.SetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed, baseMoveSpeed);
-        entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
+        entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
+        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }
 
     protected override void Subscribe()
@@ -53,9 +53,9 @@ public class BasicWaypointMovementComponent : EntityComponent {
         }
         if (isMoving)
         {
-            Vector3 nextWaypointPosition = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.NextWaypoint);
+            Vector3 nextWaypointPosition = (Vector3)entityData.GetAttribute(EntityAttributes.NextWaypoint);
             Vector3 differenceBetweenPosition = (nextWaypointPosition - entityData.transform.position);
-            currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+            currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
             if (differenceBetweenPosition.magnitude <= 0.2f)
             {
                 entityEmitter.EmitEvent(EntityEvents.WaypointReached);
@@ -77,7 +77,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
     void OnMove()
     {
         isMoving = true;
-        currentMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed);
+        currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
     }
 
     void OnStop()

@@ -38,7 +38,7 @@ public class RotateToFaceTarget : EntityComponent {
 
     void OnSetWaypoint()
     {
-        nextWaypoint = (Vector3)entityData.GetSoftAttribute(SoftEntityAttributes.NextWaypoint);
+        nextWaypoint = (Vector3)entityData.GetAttribute(EntityAttributes.NextWaypoint);
     }
 
     void OnDead()
@@ -48,7 +48,7 @@ public class RotateToFaceTarget : EntityComponent {
 
     void OnTargetUpdated()
     {
-        Transform newTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Transform newTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         currentTarget = newTarget;
     }
 
@@ -59,7 +59,7 @@ public class RotateToFaceTarget : EntityComponent {
 
     void OnRecovered()
     {
-        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         if (currentTarget != null)
         {
             entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);

@@ -65,7 +65,7 @@ public class CubeCombatAIComponent : EntityComponent {
             TryToFirePrimary();
         }
 
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
 
         if (!isChasing && !IsInRange(currentTarget))
         {
@@ -101,7 +101,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void TryToFirePrimary()
     {
-        Transform currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
@@ -114,32 +114,32 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void GenerateAndSetWaypoint()
     {
-        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
 
         if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f) 
         {
             Vector3 nextWaypoint = currentTarget.position;
             nextWaypoint.y = transform.position.y;
-            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
         else if (isChasing)
         {
             Vector3 nextWaypoint = GenerateChaseMovementPosition();
-            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
         else
         {
             Vector3 nextWaypoint = GenerateCombatMovementPosition();
-            float baseMoveSpeed = (float)entityData.GetSoftAttribute(SoftEntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
-            entityData.SetSoftAttribute(SoftEntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetSoftAttribute(SoftEntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
@@ -152,7 +152,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     Vector3 GenerateChaseMovementPosition()
     {
-        currentTarget = (Transform)entityData.GetSoftAttribute(SoftEntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 toTarget = currentTarget.position - transform.position;
         Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), attackRange * 2 / 3);
 

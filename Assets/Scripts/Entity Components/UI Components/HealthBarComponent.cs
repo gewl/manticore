@@ -6,11 +6,8 @@ using UnityEngine.UI;
 
 public class HealthBarComponent : EntityComponent {
 
-    [SerializeField]
     Image healthBarContainer;
-    [SerializeField]
     Image healthBarBackground;
-    [SerializeField]
     Image healthBar;
 
     [SerializeField]
@@ -38,6 +35,10 @@ public class HealthBarComponent : EntityComponent {
         
         totalHealth = GameManager.GetPlayerInitialHealth();
         barWidth = totalHealth;
+
+        healthBarBackground = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
+        damageBar = healthBarContainer.transform.GetChild(1).GetComponent<Image>();
+        healthBar = healthBarContainer.transform.GetChild(2).GetComponent<Image>();
 
         healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
