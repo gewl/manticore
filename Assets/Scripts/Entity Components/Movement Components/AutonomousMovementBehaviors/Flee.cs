@@ -13,6 +13,6 @@ public class Flee : AutonomousMovementBehavior {
 
         Vector3 fromTarget = agentPosition - targetPosition;
         fromTarget = fromTarget.normalized * movementComponent.maxSpeed;
-        return fromTarget;
+        return fromTarget - movementComponent.CurrentVelocity;
     }
 }

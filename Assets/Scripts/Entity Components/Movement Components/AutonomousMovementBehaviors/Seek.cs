@@ -13,6 +13,6 @@ public class Seek : AutonomousMovementBehavior {
 
         Vector3 toTarget = targetPosition - agentPosition;
         toTarget = toTarget.normalized * movementComponent.maxSpeed;
-        return toTarget;
+        return toTarget - movementComponent.CurrentVelocity;
     }
 }

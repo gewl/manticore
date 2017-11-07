@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class AutonomousMovementComponent : EntityComponent {
 
-    bool isOnARamp;
-    int groundedCount = 0;
-
     enum MovementBehaviorTypes
     {
         Seek,
@@ -24,9 +21,18 @@ public class AutonomousMovementComponent : EntityComponent {
         OffsetPursuit
     }
 
+
     [SerializeField]
     private List<MovementBehaviorTypes> movementBehaviors;
     private SortedList<AutonomousMovementBehavior, int> activeMovementBehaviors;
+
+    // A number of the implementations of behaviors from the Buckland book involve some eyeball-y values for
+    // individual features—things like deceleration in Arrive, distance to hide behind things in Hide, etc.
+    // Rather than set up a bunch of situational cases to allow for this component tweaking individual behaviors at run-time,
+    // this is an attempt to establish a single (manipulable) value to account for all these specific traits, on the assumption that
+    // differing values correspond roughly to responsive/dextrous/graceful/precise vs. clumsy/sloppy/error-prone.
+    [Range(0, 5)]
+    public int Clumsiness = 3;
 
     [SerializeField]
     float maximumSteeringForce = 50f;
@@ -34,6 +40,10 @@ public class AutonomousMovementComponent : EntityComponent {
 
     public Transform currentTarget;
     Rigidbody entityRigidbody;
+    public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
+
+    bool isOnARamp;
+    int groundedCount = 0;
 
     protected override void Awake()
     {
