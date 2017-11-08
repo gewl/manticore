@@ -26,6 +26,10 @@ public class AutonomousMovementComponent : EntityComponent {
     private List<MovementBehaviorTypes> movementBehaviors;
     private SortedList<AutonomousMovementBehavior, int> activeMovementBehaviors;
 
+    [SerializeField]
+    float maximumSteeringForce = 50f;
+    public float maxSpeed = 50f;
+
     // A number of the implementations of behaviors from the Buckland book involve some eyeball-y values for
     // individual features—things like deceleration in Arrive, distance to hide behind things in Hide, etc.
     // Rather than set up a bunch of situational cases to allow for this component tweaking individual behaviors at run-time,
@@ -33,10 +37,10 @@ public class AutonomousMovementComponent : EntityComponent {
     // differing values correspond roughly to responsive/dextrous/graceful/precise vs. clumsy/sloppy/error-prone.
     [Range(0, 5)]
     public int Clumsiness = 3;
-
-    [SerializeField]
-    float maximumSteeringForce = 50f;
-    public float maxSpeed = 50f;
+    [Header("Wander Configuration")]
+    public float WanderDistance = 2f;
+    public float WanderRadius = 1f;
+    public float WanderJitter = 0.5f;
 
     public Transform currentTarget;
     Rigidbody entityRigidbody;
@@ -124,6 +128,7 @@ public class AutonomousMovementComponent : EntityComponent {
         }
 
         entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
+        entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);
     }
 
     #region Behavior collection management

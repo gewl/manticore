@@ -674,12 +674,12 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[0]
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: maximumSteeringForce
-      value: 200
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 54038971782702792, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -704,7 +704,22 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: maxSpeed
-      value: 20
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: WanderJitter
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: WanderDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: WanderRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
