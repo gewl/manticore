@@ -40,6 +40,7 @@ public class AutonomousMovementComponent : EntityComponent {
 
     public Transform currentTarget;
     Rigidbody entityRigidbody;
+    public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
 
     bool isOnARamp;
@@ -122,7 +123,7 @@ public class AutonomousMovementComponent : EntityComponent {
             }
         }
 
-        entityRigidbody.AddForce(accumulatedForce);
+        entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
     }
 
     #region Behavior collection management

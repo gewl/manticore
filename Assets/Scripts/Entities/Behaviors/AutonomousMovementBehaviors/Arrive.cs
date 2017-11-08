@@ -19,9 +19,9 @@ public class Arrive : AutonomousMovementBehavior {
             return Vector3.zero;
         }
 
-        int clumsiness = movementComponent.Clumsiness;
+        int deceleration = movementComponent.Clumsiness;
 
-        float speedToReachTarget = distanceToTarget / (clumsiness * 0.2f);
+        float speedToReachTarget = distanceToTarget / (deceleration * 0.2f);
 
         speedToReachTarget = Mathf.Min(speedToReachTarget, movementComponent.maxSpeed);
 
