@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Flee : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 2; } set { } }
-
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
         return FleeFromPosition(movementComponent.transform.position, movementComponent.currentTarget.position, movementComponent.maxSpeed, movementComponent.CurrentVelocity);

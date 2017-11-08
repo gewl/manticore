@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class AutonomousMovementComponent : EntityComponent {
 
@@ -21,10 +22,10 @@ public class AutonomousMovementComponent : EntityComponent {
         OffsetPursuit
     }
 
-
+    [Title("Behaviors dictating entity movement", "Sorted in decreasing order of priority")]
     [SerializeField]
     private List<MovementBehaviorTypes> movementBehaviors;
-    private SortedList<AutonomousMovementBehavior, int> activeMovementBehaviors;
+    private List<AutonomousMovementBehavior> activeMovementBehaviors;
 
     [SerializeField]
     float maximumSteeringForce = 50f;
@@ -55,13 +56,13 @@ public class AutonomousMovementComponent : EntityComponent {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
 
-        activeMovementBehaviors = new SortedList<AutonomousMovementBehavior, int>(new BehaviorComparer());
+        activeMovementBehaviors = new List<AutonomousMovementBehavior>();
 
         for (int i = 0; i < movementBehaviors.Count; i++)
         {
             AutonomousMovementBehavior behaviorToAdd = GetMovementBehaviorClass(movementBehaviors[i]);
 
-            activeMovementBehaviors.Add(behaviorToAdd, behaviorToAdd.Priority);
+            activeMovementBehaviors.Add(behaviorToAdd);
         }
     }
 
@@ -106,9 +107,9 @@ public class AutonomousMovementComponent : EntityComponent {
     {
         float magnitudeRemaining = maximumSteeringForce;
         Vector3 accumulatedForce = Vector3.zero;
-        foreach (KeyValuePair<AutonomousMovementBehavior, int> activeBehavior in activeMovementBehaviors)
+        for (int i = 0; i < activeMovementBehaviors.Count; i++)
         {
-            AutonomousMovementBehavior behavior = activeBehavior.Key;
+            AutonomousMovementBehavior behavior = activeMovementBehaviors[i];
 
             Vector3 resultantForce = behavior.CalculateForce(this);
 
@@ -130,18 +131,6 @@ public class AutonomousMovementComponent : EntityComponent {
         entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
         entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);
     }
-
-    #region Behavior collection management
-
-    internal class BehaviorComparer : IComparer<AutonomousMovementBehavior>
-    {
-        public int Compare (AutonomousMovementBehavior x, AutonomousMovementBehavior y)
-        {
-            return x.Priority.CompareTo(y.Priority);
-        }
-    }
-
-    #endregion
 
     void OnCollisionEnter(Collision collision)
     {

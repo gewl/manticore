@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Seek : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 1; } set { } }
-
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
         return SeekToPosition(movementComponent.transform.position, movementComponent.currentTarget.position, movementComponent.maxSpeed, movementComponent.CurrentVelocity);

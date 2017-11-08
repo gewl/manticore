@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Pursuit : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 4; } set { } }
-
     Transform target;
     Rigidbody targetRigidbody;
 

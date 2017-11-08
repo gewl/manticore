@@ -634,6 +634,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: movementBehaviors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -709,17 +714,37 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: WanderJitter
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: WanderDistance
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: WanderRadius
-      value: 3
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 65995089562843926, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65995089562843926, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: movementBehaviors.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569db6310c166544cb1bcece4fc13875, type: 2}

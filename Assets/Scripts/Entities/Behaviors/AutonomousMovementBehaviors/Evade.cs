@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Evade : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 1; } set { } }
-
     Transform target;
     Rigidbody targetRigidbody;
 

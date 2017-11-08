@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Arrive : AutonomousMovementBehavior {
 
-    protected override int priority { get { return 3; } set {  } }
-
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
         Vector3 agentPosition = movementComponent.transform.position;
