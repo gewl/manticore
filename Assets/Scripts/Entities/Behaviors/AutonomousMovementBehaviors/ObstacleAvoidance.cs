@@ -9,7 +9,7 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
     BoxCollider obstacleAvoidanceTrigger;
     const string obstacleAvoidanceTriggerName = "Obstacle Avoidance Trigger";
     const int obstacleAvoidanceTriggerLayer = 21;
-    const float brakingWeight = 1f;
+    const float brakingWeight = .2f;
 
     #region Collider management
     List<Collider> _taggedColliders;
