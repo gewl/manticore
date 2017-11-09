@@ -90,6 +90,12 @@ public class AutonomousMovementComponent : EntityComponent {
             entityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
         }
+        Vector3 toTarget = currentTarget.position - transform.position;
+        if (toTarget.sqrMagnitude < 0.1f)
+        {
+            entityRigidbody.velocity = Vector3.zero;
+            return;
+        }
 
         AccumulateForce();
     }
@@ -105,7 +111,6 @@ public class AutonomousMovementComponent : EntityComponent {
 
     void AccumulateForce()
     {
-        float magnitudeRemaining = maximumSteeringForce;
         Vector3 accumulatedForce = Vector3.zero;
         for (int i = 0; i < activeMovementBehaviors.Count; i++)
         {
@@ -114,19 +119,21 @@ public class AutonomousMovementComponent : EntityComponent {
             Vector3 resultantForce = behavior.CalculateForce(this);
 
             float magnitudeOfResultantForce = resultantForce.magnitude;
+            float remainingForce = maximumSteeringForce - accumulatedForce.magnitude;
 
-            if (magnitudeOfResultantForce < magnitudeRemaining)
+            if (magnitudeOfResultantForce <= remainingForce)
             {
-                magnitudeRemaining -= magnitudeOfResultantForce;
                 accumulatedForce += resultantForce;
             }
             else
             {
-                resultantForce = resultantForce.normalized * magnitudeRemaining;
+                resultantForce = Vector3.ClampMagnitude(resultantForce, remainingForce);
                 accumulatedForce += resultantForce;
                 break;
             }
         }
+
+        accumulatedForce.y = 0f;
 
         entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
         entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);

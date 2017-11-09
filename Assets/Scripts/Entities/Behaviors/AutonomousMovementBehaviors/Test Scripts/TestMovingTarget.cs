@@ -25,6 +25,11 @@ public class TestMovingTarget : MonoBehaviour {
     void SetVelocity()
     {
         Vector3 toTarget = targetWaypoint.position - transform.position;
+        if (toTarget.sqrMagnitude < 0.1f)
+        {
+            entityRigidbody.velocity = Vector3.zero;
+            return;
+        }
         toTarget = toTarget.normalized * speed;
         entityRigidbody.velocity = toTarget;
     }

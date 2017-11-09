@@ -12,7 +12,7 @@ public class Arrive : AutonomousMovementBehavior {
         Vector3 toTarget = targetPosition - agentPosition;
         float distanceToTarget = toTarget.magnitude;
 
-        if (distanceToTarget == 0)
+        if (distanceToTarget <= 0.1f)
         {
             return Vector3.zero;
         }
@@ -23,9 +23,9 @@ public class Arrive : AutonomousMovementBehavior {
 
         speedToReachTarget = Mathf.Min(speedToReachTarget, movementComponent.maxSpeed);
 
-        Vector3 forceToReachTarget = toTarget * speedToReachTarget / distanceToTarget;
+        Vector3 desiredVelocity = toTarget * speedToReachTarget / distanceToTarget;
 
-        return forceToReachTarget - movementComponent.CurrentVelocity;
+        return desiredVelocity - movementComponent.CurrentVelocity;
     }
 
 }

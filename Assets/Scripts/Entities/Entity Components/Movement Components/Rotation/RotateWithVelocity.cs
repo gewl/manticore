@@ -5,6 +5,8 @@ using UnityEngine;
 public class RotateWithVelocity : EntityComponent {
 
     Rigidbody entityRigidbody;
+    [SerializeField]
+    float damping = 1f;
 
     protected override void Awake()
     {
@@ -24,6 +26,10 @@ public class RotateWithVelocity : EntityComponent {
 
     void OnFixedUpdate()
     {
-        transform.rotation = Quaternion.LookRotation(entityRigidbody.velocity, Vector3.up);
+        if (entityRigidbody.velocity.sqrMagnitude >= 0.1f)
+        {
+            Quaternion nextRotation = Quaternion.LookRotation(entityRigidbody.velocity, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, nextRotation, Time.deltaTime * damping);
+        }
     }
 }

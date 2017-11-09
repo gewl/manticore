@@ -30,7 +30,7 @@ TagManager:
   - DeadEntity
   - PlayerCollectible
   - EnvironmentTrigger
-  - 
+  - ObstacleAvoidanceTrigger
   - 
   - 
   - 
