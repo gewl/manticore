@@ -43,7 +43,8 @@ public class AutonomousMovementComponent : EntityComponent {
     public float WanderRadius = 1f;
     public float WanderJitter = 0.5f;
 
-    public Transform currentTarget;
+    public Transform primaryTarget;
+    public Transform secondaryTarget;
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
@@ -69,7 +70,7 @@ public class AutonomousMovementComponent : EntityComponent {
     protected override void Start()
     {
         base.Start();
-        entityData.SetAttribute(EntityAttributes.CurrentTarget, currentTarget);
+        entityData.SetAttribute(EntityAttributes.CurrentTarget, primaryTarget);
         entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
     }
 
@@ -90,11 +91,14 @@ public class AutonomousMovementComponent : EntityComponent {
             entityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
         }
-        Vector3 toTarget = currentTarget.position - transform.position;
-        if (toTarget.sqrMagnitude < 0.1f)
+        if (primaryTarget != null)
         {
-            entityRigidbody.velocity = Vector3.zero;
-            return;
+            Vector3 toTarget = primaryTarget.position - transform.position;
+            if (toTarget.sqrMagnitude < 0.1f)
+            {
+                entityRigidbody.velocity = Vector3.zero;
+                return;
+            }
         }
 
         AccumulateForce();

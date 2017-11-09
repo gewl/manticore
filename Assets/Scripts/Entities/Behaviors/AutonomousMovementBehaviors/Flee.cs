@@ -6,7 +6,7 @@ public class Flee : AutonomousMovementBehavior {
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
-        return FleeFromPosition(movementComponent.transform.position, movementComponent.currentTarget.position, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
+        return FleeFromPosition(movementComponent.transform.position, movementComponent.primaryTarget.position, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
     }
 
     public Vector3 FleeFromPosition(Vector3 agentPosition, Vector3 targetPosition, float maximumSpeed, Vector3 currentVelocity)
