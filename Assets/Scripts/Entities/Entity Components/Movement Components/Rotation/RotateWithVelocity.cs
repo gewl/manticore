@@ -7,11 +7,24 @@ public class RotateWithVelocity : EntityComponent {
     Rigidbody entityRigidbody;
     [SerializeField]
     float damping = 1f;
+    [SerializeField]
+    bool isSmoothing = true;
+    [SerializeField]
+    int valuesToSmooth = 5;
+
+    int nextUpdateSlot;
+    Vector3[] cachedVelocities;
 
     protected override void Awake()
     {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
+        cachedVelocities = new Vector3[valuesToSmooth];
+
+        for (int i = 0; i < cachedVelocities.Length; i++)
+        {
+            cachedVelocities[i] = Vector3.zero;
+        }
     }
 
     protected override void Subscribe()
@@ -28,8 +41,35 @@ public class RotateWithVelocity : EntityComponent {
     {
         if (entityRigidbody.velocity.sqrMagnitude >= 0.1f)
         {
-            Quaternion nextRotation = Quaternion.LookRotation(entityRigidbody.velocity, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, nextRotation, Time.deltaTime * damping);
+            if (isSmoothing)
+            {
+                transform.rotation = Quaternion.LookRotation(smoothVelocity(entityRigidbody.velocity));
+            }
+            else
+            {
+                Quaternion nextRotation = Quaternion.LookRotation(entityRigidbody.velocity);
+                transform.rotation = nextRotation;
+            }
         }
+    }
+
+    Vector3 smoothVelocity(Vector3 mostRecentVelocity)
+    {
+        cachedVelocities[nextUpdateSlot++] = mostRecentVelocity;
+
+        if (nextUpdateSlot == cachedVelocities.Length)
+        {
+            nextUpdateSlot = 0;
+        }
+
+        Vector3 averagedVelocity = Vector3.zero;
+
+        for (int i = 0; i < valuesToSmooth; i++)
+        {
+            averagedVelocity += cachedVelocities[i];
+        }
+
+        averagedVelocity.y = 0f;
+        return averagedVelocity / valuesToSmooth;
     }
 }

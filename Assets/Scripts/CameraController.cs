@@ -11,13 +11,15 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     float yDistance = 21f;
     [SerializeField]
-    float playerXOffset = 15f;
+    float entityXOffset = 15f;
     [SerializeField]
-    float playerZOffset = -15f;
+    float entityZOffset = -15f;
     [SerializeField]
     float smoothTime = 0.05f;
     [SerializeField]
     float distanceToMouse = 0.3f;
+    [SerializeField]
+    Transform followEntity;
 
     Vector3 dampVelocity = Vector3.zero;
     Camera mainCamera;
@@ -26,19 +28,23 @@ public class CameraController : MonoBehaviour {
     {
         postProcessingBehaviour = GetComponent<PostProcessingBehaviour>();
         mainCamera = Camera.main;
+        if (followEntity == null)
+        {
+            followEntity = GameManager.GetPlayerTransform();
+        }
     }
 
     void Update()
     {
-        Vector3 playerPosition = GameManager.GetPlayerPosition();
-        playerPosition.x += playerXOffset;
-        playerPosition.z += playerZOffset;
+        Vector3 entityPosition = followEntity.position;
+        entityPosition.x += entityXOffset;
+        entityPosition.z += entityZOffset;
 
         Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 nextCameraPosition = Vector3.Lerp(playerPosition, mousePosition, distanceToMouse);
+        Vector3 nextCameraPosition = Vector3.Lerp(entityPosition, mousePosition, distanceToMouse);
 
-        nextCameraPosition.y = playerPosition.y + yDistance;
+        nextCameraPosition.y = entityPosition.y + yDistance;
 
         transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
     }
