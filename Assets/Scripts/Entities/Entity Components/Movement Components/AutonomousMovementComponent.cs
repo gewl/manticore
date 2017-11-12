@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 public class AutonomousMovementComponent : EntityComponent {
 
@@ -63,6 +64,12 @@ public class AutonomousMovementComponent : EntityComponent {
     [Header("Pursuit Configuration")]
     [HideInInspector]
     public Transform PursuitTarget;
+
+    [Header("Offset Pursuit Configuration")]
+    [HideInInspector]
+    public Transform OffsetPursuitTarget;
+    [OdinSerialize, HideInInspector]
+    public Vector3 PursuitOffset;
 
     [Header("Hide Configuration")]
     [HideInInspector]

@@ -2127,7 +2127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &304662953
 Transform:
   m_ObjectHideFlags: 0
@@ -5626,7 +5626,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5668,7 +5668,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[0]
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -5728,7 +5728,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[1]
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -5751,7 +5751,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1114247979830944, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114814141759186422, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -5768,6 +5768,16 @@ Prefab:
       propertyPath: secondaryTarget
       value: 
       objectReference: {fileID: 429798072}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: PursuitTarget
+      value: 
+      objectReference: {fileID: 1974271044}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: OffsetPursuitTarget
+      value: 
+      objectReference: {fileID: 1974271044}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
   m_IsPrefabParent: 0
@@ -13345,11 +13355,11 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -73.1
+      value: 28.9
       objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.y
@@ -13387,7 +13397,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[0]
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -13447,7 +13457,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[1]
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -13489,6 +13499,31 @@ Prefab:
       propertyPath: movementBehaviors.Array.data[2]
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: OffsetPursuitTarget
+      value: 
+      objectReference: {fileID: 1085550596}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: PursuitOffset.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: PursuitOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: PursuitOffset.z
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: ArriveTarget
+      value: 
+      objectReference: {fileID: 1085550596}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
   m_IsPrefabParent: 0

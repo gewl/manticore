@@ -9,10 +9,12 @@ public class AutonomousMovementComponentEditor : OdinEditor {
 
     SerializedProperty movementBehaviors;
     int behaviorsListSize;
+    AutonomousMovementComponent autonomousMovementComponent;
 
     protected override void OnEnable()
     {
         base.OnEnable();
+        autonomousMovementComponent = (AutonomousMovementComponent)target;
         movementBehaviors = serializedObject.FindProperty("movementBehaviors");
     }
 
@@ -81,6 +83,15 @@ public class AutonomousMovementComponentEditor : OdinEditor {
             case AutonomousMovementComponent.MovementBehaviorTypes.PathFollowing:
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.OffsetPursuit:
+                SerializedProperty offsetPursuitTarget = serializedObject.FindProperty("OffsetPursuitTarget");
+                EditorGUILayout.PropertyField(offsetPursuitTarget);
+
+                EditorGUI.BeginChangeCheck();
+                Vector3 pursuitOffset = EditorGUILayout.Vector3Field("Pursuit Offset:", autonomousMovementComponent.PursuitOffset);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    autonomousMovementComponent.PursuitOffset = pursuitOffset;
+                }
                 break;
             default:
                 break;
