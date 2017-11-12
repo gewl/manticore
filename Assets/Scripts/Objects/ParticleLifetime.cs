@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParticleLifetime : MonoBehaviour {
 
-    ParticleSystem particleSystem;
+    new ParticleSystem particleSystem;
 
     float duration;
     float timeElapsed = 0.0f;

@@ -58,15 +58,17 @@ public class BasicBullet : MonoBehaviour {
 
     void Impact(Vector3 point, Vector3 normal)
     {
-        GameObject particleEffect;
+        GameObject particlesToInstantiate;
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
-            particleEffect = Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            particlesToInstantiate = friendlyBulletCollisionParticles;
         }
         else
         {
-            particleEffect = Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            
+            particlesToInstantiate = enemyBulletCollisionParticles;
         }
+        Instantiate(particlesToInstantiate, point, Quaternion.Euler(normal), effectParent);
         Destroy(gameObject);
     }
 

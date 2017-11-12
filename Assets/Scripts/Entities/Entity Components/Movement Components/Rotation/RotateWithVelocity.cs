@@ -6,8 +6,6 @@ public class RotateWithVelocity : EntityComponent {
 
     Rigidbody entityRigidbody;
     [SerializeField]
-    float damping = 1f;
-    [SerializeField]
     bool isSmoothing = true;
     [SerializeField]
     int valuesToSmooth = 5;

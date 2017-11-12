@@ -23,9 +23,9 @@ public class Evade : AutonomousMovementBehavior {
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
-        if (movementComponent.primaryTarget != target)
+        if (movementComponent.EvadeTarget != target)
         {
-            target = movementComponent.primaryTarget;
+            target = movementComponent.EvadeTarget;
             targetRigidbody = target.GetComponent<Rigidbody>();
 
 #if UNITY_EDITOR

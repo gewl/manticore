@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 public class AutonomousMovementComponent : EntityComponent {
 
-    enum MovementBehaviorTypes
+    public enum MovementBehaviorTypes
     {
         Seek,
         Flee,
@@ -38,13 +38,48 @@ public class AutonomousMovementComponent : EntityComponent {
     // differing values correspond roughly to responsive/dextrous/graceful/precise vs. clumsy/sloppy/error-prone.
     [Range(0, 5)]
     public int Clumsiness = 3;
-    [Header("Wander Configuration")]
-    public float WanderDistance = 2f;
-    public float WanderRadius = 1f;
-    public float WanderJitter = 0.5f;
 
-    public Transform primaryTarget;
-    public Transform secondaryTarget;
+    [Header("Wander Configuration")]
+    [SerializeField, HideInInspector]
+    float wanderDistance = 2f;
+    public float WanderDistance { get { return wanderDistance; } }
+    [SerializeField, HideInInspector]
+    float wanderRadius = 1f;
+    public float WanderRadius { get { return wanderRadius; } }
+    [SerializeField, HideInInspector]
+    float wanderJitter = 0.5f;
+    public float WanderJitter { get { return wanderJitter; } }
+
+    [Header("Interpose Configuration")]
+    [HideInInspector]
+    public Transform PrimaryInterposeTarget;
+    [HideInInspector]
+    public Transform SecondaryInterposeTarget;
+
+    [Header("Seek Configuration")]
+    [HideInInspector]
+    public Transform SeekTarget;
+
+    [Header("Pursuit Configuration")]
+    [HideInInspector]
+    public Transform PursuitTarget;
+
+    [Header("Hide Configuration")]
+    [HideInInspector]
+    public Transform HideTarget;
+
+    [Header("Flee Configuration")]
+    [HideInInspector]
+    public Transform FleeTarget;
+
+    [Header("Evade Configuration")]
+    [HideInInspector]
+    public Transform EvadeTarget;
+
+    [Header("Arrive Configuration")]
+    [HideInInspector]
+    public Transform ArriveTarget;
+
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
@@ -70,7 +105,6 @@ public class AutonomousMovementComponent : EntityComponent {
     protected override void Start()
     {
         base.Start();
-        entityData.SetAttribute(EntityAttributes.CurrentTarget, primaryTarget);
         entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
     }
 
@@ -91,9 +125,9 @@ public class AutonomousMovementComponent : EntityComponent {
             entityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
         }
-        if (primaryTarget != null)
+        if (ArriveTarget != null)
         {
-            Vector3 toTarget = primaryTarget.position - transform.position;
+            Vector3 toTarget = ArriveTarget.position - transform.position;
             if (toTarget.sqrMagnitude < 0.1f)
             {
                 entityRigidbody.velocity = Vector3.zero;

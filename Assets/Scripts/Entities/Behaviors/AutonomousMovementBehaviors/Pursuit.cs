@@ -23,9 +23,9 @@ public class Pursuit : AutonomousMovementBehavior {
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
-        if (movementComponent.primaryTarget != target)
+        if (movementComponent.PursuitTarget != target)
         {
-            target = movementComponent.primaryTarget;
+            target = movementComponent.PursuitTarget;
             targetRigidbody = target.GetComponent<Rigidbody>();
 
 #if UNITY_EDITOR

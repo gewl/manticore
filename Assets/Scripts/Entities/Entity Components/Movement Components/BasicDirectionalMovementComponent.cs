@@ -18,7 +18,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     private void OnEnable()
     {
-        terrainMask = LayerMask.GetMask("Terrain");
+        terrainMask = LayerMask.NameToLayer("Terrain");
         distanceToGround = GetComponent<Collider>().bounds.extents.y + 0.05f;
         entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
         entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
@@ -70,7 +70,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        if (collision.gameObject.layer == terrainMask)
         {
             groundedCount++;
         }
@@ -82,7 +82,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        if (collision.gameObject.layer == terrainMask)
         {
             groundedCount--;
         }

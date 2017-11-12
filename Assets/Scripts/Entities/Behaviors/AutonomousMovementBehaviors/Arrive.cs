@@ -7,7 +7,7 @@ public class Arrive : AutonomousMovementBehavior {
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
         Vector3 agentPosition = movementComponent.transform.position;
-        Vector3 targetPosition = movementComponent.primaryTarget.position;
+        Vector3 targetPosition = movementComponent.ArriveTarget.position;
 
         Vector3 toTarget = targetPosition - agentPosition;
         int deceleration = movementComponent.Clumsiness;
@@ -15,7 +15,7 @@ public class Arrive : AutonomousMovementBehavior {
         return ArriveToPosition(toTarget, movementComponent.maxSpeed, movementComponent.CurrentVelocity, deceleration);
     }
 
-    public Vector3 ArriveToPosition(Vector3 toTarget, float maxSpeed, Vector3 currentVelocity, int deceleration = 3)
+    public Vector3 ArriveToPosition(Vector3 toTarget, float maxSpeed, Vector3 currentVelocity, int deceleration = 1)
     {
         float distanceToTarget = toTarget.magnitude;
         if (distanceToTarget <= 0.1f)
@@ -31,7 +31,6 @@ public class Arrive : AutonomousMovementBehavior {
         Vector3 desiredVelocity = toTarget * speedToReachTarget / distanceToTarget;
 
         return desiredVelocity - currentVelocity;
-        
     }
 
 }

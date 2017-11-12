@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Interpose : AutonomousMovementBehavior {
 
-    Transform primaryTarget;
-    Transform secondaryTarget;
+    Transform primaryInterposeTarget;
+    Transform secondaryInterposeTarget;
     Rigidbody primaryTargetRigidbody;
     Rigidbody secondaryTargetRigidbody;
 
@@ -25,21 +25,21 @@ public class Interpose : AutonomousMovementBehavior {
 
     public override Vector3 CalculateForce(AutonomousMovementComponent movementComponent)
     {
-        if (movementComponent.primaryTarget == null || movementComponent.secondaryTarget == null)
+        if (movementComponent.PrimaryInterposeTarget == null || movementComponent.SecondaryInterposeTarget == null)
         {
             return Vector3.zero;
         }
 
-        if (primaryTarget != movementComponent.primaryTarget || secondaryTarget != movementComponent.secondaryTarget)
+        if (primaryInterposeTarget != movementComponent.PrimaryInterposeTarget || secondaryInterposeTarget != movementComponent.SecondaryInterposeTarget)
         {
-            primaryTarget = movementComponent.primaryTarget;
-            secondaryTarget = movementComponent.secondaryTarget;
+            primaryInterposeTarget = movementComponent.PrimaryInterposeTarget;
+            secondaryInterposeTarget = movementComponent.SecondaryInterposeTarget;
 
-            primaryTargetRigidbody = primaryTarget.GetComponent<Rigidbody>();
-            secondaryTargetRigidbody = secondaryTarget.GetComponent<Rigidbody>();
+            primaryTargetRigidbody = primaryInterposeTarget.GetComponent<Rigidbody>();
+            secondaryTargetRigidbody = secondaryInterposeTarget.GetComponent<Rigidbody>();
         }
 
-        Vector3 targetMidpoint = CalculateInterposePoint(movementComponent, primaryTarget, secondaryTarget, primaryTargetRigidbody.velocity, secondaryTargetRigidbody.velocity);
+        Vector3 targetMidpoint = CalculateInterposePoint(movementComponent, primaryInterposeTarget, secondaryInterposeTarget, primaryTargetRigidbody.velocity, secondaryTargetRigidbody.velocity);
         Vector3 toTargetMidpoint = targetMidpoint - movementComponent.transform.position;
 
         return arrive.ArriveToPosition(toTargetMidpoint, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
