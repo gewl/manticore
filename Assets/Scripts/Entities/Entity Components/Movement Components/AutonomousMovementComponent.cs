@@ -51,6 +51,10 @@ public class AutonomousMovementComponent : EntityComponent {
     float wanderJitter = 0.5f;
     public float WanderJitter { get { return wanderJitter; } }
 
+    [Header("Path Following Configuration")]
+    [OdinSerialize]
+    public List<Transform> PathNodes;
+
     [Header("Interpose Configuration")]
     [HideInInspector]
     public Transform PrimaryInterposeTarget;

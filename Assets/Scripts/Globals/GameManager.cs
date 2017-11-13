@@ -39,6 +39,20 @@ public class GameManager : SerializedMonoBehaviour {
     }
 
     #region lazyload references
+    static Transform _terrain;
+    static Transform terrain
+    {
+        get
+        {
+            if (_terrain == null)
+            {
+                _terrain = GameObject.Find("Terrain").transform;
+            }
+
+            return _terrain;
+        }
+    }
+
     static Camera _mainCamera;
     static Camera mainCamera
     {
@@ -203,7 +217,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #endregion
 
-    #region player data retrieval
+    #region entity data retrieval
     public static GameObject GetPlayerObject()
     {
         return player;
@@ -245,6 +259,31 @@ public class GameManager : SerializedMonoBehaviour {
         }
 
         return playerHealthManager.CurrentHealth();
+    }
+
+    public static Transform GetHidingSpot(Transform agent, Transform target)
+    {
+        Vector3 agentPosition = agent.position;
+        Vector3 targetPosition = target.position;
+
+        Vector3 positionNearTarget = ((targetPosition * 2f) + targetPosition) / 3f;
+
+        float distanceFromObstacleToTarget = float.MaxValue;
+        Transform nearestObstacle = agent;
+
+        for (int i = 0; i < terrain.childCount; i++)
+        {
+            Transform obstacle = terrain.GetChild(i);
+            float sqrDistanceToPosition = (obstacle.position - positionNearTarget).sqrMagnitude;
+
+            if (sqrDistanceToPosition < distanceFromObstacleToTarget)
+            {
+                nearestObstacle = obstacle;
+                distanceFromObstacleToTarget = sqrDistanceToPosition;
+            }
+        }
+
+        return nearestObstacle;
     }
     #endregion
 

@@ -81,6 +81,8 @@ public class AutonomousMovementComponentEditor : OdinEditor {
                 EditorGUILayout.PropertyField(hideTarget);
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.PathFollowing:
+                SerializedProperty pathNodes = serializedObject.FindProperty("PathNodes");
+                EditorGUILayout.PropertyField(pathNodes);
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.OffsetPursuit:
                 SerializedProperty offsetPursuitTarget = serializedObject.FindProperty("OffsetPursuitTarget");
