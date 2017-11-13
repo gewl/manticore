@@ -266,7 +266,7 @@ public class GameManager : SerializedMonoBehaviour {
         Vector3 agentPosition = agent.position;
         Vector3 targetPosition = target.position;
 
-        Vector3 positionNearTarget = ((targetPosition * 2f) + targetPosition) / 3f;
+        Vector3 positionNearTarget = ((targetPosition * 2f) + agentPosition) / 3f;
 
         float distanceFromObstacleToTarget = float.MaxValue;
         Transform nearestObstacle = agent;

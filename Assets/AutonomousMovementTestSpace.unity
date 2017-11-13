@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.4964127, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -77,15 +77,17 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -107,6 +109,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1001 &12356970
 Prefab:
@@ -2127,7 +2131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &304662953
 Transform:
   m_ObjectHideFlags: 0
@@ -3927,7 +3931,7 @@ Prefab:
     - target: {fileID: 224501898744672768, guid: 2b8aa1f0e3b2c194d92f8f66d35ffbc2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 196.5
+      value: 197.5
       objectReference: {fileID: 0}
     - target: {fileID: 224501898744672768, guid: 2b8aa1f0e3b2c194d92f8f66d35ffbc2,
         type: 2}
@@ -5626,7 +5630,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.x
@@ -6319,7 +6323,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &921228432
 Transform:
   m_ObjectHideFlags: 0
@@ -13355,7 +13358,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4780784204639114, guid: 569db6310c166544cb1bcece4fc13875, type: 2}
       propertyPath: m_LocalPosition.x
@@ -13397,7 +13400,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[0]
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -13457,7 +13460,7 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: movementBehaviors.Array.data[1]
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
@@ -13522,6 +13525,11 @@ Prefab:
     - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
         type: 2}
       propertyPath: ArriveTarget
+      value: 
+      objectReference: {fileID: 1085550596}
+    - target: {fileID: 114909306464148696, guid: 569db6310c166544cb1bcece4fc13875,
+        type: 2}
+      propertyPath: HideTarget
       value: 
       objectReference: {fileID: 1085550596}
     m_RemovedComponents: []
@@ -14012,7 +14020,7 @@ MonoBehaviour:
     - Name: collectiblePrefabs
       Entry: 7
       Data: 1|System.Collections.Generic.Dictionary`2[[GlobalConstants+Collectibles,
-        Assembly-CSharp],[UnityEngine.GameObject, UnityEngine]], mscorlib
+        Assembly-CSharp],[UnityEngine.GameObject, UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -14535,6 +14543,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -14550,6 +14559,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
