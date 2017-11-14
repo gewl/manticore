@@ -2,40 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleAvoidance : AutonomousMovementBehavior {
+public class ObstacleAvoidance : AutonomousMovementBehavior, ITriggerBasedMovementBehavior {
 
     float minimumTriggerLength = 6f;
 
     BoxCollider obstacleAvoidanceTrigger;
     const string obstacleAvoidanceTriggerName = "Obstacle Avoidance Trigger";
-    const int obstacleAvoidanceTriggerLayer = 21;
-    const float brakingWeight = 0.2f;
+    const float brakingWeight = 0.3f;
 
     #region Collider management
-    List<Collider> _taggedColliders;
-    List<Collider> taggedColliders
+    HashSet<Collider> _taggedColliders;
+    HashSet<Collider> TaggedColliders
     {
         get
         {
             if (_taggedColliders == null)
             {
-                _taggedColliders = new List<Collider>();
+                _taggedColliders = new HashSet<Collider>();
             }
             return _taggedColliders;
         }
     }
 
-    public void RegisterCollider(Collider newCollider)
+    public void RegisterCollider(Collider collider)
     {
-        if (!taggedColliders.Contains(newCollider))
-        {
-            taggedColliders.Add(newCollider);
-        }
+        TaggedColliders.Add(collider);
     }
 
-    public void DeregisterCollider(Collider newCollider)
+    public void DeregisterCollider(Collider collider)
     {
-        taggedColliders.Remove(newCollider);
+        TaggedColliders.Remove(collider);
     }
     #endregion
 
@@ -48,7 +44,7 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
 
         UpdateTriggerSize(movementComponent.EntityRigidbody.velocity.magnitude, movementComponent.maxSpeed, movementComponent.transform);
 
-        if (taggedColliders.Count == 0)
+        if (TaggedColliders.Count == 0)
         {
             return Vector3.zero;
         }
@@ -58,12 +54,14 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
         // some inconsistency.
         Vector3 steeringForce = Vector3.zero;
         float avoidanceTriggerLength = obstacleAvoidanceTrigger.size.z;
-        Collider closestCollider = taggedColliders[0];
-        float closestZDistance = movementComponent.transform.InverseTransformPoint(closestCollider.transform.position).z;
+        Collider closestCollider = null;
+        float closestZDistance = float.MaxValue;
 
-        for (int i = 1; i < taggedColliders.Count; i++)
+        HashSet<Collider>.Enumerator colliderEnumerator = TaggedColliders.GetEnumerator();
+
+        while (colliderEnumerator.MoveNext())
         {
-            Collider collider = taggedColliders[i];
+            Collider collider = colliderEnumerator.Current;
             Transform colliderTransform = collider.transform;
 
             float zDistanceToCollider = movementComponent.transform.InverseTransformPoint(colliderTransform.position).z;
@@ -75,7 +73,7 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
             }
         }
 
-        float steeringWeight = 1f + (avoidanceTriggerLength - closestZDistance) / avoidanceTriggerLength;
+        float steeringWeight = 1.5f + (avoidanceTriggerLength - closestZDistance) / avoidanceTriggerLength;
         Vector3 relativePositionOfCollider = movementComponent.transform.InverseTransformPoint(closestCollider.transform.position);
 
         float effectiveObstacleRadius = closestCollider.bounds.extents.x;
@@ -99,9 +97,9 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
     {
         GameObject avoidanceTriggerContainer = new GameObject(obstacleAvoidanceTriggerName)
         {
-            layer = obstacleAvoidanceTriggerLayer
+            layer = LayerMask.NameToLayer("ObstacleAvoidanceTrigger")
         };
-        ObstacleAvoidanceTriggerController triggerController = avoidanceTriggerContainer.AddComponent<ObstacleAvoidanceTriggerController>();
+        MovementBehaviorTriggerController triggerController = avoidanceTriggerContainer.AddComponent<MovementBehaviorTriggerController>();
         triggerController.RegisterControllingBehavior(this);
 
         avoidanceTriggerContainer.transform.SetParent(parentObject.transform);
@@ -110,7 +108,7 @@ public class ObstacleAvoidance : AutonomousMovementBehavior {
 
         BoxCollider instantiatedTrigger = avoidanceTriggerContainer.AddComponent<BoxCollider>();
         instantiatedTrigger.isTrigger = true;
-        instantiatedTrigger.size = new Vector3(parentObject.transform.localScale.x * 1.2f, parentObject.transform.localScale.y * 0.8f, parentObject.transform.localScale.z);
+        instantiatedTrigger.size = new Vector3(parentObject.transform.localScale.x * 1.7f, parentObject.transform.localScale.y * 0.8f, parentObject.transform.localScale.z);
 
         return instantiatedTrigger;
     }

@@ -20,7 +20,11 @@ public class AutonomousMovementComponent : EntityComponent {
         Interpose,
         Hide,
         PathFollowing,
-        OffsetPursuit
+        OffsetPursuit,
+        Separation,
+        Alignment,
+        Flocking, 
+        Cohesion
     }
 
     [Title("Behaviors dictating entity movement", "Sorted in decreasing order of priority")]
@@ -90,6 +94,10 @@ public class AutonomousMovementComponent : EntityComponent {
     [Header("Arrive Configuration")]
     [HideInInspector]
     public Transform ArriveTarget;
+
+    [Header("Separation Configuration")]
+    [HideInInspector]
+    public float SeparationRadius;
 
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }

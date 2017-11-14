@@ -95,6 +95,16 @@ public class AutonomousMovementComponentEditor : OdinEditor {
                     autonomousMovementComponent.PursuitOffset = pursuitOffset;
                 }
                 break;
+            case AutonomousMovementComponent.MovementBehaviorTypes.Separation:
+                SerializedProperty separationRadius = serializedObject.FindProperty("SeparationRadius");
+                EditorGUILayout.PropertyField(separationRadius);
+                break;
+            case AutonomousMovementComponent.MovementBehaviorTypes.Flocking:
+                break;
+            case AutonomousMovementComponent.MovementBehaviorTypes.Cohesion:
+                break;
+            case AutonomousMovementComponent.MovementBehaviorTypes.Alignment:
+                break;
             default:
                 break;
         }
