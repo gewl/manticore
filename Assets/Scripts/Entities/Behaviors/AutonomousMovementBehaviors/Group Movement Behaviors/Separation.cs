@@ -10,27 +10,27 @@ public class Separation : AutonomousMovementBehavior, ITriggerBasedMovementBehav
     SphereCollider entityTrigger;
     
     #region Tagged neighbors management
-    HashSet<Transform> _taggedColliders;
-    HashSet<Transform> TaggedColliders
+    HashSet<Transform> _taggedNeighbors;
+    HashSet<Transform> TaggedNeighbors
     {
         get
         {
-            if (_taggedColliders == null)
+            if (_taggedNeighbors == null)
             {
-                _taggedColliders = new HashSet<Transform>();
+                _taggedNeighbors = new HashSet<Transform>();
             }
-            return _taggedColliders;
+            return _taggedNeighbors;
         }
     }
 
     public void RegisterCollider(Collider collider)
     {
-        TaggedColliders.Add(collider.transform);
+        TaggedNeighbors.Add(collider.transform);
     }
 
     public void DeregisterCollider(Collider collider)
     {
-        TaggedColliders.Remove(collider.transform);
+        TaggedNeighbors.Remove(collider.transform);
     }
     #endregion
 
@@ -44,7 +44,7 @@ public class Separation : AutonomousMovementBehavior, ITriggerBasedMovementBehav
         Vector3 agentPosition = movementComponent.transform.position;
         Vector3 steeringForce = Vector3.zero;
 
-        HashSet<Transform>.Enumerator colliderEnumerator = TaggedColliders.GetEnumerator();
+        HashSet<Transform>.Enumerator colliderEnumerator = TaggedNeighbors.GetEnumerator();
 
         while (colliderEnumerator.MoveNext())
         {

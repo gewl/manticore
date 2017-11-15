@@ -103,6 +103,10 @@ public class AutonomousMovementComponent : EntityComponent {
     [HideInInspector]
     public float AlignmentRadius;
 
+    [Header("Cohesion Configuration")]
+    [HideInInspector]
+    public float CohesionRadius;
+
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
