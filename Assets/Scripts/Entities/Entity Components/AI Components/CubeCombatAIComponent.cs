@@ -15,10 +15,6 @@ public class CubeCombatAIComponent : EntityComponent {
     [SerializeField]
     float attackRange;
 
-    //[SerializeField]
-    //float combatMoveSpeed;
-    //[SerializeField]
-    //float chaseMoveSpeed;
     [SerializeField]
     float combatMoveSpeedModifier = 1f;
     [SerializeField]
