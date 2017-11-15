@@ -2334,8 +2334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4602053b9ea234c924d1ebc8fc2c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 1
   invulnerableOnDamage: 1
-  currentHealth: 150
+  initialHealth: 210
   recoveryTime: 0.3
   timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: 6ed1f39f79d6b45c19960a4f8e62f0d3, type: 2}

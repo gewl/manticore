@@ -4,9 +4,11 @@ using UnityEngine;
 public class MobileEntityHealthComponent : EntityComponent {
 
     [SerializeField]
+    bool isPlayer = false;
+    [SerializeField]
     bool invulnerableOnDamage = false;
     [SerializeField]
-    float currentHealth;
+    float initialHealth;
     [SerializeField]
     float recoveryTime;
     [SerializeField]
@@ -39,7 +41,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Allegiance entityAllegiance = Allegiance.Enemy;
 
-    float initialHealth;
+    float currentHealth = -1;
     bool isInvulnerable = false;
     bool isStunned = false;
     bool isDead = false;
@@ -47,15 +49,15 @@ public class MobileEntityHealthComponent : EntityComponent {
     #region accessors
     public float CurrentHealth()
     {
+        if (currentHealth == -1)
+        {
+            currentHealth = initialHealth;
+        }
         return currentHealth;
     }
 
     public float InitialHealth()
     {
-        if (initialHealth == 0)
-        {
-            initialHealth = currentHealth;
-        }
         return initialHealth;
     }
     #endregion
@@ -63,7 +65,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     protected void OnEnable()
     {
         mainCamera = Camera.main;
-        initialHealth = currentHealth;
+        currentHealth = initialHealth;
 
         // Instantiate attached health bar, assign values, then hide.
         if (unitHealthBar == null)
@@ -117,6 +119,34 @@ public class MobileEntityHealthComponent : EntityComponent {
         isStunned = false;
     }
 
+    void LowerHealthAmount(float amountToLower)
+    {
+        currentHealth -= amountToLower;
+
+        if (isPlayer)
+        {
+            float healthPercentage = currentHealth / initialHealth;
+            if (!GameManager.IsPlayerLowHealth && healthPercentage <= 0.2f)
+            {
+                GameManager.SetIsPlayerLowHealth(true);
+            }
+        }
+    }
+
+    void RaiseHealthAmount(float amountToRaise)
+    {
+        currentHealth += amountToRaise;
+
+        if (isPlayer)
+        {
+            float healthPercentage = currentHealth / initialHealth;
+            if (GameManager.IsPlayerLowHealth && healthPercentage > 0.2f)
+            {
+                GameManager.SetIsPlayerLowHealth(false);
+            }
+        }
+    }
+
     public void OnCollisionEnter(Collision projectile)
     {
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
@@ -124,7 +154,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             // Get & deal damage.
             BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
             float damage = bullet.strength;
-            currentHealth -= damage;
+            LowerHealthAmount(damage);
 
             // Trigger floating damage text.
             Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
@@ -143,11 +173,11 @@ public class MobileEntityHealthComponent : EntityComponent {
             }
             if (currentHealth > 0)
             {
-                Damage(projectile);
+                RespondToDamage(projectile);
             }
             else
             {
-                Die(projectile);
+                RespondToDeath(projectile);
             }
 		}
     }
@@ -175,7 +205,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
     }
 
-    void Damage(Collision damagingProjectileCollision)
+    void RespondToDamage(Collision damagingProjectileCollision)
     {
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
@@ -199,10 +229,10 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Store original skin for lerping
         originalSkin = meshRenderer.material;
 
-        StartCoroutine("DamagedProcess");
+        StartCoroutine("HandleDamage");
     }
 
-    void Die(Collision killingProjectileCollision)
+    void RespondToDeath(Collision killingProjectileCollision)
     {
         isDead = true;
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityDead);
@@ -225,11 +255,11 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Store original skin for lerping
         originalSkin = meshRenderer.material;
 
-        StartCoroutine("DyingProcess");
+        StartCoroutine("HandleDeath");
 
     }
 
-    IEnumerator DamagedProcess()
+    IEnumerator HandleDamage()
     {
         entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)
@@ -266,7 +296,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
     }
 
-    IEnumerator DyingProcess()
+    IEnumerator HandleDeath()
     {
         entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)

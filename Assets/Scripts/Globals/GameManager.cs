@@ -13,6 +13,15 @@ public class GameManager : SerializedMonoBehaviour {
     static bool isPaused = false;
     public static bool[] collectibleTracker;
 
+    static bool isPlayerLowHealth = false;
+    public static bool IsPlayerLowHealth
+    {
+        get
+        {
+            return isPlayerLowHealth;
+        }
+    }
+
     // Player references
     static GameObject playerObject;
     static Transform playerTransform;
@@ -155,7 +164,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #endregion
 
-    #region Gamestate handlers
+    #region gamestate handlers
 
     public static void HandleFreezeEvent(GlobalConstants.GameFreezeEvent freezeEvent)
     {
@@ -183,6 +192,16 @@ public class GameManager : SerializedMonoBehaviour {
             Time.timeScale = 1f;
             cameraController.RevertToOriginalProfile();
         }
+    }
+
+    #endregion
+
+    #region gamestate data flags
+
+    public static void SetIsPlayerLowHealth(bool _isPlayerLowHealth)
+    {
+        Debug.Log("low health set");
+        isPlayerLowHealth = _isPlayerLowHealth;
     }
 
     #endregion
@@ -328,7 +347,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #endregion
 
-    #region Environment management 
+    #region environment management 
 
     [SerializeField]
     float roomTransitionTime;
