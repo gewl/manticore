@@ -71,7 +71,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     void TransmitPlayerAction()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Parry"))
         {
             float parryCost = parryComponent.ParryCost;
             if (staminaComponent.TryToExpendStamina(parryCost))

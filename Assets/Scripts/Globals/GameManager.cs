@@ -200,7 +200,6 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static void SetIsPlayerLowHealth(bool _isPlayerLowHealth)
     {
-        Debug.Log("low health set");
         isPlayerLowHealth = _isPlayerLowHealth;
     }
 

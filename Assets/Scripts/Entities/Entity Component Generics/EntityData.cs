@@ -50,7 +50,7 @@ public class EntityData : MonoBehaviour
     // Setter for soft attribute that checks input value against expected type for that attribute.
     public void SetAttribute(EntityAttributes attribute, object newValue)
     {
-        if (!object.ReferenceEquals(newValue.GetType(), SoftEntityAttributeTypes.GetType(attribute)))
+        if (!object.ReferenceEquals(newValue.GetType(), EntityAttributeTypes.GetType(attribute)))
         {
             Debug.Log("Tried to update SoftAttribute with invalid type.");
             Debug.Log("Attribute:");
@@ -58,7 +58,7 @@ public class EntityData : MonoBehaviour
             Debug.Log("Value:");
             Debug.Log(newValue);
             Debug.Log("Expected type:");
-            Debug.Log(SoftEntityAttributeTypes.GetType(attribute));
+            Debug.Log(EntityAttributeTypes.GetType(attribute));
             return;
         }
 

@@ -14,7 +14,7 @@ public enum EntityAttributes
     CurrentDirection
 }
 
-public static class SoftEntityAttributeTypes
+public static class EntityAttributeTypes
 {
     public static Type GetType(EntityAttributes attribute)
     {
