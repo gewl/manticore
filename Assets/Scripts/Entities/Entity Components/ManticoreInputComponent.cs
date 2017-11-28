@@ -6,6 +6,7 @@ using UnityEngine;
 public class ManticoreInputComponent : EntityComponent {
 
     EntityStaminaComponent staminaComponent;
+    EntityGearManagement gear;
 
     // This will probably be lifted from a data class managed by the inventory
     // system later on, but we'll use serialized fields for the time being.
@@ -18,6 +19,7 @@ public class ManticoreInputComponent : EntityComponent {
     {
         staminaComponent = GetComponent<EntityStaminaComponent>();
         parryComponent = GetComponent<ParryComponent>();
+        gear = GetComponent<EntityGearManagement>();
     }
 
     protected override void Subscribe()
@@ -86,9 +88,13 @@ public class ManticoreInputComponent : EntityComponent {
                 entityEmitter.EmitEvent(EntityEvents.Blink);
             }
         }
-        else if (Input.GetButtonDown("Nullify"))
+        else if (Input.GetButtonDown("UseGear_Slot1"))
         {
-            entityEmitter.EmitEvent(EntityEvents.Nullify);
+            int staminaCost = gear.StaminaCost_Slot1;
+            if (staminaComponent.TryToExpendStamina(staminaCost))
+            {
+                gear.UseGear_Slot1();
+            }
         }
     }
 

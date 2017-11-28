@@ -6,8 +6,8 @@ public interface IHardware
 {
     int BaseStaminaCost { get; }
     int UpdatedStaminaCost { get; }
-    
-    bool IsOnCooldown();
+    bool IsOnCooldown { get; }
+
     void UseActiveHardware();
 
     /// <summary>

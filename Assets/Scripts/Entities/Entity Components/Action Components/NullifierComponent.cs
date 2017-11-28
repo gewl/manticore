@@ -2,33 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NullifierComponent : EntityComponent {
+public class NullifierComponent : MonoBehaviour, IHardware {
 
-    [SerializeField]
+    private int baseStaminaCost = 40;
+    public int BaseStaminaCost
+    {
+        get
+        {
+            return baseStaminaCost;
+        }
+    }
+
+    private int updatedStaminaCost = 40;
+    public int UpdatedStaminaCost
+    {
+        get
+        {
+            return updatedStaminaCost;
+        }
+    }
+
+    private bool isOnCooldown = false;
+    public bool IsOnCooldown
+    {
+        get
+        {
+            return isOnCooldown;
+        }
+    }
+
     GameObject nullifyEffect;
-
-    [SerializeField]
-    float nullifyRadius = 5f;
-    [SerializeField]
-    float timeToComplete = 0.2f;
-    [SerializeField]
+    const string NULLIFY_PATH = "Prefabs/Abilities/NullifierEffect";
     Material nullifyMaterial;
-    [SerializeField]
-    AnimationCurve nullifyCurve;
+    const string NULLIFY_MATERIAL_PATH = "Materials/CharacterParts/Effects/NullifySkin";
 
-    protected override void Subscribe()
+    float cooldownTime = 2f;
+
+    float nullifyRadius = 8f;
+    float timeToComplete = 0.3f;
+
+    void OnEnable()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Nullify, OnNullify);
+        nullifyEffect = (GameObject)Resources.Load(NULLIFY_PATH);
+        nullifyMaterial = (Material)Resources.Load(NULLIFY_MATERIAL_PATH);
     }
 
-    protected override void Unsubscribe()
-    {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Nullify, OnNullify);
-    }
-    
-    void OnNullify()
+    public void UseActiveHardware()
     {
         StartCoroutine("FireNullifyEffect");
+    }
+
+    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    {
+
     }
 
     IEnumerator FireNullifyEffect()
@@ -45,7 +71,7 @@ public class NullifierComponent : EntityComponent {
             timeElapsed += Time.deltaTime;
 
             float percentageComplete = timeElapsed / timeToComplete;
-            float curveEval = nullifyCurve.Evaluate(percentageComplete);
+            float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
             yield return null;
@@ -53,5 +79,14 @@ public class NullifierComponent : EntityComponent {
 
         DestroyObject(spawnedNullification);
         yield break;
+    }
+
+    IEnumerator Cooldown()
+    {
+        isOnCooldown = true;
+
+        yield return new WaitForSeconds(cooldownTime);
+
+        isOnCooldown = false;
     }
 }

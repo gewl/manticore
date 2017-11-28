@@ -357,4 +357,13 @@ public class GameManager : SerializedMonoBehaviour {
     public static AnimationCurve RoomTransitionCurve { get { return instance.roomTransitionCurve; } }
 
     #endregion
+
+    // TODO: Between this and the environment management section above, this class is beginning to carry a lot of data
+    // for other classes that don't have access to inspector serialization. Should this data be moved to a specific class?
+    #region inventory management
+
+    [SerializeField]
+    AnimationCurve nullifyEffectCurve;
+    public static AnimationCurve NullifyEffectCurve { get { return instance.nullifyEffectCurve; } }
+    #endregion
 }
