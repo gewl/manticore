@@ -13,11 +13,16 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     bool isOnARamp;
     int groundedCount = 0;
 
+    Bounds entityBounds;
+
+    Vector3 currentVelocity;
+
     float currentMoveSpeed;
     Vector3 currentDirection;
 
     private void OnEnable()
     {
+        entityBounds = GetComponent<Collider>().bounds;
         terrainMask = LayerMask.NameToLayer("Terrain");
         distanceToGround = GetComponent<Collider>().bounds.extents.y + 0.05f;
         entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
@@ -40,14 +45,38 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (!isOnARamp && groundedCount == 0)
         {
-            entityData.EntityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
-            return;
+            ChangeVelocity(-Vector3.up, GameManager.GetEntityFallSpeed);
         }
-        Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);
-		float currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+        else
+        {
+            Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);
+            float currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
 
-		ChangeVelocity(currentDirection, currentMoveSpeed);
-	}
+            ChangeVelocity(currentDirection, currentMoveSpeed);
+        }
+
+        Vector3 projectedMovement = currentVelocity * Time.deltaTime;
+
+        if (isOnARamp)
+        {
+            Vector3 testPosition = transform.position + projectedMovement;
+            RaycastHit hit;
+            if (Physics.Raycast(testPosition, Vector3.down, out hit, terrainMask))
+            {
+                Vector3 newPosition = hit.point;
+                newPosition.y += entityBounds.extents.y;
+                transform.position = newPosition;
+            }
+            else
+            { 
+                transform.position += projectedMovement;
+            }
+        }
+        else
+        {
+            transform.position += projectedMovement;
+        }
+    }
 
     void OnStop()
     {
@@ -60,7 +89,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     void ChangeVelocity(Vector3 direction, float moveSpeed)
     {
 		direction.Normalize();
-        entityData.EntityRigidbody.velocity = direction * moveSpeed;
+        currentVelocity = direction * moveSpeed;
     }
 
     bool CheckIfGrounded()
@@ -74,7 +103,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         {
             groundedCount++;
         }
-        else if (collision.gameObject.CompareTag("Ramp"))
+        if (collision.gameObject.CompareTag("Ramp"))
         {
             isOnARamp = true;
         }
@@ -86,7 +115,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         {
             groundedCount--;
         }
-        else if (collision.gameObject.CompareTag("Ramp"))
+        if (collision.gameObject.CompareTag("Ramp"))
         {
             isOnARamp = false;
         }
