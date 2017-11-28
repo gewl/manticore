@@ -4,8 +4,21 @@ using UnityEngine;
 
 public interface IHardware
 {
-    int baseStaminaCost { get; }
+    int BaseStaminaCost { get; }
+    int UpdatedStaminaCost { get; }
+    
+    bool IsOnCooldown();
+    void UseActiveHardware();
 
-    void UseHardware();
-    void ApplyPassiveHardware();
+    /// <summary>
+    /// This universal 'ApplyPassiveHardware' member is called for any active hardware
+    /// on which the passive hardware bearing this interface is implemented.
+    /// </summary>
+    /// <param name="hardware">The type of (active) hardware on which this passive hardware is equipped.</param>
+    /// <param name="subject">The active-hardware-related object on which this hardware's passive effect is applied.</param>
+    /// <remarks>
+    /// What 'subject' refers to will depend on the hardware type.
+    /// e.g. a bullet for Parry hardware, spawnedNullification for Nullify hardware, or riposteTarget for Riposte.
+    /// </remarks>
+    void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject);
 }

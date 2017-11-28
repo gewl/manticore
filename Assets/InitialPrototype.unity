@@ -402,7 +402,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318617371}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -307.5, y: 126.5, z: 1}
+  m_LocalPosition: {x: -307, y: 144.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1920643255}
@@ -2987,7 +2987,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1637852425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -307.5, y: 103.479996, z: 1}
+  m_LocalPosition: {x: -307, y: 121.479996, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1413684358}
@@ -3168,7 +3168,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1650193789}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 325.5, y: 144.5, z: 0}
+  m_LocalPosition: {x: 325, y: 162.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 318617372}
@@ -3312,7 +3312,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3333,13 +3333,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734111140}
-  m_LocalRotation: {x: 0.31598538, y: -0.3596048, z: 0.13088542, w: 0.8681629}
-  m_LocalPosition: {x: 15, y: 9.92, z: -15}
+  m_LocalRotation: {x: 0.4409789, y: -0.33627686, z: 0.18265943, w: 0.8118442}
+  m_LocalPosition: {x: 12, y: 29, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 57.02, y: -45, z: 0}
 --- !u!114 &1734111146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3364,12 +3364,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseProfile: {fileID: 11400000, guid: 8033e91658d880c4baa025041ae8a45f, type: 2}
-  yDistance: 21
-  entityXOffset: 15
-  entityZOffset: -15
+  yDistance: 29
+  entityXOffset: 12
+  entityZOffset: -12
   smoothTime: 0.3
   distanceToMouse: 0.3
-  followEntity: {fileID: 0}
+  followEntity: {fileID: 1369184821}
 --- !u!1001 &1749467592
 Prefab:
   m_ObjectHideFlags: 0

@@ -33,11 +33,11 @@ public class NullifierComponent : EntityComponent {
 
     IEnumerator FireNullifyEffect()
     {
-        GameObject activeNullifyEffect = Instantiate(nullifyEffect, transform.position, Quaternion.identity);
-        activeNullifyEffect.GetComponent<MeshRenderer>().material = nullifyMaterial;
+        GameObject spawnedNullification = Instantiate(nullifyEffect, transform.position, Quaternion.identity);
+        spawnedNullification.GetComponent<MeshRenderer>().material = nullifyMaterial;
 
         float timeElapsed = 0.0f;
-        Vector3 originalSize = activeNullifyEffect.transform.localScale;
+        Vector3 originalSize = spawnedNullification.transform.localScale;
         Vector3 targetSize = new Vector3(nullifyRadius, 1f, nullifyRadius);
 
         while (timeElapsed < timeToComplete)
@@ -47,11 +47,11 @@ public class NullifierComponent : EntityComponent {
             float percentageComplete = timeElapsed / timeToComplete;
             float curveEval = nullifyCurve.Evaluate(percentageComplete);
 
-            activeNullifyEffect.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
+            spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
             yield return null;
         }
 
-        DestroyObject(activeNullifyEffect);
+        DestroyObject(spawnedNullification);
         yield break;
     }
 }
