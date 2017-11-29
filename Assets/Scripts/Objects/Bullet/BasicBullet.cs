@@ -41,11 +41,27 @@ public class BasicBullet : MonoBehaviour {
         UpdateSize();
 	}
 
+    void FixedUpdate()
+    {
+        if (bulletRigidbody.velocity.sqrMagnitude < 250f)
+        {
+            if (gameObject.CompareTag(FRIENDLY_BULLET))
+            {
+                Instantiate(friendlyBulletCollisionParticles, transform.position, Quaternion.identity, effectParent);
+            }
+            else
+            {
+                Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, effectParent);
+            }
+            Destroy(gameObject);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Vector3 collisionPoint = collision.contacts[0].point;
         Vector3 normal = collision.contacts[0].normal;
-        Impact(collisionPoint, normal);
+        Impact(collisionPoint, normal, collision.gameObject.layer);
     }
 
     void OnTriggerEnter(Collider other)
@@ -56,20 +72,20 @@ public class BasicBullet : MonoBehaviour {
 		}
 	}
 
-    void Impact(Vector3 point, Vector3 normal)
+    void Impact(Vector3 point, Vector3 normal, int collisionObjectLayer)
     {
-        GameObject particlesToInstantiate;
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
-            particlesToInstantiate = friendlyBulletCollisionParticles;
+            Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            if (collisionObjectLayer != 9) {
+                Destroy(gameObject);
+            }
         }
         else
         {
-            
-            particlesToInstantiate = enemyBulletCollisionParticles;
+            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            Destroy(gameObject);
         }
-        Instantiate(particlesToInstantiate, point, Quaternion.Euler(normal), effectParent);
-        Destroy(gameObject);
     }
 
     // If no new strength supplied, executes parry maintaining current strength.

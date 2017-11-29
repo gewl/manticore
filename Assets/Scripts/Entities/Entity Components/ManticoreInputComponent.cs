@@ -8,17 +8,9 @@ public class ManticoreInputComponent : EntityComponent {
     EntityStaminaComponent staminaComponent;
     EntityGearManagement gear;
 
-    // This will probably be lifted from a data class managed by the inventory
-    // system later on, but we'll use serialized fields for the time being.
-    [SerializeField]
-    float blinkCost;
-
-    ParryComponent parryComponent;
-
     void OnEnable()
     {
         staminaComponent = GetComponent<EntityStaminaComponent>();
-        parryComponent = GetComponent<ParryComponent>();
         gear = GetComponent<EntityGearManagement>();
     }
 
@@ -75,26 +67,27 @@ public class ManticoreInputComponent : EntityComponent {
     {
         if (Input.GetButtonDown("Parry"))
         {
-            float parryCost = parryComponent.ParryCost;
-            if (staminaComponent.TryToExpendStamina(parryCost))
-            {
-                entityEmitter.EmitEvent(EntityEvents.Parry);
-            }
+            IHardware parryGear = gear.ParryGear;
+            UseGear(parryGear);
         }
         else if (Input.GetButtonDown("Blink"))
         {
-            if (staminaComponent.TryToExpendStamina(blinkCost))
-            {
-                entityEmitter.EmitEvent(EntityEvents.Blink);
-            }
+            IHardware blinkGear = gear.BlinkGear;
+            UseGear(blinkGear);
         }
         else if (Input.GetButtonDown("UseGear_Slot1"))
         {
-            int staminaCost = gear.StaminaCost_Slot1;
-            if (staminaComponent.TryToExpendStamina(staminaCost))
-            {
-                gear.UseGear_Slot1();
-            }
+            IHardware gear_slot1 = gear.EquippedGear_Slot1;
+            UseGear(gear_slot1);
+        }
+    }
+
+    void UseGear(IHardware gear)
+    {
+        int staminaCost = gear.UpdatedStaminaCost;
+        if (!gear.IsOnCooldown && staminaComponent.TryToExpendStamina(staminaCost))
+        {
+            gear.UseActiveHardware();
         }
     }
 

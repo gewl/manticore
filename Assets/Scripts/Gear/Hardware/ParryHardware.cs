@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParryComponent : EntityComponent {
+public class ParryHardware : EntityComponent, IHardware {
 
     [SerializeField]
     float parryDamage = 50f;
@@ -11,14 +11,20 @@ public class ParryComponent : EntityComponent {
     [SerializeField]
     float timeToCompleteParry;
     [SerializeField]
-    float parryCost = 30f;
-    public float ParryCost { get { return parryCost; } }
+    int parryStaminaCost = 30;
+    public int BaseStaminaCost { get { return parryStaminaCost; } }
+    public int UpdatedStaminaCost { get { return parryStaminaCost; } }
     [SerializeField]
     float movementPenalty = 1f;
 
     [SerializeField]
     GameObject parryBox;
     public AnimationCurve swingCurve;
+
+    bool isOnCooldown = false;
+    public bool IsOnCooldown { get { return isOnCooldown; } }
+    bool inComboWindow = false;
+    bool isInParry = false;
 
     // How quickly user has to chain inputs.
 	[SerializeField]
@@ -46,36 +52,41 @@ public class ParryComponent : EntityComponent {
 		parryBox.transform.localPosition = parryReadyPosition;
 		parryBox.transform.localRotation = parryReadyRotation;
 		parryBox.SetActive(false);
-        entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
 	}
 
     protected override void Unsubscribe()
     {
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_Ready);
 	}
 
     #region EventListeners
 
-    // Listener for Parry event received while in Ready state (has not yet parried).
-    void OnParry_Ready()
+    public void UseActiveHardware()
     {
-        Unsubscribe();
-		StartCoroutine("ForwardParry"); 
+        if (inComboWindow)
+        {
+            inComboWindow = false;
+            if (isInParry)
+            {
+                parryQueued = true;
+            }
+            else
+            {
+                StartCoroutine("BackwardParry");
+            }
+            isOnCooldown = true;
+        }
+        else
+        {
+            StartCoroutine("ForwardParry");
+        }
     }
 
-	void OnParry_DuringParry()
-	{
-        parryQueued = true;
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_DuringParry);
-	}
+    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    {
+        Debug.LogError("Trying to apply Parry passively.");
+    }
 
-	void OnParry_AfterFirstParry()
-	{
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-        StartCoroutine("BackwardParry");
-	}
-
+    // Listener for Parry event received while in Ready state (has not yet parried).
 	void OnUpdate_AfterFirstParry()
     {
         if (currentComboTimer > 0f)
@@ -84,9 +95,10 @@ public class ParryComponent : EntityComponent {
         }
         else
         {
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
+            inComboWindow = false;
+            isOnCooldown = false;
             entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-			UnlimitEntityAfterParry();
+            UnlimitEntityAfterParry();
 			Subscribe();
 		}
     }
@@ -95,6 +107,8 @@ public class ParryComponent : EntityComponent {
 
     IEnumerator ForwardParry()
     {
+        isInParry = true;
+        isOnCooldown = true;
         LimitEntityInParry();
 		parryBox.SetActive(true);
         parryCollider.enabled = true;
@@ -104,8 +118,6 @@ public class ParryComponent : EntityComponent {
         float lastStep = 0f;
 		float rate = 1 / timeToCompleteParry;
 
-        bool openedComboWindow = false;
-
         while (step < 1f)
         {
             step += Time.deltaTime * rate;
@@ -114,17 +126,15 @@ public class ParryComponent : EntityComponent {
             parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
             lastStep = curvedStep;
 
-            if (step >= 0.8f && !openedComboWindow)
+            if (step >= 0.8f && !inComboWindow)
             {
+                isOnCooldown = false;
                 parryCollider.enabled = false;
-                entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_DuringParry);
-                openedComboWindow = true;
+                inComboWindow = true;
 			}
 
             yield return null;
         }
-
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry_DuringParry);
 
 		if (parryQueued)
         {
@@ -132,15 +142,19 @@ public class ParryComponent : EntityComponent {
 			StartCoroutine("BackwardParry");
             yield break;
         }
+
         currentComboTimer = timeToCombo;
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_AfterFirstParry);
+        isOnCooldown = false;
+        isInParry = false;
 		yield break;
 	}
 
 	IEnumerator BackwardParry()
 	{
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+        isInParry = true;
         parryCollider.enabled = true;
 
 		float step = 0f;
@@ -170,26 +184,28 @@ public class ParryComponent : EntityComponent {
         parryBox.transform.localPosition = parryReadyPosition;
         parryBox.transform.localRotation = parryReadyRotation;
         parryBox.SetActive(false);
+
         UnlimitEntityAfterParry();
 
-		entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry_Ready);
+        isOnCooldown = false;
 		yield break;
 	}
 
     void LimitEntityInParry()
     {
-        parryCost /= 2f;
+        isInParry = true;
+        parryStaminaCost /= 2;
         float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
         float adjustedMovementSpeed = currentMovementSpeed * movementPenalty;
         entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
-
 		entityEmitter.EmitEvent(EntityEvents.Busy);
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
 	}
 
 	void UnlimitEntityAfterParry()
 	{
-        parryCost *= 2f;
+        isInParry = false;
+        parryStaminaCost *= 2;
 		float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
 		float restoredMovementSpeed = currentMovementSpeed / movementPenalty;
 		entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);

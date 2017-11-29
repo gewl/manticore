@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlinkComponent : EntityComponent
+public class BlinkHardware : EntityComponent, IHardware
 {
     [SerializeField]
     Material blinkMaterial;
@@ -19,7 +19,13 @@ public class BlinkComponent : EntityComponent
 	MeshRenderer entityMeshRenderer;
     TrailRenderer trailRenderer;
 
+    int baseStaminaCost = 40;
+    public int BaseStaminaCost { get { return baseStaminaCost; } }
+    public int UpdatedStaminaCost { get { return baseStaminaCost; } }
+
+    bool isOnCooldown = false;
     bool canBlink = true;
+    public bool IsOnCooldown { get { return isOnCooldown && canBlink; } }
 
 #if UNITY_EDITOR
     void OnEnable()
@@ -36,26 +42,25 @@ public class BlinkComponent : EntityComponent
         entityMeshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
-		entityEmitter.SubscribeToEvent(EntityEvents.Blink, OnBlink);
         entityEmitter.SubscribeToEvent(EntityEvents.Available, Unlock);
         entityEmitter.SubscribeToEvent(EntityEvents.Busy, Lock);
     }
 
     override protected void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Blink, OnBlink);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Available, Unlock);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Busy, Lock);
     }
 
 #region Event listeners
-    void OnBlink()
+    public void UseActiveHardware()
     {
-        if (canBlink)
-        {
-            StartCoroutine("FireBlink");
-        }
+        StartCoroutine("FireBlink");
+    }
 
+    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    {
+        Debug.LogError("Attempting to apply Blink hardware passively");
     }
 
     void Lock()
@@ -71,6 +76,7 @@ public class BlinkComponent : EntityComponent
 
     IEnumerator FireBlink()
     {
+        isOnCooldown = true;
         // Entering blink state
         entityEmitter.EmitEvent(EntityEvents.Stun);
 
@@ -109,6 +115,7 @@ public class BlinkComponent : EntityComponent
         entityMeshRenderer.material = originalSkin;
         trailRenderer.enabled = false;
 		entityEmitter.EmitEvent(EntityEvents.Unstun);
+        isOnCooldown = false;
 		yield break;
     }
 

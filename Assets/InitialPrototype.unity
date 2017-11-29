@@ -402,7 +402,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 318617371}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -307, y: 144.5, z: 1}
+  m_LocalPosition: {x: -307, y: 144, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1920643255}
@@ -2075,12 +2075,12 @@ GameObject:
   - component: {fileID: 1369184822}
   - component: {fileID: 1369184815}
   - component: {fileID: 1369184824}
-  - component: {fileID: 1369184825}
   - component: {fileID: 1369184826}
   - component: {fileID: 1369184828}
   - component: {fileID: 1369184829}
   - component: {fileID: 1369184832}
   - component: {fileID: 1369184831}
+  - component: {fileID: 1369184825}
   m_Layer: 13
   m_Name: Manticore
   m_TagString: Player
@@ -2099,7 +2099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3666577e4cb4be14c85393783f786a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMoveSpeed: 20
+  baseMoveSpeed: 15
 --- !u!114 &1369184815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdd8d9aedeabfa488fd706bcb6fb103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blinkCost: 40
 --- !u!54 &1369184823
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2242,7 +2241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parryDamage: 50
   timeToCompleteParry: 0.12
-  parryCost: 30
+  parryStaminaCost: 30
   movementPenalty: 0.5
   parryBox: {fileID: 804024547}
   swingCurve:
@@ -2288,41 +2287,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blinkMaterial: {fileID: 2100000, guid: acb820fd905a27343a7e17f37867f7f1, type: 2}
-  blinkRange: 10
-  timeToCompleteBlink: 0.1
+  blinkRange: 15
+  timeToCompleteBlink: 0.2
   blinkCompletionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0.13795471
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.22576965
-      value: 0.50168777
-      inSlope: Infinity
-      outSlope: Infinity
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.6924028
-      value: 0.7776058
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.99302673
+      time: 0.4251718
+      value: 0.22994867
+      inSlope: 1.8125772
+      outSlope: 1.8125772
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5661449
+      value: 0.73783606
+      inSlope: 1.3311995
+      outSlope: 1.3311995
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
       value: 1
-      inSlope: Infinity
-      outSlope: Infinity
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
   terrainLayerMask:
     serializedVersion: 2
-    m_Bits: 3072
+    m_Bits: 1024
 --- !u!114 &1369184826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2336,7 +2335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer: 1
   invulnerableOnDamage: 1
-  initialHealth: 210
+  initialHealth: 1000
   recoveryTime: 0.3
   timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: 6ed1f39f79d6b45c19960a4f8e62f0d3, type: 2}
@@ -2958,7 +2957,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1637852425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -307, y: 121.479996, z: 1}
+  m_LocalPosition: {x: -307, y: 120.979996, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1413684358}
@@ -3139,7 +3138,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1650193789}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 325, y: 162.5, z: 0}
+  m_LocalPosition: {x: 325, y: 162, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 318617372}
@@ -4133,6 +4132,10 @@ Prefab:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1198158389}
+    - target: {fileID: 1601806513748870, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
