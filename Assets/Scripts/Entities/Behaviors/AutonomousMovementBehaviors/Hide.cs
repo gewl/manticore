@@ -35,7 +35,7 @@ public class Hide : AutonomousMovementBehavior {
             agentRigidbody = agent.GetComponent<Rigidbody>();
         }
 
-        bool isAtHidingSpot = (hidingSpot != null && (movementComponent.transform.position - hidingSpot).sqrMagnitude < 0.1f);
+        bool isAtHidingSpot = (hidingSpot != Vector3.zero && (movementComponent.transform.position - hidingSpot).sqrMagnitude < 0.1f);
 
         if (isAtHidingSpot)
         {

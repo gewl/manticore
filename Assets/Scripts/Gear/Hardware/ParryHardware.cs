@@ -58,7 +58,7 @@ public class ParryHardware : EntityComponent, IHardware {
     {
 	}
 
-    #region EventListeners
+    #region IHardware methods
 
     public void UseActiveHardware()
     {
@@ -81,7 +81,7 @@ public class ParryHardware : EntityComponent, IHardware {
         }
     }
 
-    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         Debug.LogError("Trying to apply Parry passively.");
     }

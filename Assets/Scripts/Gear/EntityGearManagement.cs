@@ -9,7 +9,11 @@ public class EntityGearManagement : MonoBehaviour {
     IHardware blinkGear;
     public IHardware BlinkGear { get { return blinkGear; } }
 
-    List<IHardware> passiveHardwareOnParry;
+    delegate void PassiveHardwareDelegate(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
+    PassiveHardwareDelegate passiveHardware_Parry;
+    PassiveHardwareDelegate passiveHardware_Blink;
+    PassiveHardwareDelegate passiveHardware_Slot1;
+    PassiveHardwareDelegate passiveHardware_Slot2;
 
     IHardware equippedGear_Slot1;
     public IHardware EquippedGear_Slot1
@@ -26,17 +30,17 @@ public class EntityGearManagement : MonoBehaviour {
         blinkGear = GetComponent<BlinkHardware>() as IHardware;
         equippedGear_Slot1 = gameObject.AddComponent(typeof(NullifierHardware)) as IHardware;
 
-        passiveHardwareOnParry = new List<IHardware>();
-        passiveHardwareOnParry.Add(GetComponent<NullifierHardware>());
+        passiveHardware_Parry += equippedGear_Slot1.ApplyPassiveHardware;
+        passiveHardware_Blink += equippedGear_Slot1.ApplyPassiveHardware;
     }
 
     public void ApplyParryPassiveHardwareToBullet(GameObject bullet)
     {
-        for (int i = 0; i < passiveHardwareOnParry.Count; i++)
-        {
-            IHardware passiveHardware = passiveHardwareOnParry[i];
+        passiveHardware_Parry(HardwareTypes.Parry, parryGear, bullet);
+    }
 
-            passiveHardware.ApplyPassiveHardware(HardwareTypes.Parry, bullet);
-        }
+    public void ApplyPassiveHardwareToBlink(GameObject player)
+    {
+        passiveHardware_Blink(HardwareTypes.Blink, blinkGear, player);
     }
 }

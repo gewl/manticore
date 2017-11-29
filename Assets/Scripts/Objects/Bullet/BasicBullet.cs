@@ -43,7 +43,7 @@ public class BasicBullet : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (bulletRigidbody.velocity.sqrMagnitude < 250f)
+        if (bulletRigidbody.velocity.sqrMagnitude < 150f)
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
             {

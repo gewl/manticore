@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BlinkHardware : EntityComponent, IHardware
 {
+    // Serialized values
     [SerializeField]
     Material blinkMaterial;
     [SerializeField]
     float blinkRange;
 	[SerializeField]
 	float timeToCompleteBlink;
+    public float TimeToCompleteBlink { get { return timeToCompleteBlink; } }
+    float hangTimeBeforeBlinkStarts = 0.1f;
+    public float HangTimeBeforeBlinkStarts { get { return hangTimeBeforeBlinkStarts; } }
     [SerializeField]
 	AnimationCurve blinkCompletionCurve; 
 
@@ -18,24 +22,26 @@ public class BlinkHardware : EntityComponent, IHardware
 
 	MeshRenderer entityMeshRenderer;
     TrailRenderer trailRenderer;
+    EntityGearManagement gear;
 
+    // IHardware properties
     int baseStaminaCost = 40;
     public int BaseStaminaCost { get { return baseStaminaCost; } }
     public int UpdatedStaminaCost { get { return baseStaminaCost; } }
 
+    // State management
     bool isOnCooldown = false;
     bool canBlink = true;
     public bool IsOnCooldown { get { return isOnCooldown && canBlink; } }
 
-#if UNITY_EDITOR
     void OnEnable()
     {
+        gear = GetComponent<EntityGearManagement>();
         if (blinkMaterial == null || System.Math.Abs(blinkRange) < 0.1f)
         {
             Debug.LogError("Serialized values unassigned in BlinkComponent on " + transform.name); 
         }
     }
-#endif
 
     override protected void Subscribe()
     {
@@ -52,13 +58,13 @@ public class BlinkHardware : EntityComponent, IHardware
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Busy, Lock);
     }
 
-#region Event listeners
+    #region IHardware methods
     public void UseActiveHardware()
     {
         StartCoroutine("FireBlink");
     }
 
-    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         Debug.LogError("Attempting to apply Blink hardware passively");
     }
@@ -72,10 +78,11 @@ public class BlinkHardware : EntityComponent, IHardware
     {
         canBlink = true;
     }
-#endregion
+    #endregion
 
     IEnumerator FireBlink()
     {
+        gear.ApplyPassiveHardwareToBlink(gameObject);
         isOnCooldown = true;
         // Entering blink state
         entityEmitter.EmitEvent(EntityEvents.Stun);
@@ -85,7 +92,7 @@ public class BlinkHardware : EntityComponent, IHardware
         trailRenderer.enabled = true;
 
 		// Brief pause before blink proper begins
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(HangTimeBeforeBlinkStarts);
 
         // Get blink destination based on current movement.
         Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);

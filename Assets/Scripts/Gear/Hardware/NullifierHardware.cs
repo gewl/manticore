@@ -93,14 +93,15 @@ public class NullifierHardware : MonoBehaviour, IHardware {
     #endregion
 
     #region Passive hardware use
-    public void ApplyPassiveHardware(HardwareTypes hardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
     {
-        switch (hardware)
+        switch (activeHardwareType)
         {
             case HardwareTypes.Parry:
                 StartCoroutine(ApplyPassiveHardware_Parry(subject));
                 break;
             case HardwareTypes.Blink:
+                StartCoroutine(ApplyPassiveHardware_Blink(activeHardware, subject));
                 break;
             case HardwareTypes.Nullify:
                 break;
@@ -132,6 +133,19 @@ public class NullifierHardware : MonoBehaviour, IHardware {
         }
 
         yield break;
+    }
+
+    IEnumerator ApplyPassiveHardware_Blink(IHardware activeHardware, GameObject player)
+    {
+        BlinkHardware blinkHardware = (BlinkHardware)activeHardware;
+
+        float blinkDuration = blinkHardware.TimeToCompleteBlink + blinkHardware.HangTimeBeforeBlinkStarts;
+
+        yield return new WaitForSeconds(blinkDuration);
+
+        StartCoroutine(FireNullifyEffect());
+
+        yield return null;
     }
     #endregion
 }

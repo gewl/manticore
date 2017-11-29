@@ -105,7 +105,6 @@ public class AutonomousMovementComponentEditor : OdinEditor {
                 SerializedProperty cohesionRadius = serializedObject.FindProperty("CohesionRadius");
                 EditorGUILayout.PropertyField(cohesionRadius);
                 break;
-                break;
             case AutonomousMovementComponent.MovementBehaviorTypes.Alignment:
                 SerializedProperty alignmentRadius = serializedObject.FindProperty("AlignmentRadius");
                 EditorGUILayout.PropertyField(alignmentRadius);

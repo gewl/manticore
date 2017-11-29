@@ -10,14 +10,7 @@ public class EntityEvents
     public const string PrimaryFire = "primary_fire";
     public const string SecondaryFire = "secondary_fire";
 
-	public const string Parry = "parry";
     public const string ParrySuccessful = "parry_successful";
-	public const string Blink = "blink";
-
-    // TODO: Creating specific actions for abilities for the time being.
-    // Probably these should be changed to "inventory slot" events down the road,
-    // so that they're called based on their inventory positions (i.e. EquippedAbility1).
-    public const string Nullify = "nullify";
 
     public const string FreezeRotation = "freeze_rotation";
 	public const string ResumeRotation = "resume_rotation";
