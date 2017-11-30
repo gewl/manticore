@@ -62,8 +62,9 @@ public class StationaryEntityHealthComponent : EntityComponent
     }
     #endregion
 
-    protected void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         isEnabled = true;
         initialHealth = currentHealth;
         mainCamera = Camera.main;

@@ -19,7 +19,7 @@ public class EntityEvents
     public const string Stop = "stop";
 
     // 'Stun' is both a status effect and the name for the state which the
-    // entity enters upon being damaged. It refers to total disonnect between
+    // entity enters upon being damaged. It refers to total disconnect between
     // input and action (or AI and action). 
     public const string Stun = "stun";
     public const string Unstun = "unstun";

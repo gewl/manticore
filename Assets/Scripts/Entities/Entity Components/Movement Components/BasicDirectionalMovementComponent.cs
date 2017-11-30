@@ -20,8 +20,9 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     float currentMoveSpeed;
     Vector3 currentDirection;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         entityBounds = GetComponent<Collider>().bounds;
         terrainMask = LayerMask.NameToLayer("Terrain");
         distanceToGround = GetComponent<Collider>().bounds.extents.y + 0.05f;

@@ -8,8 +8,12 @@ public class ManticoreInputComponent : EntityComponent {
     EntityStaminaComponent staminaComponent;
     EntityGearManagement gear;
 
-    void OnEnable()
+    public bool ActionsLocked = false;
+    public bool MovementLocked = false;
+
+    protected override void OnEnable()
     {
+        base.OnEnable();
         staminaComponent = GetComponent<EntityStaminaComponent>();
         gear = GetComponent<EntityGearManagement>();
     }
@@ -65,6 +69,10 @@ public class ManticoreInputComponent : EntityComponent {
 
     void TransmitPlayerAction()
     {
+        if (ActionsLocked)
+        {
+            return;
+        }
         if (Input.GetButtonDown("Parry"))
         {
             IHardware parryGear = gear.ParryGear;
@@ -79,6 +87,11 @@ public class ManticoreInputComponent : EntityComponent {
         {
             IHardware gear_slot1 = gear.EquippedGear_Slot1;
             UseGear(gear_slot1);
+        }
+        else if (Input.GetButtonDown("UseGear_Slot2"))
+        {
+            IHardware gear_slot2 = gear.EquippedGear_Slot2;
+            UseGear(gear_slot2);
         }
     }
 
@@ -97,6 +110,10 @@ public class ManticoreInputComponent : EntityComponent {
 
     void SetDirectionalMovementFromKeys()
     {
+        if (MovementLocked)
+        {
+            return;
+        }
         float horizontalKeyValue = Input.GetAxis("HorizontalKey");
         float verticalKeyValue = Input.GetAxis("VerticalKey");
 

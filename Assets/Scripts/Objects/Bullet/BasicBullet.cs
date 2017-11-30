@@ -26,6 +26,8 @@ public class BasicBullet : MonoBehaviour {
     const string FRIENDLY_BULLET = "FriendlyBullet";
 
     [SerializeField]
+    List<LayerMask> triggerDestroyLayers;
+    [SerializeField]
     GameObject enemyBulletCollisionParticles;
     [SerializeField]
     GameObject friendlyBulletCollisionParticles;
@@ -66,7 +68,7 @@ public class BasicBullet : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 11)
+        if (triggerDestroyLayers.Contains(other.gameObject.layer))
         {
 			Destroy(gameObject);
 		}

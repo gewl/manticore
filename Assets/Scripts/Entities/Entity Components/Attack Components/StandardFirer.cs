@@ -41,8 +41,9 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     FireType currentFireType = FireType.Lead;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         cachedTargetVelocities = new List<Vector3>();
         for (int i = 0; i < maximumVelocitiesToCache; i++)
         {

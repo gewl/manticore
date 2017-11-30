@@ -41,8 +41,9 @@ public class EntityStaminaComponent : EntityComponent {
     {
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         if (attachedStaminaBar != false) 
         {
             attachedStaminaBar.UpdateTotalStamina(currentStamina);

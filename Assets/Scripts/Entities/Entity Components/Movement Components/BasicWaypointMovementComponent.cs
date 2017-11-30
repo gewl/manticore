@@ -18,8 +18,9 @@ public class BasicWaypointMovementComponent : EntityComponent {
     bool isOnARamp = false;
     bool isGrounded = false;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
         entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }

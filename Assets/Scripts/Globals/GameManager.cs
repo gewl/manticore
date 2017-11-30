@@ -356,6 +356,10 @@ public class GameManager : SerializedMonoBehaviour {
     AnimationCurve roomTransitionCurve;
     public static AnimationCurve RoomTransitionCurve { get { return instance.roomTransitionCurve; } }
 
+    [SerializeField]
+    AnimationCurve blinkCompletionCurve;
+    public static AnimationCurve BlinkCompletionCurve { get { return instance.blinkCompletionCurve; } }
+
     #endregion
 
     // TODO: Between this and the environment management section above, this class is beginning to carry a lot of data

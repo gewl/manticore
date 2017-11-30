@@ -14,14 +14,13 @@ public class BlinkHardware : EntityComponent, IHardware
     public float TimeToCompleteBlink { get { return timeToCompleteBlink; } }
     float hangTimeBeforeBlinkStarts = 0.1f;
     public float HangTimeBeforeBlinkStarts { get { return hangTimeBeforeBlinkStarts; } }
-    [SerializeField]
-	AnimationCurve blinkCompletionCurve; 
 
     [SerializeField]
     LayerMask terrainLayerMask;
 
 	MeshRenderer entityMeshRenderer;
     TrailRenderer trailRenderer;
+    ManticoreInputComponent inputComponent;
     EntityGearManagement gear;
 
     // IHardware properties
@@ -34,9 +33,11 @@ public class BlinkHardware : EntityComponent, IHardware
     bool canBlink = true;
     public bool IsOnCooldown { get { return isOnCooldown && canBlink; } }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         gear = GetComponent<EntityGearManagement>();
+        inputComponent = GetComponent<ManticoreInputComponent>();
         if (blinkMaterial == null || System.Math.Abs(blinkRange) < 0.1f)
         {
             Debug.LogError("Serialized values unassigned in BlinkComponent on " + transform.name); 
@@ -85,7 +86,8 @@ public class BlinkHardware : EntityComponent, IHardware
         gear.ApplyPassiveHardwareToBlink(gameObject);
         isOnCooldown = true;
         // Entering blink state
-        entityEmitter.EmitEvent(EntityEvents.Stun);
+        inputComponent.ActionsLocked = true;
+        inputComponent.MovementLocked = true;
 
         Material originalSkin = entityMeshRenderer.material;
         entityMeshRenderer.material = blinkMaterial;
@@ -112,7 +114,7 @@ public class BlinkHardware : EntityComponent, IHardware
         while (step < 1f)
         {
             step += Time.deltaTime * rate;
-            float curvedStep = blinkCompletionCurve.Evaluate(step);
+            float curvedStep = GameManager.BlinkCompletionCurve.Evaluate(step);
 
 			transform.position = Vector3.Lerp(origin, destination, curvedStep);
             yield return new WaitForEndOfFrame();
@@ -121,8 +123,10 @@ public class BlinkHardware : EntityComponent, IHardware
         // Exiting blink state
         entityMeshRenderer.material = originalSkin;
         trailRenderer.enabled = false;
-		entityEmitter.EmitEvent(EntityEvents.Unstun);
         isOnCooldown = false;
+
+        inputComponent.ActionsLocked = false;
+        inputComponent.MovementLocked = false;
 		yield break;
     }
 

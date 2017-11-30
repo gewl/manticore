@@ -12,6 +12,7 @@ public class EntityGearManagement : MonoBehaviour {
     delegate void PassiveHardwareDelegate(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
     PassiveHardwareDelegate passiveHardware_Parry;
     PassiveHardwareDelegate passiveHardware_Blink;
+
     PassiveHardwareDelegate passiveHardware_Slot1;
     PassiveHardwareDelegate passiveHardware_Slot2;
 
@@ -24,11 +25,21 @@ public class EntityGearManagement : MonoBehaviour {
         }
     }
 
+    IHardware equippedGear_Slot2;
+    public IHardware EquippedGear_Slot2
+    {
+        get
+        {
+            return equippedGear_Slot2;
+        }
+    }
+
     void Start()
     {
         parryGear = GetComponent<ParryHardware>() as IHardware;
         blinkGear = GetComponent<BlinkHardware>() as IHardware;
         equippedGear_Slot1 = gameObject.AddComponent(typeof(NullifierHardware)) as IHardware;
+        equippedGear_Slot2 = gameObject.AddComponent(typeof(RiposteHardware)) as IHardware;
 
         passiveHardware_Parry += equippedGear_Slot1.ApplyPassiveHardware;
         passiveHardware_Blink += equippedGear_Slot1.ApplyPassiveHardware;

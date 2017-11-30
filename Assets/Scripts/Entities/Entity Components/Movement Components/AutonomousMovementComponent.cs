@@ -129,9 +129,8 @@ public class AutonomousMovementComponent : EntityComponent {
         }
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
     }
 

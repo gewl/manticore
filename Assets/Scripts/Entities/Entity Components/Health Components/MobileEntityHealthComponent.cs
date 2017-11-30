@@ -42,7 +42,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     Allegiance entityAllegiance = Allegiance.Enemy;
 
     float currentHealth = -1;
-    bool isInvulnerable = false;
+    public bool IsInvulnerable = false;
     bool isStunned = false;
     bool isDead = false;
 
@@ -62,8 +62,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     }
     #endregion
 
-    protected void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         mainCamera = Camera.main;
         currentHealth = initialHealth;
 
@@ -101,12 +102,12 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     void OnInvulnerable()
     {
-        isInvulnerable = true; 
+        IsInvulnerable = true; 
     }
 
     void OnVulnerable()
     {
-        isInvulnerable = false; 
+        IsInvulnerable = false; 
     }
 
     void OnStun()
@@ -149,7 +150,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     public void OnCollisionEnter(Collision projectile)
     {
-        if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable) 
+        if (DoesBulletDamage(projectile.gameObject) && !IsInvulnerable) 
         {
             // Get & deal damage.
             BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
@@ -186,7 +187,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     void SetInvulnerable()
     {
         CancelInvoke();
-        isInvulnerable = true;
+        IsInvulnerable = true;
     }
 
     bool DoesBulletDamage(GameObject bullet)
@@ -285,7 +286,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                 }
                 if (invulnerableOnDamage)
                 {
-                    isInvulnerable = false;
+                    IsInvulnerable = false;
                 }
                 yield break;
             }
@@ -314,10 +315,10 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 unitHealthBar.enabled = false;
                 meshRenderer.material = deadSkin;
+                entityEmitter.isMuted = true;
                 yield break;
             }
         }
-
     }
 
     IEnumerator Flash()
