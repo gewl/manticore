@@ -8,8 +8,26 @@ public class ManticoreInputComponent : EntityComponent {
     EntityStaminaComponent staminaComponent;
     EntityGearManagement gear;
 
-    public bool ActionsLocked = false;
-    public bool MovementLocked = false;
+    private bool actionsLocked = false;
+    private bool movementLocked = false;
+
+    public void LockActions(bool areLocked)
+    {
+        actionsLocked = areLocked;
+    }
+
+    public void LockMovement(bool isLocked)
+    {
+        actionsLocked = isLocked;
+        if (isLocked)
+        {
+            entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
+        }
+        else
+        {
+            entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
+        }
+    }
 
     protected override void OnEnable()
     {
@@ -69,7 +87,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     void TransmitPlayerAction()
     {
-        if (ActionsLocked)
+        if (actionsLocked)
         {
             return;
         }
@@ -110,7 +128,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     void SetDirectionalMovementFromKeys()
     {
-        if (MovementLocked)
+        if (movementLocked)
         {
             return;
         }

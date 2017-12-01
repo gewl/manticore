@@ -86,8 +86,8 @@ public class BlinkHardware : EntityComponent, IHardware
         gear.ApplyPassiveHardwareToBlink(gameObject);
         isOnCooldown = true;
         // Entering blink state
-        inputComponent.ActionsLocked = true;
-        inputComponent.MovementLocked = true;
+        inputComponent.LockActions(true);
+        inputComponent.LockMovement(true);
 
         Material originalSkin = entityMeshRenderer.material;
         entityMeshRenderer.material = blinkMaterial;
@@ -125,8 +125,8 @@ public class BlinkHardware : EntityComponent, IHardware
         trailRenderer.enabled = false;
         isOnCooldown = false;
 
-        inputComponent.ActionsLocked = false;
-        inputComponent.MovementLocked = false;
+        inputComponent.LockActions(false);
+        inputComponent.LockMovement(false);
 		yield break;
     }
 

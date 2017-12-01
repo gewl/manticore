@@ -32,17 +32,17 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnUpdate);
 		entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
     }
 
     protected override void Unsubscribe()
     {
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnUpdate);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
     }
 
-    void OnFixedUpdate()
+    void OnUpdate()
     {
         if (!isOnARamp && groundedCount == 0)
         {

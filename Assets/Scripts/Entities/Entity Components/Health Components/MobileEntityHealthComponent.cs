@@ -155,20 +155,34 @@ public class MobileEntityHealthComponent : EntityComponent {
             // Get & deal damage.
             BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
             float damage = bullet.strength;
-            DealDamage(damage);
+            TakeDamage(damage);
 
             if (currentHealth > 0)
             {
-                RespondToDamage(projectile);
+                RespondToDamage(projectile.relativeVelocity);
             }
             else
             {
-                RespondToDeath(projectile);
+                RespondToDeath(projectile.relativeVelocity);
             }
 		}
     }
 
-    public void DealDamage(float damage)
+    public void ReceiveDamageDirectly(Transform damagingEntity, float damage)
+    {
+        TakeDamage(damage);
+
+        if (currentHealth > 0)
+        {
+            RespondToDamage(damagingEntity);
+        }
+        else
+        {
+            RespondToDeath(damagingEntity);
+        }
+    }
+    
+    void TakeDamage(float damage)
     {
         LowerHealthAmount(damage);
 
@@ -212,7 +226,21 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
     }
 
-    void RespondToDamage(Collision damagingProjectileCollision)
+    void RespondToDamage(Transform damagingEntity)
+    {
+        Vector3 normalizedAwayFromEntity = (transform.position - damagingEntity.position).normalized;
+        Vector3 scaledAwayFromEntity = normalizedAwayFromEntity * 60f;
+        RespondToDamage(scaledAwayFromEntity);
+    }
+
+    void RespondToDeath(Transform damagingEntity)
+    {
+        Vector3 normalizedAwayFromEntity = (transform.position - damagingEntity.position).normalized;
+        Vector3 scaledAwayFromEntity = normalizedAwayFromEntity * 60f;
+        RespondToDeath(scaledAwayFromEntity);
+    }
+
+    void RespondToDamage(Vector3 damagingProjectileCollisionVelocity)
     {
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
@@ -223,7 +251,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         }
 
         // Knock back
-        Vector3 collisionVelocity = damagingProjectileCollision.relativeVelocity;
+        Vector3 collisionVelocity = damagingProjectileCollisionVelocity;
         entityData.EntityRigidbody.velocity = collisionVelocity;
 
         entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -239,14 +267,14 @@ public class MobileEntityHealthComponent : EntityComponent {
         StartCoroutine("HandleDamage");
     }
 
-    void RespondToDeath(Collision killingProjectileCollision)
+    void RespondToDeath(Vector3 killingProjectileCollisionVelocity)
     {
         isDead = true;
         GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
         // Knock back
-        Vector3 collisionVelocity = killingProjectileCollision.relativeVelocity;
+        Vector3 collisionVelocity = killingProjectileCollisionVelocity;
 
         gameObject.layer = LayerMask.NameToLayer("DeadEntity");
         entityData.EntityRigidbody.useGravity = true;
