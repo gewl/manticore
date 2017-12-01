@@ -14,7 +14,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     float riposteDuration = 1f;
     float riposteCooldown = 6f;
     float hangTimeBeforeRiposteStarts = 0.1f;
-    float timeToCompleteRiposte = 0.8f;
+    float timeToCompleteRiposte = 0.4f;
 
     GameObject riposteZone;
     const string RIPOSTE_ZONE = "RiposteZone";
@@ -57,7 +57,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
         yield return new WaitForSeconds(riposteDuration);
 
-        healthComponent.IsInvulnerable = false;
         riposteZone.SetActive(false);
 
         yield return new WaitForSeconds(riposteCooldown - riposteDuration);
@@ -65,16 +64,23 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         isOnCooldown = false;
     }
 
-    public IEnumerator FireRiposteAction(Transform bulletFirer)
+    public void BeginRiposte(Transform bulletFirer)
     {
+        StartCoroutine(FireRiposteAction(bulletFirer));
+    }
+
+    IEnumerator FireRiposteAction(Transform bulletFirer)
+    {
+        inputComponent.ActionsLocked = true;
+        inputComponent.MovementLocked = true;
+
+        healthComponent.IsInvulnerable = true;
         Material originalSkin = entityRenderer.material;
         entityRenderer.material = blinkSkin;
         entityCollider.enabled = false;
 
         yield return new WaitForSeconds(hangTimeBeforeRiposteStarts);
 
-        inputComponent.ActionsLocked = true;
-        inputComponent.MovementLocked = true;
         trailRenderer.enabled = true;
 
         Vector3 initialPosition = transform.position;
@@ -93,8 +99,8 @@ public class RiposteHardware : MonoBehaviour, IHardware {
             Vector3 targetPosition = bulletFirer.TransformPoint(destinationPositionLocalToTarget);
             float curveEvaluation = blinkCurve.Evaluate(percentageComplete);
 
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, curveEvaluation);
-            transform.rotation = Quaternion.Lerp(initialRotation, bulletFirer.rotation, curveEvaluation);
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, percentageComplete);
+            transform.rotation = Quaternion.Lerp(initialRotation, bulletFirer.rotation, percentageComplete);
 
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -103,6 +109,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         trailRenderer.enabled = false;
         inputComponent.ActionsLocked = false;
         inputComponent.MovementLocked = false;
+        healthComponent.IsInvulnerable = false;
         entityCollider.enabled = true;
         entityRenderer.material = originalSkin;
     }

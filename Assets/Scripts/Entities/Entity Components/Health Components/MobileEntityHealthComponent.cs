@@ -155,23 +155,8 @@ public class MobileEntityHealthComponent : EntityComponent {
             // Get & deal damage.
             BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
             float damage = bullet.strength;
-            LowerHealthAmount(damage);
+            DealDamage(damage);
 
-            // Trigger floating damage text.
-            Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
-            damageTextPosition.y += 15f;
-            Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
-            instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
-
-            // Expose & update attached health bar.
-            unitHealthBarObject.SetActive(true);
-            unitHealthBar.UpdateHealth(currentHealth);
-
-            // Damage or kill depending on remaining health.
-            if (invulnerableOnDamage)
-            {
-                Invoke("SetInvulnerable", recoveryTime - 0.1f);
-            }
             if (currentHealth > 0)
             {
                 RespondToDamage(projectile);
@@ -181,6 +166,27 @@ public class MobileEntityHealthComponent : EntityComponent {
                 RespondToDeath(projectile);
             }
 		}
+    }
+
+    public void DealDamage(float damage)
+    {
+        LowerHealthAmount(damage);
+
+        // Trigger floating damage text.
+        Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
+        damageTextPosition.y += 15f;
+        Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
+
+        // Expose & update attached health bar.
+        unitHealthBarObject.SetActive(true);
+        unitHealthBar.UpdateHealth(currentHealth);
+
+        // Damage or kill depending on remaining health.
+        if (invulnerableOnDamage)
+        {
+            Invoke("SetInvulnerable", recoveryTime - 0.1f);
+        }
     }
 
     // Used to slightly delay invulnerability so blasts go through.

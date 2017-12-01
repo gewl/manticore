@@ -62,9 +62,8 @@ public class Riposte : MonoBehaviour {
         if (ripostingBullet)
         {
             Transform bulletFirer = bullet.GetComponent<BasicBullet>().firer;
-            StartCoroutine(riposteHardware.FireRiposteAction(bulletFirer));
+            riposteHardware.BeginRiposte(bulletFirer);
         }
-
         Destroy(bullet.gameObject);
     }
 }

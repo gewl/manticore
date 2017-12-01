@@ -207,7 +207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &124523824
 Transform:
   m_ObjectHideFlags: 0
@@ -1794,6 +1794,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1301277161 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1406900961984896, guid: edf0a7f7034951a4abeab16b68f80656,
+    type: 2}
+  m_PrefabInternal: {fileID: 2026237665}
 --- !u!1 &1348373991
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,6 +3480,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  nullifyEffectCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.52913576
+      value: 0.98662424
+      inSlope: 0.7218428
+      outSlope: 0.7218428
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   blinkCompletionCurve:
     serializedVersion: 2
     m_Curve:
@@ -3495,30 +3524,6 @@ MonoBehaviour:
       value: 0.73783606
       inSlope: 1.3311995
       outSlope: 1.3311995
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  nullifyEffectCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.52913576
-      value: 0.98662424
-      inSlope: 0.7218428
-      outSlope: 0.7218428
       tangentMode: 0
     - serializedVersion: 2
       time: 1
@@ -3905,6 +3910,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1392056653}
     m_Modifications:
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4066080051264276, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
       propertyPath: m_LocalPosition.x
       value: 13.23
@@ -3955,6 +3965,151 @@ Prefab:
     - target: {fileID: 1601806513748870, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: fireCooldown
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: firer
+      value: 
+      objectReference: {fileID: 1301277161}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[1].time
+      value: 0.83172274
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[1].value
+      value: 0.569011
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[1].inSlope
+      value: 2.2429736
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[1].outSlope
+      value: 2.2429736
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[2].time
+      value: 0.9458313
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[2].inSlope
+      value: 5.9119353
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[2].outSlope
+      value: 5.9119353
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[3].time
+      value: 0.65250015
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[3].value
+      value: 0.58748394
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[3].inSlope
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[3].outSlope
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[4].time
+      value: 0.82916665
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[4].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[4].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[4].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[5].time
+      value: 0.82916665
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[5].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[5].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[5].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[6].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[6].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[6].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[6].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[5].tangentMode
+      value: 136
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: gunHeatCurve.m_Curve.Array.data[4].tangentMode
+      value: 136
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}

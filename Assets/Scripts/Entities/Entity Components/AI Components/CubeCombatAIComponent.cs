@@ -24,18 +24,27 @@ public class CubeCombatAIComponent : EntityComponent {
     [SerializeField]
     float maximumMovementPause;
 
-    float currentFireCooldown;
+    float timeElapsedSinceLastFire;
     Transform currentTarget;
+
+    [SerializeField]
+    AnimationCurve gunHeatCurve;
+    [SerializeField]
+    GameObject firer;
+    Renderer firerRenderer;
+    Color firerOriginalSkin;
 
     protected override void Subscribe()
     {
+        firerRenderer = firer.GetComponent<Renderer>();
+        firerOriginalSkin = firerRenderer.material.color;
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, BeginFunctioning);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, BeginFunctioning);
         if (isAggroed)
         {
             BeginFunctioning();
         }
-        currentFireCooldown = 0f;
+        timeElapsedSinceLastFire = 0f;
     }
 
     protected override void Unsubscribe()
@@ -52,13 +61,18 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void OnUpdate()
     {
-        if (currentFireCooldown > 0f)
+        if (timeElapsedSinceLastFire < fireCooldown)
         {
-            currentFireCooldown -= Time.deltaTime;
+            timeElapsedSinceLastFire += Time.deltaTime;
+
+            float percentageComplete = timeElapsedSinceLastFire / fireCooldown;
+            firerRenderer.material.color = Color.Lerp(firerOriginalSkin, Color.red, gunHeatCurve.Evaluate(percentageComplete));
         }
         else
         {
             TryToFirePrimary();
+            timeElapsedSinceLastFire = 0f;
+            firerRenderer.material.color = firerOriginalSkin;
         }
 
         Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
@@ -104,7 +118,7 @@ public class CubeCombatAIComponent : EntityComponent {
         if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
-            currentFireCooldown = fireCooldown; 
+            timeElapsedSinceLastFire = fireCooldown; 
         }
     }
 
