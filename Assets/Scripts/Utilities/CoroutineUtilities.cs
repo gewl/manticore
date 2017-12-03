@@ -4,8 +4,16 @@ using UnityEngine;
 
 public static class CoroutineUtilities 
 {
+    static int frameFreezeCount = 0;
+
     public static IEnumerator PauseForFrames(int frames)
     {
+        if (frames < frameFreezeCount)
+        {
+            yield break;
+        }
+
+        frameFreezeCount = frames;
         Time.timeScale = 0f;
         while (true)
         {
@@ -15,6 +23,8 @@ public static class CoroutineUtilities
                 yield return null;
             }
             Time.timeScale = 1f;
+            frameFreezeCount = 0;
+            yield break;
         }
     }
 }

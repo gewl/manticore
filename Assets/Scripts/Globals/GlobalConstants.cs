@@ -7,7 +7,8 @@ public static class GlobalConstants {
     public enum GameFreezeEvent
     {
         EntityInjured,
-        EntityDead
+        EntityDead,
+        Riposte
     }
 
     public enum Collectibles

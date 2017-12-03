@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using Sirenix.Serialization;
+using Sirenix.OdinInspector;
 
 public class ManticoreAudioComponent : EntityComponent
 {
@@ -8,7 +11,9 @@ public class ManticoreAudioComponent : EntityComponent
     AudioClip parrySuccessfulClip;
     [SerializeField]
     AudioClip hurtClip;
-
+    [SerializeField]
+    Dictionary<HardwareTypes, AudioClip> activeHardwareSounds;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -18,14 +23,19 @@ public class ManticoreAudioComponent : EntityComponent
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.ParrySuccessful, OnParrySuccessful);
         entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.ParrySuccessful, OnParrySuccessful);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+    }
+
+    public void PlayGearSound(HardwareTypes gear)
+    {
+        AudioClip gearClip = activeHardwareSounds[gear];
+        audioSource.clip = gearClip;
+        audioSource.Play();
     }
 
     public void PlayOutsideSound(AudioClip clip)

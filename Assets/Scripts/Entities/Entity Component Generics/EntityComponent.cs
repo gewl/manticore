@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 /// <summary>
 /// Parent component class that all EntityComponents derive from. 
 /// </summary>
 [RequireComponent(typeof(EntityEmitter), typeof(EntityData))]
-public abstract class EntityComponent : MonoBehaviour {
+public abstract class EntityComponent : SerializedMonoBehaviour {
 
     protected EntityEmitter entityEmitter;
     protected EntityData entityData;

@@ -17,7 +17,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     float riposteDamage = 100f;
     float initialDashRange = 10f;
     // In units per second.
-    float dashRangeIncreaseRate = 4f;
+    float dashRangeIncreaseRate = 8f;
 
     Vector3 currentDashAimPosition;
 
@@ -48,20 +48,26 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     Renderer entityRenderer;
     ManticoreInputComponent inputComponent;
+    ManticoreAudioComponent audioComponent;
+
     Material blinkSkin;
     Collider entityCollider;
     TrailRenderer trailRenderer;
 
     private void OnEnable()
     {
-        entityRenderer = GetComponent<Renderer>();
-        entityCollider = GetComponent<Collider>();
-        trailRenderer = GetComponent<TrailRenderer>();
-        inputComponent = GetComponent<ManticoreInputComponent>();
+        riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
+
         healthComponent = GetComponent<MobileEntityHealthComponent>();
 
-        riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
+        entityRenderer = GetComponent<Renderer>();
+        inputComponent = GetComponent<ManticoreInputComponent>();
+        audioComponent = GetComponent<ManticoreAudioComponent>();
+
         blinkSkin = riposteZone.GetComponent<Renderer>().material;
+        entityCollider = GetComponent<Collider>();
+        trailRenderer = GetComponent<TrailRenderer>();
+
     }
 
     public void UseActiveHardware()
@@ -90,6 +96,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     void StopChanneling()
     {
         isChanneling = false;
+        hasDashed = false;
 
         GameManager.DeactivateGearRangeIndicator();
 
@@ -220,6 +227,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
             yield return null;
         }
 
+        Debug.Log("end of dash");
         trailRenderer.enabled = false;
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
@@ -242,82 +250,48 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     IEnumerator Riposte(Transform target)
     {
+        EntityEmitter targetEmitter = target.GetComponent<EntityEmitter>();
+
         Vector3 initialPosition = transform.position;
         Quaternion initialRotation = transform.rotation;
 
-        float distanceBehindTarget = target.GetComponent<Collider>().bounds.extents.z + entityCollider.bounds.size.z;
+        float distanceBehindTarget = target.GetComponent<Collider>().bounds.extents.z;
         Vector3 destinationPositionLocalToTarget = new Vector3(0f, 0f, -distanceBehindTarget);
 
         float timeElapsed = 0.0f;
         AnimationCurve blinkCurve = GameManager.BlinkCompletionCurve;
+        targetEmitter.EmitEvent(EntityEvents.FreezeRotation);
 
-        while (timeElapsed < timeToCompleteDash)
+        while (timeElapsed < timeToCompleteRipsote)
         {
-            float percentageComplete = timeElapsed / timeToCompleteDash;
+            float percentageComplete = timeElapsed / timeToCompleteRipsote;
 
             Vector3 targetPosition = target.TransformPoint(destinationPositionLocalToTarget);
             float curveEvaluation = blinkCurve.Evaluate(percentageComplete);
 
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, curveEvaluation);
-            transform.rotation = Quaternion.Lerp(initialRotation, target.rotation, curveEvaluation);
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, percentageComplete);
+            transform.rotation = Quaternion.Lerp(initialRotation, target.rotation, percentageComplete);
 
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
+        entityRenderer.material = originalSkin;
+
+        yield return new WaitForSeconds(0.2f);
+
+        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.Riposte);
         target.GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(transform, riposteDamage);
+        if (audioComponent != null)
+        {
+            audioComponent.PlayGearSound(HardwareTypes.Riposte);
+        }
+        targetEmitter.EmitEvent(EntityEvents.ResumeRotation);
+
         trailRenderer.enabled = false;
-        inputComponent.LockActions(false);
-        inputComponent.LockMovement(false);
         healthComponent.IsInvulnerable = false;
         entityCollider.enabled = true;
-        entityRenderer.material = originalSkin;
+        inputComponent.LockActions(false);
+        inputComponent.LockMovement(false);
     }
-
-    //IEnumerator Dash(Transform bulletFirer)
-    //{
-    //    inputComponent.LockActions(true);
-
-    //    inputComponent.LockMovement(true);
-
-    //    healthComponent.IsInvulnerable = true;
-    //    Material originalSkin = entityRenderer.material;
-    //    entityRenderer.material = blinkSkin;
-    //    entityCollider.enabled = false;
-
-    //    yield return new WaitForSeconds(hangTimeBeforeDashStarts);
-
-    //    trailRenderer.enabled = true;
-
-    //    Vector3 initialPosition = transform.position;
-    //    Quaternion initialRotation = transform.rotation;
-
-    //    float distanceBehindTarget = bulletFirer.GetComponent<Collider>().bounds.extents.z + entityCollider.bounds.size.z;
-    //    Vector3 destinationPositionLocalToTarget = new Vector3(0f, 0f, -distanceBehindTarget);
-
-    //    float timeElapsed = 0.0f;
-    //    AnimationCurve blinkCurve = GameManager.BlinkCompletionCurve;
-
-    //    while (timeElapsed < timeToCompleteDash)
-    //    {
-    //        float percentageComplete = timeElapsed / timeToCompleteDash;
-
-    //        Vector3 targetPosition = bulletFirer.TransformPoint(destinationPositionLocalToTarget);
-    //        float curveEvaluation = blinkCurve.Evaluate(percentageComplete);
-
-    //        transform.position = Vector3.Lerp(initialPosition, targetPosition, curveEvaluation);
-    //        transform.rotation = Quaternion.Lerp(initialRotation, bulletFirer.rotation, curveEvaluation);
-
-    //        timeElapsed += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    bulletFirer.GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(transform, riposteDamage);
-    //    trailRenderer.enabled = false;
-    //    inputComponent.LockActions(false);
-    //    inputComponent.LockMovement(false);
-    //    healthComponent.IsInvulnerable = false;
-    //    entityCollider.enabled = true;
-    //    entityRenderer.material = originalSkin;
-    //}
 }

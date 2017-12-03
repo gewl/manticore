@@ -10,8 +10,6 @@ public class EntityEvents
     public const string PrimaryFire = "primary_fire";
     public const string SecondaryFire = "secondary_fire";
 
-    public const string ParrySuccessful = "parry_successful";
-
     public const string FreezeRotation = "freeze_rotation";
 	public const string ResumeRotation = "resume_rotation";
 

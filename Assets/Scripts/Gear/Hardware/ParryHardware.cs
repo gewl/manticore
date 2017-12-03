@@ -219,12 +219,4 @@ public class ParryHardware : EntityComponent, IHardware {
 		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 	}
 
-    #region called by entity action handler (Parry child object)
-
-    public void SuccessfulParryHandler()
-    {
-        entityEmitter.EmitEvent(EntityEvents.ParrySuccessful);
-    }
-
-    #endregion
 }

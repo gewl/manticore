@@ -24,6 +24,9 @@ public class RotateToFaceTarget : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnRecovered);
+
+        entityEmitter.SubscribeToEvent(EntityEvents.FreezeRotation, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.ResumeRotation, OnRecovered);
     }
 
     protected override void Unsubscribe()
@@ -34,6 +37,9 @@ public class RotateToFaceTarget : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnRecovered);
+
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.FreezeRotation, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.ResumeRotation, OnRecovered);
     }
 
     void OnSetWaypoint()
