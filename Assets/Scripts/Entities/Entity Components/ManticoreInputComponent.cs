@@ -11,6 +11,8 @@ public class ManticoreInputComponent : EntityComponent {
     private bool actionsLocked = false;
     private bool movementLocked = false;
 
+    float staminaTickRate = 0.5f;
+
     public void LockActions(bool areLocked)
     {
         actionsLocked = areLocked;
@@ -91,6 +93,20 @@ public class ManticoreInputComponent : EntityComponent {
         {
             return;
         }
+
+        IHardware gear_slot1 = gear.EquippedGear_Slot1;
+        IHardware gear_slot2 = gear.EquippedGear_Slot2;
+
+        if (gear.EquippedGear_Slot1.IsInUse && Input.GetButtonUp("UseGear_Slot1"))
+        {
+            StopGearUse(gear_slot1);
+        }
+        else if (gear.EquippedGear_Slot2.IsInUse && Input.GetButtonUp("UseGear_Slot2"))
+        {
+            StopGearUse(gear_slot2);
+        }
+
+        // Check if using (for Instant) or beginning (for Charged/Channeled) gear use
         if (Input.GetButtonDown("Parry"))
         {
             IHardware parryGear = gear.ParryGear;
@@ -101,15 +117,21 @@ public class ManticoreInputComponent : EntityComponent {
             IHardware blinkGear = gear.BlinkGear;
             UseGear(blinkGear);
         }
-        else if (Input.GetButtonDown("UseGear_Slot1"))
+        else if (Input.GetButtonDown("UseGear_Slot1") && !IsGearInUse())
         {
-            IHardware gear_slot1 = gear.EquippedGear_Slot1;
             UseGear(gear_slot1);
+            if (gear_slot1.HardwareUseType != HardwareUseTypes.Instant)
+            {
+                StartCoroutine("PeriodicalStaminaTick_Slot1");
+            }
         }
-        else if (Input.GetButtonDown("UseGear_Slot2"))
+        else if (Input.GetButtonDown("UseGear_Slot2") && !IsGearInUse())
         {
-            IHardware gear_slot2 = gear.EquippedGear_Slot2;
             UseGear(gear_slot2);
+            if (gear_slot2.HardwareUseType != HardwareUseTypes.Instant)
+            {
+                StartCoroutine("PeriodicalStaminaTick_Slot2");
+            }
         }
     }
 
@@ -119,6 +141,52 @@ public class ManticoreInputComponent : EntityComponent {
         if (!gear.IsOnCooldown && staminaComponent.TryToExpendStamina(staminaCost))
         {
             gear.UseActiveHardware();
+        }
+    }
+
+    void StopGearUse(IHardware gear)
+    {
+        gear.UseActiveHardware();
+    }
+
+    #endregion
+
+    #region Channeling gear functions
+
+    bool IsGearInUse()
+    {
+        return gear.EquippedGear_Slot1.IsInUse || gear.EquippedGear_Slot2.IsInUse;
+    }
+
+    IEnumerator PeriodicalStaminaTick_Slot1()
+    {
+        int staminaCost = gear.EquippedGear_Slot1.UpdatedStaminaCost;
+        IHardware gear_slot1 = gear.EquippedGear_Slot1;
+
+        while (gear_slot1.IsInUse)
+        {
+            if (!staminaComponent.TryToExpendStamina(staminaCost))
+            {
+                StopGearUse(gear_slot1);
+            }
+
+            yield return new WaitForSeconds(staminaTickRate);
+        }
+    }
+
+    IEnumerator PeriodicalStaminaTick_Slot2()
+    {
+        int staminaCost = gear.EquippedGear_Slot2.UpdatedStaminaCost;
+        IHardware gear_slot2 = gear.EquippedGear_Slot2;
+
+        while (gear_slot2.IsInUse)
+        {
+            if (!staminaComponent.TryToExpendStamina(staminaCost))
+            {
+                StopGearUse(gear_slot2);
+            }
+
+            yield return new WaitForSeconds(staminaTickRate);
         }
     }
 

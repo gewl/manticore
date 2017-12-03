@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class NullifierHardware : MonoBehaviour, IHardware {
 
+    public bool IsInUse { get { return false; } }
+
+    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
+    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+
     private int baseStaminaCost = 40;
     public int BaseStaminaCost
     {

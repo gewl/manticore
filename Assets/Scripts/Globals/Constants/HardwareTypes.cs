@@ -5,3 +5,10 @@
     Nullify,
     Riposte
 }
+
+public enum HardwareUseTypes
+{
+    Instant,
+    Charge,
+    Channel
+}

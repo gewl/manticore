@@ -6,7 +6,11 @@ public interface IHardware
 {
     int BaseStaminaCost { get; }
     int UpdatedStaminaCost { get; }
+
+    bool IsInUse { get; }
     bool IsOnCooldown { get; }
+
+    HardwareUseTypes HardwareUseType { get; }
 
     void UseActiveHardware();
 

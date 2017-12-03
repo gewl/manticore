@@ -5,21 +5,34 @@ using UnityEngine;
 public class Riposte : MonoBehaviour {
 
     Material blinkSkin;
-
     RiposteHardware riposteHardware;
+    int enemyBulletLayer, entityLayer;
 
     private void OnEnable()
     {
         blinkSkin = GetComponent<Renderer>().material;
         riposteHardware = GetComponentInParent<RiposteHardware>();
+
+        enemyBulletLayer = LayerMask.NameToLayer("EnemyBullet");
+        entityLayer = LayerMask.NameToLayer("Entity");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<Collider>().enabled = false;
-        other.GetComponent<BasicBullet>().enabled = false;
+        if (other.gameObject.layer == enemyBulletLayer)
+        {
+            other.GetComponent<Collider>().enabled = false;
+            other.GetComponent<BasicBullet>().enabled = false;
 
-        riposteHardware.StartAbsorbingBullet(other.gameObject);
+            riposteHardware.StartAbsorbingBullet(other.gameObject);
+        }
+        else if (other.gameObject.layer == entityLayer)
+        {
+            if (riposteHardware.IsDashing)
+            {
+                riposteHardware.BeginRiposte(other.transform);
+            }
+        }
     }
 
 }

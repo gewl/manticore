@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class BlinkHardware : EntityComponent, IHardware
 {
+
+    public bool IsInUse { get { return false; } }
+
+    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
+    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+
     // Serialized values
     [SerializeField]
     Material blinkMaterial;

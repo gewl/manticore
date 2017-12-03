@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,11 +39,22 @@ public class EntityGearManagement : MonoBehaviour {
     {
         parryGear = GetComponent<ParryHardware>() as IHardware;
         blinkGear = GetComponent<BlinkHardware>() as IHardware;
-        equippedGear_Slot1 = gameObject.AddComponent(typeof(NullifierHardware)) as IHardware;
-        equippedGear_Slot2 = gameObject.AddComponent(typeof(RiposteHardware)) as IHardware;
+
+        EquipActiveGear_Slot1(typeof(NullifierHardware));
+        EquipActiveGear_Slot2(typeof(RiposteHardware));
 
         passiveHardware_Parry += equippedGear_Slot1.ApplyPassiveHardware;
         passiveHardware_Blink += equippedGear_Slot1.ApplyPassiveHardware;
+    }
+
+    void EquipActiveGear_Slot1(Type newHardware)
+    {
+        equippedGear_Slot1 = gameObject.AddComponent(newHardware) as IHardware;
+    }
+
+    void EquipActiveGear_Slot2(Type newHardware)
+    {
+        equippedGear_Slot2 = gameObject.AddComponent(newHardware) as IHardware;
     }
 
     public void ApplyParryPassiveHardwareToBullet(GameObject bullet)

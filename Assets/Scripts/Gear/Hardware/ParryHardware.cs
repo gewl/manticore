@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ParryHardware : EntityComponent, IHardware {
 
+    public bool IsInUse { get { return false; } }
+
+    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
+    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+
     [SerializeField]
     float parryDamage = 50f;
     public float ParryDamage { get { return parryDamage; } }

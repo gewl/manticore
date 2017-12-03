@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
@@ -333,7 +334,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(ray, out hit, 100))
+        if (Physics.Raycast(ray, out hit, 1000))
         {
             return hit.point;
         }
@@ -344,6 +345,29 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region HUD data retrieval
+
+    [SerializeField]
+    GameObject gearRangeArrow;
+    GearRangeIndicator gearRangeIndicator;
+
+    public static GearRangeIndicator ActivateAndGetGearRangeIndicator()
+    {
+        if (instance.gearRangeIndicator == null) 
+        {
+            instance.gearRangeIndicator = instance.gearRangeArrow.GetComponent<GearRangeIndicator>();
+        }
+        instance.gearRangeArrow.SetActive(true);
+
+        return instance.gearRangeIndicator;
+    }        
+
+    public static void DeactivateGearRangeIndicator()
+    {
+        instance.gearRangeArrow.SetActive(false);
+    }
     #endregion
 
     #region environment management 
