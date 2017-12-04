@@ -48,8 +48,8 @@ public class EntityGearManagement : MonoBehaviour {
             passiveHardware_Slot3
         };
 
-        EquipAndAssignPassiveHardware(1, typeof(NullifierHardware));
         EquipAndAssignPassiveHardware(0, typeof(RiposteHardware));
+        EquipAndAssignPassiveHardware(1, typeof(RiposteHardware));
     }
 
     void EquipActiveGear_Slot2(Type newHardware)
@@ -93,36 +93,4 @@ public class EntityGearManagement : MonoBehaviour {
             passiveHardwareDelegate(hardware.Type, hardware, subject);
         }
     }
-
-    //public void ApplyParryPassiveHardwareToBullet(GameObject bullet)
-    //{
-    //    if (passiveHardware_Parry != null)
-    //    {
-    //        passiveHardware_Parry(HardwareTypes.Parry, parryGear, bullet);
-    //    }
-    //}
-
-    //public void ApplyPassiveHardwareToBlink(GameObject player)
-    //{
-    //    if (passiveHardware_Blink != null)
-    //    {
-    //        passiveHardware_Blink(HardwareTypes.Blink, blinkGear, player);
-    //    }
-    //}
-
-    //public void ApplyPassiveHardwareToSlot2(GameObject subject)
-    //{
-    //    if (passiveHardware_Slot2 != null)
-    //    {
-    //        passiveHardware_Slot2(equippedGear_Slot2.Type, equippedGear_Slot2, subject);
-    //    }
-    //}
-
-    //public void ApplyPassiveHardwareToSlot3(GameObject subject)
-    //{
-    //    if (passiveHardware_Slot3 != null)
-    //    {
-    //        passiveHardware_Slot3(equippedGear_Slot3.Type, equippedGear_Slot3, subject);
-    //    }
-    //}
 }

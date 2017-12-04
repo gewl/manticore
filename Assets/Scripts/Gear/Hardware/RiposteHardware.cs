@@ -301,6 +301,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Parry(subject);
                 break;
             case HardwareTypes.Blink:
+                ApplyPassiveHardware_Blink(activeHardware as BlinkHardware, subject);
                 break;
             case HardwareTypes.Nullify:
                 break;
@@ -317,9 +318,10 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         bullet.GetComponent<BasicBullet>().IsHoming = true;
     }
 
-    void ApplyPassiveHardware_Blink(GameObject entity)
+    void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware, GameObject entity)
     {
-
+        blinkHardware.DoesBlinkDamage = true;
+        blinkHardware.BlinkDamage = riposteDamage / 3f;
     }
 
     void ApplyPassiveHardware_Nullify(GameObject nullifyZone)

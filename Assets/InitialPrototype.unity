@@ -2430,7 +2430,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  parryDamage: 10
+  parryDamage: 50
   timeToCompleteParry: 0.12
   parryStaminaCost: 30
   movementPenalty: 0.5
@@ -2486,6 +2486,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  DoesBlinkDamage: 0
+  BlinkDamage: 0
   blinkMaterial: {fileID: 2100000, guid: acb820fd905a27343a7e17f37867f7f1, type: 2}
   blinkRange: 15
   timeToCompleteBlink: 0.2
@@ -4831,6 +4833,33 @@ Prefab:
       value: 
       objectReference: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: initialHealth
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.SerializedFormat
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.SerializedFormat
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0

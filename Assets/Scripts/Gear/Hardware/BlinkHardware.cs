@@ -7,10 +7,14 @@ public class BlinkHardware : EntityComponent, IHardware
     HardwareTypes type = HardwareTypes.Blink;
     public HardwareTypes Type { get { return type; } }
 
-    public bool IsInUse { get { return false; } }
-
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+
+    public bool IsInUse { get { return false; } }
+    public bool DoesBlinkDamage = false;
+    public float BlinkDamage = 0f;
+
+    int entityLayermask;
 
     // Serialized values
     [SerializeField]
@@ -44,6 +48,8 @@ public class BlinkHardware : EntityComponent, IHardware
     protected override void OnEnable()
     {
         base.OnEnable();
+        entityLayermask = 1 << LayerMask.NameToLayer("Entity");
+
         gear = GetComponent<EntityGearManagement>();
         inputComponent = GetComponent<ManticoreInputComponent>();
         if (blinkMaterial == null || System.Math.Abs(blinkRange) < 0.1f)
@@ -135,6 +141,22 @@ public class BlinkHardware : EntityComponent, IHardware
 
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
+
+        if (DoesBlinkDamage)
+        {
+            DoesBlinkDamage = false;
+
+            Vector3 toDestination = destination - origin;
+            RaycastHit[] hits = Physics.RaycastAll(origin, toDestination, toDestination.magnitude, entityLayermask);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                GameObject entity = hits[i].collider.gameObject;
+// TODO: Make this work for other health components.
+                MobileEntityHealthComponent entityHealthComponent = entity.GetComponent<MobileEntityHealthComponent>();
+                entityHealthComponent.ReceiveDamageDirectly(transform, BlinkDamage);
+            }
+        }
 		yield break;
     }
 
