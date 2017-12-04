@@ -304,6 +304,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Blink(activeHardware as BlinkHardware, subject);
                 break;
             case HardwareTypes.Nullify:
+                ApplyPassiveHardware_Nullify(subject);
                 break;
             case HardwareTypes.Riposte:
                 Debug.LogError("Trying to apply Riposte passive hardware to Riposte active hardware.");
@@ -326,6 +327,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     void ApplyPassiveHardware_Nullify(GameObject nullifyZone)
     {
-
+        nullifyZone.GetComponent<Collider>().isTrigger = true;
+        nullifyZone.GetComponent<Nullify>().IsReflecting = true;
     }
 }

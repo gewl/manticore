@@ -146,18 +146,24 @@ public class BlinkHardware : EntityComponent, IHardware
         {
             DoesBlinkDamage = false;
 
-            Vector3 toDestination = destination - origin;
-            RaycastHit[] hits = Physics.RaycastAll(origin, toDestination, toDestination.magnitude, entityLayermask);
-
-            for (int i = 0; i < hits.Length; i++)
-            {
-                GameObject entity = hits[i].collider.gameObject;
-// TODO: Make this work for other health components.
-                MobileEntityHealthComponent entityHealthComponent = entity.GetComponent<MobileEntityHealthComponent>();
-                entityHealthComponent.ReceiveDamageDirectly(transform, BlinkDamage);
-            }
+            ApplyBlinkDamage(origin, destination);
         }
 		yield break;
+    }
+
+    void ApplyBlinkDamage(Vector3 blinkOrigin, Vector3 blinkDestination)
+    {
+        Vector3 toDestination = blinkDestination - blinkOrigin;
+        RaycastHit[] hits = Physics.RaycastAll(blinkOrigin, toDestination, toDestination.magnitude, entityLayermask);
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            GameObject entity = hits[i].collider.gameObject;
+// TODO: Make this work for other health components.
+            MobileEntityHealthComponent entityHealthComponent = entity.GetComponent<MobileEntityHealthComponent>();
+            entityHealthComponent.ReceiveDamageDirectly(transform, BlinkDamage);
+        }
+
     }
 
     Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)

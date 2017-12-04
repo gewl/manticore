@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33589193606349376}
   - component: {fileID: 135232568036768446}
   - component: {fileID: 23488430639585186}
+  - component: {fileID: 114926458454219496}
   m_Layer: 14
   m_Name: NullifierEffect
   m_TagString: Untagged
@@ -83,6 +84,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1394150676700530}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114926458454219496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1394150676700530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2140f0200ed2454c84fbd20f57ed36a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsReflecting: 0
 --- !u!135 &135232568036768446
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -12,23 +12,11 @@ public class NullifierHardware : MonoBehaviour, IHardware {
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
-    private int baseStaminaCost = 40;
-    public int BaseStaminaCost
-    {
-        get
-        {
-            return baseStaminaCost;
-        }
-    }
+    EntityGearManagement gear;
 
-    private int updatedStaminaCost = 40;
-    public int UpdatedStaminaCost
-    {
-        get
-        {
-            return updatedStaminaCost;
-        }
-    }
+    private int baseStaminaCost = 80;
+    public int BaseStaminaCost { get { return baseStaminaCost; } }
+    public int UpdatedStaminaCost { get { return baseStaminaCost; } }
 
     private bool isOnCooldown = false;
     public bool IsOnCooldown
@@ -56,6 +44,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
     void OnEnable()
     {
+        gear = GetComponent<EntityGearManagement>();
         nullifyEffect = (GameObject)Resources.Load(NULLIFY_PATH);
         nullifyMaterial = (Material)Resources.Load(NULLIFY_MATERIAL_PATH);
     }
@@ -70,6 +59,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
     {
         GameObject spawnedNullification = Instantiate(nullifyEffect, transform.position, Quaternion.identity);
         spawnedNullification.GetComponent<MeshRenderer>().material = nullifyMaterial;
+        gear.ApplyPassiveHardware(typeof(NullifierHardware), spawnedNullification);
 
         float timeElapsed = 0.0f;
         Vector3 originalSize = spawnedNullification.transform.localScale;

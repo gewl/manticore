@@ -49,7 +49,7 @@ public class EntityGearManagement : MonoBehaviour {
         };
 
         EquipAndAssignPassiveHardware(0, typeof(RiposteHardware));
-        EquipAndAssignPassiveHardware(1, typeof(RiposteHardware));
+        EquipAndAssignPassiveHardware(2, typeof(RiposteHardware));
     }
 
     void EquipActiveGear_Slot2(Type newHardware)

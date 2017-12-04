@@ -25,8 +25,8 @@ public class BasicBullet : MonoBehaviour {
     public bool IsHoming = false;
     float homingDeadDistance = 10f;
 
-    const string ENEMY_BULLET = "EnemyBullet";
-    const string FRIENDLY_BULLET = "FriendlyBullet";
+    public const string ENEMY_BULLET = "EnemyBullet";
+    public const string FRIENDLY_BULLET = "FriendlyBullet";
 
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
@@ -111,13 +111,24 @@ public class BasicBullet : MonoBehaviour {
         }
     }
 
+    // If no target position or strength supplied, just reverse direction.
+    public void Parry(Transform newFirer)
+    {
+        Parry(newFirer, firer.position, strength);
+    }
+
+    public void Parry(Transform newFirer, float newStrength, float speedModifier = 2f)
+    {
+        Parry(newFirer, firer.position, newStrength, speedModifier);
+    }
+
     // If no new strength supplied, executes parry maintaining current strength.
     public void Parry(Transform newFirer, Vector3 targetPosition)
     {
         Parry(newFirer, targetPosition, strength);
     }
     
-    public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength)
+    public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength, float speedModifier = 2f)
     {
         strength = newStrength;
         target = firer;
@@ -127,8 +138,8 @@ public class BasicBullet : MonoBehaviour {
             targetPosition = target.position; 
         }
         gameObject.layer = 12;
-        gameObject.tag = "FriendlyBullet";
-        speed *= 2f;
+        gameObject.tag = FRIENDLY_BULLET;
+        speed *= speedModifier;
         bulletRigidbody.velocity = (targetPosition - transform.position).normalized * speed;
 
         meshRenderer.material = friendlyBulletMaterial;
