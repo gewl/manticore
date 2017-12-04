@@ -27,10 +27,35 @@ public class NullifierHardware : MonoBehaviour, IHardware {
         }
     }
 
-    GameObject nullifyEffect;
-    const string NULLIFY_PATH = "Prefabs/Abilities/NullifierEffect";
-    Material nullifyMaterial;
-    const string NULLIFY_MATERIAL_PATH = "Materials/CharacterParts/Effects/NullifySkin";
+    const string NULLIFY_EMANATE_PATH = "Prefabs/Abilities/NullifierEmanateEffect";
+    GameObject _nullifyEmanateEffect;
+    GameObject NullifyEmanateEffect
+    {
+        get
+        {
+            if (_nullifyEmanateEffect == null)
+            {
+                _nullifyEmanateEffect = (GameObject)Resources.Load(NULLIFY_EMANATE_PATH);
+            }
+
+            return _nullifyEmanateEffect;
+        }
+    }
+
+    const string NULLIFY_PROJECT_PATH = "Prefabs/Abilities/NullifierProjectEffect";
+    GameObject _nullifyProjectEffect;
+    GameObject NullifyProjectEffect
+    {
+        get
+        {
+            if (_nullifyProjectEffect == null)
+            {
+                _nullifyProjectEffect = (GameObject)Resources.Load(NULLIFY_PROJECT_PATH);
+            }
+
+            return _nullifyProjectEffect;
+        }
+    }
 
     float cooldownTime = 2f;
 
@@ -40,13 +65,14 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
     // Passive hardware (Parry) values
     float bulletNullifyRadius = 4f;
-    float timeToExpandPassiveEffect = 0.1f;
+    float timeToExpandParryPassiveEffect = 0.1f;
+    // Passive hardware (Riposte) values
+    float timeToExpandRipostePassiveEffect = 0.8f;
+    float hangTimeOnCompletion = 0.2f;
 
     void OnEnable()
     {
         gear = GetComponent<EntityGearManagement>();
-        nullifyEffect = (GameObject)Resources.Load(NULLIFY_PATH);
-        nullifyMaterial = (Material)Resources.Load(NULLIFY_MATERIAL_PATH);
     }
 
     #region Active hardware use
@@ -57,8 +83,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
     IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false)
     {
-        GameObject spawnedNullification = Instantiate(nullifyEffect, transform.position, Quaternion.identity);
-        spawnedNullification.GetComponent<MeshRenderer>().material = nullifyMaterial;
+        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, transform.position, Quaternion.identity);
         gear.ApplyPassiveHardware(typeof(NullifierHardware), spawnedNullification);
 
         float timeElapsed = 0.0f;
@@ -103,8 +128,10 @@ public class NullifierHardware : MonoBehaviour, IHardware {
                 StartCoroutine(ApplyPassiveHardware_Blink(activeHardware, subject));
                 break;
             case HardwareTypes.Nullify:
+                Debug.LogError("Trying to apply Nullify passive effect to Nullify active hardware.");
                 break;
             case HardwareTypes.Riposte:
+                StartCoroutine(ApplyPassiveHardware_Riposte(activeHardware, subject));
                 break;
             default:
                 break;
@@ -113,18 +140,17 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
     IEnumerator ApplyPassiveHardware_Parry(GameObject bullet)
     {
-        GameObject spawnedNullification = Instantiate(nullifyEffect, bullet.transform.position, Quaternion.identity, bullet.transform);
-        spawnedNullification.GetComponent<MeshRenderer>().material = nullifyMaterial;
+        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, bullet.transform.position, Quaternion.identity, bullet.transform);
 
         Vector3 originalSize = spawnedNullification.transform.localScale;
         Vector3 targetSize = new Vector3(bulletNullifyRadius, 1f, bulletNullifyRadius);
 
         float timeElapsed = 0.0f;
-        while (timeElapsed < timeToExpandPassiveEffect)
+        while (timeElapsed < timeToExpandParryPassiveEffect)
         {
             timeElapsed += Time.deltaTime;
 
-            float percentageComplete = timeElapsed / timeToCompleteActiveEffect;
+            float percentageComplete = timeElapsed / timeToExpandParryPassiveEffect;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
@@ -144,5 +170,36 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
         yield return null;
     }
+
+    IEnumerator ApplyPassiveHardware_Riposte(IHardware activeHardware, GameObject target)
+    {
+        Vector3 targetRotationEuler = target.transform.rotation.eulerAngles;
+        Vector3 projectedRotationEuler = targetRotationEuler;
+        projectedRotationEuler.y += 90f;
+        GameObject spawnedNullification = Instantiate(NullifyProjectEffect, target.transform.position, Quaternion.Euler(projectedRotationEuler));
+
+        Vector3 originalSize = spawnedNullification.transform.localScale;
+        Vector3 targetSize = new Vector3(10f, originalSize.y, 2f);
+
+        float timeElapsed = 0.0f;
+        while (timeElapsed < timeToExpandRipostePassiveEffect)
+        {
+            timeElapsed += Time.deltaTime;
+
+            float percentageComplete = timeElapsed / timeToExpandRipostePassiveEffect;
+            float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
+
+            spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
+            spawnedNullification.transform.position = target.transform.position;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(hangTimeOnCompletion);
+
+        Destroy(spawnedNullification);
+
+        yield break;
+    }
+
     #endregion
 }

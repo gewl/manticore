@@ -167,7 +167,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #region gamestate handlers
 
-    public static void HandleFreezeEvent(GlobalConstants.GameFreezeEvent freezeEvent)
+    public static void FreezeGame(GlobalConstants.GameFreezeEvent freezeEvent)
     {
         int freezeFrameCount = instance.gameFreezeTimers[freezeEvent];
         IEnumerator freezeCoroutine = CoroutineUtilities.PauseForFrames(freezeFrameCount);

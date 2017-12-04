@@ -13,6 +13,8 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Channel;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
+    EntityGearManagement gear;
+
     int baseStaminaCost = 10;
     public int BaseStaminaCost { get { return baseStaminaCost; } }
     public int UpdatedStaminaCost { get { return baseStaminaCost; } }
@@ -61,6 +63,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     {
         riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
 
+        gear = GetComponent<EntityGearManagement>();
         healthComponent = GetComponent<MobileEntityHealthComponent>();
 
         entityRenderer = GetComponent<Renderer>();
@@ -277,8 +280,9 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
         yield return new WaitForSeconds(0.2f);
 
-        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.Riposte);
+        GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.Riposte);
         target.GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(transform, riposteDamage);
+        gear.ApplyPassiveHardware(typeof(RiposteHardware), target.gameObject);
         if (audioComponent != null)
         {
             audioComponent.PlayGearSound(HardwareTypes.Riposte);

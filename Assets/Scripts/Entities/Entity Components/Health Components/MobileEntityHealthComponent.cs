@@ -242,7 +242,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     void RespondToDamage(Vector3 damagingProjectileCollisionVelocity)
     {
-        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityInjured);
+        GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         entityEmitter.EmitEvent(EntityEvents.Hurt);
         if (!isStunned)
@@ -270,7 +270,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     void RespondToDeath(Vector3 killingProjectileCollisionVelocity)
     {
         isDead = true;
-        GameManager.HandleFreezeEvent(GlobalConstants.GameFreezeEvent.EntityDead);
+        GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
         // Knock back

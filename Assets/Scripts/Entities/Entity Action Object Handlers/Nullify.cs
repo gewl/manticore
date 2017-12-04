@@ -15,7 +15,7 @@ public class Nullify : MonoBehaviour {
 
             if (bullet != null && bullet.CompareTag(BasicBullet.ENEMY_BULLET))
             {
-                bullet.Parry(transform.parent, bullet.strength * handicap, bullet.speed * handicap);
+                bullet.Parry(transform.parent, bullet.strength * handicap, handicap);
             }
         } 
     }
