@@ -5,7 +5,7 @@ using UnityEngine;
 public class Nullify : MonoBehaviour {
 
     public bool IsReflecting = false;
-    float handicap = 0.5f
+    float handicap = 0.5f;
 
     private void OnTriggerEnter(Collider other)
     {
