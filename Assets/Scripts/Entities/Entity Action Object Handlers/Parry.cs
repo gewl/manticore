@@ -29,7 +29,7 @@ public class Parry : MonoBehaviour {
 
         Vector3 aimPosition = GameManager.GetMousePositionOnPlayerPlane();
         bullet.Parry(transform, aimPosition, parryDamage);
-        gear.ApplyParryPassiveHardwareToBullet(bulletObject);
+        gear.ApplyPassiveHardware(typeof(ParryHardware), bullet.gameObject);
 
         if (audioComponent != null)
         {

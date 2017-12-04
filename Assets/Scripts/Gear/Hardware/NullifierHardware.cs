@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NullifierHardware : MonoBehaviour, IHardware {
 
+    HardwareTypes type = HardwareTypes.Nullify;
+    public HardwareTypes Type { get { return type; } }
+
     public bool IsInUse { get { return false; } }
 
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
@@ -60,10 +63,10 @@ public class NullifierHardware : MonoBehaviour, IHardware {
     #region Active hardware use
     public void UseActiveHardware()
     {
-        StartCoroutine("FireNullifyEffect");
+        StartCoroutine(FireNullifyEffect(timeToCompleteActiveEffect));
     }
 
-    IEnumerator FireNullifyEffect()
+    IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false)
     {
         GameObject spawnedNullification = Instantiate(nullifyEffect, transform.position, Quaternion.identity);
         spawnedNullification.GetComponent<MeshRenderer>().material = nullifyMaterial;
@@ -72,13 +75,14 @@ public class NullifierHardware : MonoBehaviour, IHardware {
         Vector3 originalSize = spawnedNullification.transform.localScale;
         Vector3 targetSize = new Vector3(entityNullifyRadius, 1f, entityNullifyRadius);
 
-        while (timeElapsed < timeToCompleteActiveEffect)
+        while (timeElapsed < duration)
         {
             timeElapsed += Time.deltaTime;
 
-            float percentageComplete = timeElapsed / timeToCompleteActiveEffect;
+            float percentageComplete = timeElapsed / duration;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
+            spawnedNullification.transform.position = transform.position;
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
             yield return null;
         }
@@ -146,9 +150,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
         float blinkDuration = blinkHardware.TimeToCompleteBlink + blinkHardware.HangTimeBeforeBlinkStarts;
 
-        yield return new WaitForSeconds(blinkDuration);
-
-        StartCoroutine(FireNullifyEffect());
+        StartCoroutine(FireNullifyEffect(blinkDuration, true));
 
         yield return null;
     }

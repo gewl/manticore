@@ -7,6 +7,9 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     // "Riposte" refers both to the gear itself and to the teleport/damage combo triggered if the player impacts an
     // entity while Dashing.
 
+    HardwareTypes type = HardwareTypes.Riposte;
+    public HardwareTypes Type { get { return type; } }
+
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Channel;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
@@ -83,11 +86,8 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         }
     }
 
-    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
-    {
 
-    }
-
+    #region Active riposte logic
     void BeginChanneling()
     {
         StartCoroutine(EnterReadyState());
@@ -181,7 +181,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
         if (ripostingBullet)
         {
-            Transform bulletFirer = bullet.GetComponent<BasicBullet>().firer;
             BeginDash();
         }
         Destroy(bullet.gameObject);
@@ -227,7 +226,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
             yield return null;
         }
 
-        Debug.Log("end of dash");
         trailRenderer.enabled = false;
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
@@ -267,7 +265,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
             float percentageComplete = timeElapsed / timeToCompleteRipsote;
 
             Vector3 targetPosition = target.TransformPoint(destinationPositionLocalToTarget);
-            float curveEvaluation = blinkCurve.Evaluate(percentageComplete);
 
             transform.position = Vector3.Lerp(initialPosition, targetPosition, percentageComplete);
             transform.rotation = Quaternion.Lerp(initialRotation, target.rotation, percentageComplete);
@@ -293,5 +290,40 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         entityCollider.enabled = true;
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
+    }
+    #endregion
+
+    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
+    {
+        switch (activeHardwareType)
+        {
+            case HardwareTypes.Parry:
+                ApplyPassiveHardware_Parry(subject);
+                break;
+            case HardwareTypes.Blink:
+                break;
+            case HardwareTypes.Nullify:
+                break;
+            case HardwareTypes.Riposte:
+                Debug.LogError("Trying to apply Riposte passive hardware to Riposte active hardware.");
+                break;
+            default:
+                break;
+        }
+    }
+
+    void ApplyPassiveHardware_Parry(GameObject bullet)
+    {
+        bullet.GetComponent<BasicBullet>().IsHoming = true;
+    }
+
+    void ApplyPassiveHardware_Blink(GameObject entity)
+    {
+
+    }
+
+    void ApplyPassiveHardware_Nullify(GameObject nullifyZone)
+    {
+
     }
 }

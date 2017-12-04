@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Riposte : MonoBehaviour {
 
-    Material blinkSkin;
     RiposteHardware riposteHardware;
     int enemyBulletLayer, entityLayer;
 
     private void OnEnable()
     {
-        blinkSkin = GetComponent<Renderer>().material;
         riposteHardware = GetComponentInParent<RiposteHardware>();
 
         enemyBulletLayer = LayerMask.NameToLayer("EnemyBullet");

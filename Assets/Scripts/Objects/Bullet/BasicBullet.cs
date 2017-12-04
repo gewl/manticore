@@ -22,6 +22,9 @@ public class BasicBullet : MonoBehaviour {
     public Transform target;
     public Vector3 targetPosition;
 
+    public bool IsHoming = false;
+    float homingDeadDistance = 10f;
+
     const string ENEMY_BULLET = "EnemyBullet";
     const string FRIENDLY_BULLET = "FriendlyBullet";
 
@@ -45,6 +48,24 @@ public class BasicBullet : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (IsHoming)
+        {
+            Vector3 normalizedVelocity = bulletRigidbody.velocity.normalized;
+            Vector3 toTarget = (target.position - transform.position);
+            Vector3 toTargetNormalized = toTarget.normalized;
+
+            float angleToTarget = Vector3.Angle(normalizedVelocity, toTarget);
+
+            Vector3 averageOfVectors = (10f * normalizedVelocity + toTargetNormalized) / 11f;
+
+            bulletRigidbody.velocity = averageOfVectors * speed;
+
+            if (angleToTarget >= 85f)
+            {
+                IsHoming = false;
+            }
+        }
+
         if (bulletRigidbody.velocity.sqrMagnitude < 150f)
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
@@ -107,7 +128,8 @@ public class BasicBullet : MonoBehaviour {
         }
         gameObject.layer = 12;
         gameObject.tag = "FriendlyBullet";
-        bulletRigidbody.velocity = (targetPosition - transform.position).normalized * speed * 2f;
+        speed *= 2f;
+        bulletRigidbody.velocity = (targetPosition - transform.position).normalized * speed;
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;

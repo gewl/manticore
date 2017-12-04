@@ -10,6 +10,7 @@ public interface IHardware
     bool IsInUse { get; }
     bool IsOnCooldown { get; }
 
+    HardwareTypes Type { get; }
     HardwareUseTypes HardwareUseType { get; }
 
     void UseActiveHardware();

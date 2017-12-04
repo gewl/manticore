@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ParryHardware : EntityComponent, IHardware {
 
+    HardwareTypes type = HardwareTypes.Parry;
+    public HardwareTypes Type { get { return type; } }
+
     public bool IsInUse { get { return false; } }
 
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;

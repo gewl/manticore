@@ -94,14 +94,14 @@ public class ManticoreInputComponent : EntityComponent {
             return;
         }
 
-        IHardware gear_slot1 = gear.EquippedGear_Slot1;
-        IHardware gear_slot2 = gear.EquippedGear_Slot2;
+        IHardware gear_slot1 = gear.EquippedGear_Slot2;
+        IHardware gear_slot2 = gear.EquippedGear_Slot3;
 
-        if (gear.EquippedGear_Slot1.IsInUse && Input.GetButtonUp("UseGear_Slot1"))
+        if (gear.EquippedGear_Slot2.IsInUse && Input.GetButtonUp("UseGear_Slot1"))
         {
             StopGearUse(gear_slot1);
         }
-        else if (gear.EquippedGear_Slot2.IsInUse && Input.GetButtonUp("UseGear_Slot2"))
+        else if (gear.EquippedGear_Slot3.IsInUse && Input.GetButtonUp("UseGear_Slot2"))
         {
             StopGearUse(gear_slot2);
         }
@@ -155,13 +155,13 @@ public class ManticoreInputComponent : EntityComponent {
 
     bool IsGearInUse()
     {
-        return gear.EquippedGear_Slot1.IsInUse || gear.EquippedGear_Slot2.IsInUse;
+        return gear.EquippedGear_Slot2.IsInUse || gear.EquippedGear_Slot3.IsInUse;
     }
 
     IEnumerator PeriodicalStaminaTick_Slot1()
     {
-        int staminaCost = gear.EquippedGear_Slot1.UpdatedStaminaCost;
-        IHardware gear_slot1 = gear.EquippedGear_Slot1;
+        int staminaCost = gear.EquippedGear_Slot2.UpdatedStaminaCost;
+        IHardware gear_slot1 = gear.EquippedGear_Slot2;
 
         while (gear_slot1.IsInUse)
         {
@@ -176,8 +176,8 @@ public class ManticoreInputComponent : EntityComponent {
 
     IEnumerator PeriodicalStaminaTick_Slot2()
     {
-        int staminaCost = gear.EquippedGear_Slot2.UpdatedStaminaCost;
-        IHardware gear_slot2 = gear.EquippedGear_Slot2;
+        int staminaCost = gear.EquippedGear_Slot3.UpdatedStaminaCost;
+        IHardware gear_slot2 = gear.EquippedGear_Slot3;
 
         while (gear_slot2.IsInUse)
         {

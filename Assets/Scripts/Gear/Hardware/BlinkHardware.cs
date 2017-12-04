@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BlinkHardware : EntityComponent, IHardware
 {
+    HardwareTypes type = HardwareTypes.Blink;
+    public HardwareTypes Type { get { return type; } }
 
     public bool IsInUse { get { return false; } }
 
@@ -89,7 +91,7 @@ public class BlinkHardware : EntityComponent, IHardware
 
     IEnumerator FireBlink()
     {
-        gear.ApplyPassiveHardwareToBlink(gameObject);
+        gear.ApplyPassiveHardware(typeof(BlinkHardware), gameObject);
         isOnCooldown = true;
         // Entering blink state
         inputComponent.LockActions(true);
