@@ -46,7 +46,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     float timeToAbsorbBullet = 0.4f;
 
     GameObject riposteZone;
-    const string RIPOSTE_ZONE = "RiposteZone";
+    const string RIPOSTE_ZONE_PATH = "Prefabs/Abilities/RiposteZone";
 
     MobileEntityHealthComponent healthComponent;
     Material originalSkin;
@@ -61,7 +61,9 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     private void OnEnable()
     {
-        riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
+        //riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
+        GameObject riposteZonePrefab = (GameObject)Resources.Load(RIPOSTE_ZONE_PATH);
+        riposteZone = Instantiate(riposteZonePrefab, transform);
 
         gear = GetComponent<EntityGearManagement>();
         healthComponent = GetComponent<MobileEntityHealthComponent>();
