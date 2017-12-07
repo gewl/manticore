@@ -21,16 +21,16 @@ public class TerminalController : MonoBehaviour {
         floatingLetter.SetActive(true);
         floatingLetter.transform.position = originalLetterPosition;
         floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
-        StartCoroutine(BobAndSpin());
+        StartCoroutine("ActivateTerminal");
     }
 
     private void OnTriggerExit(Collider other)
     {
         floatingLetter.SetActive(false);
-        StopCoroutine(BobAndSpin());
+        StopCoroutine("ActivateTerminal");
     }
 
-    IEnumerator BobAndSpin()
+    IEnumerator ActivateTerminal()
     {
         float timeElapsed = 0.0f;
         while (true)
@@ -39,11 +39,15 @@ public class TerminalController : MonoBehaviour {
             Vector3 letterRotationEuler = originalLetterRotationEuler;
             letterRotationEuler.z += timeElapsed * 90f;
             floatingLetter.transform.rotation = Quaternion.Euler(letterRotationEuler);
-            //floatingLetter.transform.Rotate(floatingLetter.transform.right, timeElapsed);
 
             float verticalAdjustment = Mathf.PingPong(timeElapsed + 1f, 2.0f);
             verticalAdjustment -= 1f;
             floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Debug.Log("bonk");
+                GameManager.TogglePause();
+            }
             yield return null;
         }
     }
