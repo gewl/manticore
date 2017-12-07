@@ -31,13 +31,15 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
+    float percentOfCooldownRemaining = 0.0f;
+    public CooldownDelegate CooldownUpdater { get; set; }
 
     bool hasDashed = false;
 
     bool isDashing = false;
     public bool IsDashing { get { return isDashing; } }
 
-    float riposteCooldown = 1f;
+    float riposteCooldown = 4f;
 
     float hangTimeBeforeDashStarts = 0.1f;
     float timeToCompleteDash = 0.4f;
@@ -61,7 +63,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     private void OnEnable()
     {
-        //riposteZone = transform.Find(RIPOSTE_ZONE).gameObject;
         GameObject riposteZonePrefab = (GameObject)Resources.Load(RIPOSTE_ZONE_PATH);
         riposteZone = Instantiate(riposteZonePrefab, transform);
 
@@ -75,7 +76,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         blinkSkin = riposteZone.GetComponent<Renderer>().material;
         entityCollider = GetComponent<Collider>();
         trailRenderer = GetComponent<TrailRenderer>();
-
     }
 
     public void UseActiveHardware()
@@ -115,9 +115,13 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         while (timeElapsed < riposteCooldown)
         {
             timeElapsed += Time.deltaTime;
+            percentOfCooldownRemaining = 1 - (timeElapsed / riposteCooldown);
+            CooldownUpdater(percentOfCooldownRemaining);
             yield return null;
         }
 
+        percentOfCooldownRemaining = 0.0f;
+        CooldownUpdater(percentOfCooldownRemaining);
         isOnCooldown = false;
     }
 
@@ -238,13 +242,11 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         entityCollider.enabled = true;
         entityRenderer.material = originalSkin;
         isDashing = false;
-        StopChanneling();
         riposteZone.SetActive(false);
     }
 
     public void BeginRiposte(Transform target)
     {
-        StopChanneling();
         riposteZone.SetActive(false);
         isDashing = false;
         StopCoroutine("Dash");

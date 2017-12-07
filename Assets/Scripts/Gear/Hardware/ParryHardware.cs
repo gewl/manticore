@@ -31,6 +31,9 @@ public class ParryHardware : EntityComponent, IHardware {
 
     bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
+    float percentOfCooldownRemaining = 1.0f;
+    public CooldownDelegate CooldownUpdater { get; set; }
+
     bool inComboWindow = false;
     bool isInParry = false;
 

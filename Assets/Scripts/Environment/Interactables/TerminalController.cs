@@ -1,0 +1,50 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TerminalController : MonoBehaviour {
+
+    [SerializeField]
+    GameObject floatingLetter;
+    Vector3 originalLetterPosition;
+
+    Vector3 originalLetterRotationEuler;
+
+    private void OnEnable()
+    {
+        originalLetterPosition = floatingLetter.transform.position;
+        originalLetterRotationEuler = floatingLetter.transform.rotation.eulerAngles;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        floatingLetter.SetActive(true);
+        floatingLetter.transform.position = originalLetterPosition;
+        floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
+        StartCoroutine(BobAndSpin());
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        floatingLetter.SetActive(false);
+        StopCoroutine(BobAndSpin());
+    }
+
+    IEnumerator BobAndSpin()
+    {
+        float timeElapsed = 0.0f;
+        while (true)
+        {
+            timeElapsed += Time.deltaTime;
+            Vector3 letterRotationEuler = originalLetterRotationEuler;
+            letterRotationEuler.z += timeElapsed * 90f;
+            floatingLetter.transform.rotation = Quaternion.Euler(letterRotationEuler);
+            //floatingLetter.transform.Rotate(floatingLetter.transform.right, timeElapsed);
+
+            float verticalAdjustment = Mathf.PingPong(timeElapsed + 1f, 2.0f);
+            verticalAdjustment -= 1f;
+            floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
+            yield return null;
+        }
+    }
+}

@@ -42,8 +42,12 @@ public class BlinkHardware : EntityComponent, IHardware
 
     // State management
     bool isOnCooldown = false;
-    bool canBlink = true;
     public bool IsOnCooldown { get { return isOnCooldown && canBlink; } }
+    float blinkCooldown = 1.0f;
+    float percentOfCooldownRemaining = 1.0f;
+    public CooldownDelegate CooldownUpdater { get; set; }
+
+    bool canBlink = true;
 
     protected override void OnEnable()
     {
@@ -93,6 +97,23 @@ public class BlinkHardware : EntityComponent, IHardware
     {
         canBlink = true;
     }
+
+    IEnumerator GoOnCooldown()
+    {
+        float timeElapsed = 0.0f;
+
+        while (timeElapsed < blinkCooldown)
+        {
+            timeElapsed += Time.deltaTime;
+            percentOfCooldownRemaining = 1 - (timeElapsed / blinkCooldown);
+            CooldownUpdater(percentOfCooldownRemaining);
+            yield return null;
+        }
+
+        percentOfCooldownRemaining = 0.0f;
+        CooldownUpdater(percentOfCooldownRemaining);
+        isOnCooldown = false;
+    }
     #endregion
 
     IEnumerator FireBlink()
@@ -137,7 +158,7 @@ public class BlinkHardware : EntityComponent, IHardware
         // Exiting blink state
         entityMeshRenderer.material = originalSkin;
         trailRenderer.enabled = false;
-        isOnCooldown = false;
+        StartCoroutine(GoOnCooldown());
 
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);

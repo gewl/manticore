@@ -33,7 +33,7 @@ TagManager:
   - ObstacleAvoidanceTrigger
   - EntityTrigger
   - RiposteTrigger
-  - 
+  - InteractableTrigger
   - 
   - 
   - 

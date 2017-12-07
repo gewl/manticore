@@ -76,7 +76,7 @@ public class GameManager : SerializedMonoBehaviour {
             return _mainCamera;
         }
     }
-    
+
     static GameObject _hud;
     public static GameObject HUD
     {
@@ -312,7 +312,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerTransform == null)
         {
-            return Vector3.zero;     
+            return Vector3.zero;
         }
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         float distance;
@@ -348,6 +348,10 @@ public class GameManager : SerializedMonoBehaviour {
     #endregion
 
     #region HUD data retrieval
+
+    [SerializeField]
+    AbilityBarController abilityBar;
+    public AbilityBarController AbilityBar { get { return abilityBar; } }
 
     [SerializeField]
     GameObject gearRangeArrow;

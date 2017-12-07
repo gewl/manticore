@@ -19,13 +19,10 @@ public class NullifierHardware : MonoBehaviour, IHardware {
     public int UpdatedStaminaCost { get { return baseStaminaCost; } }
 
     private bool isOnCooldown = false;
-    public bool IsOnCooldown
-    {
-        get
-        {
-            return isOnCooldown;
-        }
-    }
+    public bool IsOnCooldown { get { return isOnCooldown; } }
+    float nullifyCooldown = 4f;
+    float percentOfCooldownRemaining = 0.0f;
+    public CooldownDelegate CooldownUpdater { get; set; }
 
     const string NULLIFY_EMANATE_PATH = "Prefabs/Abilities/NullifierEmanateEffect";
     GameObject _nullifyEmanateEffect;
@@ -56,8 +53,6 @@ public class NullifierHardware : MonoBehaviour, IHardware {
             return _nullifyProjectEffect;
         }
     }
-
-    float cooldownTime = 2f;
 
     // Active hardware values
     float entityNullifyRadius = 8f;
@@ -102,16 +97,26 @@ public class NullifierHardware : MonoBehaviour, IHardware {
             yield return null;
         }
 
+        StartCoroutine(GoOnCooldown());
         DestroyObject(spawnedNullification);
         yield break;
     }
 
-    IEnumerator Cooldown()
+    IEnumerator GoOnCooldown()
     {
+        float timeElapsed = 0.0f;
         isOnCooldown = true;
 
-        yield return new WaitForSeconds(cooldownTime);
+        while (timeElapsed < nullifyCooldown)
+        {
+            timeElapsed += Time.deltaTime;
+            percentOfCooldownRemaining = 1 - (timeElapsed / nullifyCooldown);
+            CooldownUpdater(percentOfCooldownRemaining);
+            yield return null;
+        }
 
+        percentOfCooldownRemaining = 0.0f;
+        CooldownUpdater(percentOfCooldownRemaining);
         isOnCooldown = false;
     }
     #endregion

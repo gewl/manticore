@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void CooldownDelegate(float percentageCooldownRemaining);
+
 public interface IHardware
 {
     int BaseStaminaCost { get; }
@@ -9,6 +11,7 @@ public interface IHardware
 
     bool IsInUse { get; }
     bool IsOnCooldown { get; }
+    CooldownDelegate CooldownUpdater { get; set; }
 
     HardwareTypes Type { get; }
     HardwareUseTypes HardwareUseType { get; }
