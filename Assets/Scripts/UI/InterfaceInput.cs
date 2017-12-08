@@ -2,10 +2,10 @@
 
 public class InterfaceInput : MonoBehaviour {
 
-	void Update () {
-        if (Input.GetButtonDown("Pause"))
-        {
-            GameManager.TogglePause();
-        }		
-	}
+	//void Update () {
+ //       if (Input.GetButtonDown("Pause"))
+ //       {
+ //           GameManager.TogglePause();
+ //       }		
+	//}
 }

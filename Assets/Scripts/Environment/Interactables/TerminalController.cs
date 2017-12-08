@@ -6,6 +6,9 @@ public class TerminalController : MonoBehaviour {
 
     [SerializeField]
     GameObject floatingLetter;
+    [SerializeField]
+    InventoryMenuController inventoryMenu;
+
     Vector3 originalLetterPosition;
 
     Vector3 originalLetterRotationEuler;
@@ -45,8 +48,7 @@ public class TerminalController : MonoBehaviour {
             floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("bonk");
-                GameManager.TogglePause();
+                inventoryMenu.ToggleMenu();
             }
             yield return null;
         }

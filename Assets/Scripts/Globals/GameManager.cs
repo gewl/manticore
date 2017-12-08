@@ -11,6 +11,13 @@ public class GameManager : SerializedMonoBehaviour {
     static GameManager instance;
 
     // State
+    public enum GameStates
+    {
+        InPlay,
+        InMenu
+    }
+    public static GameStates CurrentGameState = GameStates.InPlay;
+
     static bool isPaused = false;
     public static bool[] collectibleTracker;
 
@@ -45,7 +52,13 @@ public class GameManager : SerializedMonoBehaviour {
 
     void Update()
     {
+        // Update plane at player's y-position for raycasting mouseclicks
         playerPlane = new Plane(Vector3.up, GetPlayerPosition());
+
+        if (CurrentGameState == GameStates.InPlay && Input.GetButtonDown("Pause"))
+        {
+            TogglePause();
+        }		
     }
 
     #region lazyload references
@@ -173,6 +186,20 @@ public class GameManager : SerializedMonoBehaviour {
         IEnumerator freezeCoroutine = CoroutineUtilities.PauseForFrames(freezeFrameCount);
 
         instance.StartCoroutine(freezeCoroutine);
+    }
+
+    public static void EnterMenu()
+    {
+        TogglePause();
+
+        CurrentGameState = GameStates.InMenu;
+    }
+
+    public static void ExitMenu()
+    {
+        TogglePause();
+
+        CurrentGameState = GameStates.InPlay;
     }
 
     public static void TogglePause()

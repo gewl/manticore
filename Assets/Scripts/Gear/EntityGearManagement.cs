@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EntityGearManagement : MonoBehaviour {
 
+    InventoryData inventory;
+
     IHardware parryGear;
     public IHardware ParryGear { get { return parryGear; } }
     IHardware blinkGear;
@@ -30,6 +32,8 @@ public class EntityGearManagement : MonoBehaviour {
 
     void Start()
     {
+        inventory = new InventoryData();
+
         equippedPassiveHardware = new List<IHardware>(4)
         {
             null,
