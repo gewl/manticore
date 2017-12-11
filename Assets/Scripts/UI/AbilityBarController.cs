@@ -19,13 +19,13 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     private void Awake()
     {
-        abilityBubImages = new Image[4]
-        {
-            abilityBubs[0].GetComponent<Image>(),
-            abilityBubs[1].GetComponent<Image>(),
-            abilityBubs[2].GetComponent<Image>(),
-            abilityBubs[3].GetComponent<Image>(),
-        };
+        abilityBubImages = new Image[4];
+        //{
+        //    abilityBubs[0].GetComponent<Image>(),
+        //    abilityBubs[1].GetComponent<Image>(),
+        //    abilityBubs[2].GetComponent<Image>(),
+        //    abilityBubs[3].GetComponent<Image>(),
+        //};
 
         cooldownOverlays = new Image[4];
 
@@ -35,6 +35,8 @@ public class AbilityBarController : SerializedMonoBehaviour {
             Image cooldownOverlay = abilityBub.GetChild(0).GetComponent<Image>();
             cooldownOverlays[i] = cooldownOverlay;
             cooldownOverlay.enabled = false;
+
+            abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
     }
 
@@ -83,7 +85,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     public void UpdateAbilities(ref IHardware[] activeHardwareList)
     {
-
         for (int i = 0; i < activeHardwareList.Length; i++)
         {
             IHardware activeHardware = activeHardwareList[i];
