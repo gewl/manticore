@@ -78,6 +78,11 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         trailRenderer = GetComponent<TrailRenderer>();
     }
 
+    private void OnDestroy()
+    {
+        Destroy(riposteZone);
+    }
+
     public void UseActiveHardware()
     {
         if (isChanneling)

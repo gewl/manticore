@@ -5,18 +5,14 @@ using UnityEngine;
 
 public class EntityGearManagement : MonoBehaviour {
 
-    InventoryData inventory;
+    IHardware[] activeHardware;
+    List<IHardware> passiveHardware;
+    ApplyPassiveHardwareDelegate[] passiveHardwareDelegates;
 
-    IHardware parryGear;
-    public IHardware ParryGear { get { return parryGear; } }
-    IHardware blinkGear;
-    public IHardware BlinkGear { get { return blinkGear; } }
-    IHardware activeHardware_Slot2;
-    public IHardware EquippedGear_Slot2 { get { return activeHardware_Slot2; } }
-    IHardware activeHardware_Slot3;
-    public IHardware EquippedGear_Slot3 { get { return activeHardware_Slot3; } }
-
-    List<IHardware> equippedPassiveHardware;
+    public IHardware ParryGear { get { return activeHardware[0]; } }
+    public IHardware BlinkGear { get { return activeHardware[1]; } }
+    public IHardware EquippedGear_Slot2 { get { return activeHardware[2]; } }
+    public IHardware EquippedGear_Slot3 { get { return activeHardware[3]; } }
 
     delegate void ApplyPassiveHardwareDelegate(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
     ApplyPassiveHardwareDelegate passiveHardware_Parry;
@@ -24,37 +20,47 @@ public class EntityGearManagement : MonoBehaviour {
     ApplyPassiveHardwareDelegate passiveHardware_Slot2;
     ApplyPassiveHardwareDelegate passiveHardware_Slot3;
 
-    IHardware[] activeHardware;
-    ApplyPassiveHardwareDelegate[] passiveHardwareDelegates;
+    public delegate void PassActiveHardware(ref IHardware[] activeHardware);
+    public PassActiveHardware activeHardwareUpdated;
 
-    public delegate void PassActiveHardwareDelegate (ref IHardware[] activeHardware);
-    public PassActiveHardwareDelegate activeHardwareUpdated;
+    private void Awake()
+    {
+        InitializeGear();
+    }
 
     void Start()
     {
-        inventory = new InventoryData();
+        UpdateGear(InventoryController.Inventory);
+    }
 
-        equippedPassiveHardware = new List<IHardware>(4)
+    private void OnEnable()
+    {
+        InventoryController.OnInventoryUpdated += UpdateGear;
+    }
+
+    private void OnDisable()
+    {
+        InventoryController.OnInventoryUpdated -= UpdateGear;
+    }
+
+    void InitializeGear()
+    {
+        IHardware parryGear = GetComponent<ParryHardware>() as IHardware;
+        IHardware blinkGear = GetComponent<BlinkHardware>() as IHardware;
+
+        activeHardware = new IHardware[4];
+        activeHardware[0] = parryGear;
+        activeHardware[1] = blinkGear;
+        activeHardware[2] = null;
+        activeHardware[3] = null;
+
+        passiveHardware = new List<IHardware>(4)
         {
             null,
             null,
             null,
             null
         };
-
-        parryGear = GetComponent<ParryHardware>() as IHardware;
-        blinkGear = GetComponent<BlinkHardware>() as IHardware;
-
-        activeHardware = new IHardware[4]
-        {
-            parryGear,
-            blinkGear,
-            activeHardware_Slot2,
-            activeHardware_Slot3
-        };
-
-        EquipHardwareGear_Slot2(typeof(NullifierHardware));
-        EquipHardwareGear_Slot3(typeof(RiposteHardware));
 
         passiveHardwareDelegates = new ApplyPassiveHardwareDelegate[4]
         {
@@ -63,61 +69,117 @@ public class EntityGearManagement : MonoBehaviour {
             passiveHardware_Slot2,
             passiveHardware_Slot3
         };
-
-        EquipAndAssignPassiveHardware(0, typeof(RiposteHardware));
-        EquipAndAssignPassiveHardware(3, typeof(NullifierHardware));
     }
 
-    void EquipHardwareGear_Slot2(Type newHardware)
+    public void UpdateGear(InventoryData inventory)
     {
-        activeHardware_Slot2 = gameObject.AddComponent(newHardware) as IHardware;
-        activeHardware[2] = activeHardware_Slot2;
-        activeHardwareUpdated(ref activeHardware);
-    }
-
-    void EquipHardwareGear_Slot3(Type newHardware)
-    {
-        activeHardware_Slot3 = gameObject.AddComponent(newHardware) as IHardware;
-        activeHardware[3] = activeHardware_Slot3;
-        activeHardwareUpdated(ref activeHardware);
-    }
-
-    void UnequipHardwareGear(int activeHardwareSlot)
-    {
-        if (activeHardwareSlot == 0 || activeHardwareSlot == 1)
+        // Remove components for all old hardware. 
+        // It iterates twice (rather than removing & adding in one iteration) to prevent
+        // sequencing causing a component required for 'new' hardware to be deleted because it was
+        // used for 'old' hardware.
+        // Right now this is naive--it doesn't diff against new hardware.
+        if (activeHardware[2] != null && activeHardware[2].Type != inventory.activeHardware[2])
         {
-            Debug.LogError("Trying to unequip Blink or Parry.");
-            return;
+            ClearActiveHardware(2);
+        }
+        if (activeHardware[3] != null && activeHardware[3].Type != inventory.activeHardware[3])
+        {
+            ClearActiveHardware(3);
         }
 
-        UnequipPassiveHardware(activeHardwareSlot);
-        Type activeGearType = activeHardware[activeHardwareSlot].GetType();
-        Destroy(GetComponent(activeGearType));
+        for (int i = 0; i < passiveHardware.Count; i++)
+        {
+            IHardware passiveHardwareComponent = passiveHardware[i];
+            if (passiveHardwareComponent != null && passiveHardwareComponent.Type != inventory.passiveHardware[i])
+            {
+                ClearPassiveHardware(i);
+            }
+        }
+
+        // Add components for new hardware.
+        for (int i = 2; i < inventory.activeHardware.Length; i++)
+        {
+            HardwareTypes hardwareType = inventory.activeHardware[i];
+            GenerateActiveHardwareComponent(hardwareType, i);
+        }
+
+        for (int i = 0; i < inventory.passiveHardware.Length; i++)
+        {
+            HardwareTypes hardwareType = inventory.passiveHardware[i];
+            GeneratePassiveHardwareComponent(hardwareType, i);
+        }
 
         activeHardwareUpdated(ref activeHardware);
     }
 
-    public void EquipAndAssignPassiveHardware(int activeSlot, Type newHardware)
+    Type GetHardwareType(HardwareTypes hardwareType)
     {
-        if (equippedPassiveHardware[activeSlot] != null)
+        switch (hardwareType)
+        {
+            case HardwareTypes.None:
+                return null;
+            case HardwareTypes.Parry:
+                return typeof(ParryHardware);
+            case HardwareTypes.Blink:
+                return typeof(BlinkHardware);
+            case HardwareTypes.Nullify:
+                return typeof(NullifierHardware);
+            case HardwareTypes.Riposte:
+                return typeof(RiposteHardware);
+            default:
+                return null;
+        }
+    }
+    
+    void GenerateActiveHardwareComponent(HardwareTypes newHardwareType, int index)
+    {
+        if (newHardwareType == HardwareTypes.None)
+        {
+            return;
+        }
+        Type newHardware = GetHardwareType(newHardwareType);
+        activeHardware[index] = gameObject.AddComponent(newHardware) as IHardware;
+    }
+
+    void GeneratePassiveHardwareComponent(HardwareTypes newHardwareType, int index)
+    {
+        if (newHardwareType == HardwareTypes.None)
+        {
+            return;
+        }
+        if (passiveHardware[index] != null)
         {
             Debug.LogError("Already passive hardware in that slot");
             return;
         }
-        IHardware passiveHardware = gameObject.AddComponent(newHardware) as IHardware;
-        passiveHardwareDelegates[activeSlot] += passiveHardware.ApplyPassiveHardware;
+        Type newHardware = GetHardwareType(newHardwareType);
+        IHardware newPassiveHardware = gameObject.AddComponent(newHardware) as IHardware;
+        passiveHardwareDelegates[index] += newPassiveHardware.ApplyPassiveHardware;
 
-        equippedPassiveHardware[activeSlot] = passiveHardware;
+        passiveHardware[index] = newPassiveHardware;
     }
 
-    public void UnequipPassiveHardware(int activeSlot)
+    void ClearActiveHardware(int index)
     {
-        IHardware passiveHardware = equippedPassiveHardware[activeSlot];
-        passiveHardwareDelegates[activeSlot] -= passiveHardware.ApplyPassiveHardware;
-        Type passiveHardwareType = passiveHardware.GetType();
-        Destroy(GetComponent(passiveHardwareType));
+        if (index == 0 || index == 1)
+        {
+            Debug.LogError("Trying to unequip Blink or Parry.");
+            return;
+        }
+        IHardware equippedHardware = activeHardware[index];
+        Component hardwareComponent = GetComponent(equippedHardware.GetType());
+        Destroy(hardwareComponent);
+        activeHardware[index] = null;
+    }
 
-        equippedPassiveHardware[activeSlot] = null;
+    void ClearPassiveHardware(int index)
+    {
+        IHardware equippedHardware = passiveHardware[index];
+        passiveHardwareDelegates[index] -= equippedHardware.ApplyPassiveHardware;
+
+        Component hardwareComponent = GetComponent(equippedHardware.GetType());
+        Destroy(hardwareComponent);
+        passiveHardware[index] = null;
     }
 
     public void ApplyPassiveHardware(Type newHardware, GameObject subject)

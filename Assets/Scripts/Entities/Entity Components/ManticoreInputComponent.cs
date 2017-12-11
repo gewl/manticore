@@ -94,16 +94,16 @@ public class ManticoreInputComponent : EntityComponent {
             return;
         }
 
-        IHardware gear_slot1 = gear.EquippedGear_Slot2;
-        IHardware gear_slot2 = gear.EquippedGear_Slot3;
+        IHardware gear_slot2 = gear.EquippedGear_Slot2;
+        IHardware gear_slot3 = gear.EquippedGear_Slot3;
 
         if (gear.EquippedGear_Slot2 != null && gear.EquippedGear_Slot2.IsInUse && Input.GetButtonUp("UseGear_Slot2"))
         {
-            StopGearUse(gear_slot1);
+            StopGearUse(gear_slot2);
         }
         else if (gear.EquippedGear_Slot3 != null && gear.EquippedGear_Slot3.IsInUse && Input.GetButtonUp("UseGear_Slot3"))
         {
-            StopGearUse(gear_slot2);
+            StopGearUse(gear_slot3);
         }
 
         // Check if using (for Instant) or beginning (for Charged/Channeled) gear use
@@ -119,16 +119,24 @@ public class ManticoreInputComponent : EntityComponent {
         }
         else if (Input.GetButtonDown("UseGear_Slot2") && !IsGearInUse())
         {
-            UseGear(gear_slot1);
-            if (gear_slot1.HardwareUseType != HardwareUseTypes.Instant)
+            if (gear_slot2 == null)
+            {
+                return;
+            }
+            UseGear(gear_slot2);
+            if (gear_slot2.HardwareUseType != HardwareUseTypes.Instant)
             {
                 StartCoroutine("PeriodicalStaminaTick_Slot2");
             }
         }
         else if (Input.GetButtonDown("UseGear_Slot3") && !IsGearInUse())
         {
-            UseGear(gear_slot2);
-            if (gear_slot2.HardwareUseType != HardwareUseTypes.Instant)
+            if (gear_slot3 == null)
+            {
+                return;
+            }
+            UseGear(gear_slot3);
+            if (gear_slot3.HardwareUseType != HardwareUseTypes.Instant)
             {
                 StartCoroutine("PeriodicalStaminaTick_Slot3");
             }
@@ -155,7 +163,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     bool IsGearInUse()
     {
-        return gear.EquippedGear_Slot2.IsInUse || gear.EquippedGear_Slot3.IsInUse;
+        return gear.EquippedGear_Slot2 != null && gear.EquippedGear_Slot2.IsInUse || gear.EquippedGear_Slot3 != null && gear.EquippedGear_Slot3.IsInUse;
     }
 
     IEnumerator PeriodicalStaminaTick_Slot2()

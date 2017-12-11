@@ -1,5 +1,6 @@
 ﻿public enum HardwareTypes
 {
+    None,
     Parry,
     Blink,
     Nullify,

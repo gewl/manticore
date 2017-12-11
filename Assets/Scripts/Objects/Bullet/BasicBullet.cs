@@ -23,7 +23,6 @@ public class BasicBullet : MonoBehaviour {
     public Vector3 targetPosition;
 
     public bool IsHoming = false;
-    float homingDeadDistance = 10f;
 
     public const string ENEMY_BULLET = "EnemyBullet";
     public const string FRIENDLY_BULLET = "FriendlyBullet";

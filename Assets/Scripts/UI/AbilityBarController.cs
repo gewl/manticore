@@ -90,9 +90,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
         {
             IHardware activeHardware = activeHardwareList[i];
             Sprite activeHardwareBubSprite;
+
             if (activeHardware == null)
             {
                 activeHardwareBubSprite = emptyAbilityBub;
+                abilityBubImages[i].sprite = activeHardwareBubSprite;
             }
             else
             {

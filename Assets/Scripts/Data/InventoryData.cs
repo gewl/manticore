@@ -3,21 +3,24 @@ using System.Collections.Generic;
 
 public class InventoryData
 {
-    public IHardware[] unequippedInventory;
-    public IHardware[] activeInventory;
-    public IHardware[] passiveInventory;
+    public Dictionary<HardwareTypes, bool> obtainedInventory;
+    public HardwareTypes[] activeHardware;
+    public HardwareTypes[] passiveHardware;
 
     public InventoryData()
     {
-        unequippedInventory = new IHardware[9];
+        obtainedInventory = new Dictionary<HardwareTypes, bool>();
+        obtainedInventory[HardwareTypes.Parry] = true;
+        obtainedInventory[HardwareTypes.Blink] = true;
 
-        activeInventory = new IHardware[4]
+        activeHardware = new HardwareTypes[4]
         {
-            new ParryHardware(),
-            new BlinkHardware(),
-            null,
-            null
+            HardwareTypes.Parry,
+            HardwareTypes.Blink,
+            HardwareTypes.None,
+            HardwareTypes.None
         };
-        passiveInventory = new IHardware[4];
+
+        passiveHardware = new HardwareTypes[4];
     }
 }

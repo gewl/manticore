@@ -10,6 +10,7 @@ public class TerminalController : MonoBehaviour {
     InventoryMenuController inventoryMenu;
 
     Vector3 originalLetterPosition;
+    bool debugEquipped = false;
 
     Vector3 originalLetterRotationEuler;
 
@@ -25,6 +26,17 @@ public class TerminalController : MonoBehaviour {
         floatingLetter.transform.position = originalLetterPosition;
         floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
         StartCoroutine("ActivateTerminal");
+
+        if (!debugEquipped)
+        {
+            InventoryController.EquipActiveHardware(2, HardwareTypes.Riposte);
+            debugEquipped = true;
+        }
+        else
+        {
+            InventoryController.UnequipActiveHardware(2);
+            debugEquipped = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)
