@@ -25,6 +25,11 @@ public class InventoryController : MonoBehaviour {
         Inventory.obtainedInventory[hardwareType] = true;
     }
 
+    public static bool HasDiscoveredHardware(HardwareTypes hardwareType)
+    {
+        return Inventory.obtainedInventory[hardwareType];
+    }
+
     public static HardwareTypes[] GetEquippedActiveHardware()
     {
         return Inventory.activeHardware;

@@ -15,8 +15,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
     [SerializeField]
     Sprite emptyAbilityBub;
     [SerializeField]
-    Dictionary<HardwareTypes, Sprite> bubImageDict;
-    [SerializeField]
     EntityGearManagement manticoreGear;
 
     private void Awake()
@@ -95,12 +93,17 @@ public class AbilityBarController : SerializedMonoBehaviour {
             {
                 activeHardwareBubSprite = emptyAbilityBub;
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
+
+                if (cooldownOverlays[i].enabled == true)
+                {
+                    cooldownOverlays[i].enabled = false;
+                }
             }
             else
             {
                 HardwareTypes activeHardwareType = activeHardware.Type;
 
-                activeHardwareBubSprite = bubImageDict[activeHardwareType];
+                activeHardwareBubSprite = DataAssociations.GetHardwareTypeBubImage(activeHardwareType);
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
 
                 activeHardware.CooldownUpdater = null;
