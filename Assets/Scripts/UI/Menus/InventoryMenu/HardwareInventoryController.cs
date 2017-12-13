@@ -13,8 +13,12 @@ public class HardwareInventoryController : MonoBehaviour {
     EventTrigger[] hardwareInventoryEventTriggers;
     HardwareTypes[] discoverableHardwareTypes;
 
+    InventoryMenuController inventoryMenuController;
+
     private void Awake()
     {
+        inventoryMenuController = GetComponentInParent<InventoryMenuController>();
+
         hardwareInventoryImages = GetComponentsInChildren<Image>();
         hardwareInventoryEventTriggers = GetComponentsInChildren<EventTrigger>();
         HardwareTypes[] allHardwareTypes = (HardwareTypes[])Enum.GetValues(typeof(HardwareTypes));
@@ -46,22 +50,64 @@ public class HardwareInventoryController : MonoBehaviour {
                 hardwareInventoryImages[i].sprite = discoverableHardwareBubImage;
 
                 EventTrigger trigger = hardwareInventoryEventTriggers[i];
-                EventTrigger.Entry entry = new EventTrigger.Entry
-                {
-                    eventID = EventTriggerType.BeginDrag,
-                };
-                entry.callback.AddListener(GenerateInventoryButtonListener(hardwareType));
 
-                trigger.triggers.Add(entry);
+                AssignDragEventListeners(trigger, discoverableHardwareBubImage);
             }
         }
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener(HardwareTypes hardwareType)
+    void AssignDragEventListeners(EventTrigger trigger, Sprite hardwareImage)
+    {
+        // Begin drag listener
+        EventTrigger.Entry beginDragEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.BeginDrag,
+        };
+        beginDragEntry.callback.AddListener(GenerateInventoryButtonListener_BeginDrag(hardwareImage));
+
+        trigger.triggers.Add(beginDragEntry);
+
+        // Drag update listener
+        EventTrigger.Entry dragEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.Drag,
+        };
+        dragEntry.callback.AddListener(GenerateInventoryButtonListener_Drag());
+
+        trigger.triggers.Add(dragEntry);
+
+        // End drag listener
+        EventTrigger.Entry endDragEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.EndDrag,
+        };
+        endDragEntry.callback.AddListener(GenerateInventoryButtonListener_EndDrag());
+
+        trigger.triggers.Add(endDragEntry);
+
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image)
     {
         return (data) =>
         {
-            Debug.Log(hardwareType);
+            inventoryMenuController.BeginDragging(GearTypes.Hardware, image);
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_Drag()
+    {
+        return (data) =>
+        {
+            inventoryMenuController.DragUpdate();
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_EndDrag()
+    {
+        return (data) =>
+        {
+            inventoryMenuController.EndDrag();
         };
     }
 
@@ -74,12 +120,12 @@ public class HardwareInventoryController : MonoBehaviour {
             if (inventory.activeHardware.Contains(hardwareType))
             {
                 hardwareInventoryImages[i].color = Color.grey;
-                hardwareInventoryButtons[i].interactable = false;
+                hardwareInventoryEventTriggers[i].enabled = false;
             }
             else
             {
                 hardwareInventoryImages[i].color = Color.white;
-                hardwareInventoryButtons[i].interactable = true;
+                hardwareInventoryEventTriggers[i].enabled = true;
             }
         }
     }

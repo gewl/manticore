@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryMenuController : MonoBehaviour {
 
     bool isOpen = false;
     public bool IsOpen { get { return isOpen; } }
 
-    bool isMouseDraggingHardware = false;
-    HardwareTypes attachedHardwareType = HardwareTypes.None;
+    GearTypes draggingGearType;
+    [SerializeField]
+    Image draggingImage;
 
     public void ToggleMenu()
     {
@@ -25,26 +27,26 @@ public class InventoryMenuController : MonoBehaviour {
         }
     }
 
+    public void BeginDragging(GearTypes gearType, Sprite image)
+    {
+        draggingImage.sprite = image;
+        draggingImage.preserveAspect = true;
+        draggingImage.gameObject.SetActive(true);
+    }
+
+    public void DragUpdate()
+    {
+        draggingImage.rectTransform.position = Input.mousePosition;
+    }
+    
+    public void EndDrag()
+    {
+        draggingImage.gameObject.SetActive(false);
+    }
+
     public void OnInventoryPress()
     {
         Debug.Log("pressed");
     }
 
-    public void AttachHardwareToMouse(HardwareTypes hardwareType)
-    {
-        isMouseDraggingHardware = true;
-        attachedHardwareType = hardwareType;
-
-    }
-
-    IEnumerator DragHardware(HardwareTypes hardwareType)
-    {
-        Sprite hardwareImage = DataAssociations.GetHardwareTypeBubImage(hardwareType);
-
-        while (true)
-        {
-
-            yield return null;
-        }
-    }
 }
