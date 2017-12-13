@@ -27,16 +27,16 @@ public class TerminalController : MonoBehaviour {
         floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
         StartCoroutine("ActivateTerminal");
 
-        //if (!debugEquipped)
-        //{
-        //    InventoryController.EquipActiveHardware(2, HardwareTypes.Riposte);
-        //    debugEquipped = true;
-        //}
-        //else
-        //{
-        //    InventoryController.UnequipActiveHardware(2);
-        //    debugEquipped = false;
-        //}
+        if (!debugEquipped)
+        {
+            InventoryController.EquipActiveHardware(2, HardwareTypes.Nullify);
+            debugEquipped = true;
+        }
+        else
+        {
+            InventoryController.UnequipActiveHardware(2);
+            debugEquipped = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)

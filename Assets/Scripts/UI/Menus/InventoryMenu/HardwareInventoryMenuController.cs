@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class HardwareInventoryController : MonoBehaviour {
+public class HardwareInventoryMenuController : MonoBehaviour {
 
     Image[] hardwareInventoryImages;
     EventTrigger[] hardwareInventoryEventTriggers;
@@ -51,19 +51,19 @@ public class HardwareInventoryController : MonoBehaviour {
 
                 EventTrigger trigger = hardwareInventoryEventTriggers[i];
 
-                AssignDragEventListeners(trigger, discoverableHardwareBubImage);
+                AssignDragEventListeners(trigger, discoverableHardwareBubImage, hardwareType);
             }
         }
     }
 
-    void AssignDragEventListeners(EventTrigger trigger, Sprite hardwareImage)
+    void AssignDragEventListeners(EventTrigger trigger, Sprite hardwareImage, HardwareTypes hardwareType)
     {
         // Begin drag listener
         EventTrigger.Entry beginDragEntry = new EventTrigger.Entry
         {
             eventID = EventTriggerType.BeginDrag,
         };
-        beginDragEntry.callback.AddListener(GenerateInventoryButtonListener_BeginDrag(hardwareImage));
+        beginDragEntry.callback.AddListener(GenerateInventoryButtonListener_BeginDrag(hardwareImage, hardwareType));
 
         trigger.triggers.Add(beginDragEntry);
 
@@ -87,11 +87,11 @@ public class HardwareInventoryController : MonoBehaviour {
 
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image)
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareTypes hardwareType)
     {
         return (data) =>
         {
-            inventoryMenuController.BeginDragging(GearTypes.Hardware, image);
+            inventoryMenuController.BeginDragging(image, hardwareType);
         };
     }
 

@@ -38,16 +38,15 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
+        manticoreGear.activeHardwareUpdated += UpdateAbilities;
     }
 
     private void OnEnable()
     {
-        manticoreGear.activeHardwareUpdated += UpdateAbilities;
     }
 
     private void OnDisable()
     {
-        manticoreGear.activeHardwareUpdated -= UpdateAbilities;
     }
 
     void UpdateParryCooldown(float percentageCooldownRemaining)

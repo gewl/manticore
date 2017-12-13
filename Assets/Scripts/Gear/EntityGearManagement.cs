@@ -78,11 +78,11 @@ public class EntityGearManagement : MonoBehaviour {
         // sequencing causing a component required for 'new' hardware to be deleted because it was
         // used for 'old' hardware.
         // Right now this is naive--it doesn't diff against new hardware.
-        if (activeHardware[2] != null && activeHardware[2].Type != inventory.activeHardware[2])
+        if (activeHardware[2] != null)
         {
             ClearActiveHardware(2);
         }
-        if (activeHardware[3] != null && activeHardware[3].Type != inventory.activeHardware[3])
+        if (activeHardware[3] != null)
         {
             ClearActiveHardware(3);
         }
@@ -90,7 +90,7 @@ public class EntityGearManagement : MonoBehaviour {
         for (int i = 0; i < passiveHardware.Count; i++)
         {
             IHardware passiveHardwareComponent = passiveHardware[i];
-            if (passiveHardwareComponent != null && passiveHardwareComponent.Type != inventory.passiveHardware[i])
+            if (passiveHardwareComponent != null)
             {
                 ClearPassiveHardware(i);
             }
@@ -109,7 +109,10 @@ public class EntityGearManagement : MonoBehaviour {
             GeneratePassiveHardwareComponent(hardwareType, i);
         }
 
-        activeHardwareUpdated(ref activeHardware);
+        if (activeHardwareUpdated != null)
+        {
+            activeHardwareUpdated(ref activeHardware);
+        }
     }
 
     Type GetHardwareType(HardwareTypes hardwareType)

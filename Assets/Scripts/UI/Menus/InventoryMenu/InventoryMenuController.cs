@@ -9,6 +9,8 @@ public class InventoryMenuController : MonoBehaviour {
     public bool IsOpen { get { return isOpen; } }
 
     GearTypes draggingGearType;
+    HardwareTypes draggingHardwareType;
+
     [SerializeField]
     Image draggingImage;
 
@@ -27,8 +29,12 @@ public class InventoryMenuController : MonoBehaviour {
         }
     }
 
-    public void BeginDragging(GearTypes gearType, Sprite image)
+    // Overload this for other gearTypes
+    public void BeginDragging(Sprite image, HardwareTypes hardwareType)
     {
+        draggingGearType = GearTypes.Hardware;
+        draggingHardwareType = hardwareType;
+
         draggingImage.sprite = image;
         draggingImage.preserveAspect = true;
         draggingImage.gameObject.SetActive(true);
@@ -44,9 +50,15 @@ public class InventoryMenuController : MonoBehaviour {
         draggingImage.gameObject.SetActive(false);
     }
 
-    public void OnInventoryPress()
+    public void EquipDraggedActiveHardware(int slot)
     {
-        Debug.Log("pressed");
+        InventoryController.EquipActiveHardware(slot, draggingHardwareType);
+        EndDrag();
     }
 
+    public void EquipDraggedPassiveHardware(int slot)
+    {
+        InventoryController.EquipPassiveHardware(slot, draggingHardwareType);
+        EndDrag();
+    }
 }
