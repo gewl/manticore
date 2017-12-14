@@ -117,7 +117,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         {
             HardwareTypes hardwareType = discoverableHardwareTypes[i];
 
-            if (inventory.activeHardware.Contains(hardwareType))
+            if (inventory.activeHardware.Contains(hardwareType) || inventory.passiveHardware.Contains(hardwareType))
             {
                 hardwareInventoryImages[i].color = Color.grey;
                 hardwareInventoryEventTriggers[i].enabled = false;

@@ -73,6 +73,7 @@ public class InventoryController : MonoBehaviour {
         Inventory.activeHardware[slot] = HardwareTypes.None;
 
         OnInventoryUpdated(Inventory);
+        UnequipPassiveHardware(slot);
     }
 
     public static void UnequipPassiveHardware(int slot)

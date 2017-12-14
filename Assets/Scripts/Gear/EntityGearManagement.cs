@@ -193,7 +193,7 @@ public class EntityGearManagement : MonoBehaviour {
         for (int i = 0; i < activeHardware.Length; i++)
         {
             hardware = activeHardware[i];
-            if (hardware.GetType() == newHardware)
+            if (hardware != null && hardware.GetType() == newHardware)
             {
                 hardwareIndex = i;
                 break;

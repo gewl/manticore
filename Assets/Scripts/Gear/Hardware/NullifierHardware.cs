@@ -76,10 +76,13 @@ public class NullifierHardware : MonoBehaviour, IHardware {
         StartCoroutine(FireNullifyEffect(timeToCompleteActiveEffect));
     }
 
-    IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false)
+    IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false, bool isActiveHardware = true)
     {
         GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, transform.position, Quaternion.identity);
-        gear.ApplyPassiveHardware(typeof(NullifierHardware), spawnedNullification);
+        if (isActiveHardware)
+        {
+            gear.ApplyPassiveHardware(typeof(NullifierHardware), spawnedNullification);
+        }
 
         float timeElapsed = 0.0f;
         Vector3 originalSize = spawnedNullification.transform.localScale;
@@ -97,7 +100,10 @@ public class NullifierHardware : MonoBehaviour, IHardware {
             yield return null;
         }
 
-        StartCoroutine(GoOnCooldown());
+        if (isActiveHardware)
+        {
+            StartCoroutine(GoOnCooldown());
+        }
         DestroyObject(spawnedNullification);
         yield break;
     }
@@ -171,7 +177,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
 
         float blinkDuration = blinkHardware.TimeToCompleteBlink + blinkHardware.HangTimeBeforeBlinkStarts;
 
-        StartCoroutine(FireNullifyEffect(blinkDuration, true));
+        StartCoroutine(FireNullifyEffect(blinkDuration, true, false));
 
         yield return null;
     }

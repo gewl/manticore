@@ -45,11 +45,38 @@ public class EquippedGearMenuController : MonoBehaviour {
         UpdateEquippedGear(InventoryController.Inventory);
 
         InventoryController.OnInventoryUpdated += UpdateEquippedGear;
+        inventoryMenuController.OnDraggingElement += FlagInvalidDropBubs;
+        inventoryMenuController.OnStopDraggingElement += UnflagInvalidDropBubs;
     }
 
     private void OnDisable()
     {
         InventoryController.OnInventoryUpdated -= UpdateEquippedGear;
+        inventoryMenuController.OnDraggingElement -= FlagInvalidDropBubs;
+        inventoryMenuController.OnStopDraggingElement -= UnflagInvalidDropBubs;
+    }
+
+    void FlagInvalidDropBubs(HardwareTypes hardwareType)
+    {
+        HardwareTypes[] activeHardware = InventoryController.Inventory.activeHardware;
+        for (int i = 0; i < activeHardware.Length; i++)
+        {
+            HardwareTypes thisHardware = activeHardware[i];
+
+            if (thisHardware == HardwareTypes.None)
+            {
+                passiveHardwareImages[i].color = Color.blue;
+            }
+        }
+    }
+
+    void UnflagInvalidDropBubs(HardwareTypes hardwareType)
+    {
+        for (int i = 0; i < passiveHardwareImages.Length; i++)
+        {
+            Image passiveHardwareImage = passiveHardwareImages[i];
+            passiveHardwareImage.color = Color.white; 
+        }
     }
 
     // This is a little clumsy: using isActiveHardware bool to differentiate between Active and Passive,
@@ -95,7 +122,7 @@ public class EquippedGearMenuController : MonoBehaviour {
     {
         return (data) =>
         {
-            if (isActiveHardware && slot == 0 || slot == 1)
+            if (isActiveHardware && (slot == 0 || slot == 1))
             {
                 return;
             }

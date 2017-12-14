@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class InventoryMenuController : MonoBehaviour {
 
+    public delegate void MenuEventListener(HardwareTypes hardwareType);
+    public MenuEventListener OnDraggingElement;
+    public MenuEventListener OnStopDraggingElement;
+
     bool isOpen = false;
     public bool IsOpen { get { return isOpen; } }
 
@@ -39,6 +43,8 @@ public class InventoryMenuController : MonoBehaviour {
         draggingImage.sprite = image;
         draggingImage.preserveAspect = true;
         draggingImage.gameObject.SetActive(true);
+
+        OnDraggingElement(draggingHardwareType);
     }
 
     public void DragUpdate()
@@ -49,6 +55,7 @@ public class InventoryMenuController : MonoBehaviour {
     public void EndDrag()
     {
         draggingImage.gameObject.SetActive(false);
+        OnStopDraggingElement(draggingHardwareType);
     }
 
     public void EquipDraggedActiveHardware(int slot)
