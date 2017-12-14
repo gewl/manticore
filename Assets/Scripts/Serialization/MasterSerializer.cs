@@ -6,20 +6,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MasterSerializer : MonoBehaviour {
-
-
     const string SAVE_DIRECTORY_PATH = "Saves";
-    const string SAVE_FILE_PATH = "Saves/inventory.binary";
+    const string SAVE_FILE_PATH = "Saves/saved_inventory.binary";
 
-    private void Awake()
+    private void OnEnable()
     {
-
+        InventoryController.OnInventoryUpdated += SaveInventoryData;
     }
 
     #region Data serialization/retrieval
     public static void SaveInventoryData(InventoryData inventory)
     {
-        Debug.Log("Saving data");
         if (!Directory.Exists(SAVE_DIRECTORY_PATH))
         {
             Directory.CreateDirectory(SAVE_DIRECTORY_PATH);
@@ -40,7 +37,6 @@ public class MasterSerializer : MonoBehaviour {
 
     public static InventoryData LoadInventoryData()
     {
-        Debug.Log("Successfully loading");
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream saveFile = File.Open(SAVE_FILE_PATH, FileMode.Open);
 

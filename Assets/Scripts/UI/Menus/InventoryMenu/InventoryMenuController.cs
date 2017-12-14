@@ -29,7 +29,8 @@ public class InventoryMenuController : MonoBehaviour {
         }
     }
 
-    // Overload this for other gearTypes
+    // TODO: Overload this for other gearTypes, or cast enum value to int,
+    // then cast int back to whichever enum is being dragged?
     public void BeginDragging(Sprite image, HardwareTypes hardwareType)
     {
         draggingGearType = GearTypes.Hardware;

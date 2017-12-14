@@ -13,7 +13,14 @@ public class InventoryController : MonoBehaviour {
         {
             if (_inventory == null)
             {
-                _inventory = new InventoryData();
+                if (MasterSerializer.CanLoadInventoryData())
+                {
+                    _inventory = MasterSerializer.LoadInventoryData();
+                }
+                else
+                {
+                    _inventory = new InventoryData();
+                }
             }
 
             return _inventory;
