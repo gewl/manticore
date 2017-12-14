@@ -20,10 +20,28 @@ public class HUDStaminaBar : StaminaBar {
     [SerializeField]
     AnimationCurve damageBarAdjustmentCurve;
 
+    EntityStaminaComponent manticoreStaminaComponent;
     float totalStamina;
     float barHeight = 6f;
     float barWidth = 0f;
     bool isAdjustingDamageBar = false;
+
+    private void Awake()
+    {
+        manticoreStaminaComponent = GameManager.GetPlayerTransform().GetComponent<EntityStaminaComponent>();
+    }
+
+    private void OnEnable()
+    {
+        manticoreStaminaComponent.TotalStaminaUpdated += UpdateTotalStamina;
+        manticoreStaminaComponent.CurrentStaminaUpdated += UpdateCurrentStamina;
+    }
+
+    private void OnDisable()
+    {
+        manticoreStaminaComponent.TotalStaminaUpdated -= UpdateTotalStamina;
+        manticoreStaminaComponent.CurrentStaminaUpdated -= UpdateCurrentStamina;
+    }
 
     public override void UpdateTotalStamina(float newTotalStamina)
     {

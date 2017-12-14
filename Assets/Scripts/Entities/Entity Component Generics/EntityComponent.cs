@@ -17,7 +17,7 @@ public abstract class EntityComponent : SerializedMonoBehaviour {
         Subscribe();
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         Unsubscribe();
     }

@@ -13,10 +13,18 @@ using UnityEngine;
 // with the typical component format.
 public class EntityStaminaComponent : EntityComponent {
 
+    public delegate void StaminaUpdated(float newStamina);
+    public StaminaUpdated TotalStaminaUpdated;
+    public StaminaUpdated CurrentStaminaUpdated;
+
     [SerializeField]
-    float maximumStamina = 100;
+    float baseMaximumStamina = 200;
+    //[SerializeField]
+    //StaminaBar attachedStaminaBar;
     [SerializeField]
-    StaminaBar attachedStaminaBar;
+    float equipCost_activeHardware = 40;
+    [SerializeField]
+    float equipCost_passiveHardware = 10;
 
     [SerializeField]
     float recoveryFreezeDuration = 1f;
@@ -25,13 +33,62 @@ public class EntityStaminaComponent : EntityComponent {
     [SerializeField]
     float recoveryTickAmount = 20f;
 
+    float adjustedMaximumStamina;
+    public float AdjustedMaximumStamina { get { return adjustedMaximumStamina; } }
     float currentStamina;
 
     protected override void Awake()
     {
         base.Awake();
-        currentStamina = maximumStamina;
+        currentStamina = baseMaximumStamina;
     }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        CalculateMaximumStamina(InventoryController.Inventory);
+
+        InventoryController.OnInventoryUpdated += CalculateMaximumStamina;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        InventoryController.OnInventoryUpdated -= CalculateMaximumStamina;
+    }
+
+    #region Inventory change listeners
+
+    void CalculateMaximumStamina(InventoryData inventory)
+    {
+        adjustedMaximumStamina = baseMaximumStamina;
+
+        for (int i = 2; i < inventory.activeHardware.Length; i++)
+        {
+            HardwareTypes hardwareType = inventory.activeHardware[i];
+            if (hardwareType != HardwareTypes.None)
+            {
+                adjustedMaximumStamina -= equipCost_activeHardware;
+            }
+        }
+
+        for (int i = 0; i < inventory.passiveHardware.Length; i++)
+        {
+            HardwareTypes hardwareType = inventory.passiveHardware[i];
+            if (hardwareType != HardwareTypes.None)
+            {
+                adjustedMaximumStamina -= equipCost_passiveHardware;
+            }
+        }
+
+        //if (attachedStaminaBar != false)
+        //{
+        //    attachedStaminaBar.UpdateTotalStamina(adjustedMaximumStamina);
+        //}
+        TotalStaminaUpdated(adjustedMaximumStamina);
+    }
+
+    #endregion
 
     protected override void Subscribe()
     {
@@ -39,15 +96,6 @@ public class EntityStaminaComponent : EntityComponent {
 
     protected override void Unsubscribe()
     {
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (attachedStaminaBar != false) 
-        {
-            attachedStaminaBar.UpdateTotalStamina(currentStamina);
-        }
     }
 
     public bool TryToExpendStamina(float amountToUse)
@@ -59,10 +107,11 @@ public class EntityStaminaComponent : EntityComponent {
 
         currentStamina -= amountToUse;
 
-        if (attachedStaminaBar != false)
-        {
-            attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        }
+        //if (attachedStaminaBar != false)
+        //{
+        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
+        //}
+        CurrentStaminaUpdated(currentStamina);
 
         CancelInvoke();
         InvokeRepeating("RecoverStamina", recoveryFreezeDuration, recoveryTickRate);
@@ -74,15 +123,16 @@ public class EntityStaminaComponent : EntityComponent {
     {
         currentStamina += changeAmount;
 
-        if (currentStamina >= maximumStamina)
+        if (currentStamina >= adjustedMaximumStamina)
         {
-            currentStamina = maximumStamina;
+            currentStamina = adjustedMaximumStamina;
         }
 
-        if (attachedStaminaBar != false)
-        {
-            attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        }
+        //if (attachedStaminaBar != falseBCC7FFFF)
+        //{
+        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
+        //}
+        CurrentStaminaUpdated(currentStamina);
     }
 
     #region callbacks
@@ -91,16 +141,17 @@ public class EntityStaminaComponent : EntityComponent {
     {
         currentStamina += recoveryTickAmount;
 
-        if (currentStamina >= maximumStamina)
+        if (currentStamina >= adjustedMaximumStamina)
         {
-            currentStamina = maximumStamina;
+            currentStamina = adjustedMaximumStamina;
             CancelInvoke();
         }
 
-        if (attachedStaminaBar != false)
-        {
-            attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        }
+        //if (attachedStaminaBar != false)
+        //{
+        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
+        //}
+        CurrentStaminaUpdated(currentStamina);
     }
 
     #endregion
