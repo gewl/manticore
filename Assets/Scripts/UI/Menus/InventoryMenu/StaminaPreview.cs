@@ -27,22 +27,37 @@ public class StaminaPreview : MonoBehaviour {
         staminaIndicatorReadout.color = Color.black;
         staminaIndicatorReadout.text = startingStamina.ToString();
 
-        UpdateStaminaBarSize(startingStamina);
+        UpdateTotalStamina(startingStamina);
 
-        manticoreStamina.TotalStaminaUpdated += UpdateStaminaBarSize;
+        manticoreStamina.TotalStaminaUpdated += UpdateTotalStamina;
     }
 
     private void OnDisable()
     {
-        manticoreStamina.TotalStaminaUpdated -= UpdateStaminaBarSize;
+        manticoreStamina.TotalStaminaUpdated -= UpdateTotalStamina;
     }
 
-    public void UpdateStaminaBarSize(float totalStamina)
+    public void UpdateTotalStamina(float totalStamina)
     {
         float barWidth = totalStamina * 2f;
 
         staminaBarContainer.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         staminaBar.sizeDelta = startingBarSize;
+
+        staminaIndicatorReadout.text = totalStamina.ToString();
+
+        if (totalStamina > startingStamina)
+        {
+            staminaIndicatorReadout.color = Color.green;
+        }
+        else if (totalStamina < startingStamina)
+        {
+            staminaIndicatorReadout.color = Color.red;
+        }
+        else
+        {
+            staminaIndicatorReadout.color = Color.black;
+        }
     }
 }

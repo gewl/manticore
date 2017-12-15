@@ -85,7 +85,10 @@ public class EntityStaminaComponent : EntityComponent {
         //{
         //    attachedStaminaBar.UpdateTotalStamina(adjustedMaximumStamina);
         //}
-        TotalStaminaUpdated(adjustedMaximumStamina);
+        if (TotalStaminaUpdated != null)
+        {
+            TotalStaminaUpdated(adjustedMaximumStamina);
+        }
     }
 
     #endregion
