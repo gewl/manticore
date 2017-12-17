@@ -126,7 +126,7 @@ public class EntityGearManagement : MonoBehaviour {
             case HardwareTypes.Blink:
                 return typeof(BlinkHardware);
             case HardwareTypes.Nullify:
-                return typeof(NullifierHardware);
+                return typeof(NullifyHardware);
             case HardwareTypes.Riposte:
                 return typeof(RiposteHardware);
             default:

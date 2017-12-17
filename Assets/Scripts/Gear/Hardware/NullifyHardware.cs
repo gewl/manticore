@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NullifierHardware : MonoBehaviour, IHardware {
+public class NullifyHardware : MonoBehaviour, IHardware {
 
     HardwareTypes type = HardwareTypes.Nullify;
     public HardwareTypes Type { get { return type; } }
@@ -81,7 +81,7 @@ public class NullifierHardware : MonoBehaviour, IHardware {
         GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, transform.position, Quaternion.identity);
         if (isActiveHardware)
         {
-            gear.ApplyPassiveHardware(typeof(NullifierHardware), spawnedNullification);
+            gear.ApplyPassiveHardware(typeof(NullifyHardware), spawnedNullification);
         }
 
         float timeElapsed = 0.0f;
