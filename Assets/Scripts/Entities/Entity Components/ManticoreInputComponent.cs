@@ -145,7 +145,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     void UseGear(IHardware gear)
     {
-        int staminaCost = gear.UpdatedStaminaCost;
+        int staminaCost = gear.StaminaCost;
         if (!gear.IsOnCooldown && staminaComponent.TryToExpendStamina(staminaCost))
         {
             gear.UseActiveHardware();
@@ -168,7 +168,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     IEnumerator PeriodicalStaminaTick_Slot2()
     {
-        int staminaCost = gear.EquippedGear_Slot2.UpdatedStaminaCost;
+        int staminaCost = gear.EquippedGear_Slot2.StaminaCost;
         IHardware gear_slot2 = gear.EquippedGear_Slot2;
 
         while (gear_slot2.IsInUse)
@@ -184,7 +184,7 @@ public class ManticoreInputComponent : EntityComponent {
 
     IEnumerator PeriodicalStaminaTick_Slot3()
     {
-        int staminaCost = gear.EquippedGear_Slot3.UpdatedStaminaCost;
+        int staminaCost = gear.EquippedGear_Slot3.StaminaCost;
         IHardware gear_slot3 = gear.EquippedGear_Slot3;
 
         while (gear_slot3.IsInUse)

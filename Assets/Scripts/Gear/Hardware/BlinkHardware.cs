@@ -38,7 +38,7 @@ public class BlinkHardware : EntityComponent, IHardware
     // IHardware properties
     int baseStaminaCost = 40;
     public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int UpdatedStaminaCost { get { return baseStaminaCost; } }
+    public int StaminaCost { get { return baseStaminaCost; } }
 
     // State management
     bool isOnCooldown = false;

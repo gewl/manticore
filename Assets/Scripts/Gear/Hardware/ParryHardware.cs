@@ -12,18 +12,33 @@ public class ParryHardware : EntityComponent, IHardware {
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
-    [SerializeField]
-    float parryDamage = 50f;
-    public float ParryDamage { get { return parryDamage; } }
+    ParryHardwareData subtypeData;
+
+    //[SerializeField]
+    //float parryDamage = 50f;
+    // TODO: Add momentum
+    public float ParryDamage { get { return subtypeData.GetDamageDealt(0); } }
     // Speed of swing.
-    [SerializeField]
-    float timeToCompleteParry;
-    [SerializeField]
-    int parryStaminaCost = 30;
-    public int BaseStaminaCost { get { return parryStaminaCost; } }
-    public int UpdatedStaminaCost { get { return parryStaminaCost; } }
-    [SerializeField]
-    float movementPenalty = 1f;
+    //[SerializeField]
+    //float timeToCompleteParry;
+    //[SerializeField]
+    //int parryStaminaCost = 30;
+    //public int BaseStaminaCost { get { return parryStaminaCost; } }
+    // TODO: Add momentum
+    public int StaminaCost
+    {
+        get
+        {
+            if (isInParry)
+            {
+                return subtypeData.GetStaminaCost(0) / 2;
+            }
+            else
+            {
+                return subtypeData.GetStaminaCost(0);
+            }
+        }
+    }
 
     [SerializeField]
     GameObject parryBox;
@@ -37,9 +52,6 @@ public class ParryHardware : EntityComponent, IHardware {
     bool inComboWindow = false;
     bool isInParry = false;
 
-    // How quickly user has to chain inputs.
-	[SerializeField]
-	float timeToCombo;
     // Current expiration timer on combo chain.
     float currentComboTimer;
     bool parryQueued = false;
@@ -127,7 +139,8 @@ public class ParryHardware : EntityComponent, IHardware {
 
 		float step = 0f;
         float lastStep = 0f;
-		float rate = 1 / timeToCompleteParry;
+        //TODO: Add momentum
+		float rate = 1 / subtypeData.GetTimeToCompleteParry(0);
 
         while (step < 1f)
         {
@@ -154,7 +167,8 @@ public class ParryHardware : EntityComponent, IHardware {
             yield break;
         }
 
-        currentComboTimer = timeToCombo;
+        // TODO: Momentum
+        currentComboTimer = subtypeData.GetTimeToCombo(0);
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
         isOnCooldown = false;
@@ -174,7 +188,8 @@ public class ParryHardware : EntityComponent, IHardware {
 
 		yield return new WaitForSeconds(0.1f);
 
-        float rate = 1 / (timeToCompleteParry * 2/3);
+        // TODO: Add momentum
+        float rate = 1 / (subtypeData.GetTimeToCompleteParry(0) * 2/3);
 
 		while (step < 1f)
 		{
@@ -205,9 +220,9 @@ public class ParryHardware : EntityComponent, IHardware {
     void LimitEntityInParry()
     {
         isInParry = true;
-        parryStaminaCost /= 2;
         float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
-        float adjustedMovementSpeed = currentMovementSpeed * movementPenalty;
+        // TODO: Momentum
+        float adjustedMovementSpeed = currentMovementSpeed * subtypeData.GetMovementModifier(0);
         entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
 		entityEmitter.EmitEvent(EntityEvents.Busy);
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
@@ -216,9 +231,9 @@ public class ParryHardware : EntityComponent, IHardware {
 	void UnlimitEntityAfterParry()
 	{
         isInParry = false;
-        parryStaminaCost *= 2;
 		float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
-		float restoredMovementSpeed = currentMovementSpeed / movementPenalty;
+        // TODO: momentum
+		float restoredMovementSpeed = currentMovementSpeed / subtypeData.GetMovementModifier(0);
 		entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
 
 		entityEmitter.EmitEvent(EntityEvents.Available);

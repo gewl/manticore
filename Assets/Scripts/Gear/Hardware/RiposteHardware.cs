@@ -17,7 +17,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     int baseStaminaCost = 10;
     public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int UpdatedStaminaCost { get { return baseStaminaCost; } }
+    public int StaminaCost { get { return baseStaminaCost; } }
 
     float riposteDamage = 100f;
     float initialDashRange = 10f;

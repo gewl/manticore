@@ -16,7 +16,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
     private int baseStaminaCost = 80;
     public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int UpdatedStaminaCost { get { return baseStaminaCost; } }
+    public int StaminaCost { get { return baseStaminaCost; } }
 
     private bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }

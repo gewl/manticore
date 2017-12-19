@@ -6,8 +6,7 @@ public delegate void CooldownDelegate(float percentageCooldownRemaining);
 
 public interface IHardware
 {
-    int BaseStaminaCost { get; }
-    int UpdatedStaminaCost { get; }
+    int StaminaCost { get; }
 
     bool IsInUse { get; }
     bool IsOnCooldown { get; }
