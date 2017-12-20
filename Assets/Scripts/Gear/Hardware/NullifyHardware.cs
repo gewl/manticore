@@ -12,6 +12,12 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
+    NullifyHardwareData subtypeData;
+    public void AssignSubtypeData(HardwareData hardwareData)
+    {
+        subtypeData = hardwareData as NullifyHardwareData;
+    }
+
     EntityGearManagement gear;
 
     private int baseStaminaCost = 80;

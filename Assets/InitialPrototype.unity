@@ -4415,42 +4415,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  parryDamage: 50
-  timeToCompleteParry: 0.12
-  parryStaminaCost: 30
-  movementPenalty: 0.5
-  parryBox: {fileID: 804024547}
-  swingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: -0.0041656494
-      value: 0
-      inSlope: 0.4477926
-      outSlope: 0.4477926
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.3620234
-      value: 0.18121159
-      inSlope: 1.7170608
-      outSlope: 1.7170608
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.61307657
-      value: 0.8977011
-      inSlope: 0.91289115
-      outSlope: 0.91289115
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  timeToCombo: 0.3
 --- !u!114 &1369184825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7039,6 +7003,7 @@ GameObject:
   - component: {fileID: 1951959002}
   - component: {fileID: 1951959001}
   - component: {fileID: 1951959003}
+  - component: {fileID: 1951959004}
   m_Layer: 0
   m_Name: GameTyrant
   m_TagString: Untagged
@@ -7074,17 +7039,17 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 5a45bd6a29625244e9ce2272b73fd8cc, type: 3}
-    - {fileID: 21300000, guid: 4a5a7888ad5f6dc42a60ece00d393263, type: 3}
-    - {fileID: 21300000, guid: 372dac6fcd560a745889f9d68aaad97e, type: 3}
     - {fileID: 21300000, guid: 3772ae7cb5e49b24fa28627f7a8307f9, type: 3}
+    - {fileID: 21300000, guid: 5a45bd6a29625244e9ce2272b73fd8cc, type: 3}
+    - {fileID: 21300000, guid: 372dac6fcd560a745889f9d68aaad97e, type: 3}
+    - {fileID: 21300000, guid: 4a5a7888ad5f6dc42a60ece00d393263, type: 3}
     - {fileID: 21300000, guid: d813fcf11d97b1143bf153033fa018da, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: bubImageDict
+    - Name: hardwareTypeToBubImageMap
       Entry: 7
       Data: 0|System.Collections.Generic.Dictionary`2[[HardwareTypes, Assembly-CSharp],[UnityEngine.Sprite,
         UnityEngine]], mscorlib
@@ -7096,7 +7061,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 10
       Data: 0
@@ -7108,7 +7073,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 10
       Data: 1
@@ -7132,7 +7097,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 10
       Data: 3
@@ -7151,6 +7116,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: entityTypeToMomentumValueMap
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[GlobalConstants+EntityTypes,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -7292,6 +7270,42 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  parrySwingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.39557663
+      value: 0.15205224
+      inSlope: 1.4003527
+      outSlope: 1.4003527
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.52131855
+      value: 0.8391924
+      inSlope: 0.95394415
+      outSlope: 0.95394415
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.72236913
+      value: 0.96498257
+      inSlope: 0.34749508
+      outSlope: 0.34749508
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   nullifyEffectCurve:
     serializedVersion: 2
     m_Curve:
@@ -7355,6 +7369,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e044353d6fefbe84da2b3a6280125527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1951959004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1951958999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72481da6419024439c5a80c3cf37d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1969382310

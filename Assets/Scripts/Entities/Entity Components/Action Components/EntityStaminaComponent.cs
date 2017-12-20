@@ -43,10 +43,15 @@ public class EntityStaminaComponent : EntityComponent {
         currentStamina = baseMaximumStamina;
     }
 
+    private void Start()
+    {
+        CalculateMaximumStamina(InventoryController.Inventory);
+        TotalStaminaUpdated(adjustedMaximumStamina);
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        CalculateMaximumStamina(InventoryController.Inventory);
 
         InventoryController.OnInventoryUpdated += CalculateMaximumStamina;
     }
@@ -81,10 +86,6 @@ public class EntityStaminaComponent : EntityComponent {
             }
         }
 
-        //if (attachedStaminaBar != false)
-        //{
-        //    attachedStaminaBar.UpdateTotalStamina(adjustedMaximumStamina);
-        //}
         if (TotalStaminaUpdated != null)
         {
             TotalStaminaUpdated(adjustedMaximumStamina);

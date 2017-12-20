@@ -13,36 +13,37 @@ public class ParryHardware : EntityComponent, IHardware {
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
     ParryHardwareData subtypeData;
+    public void AssignSubtypeData(HardwareData hardwareData)
+    {
+        subtypeData = hardwareData as ParryHardwareData;
+    }
 
-    //[SerializeField]
-    //float parryDamage = 50f;
-    // TODO: Add momentum
-    public float ParryDamage { get { return subtypeData.GetDamageDealt(0); } }
-    // Speed of swing.
-    //[SerializeField]
-    //float timeToCompleteParry;
-    //[SerializeField]
-    //int parryStaminaCost = 30;
-    //public int BaseStaminaCost { get { return parryStaminaCost; } }
-    // TODO: Add momentum
+    int ParryMomentum
+    {
+        get
+        {
+            return MomentumManager.GetMomentumPointsByHardwareType(HardwareTypes.Parry);
+        }
+    }
+
+    public float ParryDamage { get { return subtypeData.GetDamageDealt(ParryMomentum); } }
     public int StaminaCost
     {
         get
         {
             if (isInParry)
             {
-                return subtypeData.GetStaminaCost(0) / 2;
+                return subtypeData.GetStaminaCost(ParryMomentum) / 2;
             }
             else
             {
-                return subtypeData.GetStaminaCost(0);
+                return subtypeData.GetStaminaCost(ParryMomentum);
             }
         }
     }
 
-    [SerializeField]
     GameObject parryBox;
-    public AnimationCurve swingCurve;
+    const string PARRY_BOX_NAME = "ParryBox";
 
     bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
@@ -63,6 +64,8 @@ public class ParryHardware : EntityComponent, IHardware {
     override protected void Awake()
     {
         base.Awake();
+        parryBox = transform.Find(PARRY_BOX_NAME).gameObject;
+
 		parryReadyPosition = parryBox.transform.localPosition;
 		parryReadyRotation = parryBox.transform.localRotation;
 
@@ -137,10 +140,10 @@ public class ParryHardware : EntityComponent, IHardware {
         parryCollider.enabled = true;
 		yield return new WaitForSeconds(0.05f);
 
+        AnimationCurve swingCurve = GameManager.ParrySwingCurve;
 		float step = 0f;
         float lastStep = 0f;
-        //TODO: Add momentum
-		float rate = 1 / subtypeData.GetTimeToCompleteParry(0);
+		float rate = 1 / subtypeData.GetTimeToCompleteParry(ParryMomentum);
 
         while (step < 1f)
         {
@@ -182,14 +185,14 @@ public class ParryHardware : EntityComponent, IHardware {
         isInParry = true;
         parryCollider.enabled = true;
 
+        AnimationCurve swingCurve = GameManager.ParrySwingCurve;
 		float step = 0f;
 		float smoothStep;
 		float lastStep = 0f;
 
 		yield return new WaitForSeconds(0.1f);
 
-        // TODO: Add momentum
-        float rate = 1 / (subtypeData.GetTimeToCompleteParry(0) * 2/3);
+        float rate = 1 / (subtypeData.GetTimeToCompleteParry(ParryMomentum) * 2/3);
 
 		while (step < 1f)
 		{
@@ -221,8 +224,7 @@ public class ParryHardware : EntityComponent, IHardware {
     {
         isInParry = true;
         float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
-        // TODO: Momentum
-        float adjustedMovementSpeed = currentMovementSpeed * subtypeData.GetMovementModifier(0);
+        float adjustedMovementSpeed = currentMovementSpeed * subtypeData.GetMovementModifier(ParryMomentum);
         entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
 		entityEmitter.EmitEvent(EntityEvents.Busy);
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
@@ -232,8 +234,7 @@ public class ParryHardware : EntityComponent, IHardware {
 	{
         isInParry = false;
 		float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
-        // TODO: momentum
-		float restoredMovementSpeed = currentMovementSpeed / subtypeData.GetMovementModifier(0);
+		float restoredMovementSpeed = currentMovementSpeed / subtypeData.GetMovementModifier(ParryMomentum);
 		entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
 
 		entityEmitter.EmitEvent(EntityEvents.Available);

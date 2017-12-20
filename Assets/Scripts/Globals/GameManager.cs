@@ -146,6 +146,20 @@ public class GameManager : SerializedMonoBehaviour {
             return _player;
         }
     }
+
+    private static MomentumManager _momentumManager;
+    public static MomentumManager MomentumManager
+    {
+        get
+        {
+            if (_momentumManager == null)
+            {
+                _momentumManager = player.GetComponent<MomentumManager>();
+            }
+
+            return _momentumManager;
+        }
+    }
     #endregion
 
     #region Collectible management
@@ -263,7 +277,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #endregion
 
-    #region entity data retrieval
+    #region manticore data retrieval
     public static GameObject GetPlayerObject()
     {
         return player;
@@ -416,6 +430,10 @@ public class GameManager : SerializedMonoBehaviour {
     // TODO: Between this and the environment management section above, this class is beginning to carry a lot of data
     // for other classes that don't have access to inspector serialization. Should this data be moved to a specific class?
     #region inventory management
+
+    [SerializeField]
+    AnimationCurve parrySwingCurve;
+    public static AnimationCurve ParrySwingCurve { get { return instance.parrySwingCurve; } }
 
     [SerializeField]
     AnimationCurve nullifyEffectCurve;

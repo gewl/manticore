@@ -3,42 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MomentumManagerComponent : EntityComponent {
+public class MomentumManager : MonoBehaviour {
 
-    Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap;
+    static Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap;
     // This tracks in what order & to which Hardware momentum was assigned.
     // When player loses momentum, the last assigned momentum is removed.
-    Stack<HardwareTypes> assignedMomentumTracker;
+    // Count also used to track total assigned momentum.
+    static Stack<HardwareTypes> assignedMomentumTracker;
 
-    int unassignedAvailableMomentum = 0;
-
-    protected override void Awake()
+    int progressTowardNextMomentum = 0;
+    int momentumRequiredForNextPoint
     {
-        base.Awake();
+        get
+        {
+            return (assignedMomentumTracker.Count + 1) * 5;
+        }
+    }
 
+    int unassignedAvailableMomentumPoints = 0;
+
+    protected void Awake()
+    {
+        assignedMomentumTracker = new Stack<HardwareTypes>();
         hardwareTypeToMomentumMap = new Dictionary<HardwareTypes, int>();
     }
 
-    protected override void Subscribe()
+    private void OnEnable()
     {
         InventoryController.OnInventoryUpdated += ClearMomentum;
     }
 
-    protected override void Unsubscribe()
+    private void OnDisable()
     {
+        InventoryController.OnInventoryUpdated -= ClearMomentum;
     }
 
-    public int GetMomentumByHardwareType(HardwareTypes hardwareType)
+    #region momentum event handlers
+
+    static void HandleEntityDeathEvent(GlobalConstants.EntityTypes entityType)
+    {
+        
+    }
+
+    #endregion
+
+    #region point manipulation
+    public static int GetMomentumPointsByHardwareType(HardwareTypes hardwareType)
     {
         if (!hardwareTypeToMomentumMap.ContainsKey(hardwareType))
         {
-            hardwareTypeToMomentumMap[hardwareType] = 0;
+            hardwareTypeToMomentumMap[hardwareType] = 4;
         }
 
         return hardwareTypeToMomentumMap[hardwareType];
     }
 
-    void IncreaseMomentumForHardware(HardwareTypes hardwareType)
+    static void AssignMomentumPointToHardware(HardwareTypes hardwareType)
     {
         if (!hardwareTypeToMomentumMap.ContainsKey(hardwareType))
         {
@@ -49,7 +69,7 @@ public class MomentumManagerComponent : EntityComponent {
         assignedMomentumTracker.Push(hardwareType);
     }
 
-    void UndoLastMomentumIncrease()
+    static void RemoveLastMomentumPoint()
     {
         if (assignedMomentumTracker.Count <= 0f)
         {
@@ -61,10 +81,10 @@ public class MomentumManagerComponent : EntityComponent {
         hardwareTypeToMomentumMap[lastHardwareTypeIncremented]--;
     }
 
-    void ClearMomentum(InventoryData inventory)
+    static void ClearMomentum(InventoryData inventory)
     {
         hardwareTypeToMomentumMap.Clear();
         assignedMomentumTracker.Clear();
     }
-
+    #endregion
 }

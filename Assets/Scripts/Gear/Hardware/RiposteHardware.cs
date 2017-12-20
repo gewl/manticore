@@ -13,6 +13,12 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Channel;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
+    RiposteHardwareData subtypeData;
+    public void AssignSubtypeData(HardwareData hardwareData)
+    {
+        subtypeData = hardwareData as RiposteHardwareData;
+    }
+
     EntityGearManagement gear;
 
     int baseStaminaCost = 10;

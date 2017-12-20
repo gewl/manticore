@@ -15,6 +15,7 @@ public interface IHardware
     HardwareTypes Type { get; }
     HardwareUseTypes HardwareUseType { get; }
 
+    void AssignSubtypeData(HardwareData hardwareData);
     void UseActiveHardware();
 
     /// <summary>

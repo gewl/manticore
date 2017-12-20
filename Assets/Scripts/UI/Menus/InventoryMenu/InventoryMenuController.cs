@@ -54,8 +54,16 @@ public class InventoryMenuController : MonoBehaviour {
     
     public void EndDrag()
     {
+        // TODO: This will need to be fixed to work with other draggable inventory items.
+        if (draggingHardwareType == HardwareTypes.None)
+        {
+            return;
+        }
+
         draggingImage.gameObject.SetActive(false);
         OnStopDraggingElement(draggingHardwareType);
+
+        draggingHardwareType = HardwareTypes.None;
     }
 
     public void EquipDraggedActiveHardware(int slot)

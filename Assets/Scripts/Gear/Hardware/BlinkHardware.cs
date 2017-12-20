@@ -10,6 +10,12 @@ public class BlinkHardware : EntityComponent, IHardware
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
 
+    BlinkHardwareData subtypeData;
+    public void AssignSubtypeData(HardwareData hardwareData)
+    {
+        subtypeData = hardwareData as BlinkHardwareData;
+    }
+
     public bool IsInUse { get { return false; } }
     public bool DoesBlinkDamage = false;
     public float BlinkDamage = 0f;

@@ -103,6 +103,8 @@ public class EntityGearManagement : MonoBehaviour {
             GenerateActiveHardwareComponent(hardwareType, i);
         }
 
+        ParryGear.AssignSubtypeData(ScriptableObject.CreateInstance<StandardIssueParryHardwareData>());
+
         for (int i = 0; i < inventory.passiveHardware.Length; i++)
         {
             HardwareTypes hardwareType = inventory.passiveHardware[i];
