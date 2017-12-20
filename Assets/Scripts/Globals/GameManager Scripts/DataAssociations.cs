@@ -20,10 +20,4 @@ public class DataAssociations : SerializedMonoBehaviour {
         return instance.hardwareTypeToBubImageMap[hardwareType];
     }
 
-    [OdinSerialize]
-    Dictionary<GlobalConstants.EntityTypes, int> entityTypeToMomentumValueMap;
-    public static int GetMomentumValueForEntityType(GlobalConstants.EntityTypes entityType)
-    {
-        return instance.entityTypeToMomentumValueMap[entityType];
-    }
 }

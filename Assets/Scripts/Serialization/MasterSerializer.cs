@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MasterSerializer : MonoBehaviour {
     const string SAVE_DIRECTORY_PATH = "Saves";
-    const string SAVE_FILE_PATH = "Saves/saved_inventory.binary";
+    const string SAVE_FILE_PATH = "Saves/inventory.binary";
 
     private void OnEnable()
     {

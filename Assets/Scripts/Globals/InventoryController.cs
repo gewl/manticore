@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InventoryController : MonoBehaviour {
+public class InventoryController {
 
     public delegate void PassInventoryDelegate(InventoryData inventory);
     public static PassInventoryDelegate OnInventoryUpdated;
@@ -27,12 +27,12 @@ public class InventoryController : MonoBehaviour {
 
     public static void DiscoverHardware(HardwareTypes hardwareType)
     {
-        Inventory.obtainedInventory[hardwareType] = true;
+        Inventory.ObtainHardwareType(hardwareType);
     }
 
     public static bool HasDiscoveredHardware(HardwareTypes hardwareType)
     {
-        return Inventory.obtainedInventory[hardwareType];
+        return Inventory.obtainedHardware[hardwareType];
     }
 
     public static HardwareTypes[] GetEquippedActiveHardware()

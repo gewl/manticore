@@ -52,7 +52,7 @@ public class MomentumManager : MonoBehaviour {
     {
         if (!hardwareTypeToMomentumMap.ContainsKey(hardwareType))
         {
-            hardwareTypeToMomentumMap[hardwareType] = 4;
+            hardwareTypeToMomentumMap[hardwareType] = 0;
         }
 
         return hardwareTypeToMomentumMap[hardwareType];

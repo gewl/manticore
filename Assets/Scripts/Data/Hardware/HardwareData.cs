@@ -12,10 +12,10 @@ public abstract class HardwareData : ScriptableObject {
         return baseStaminaCost - (staminaCostMomentumIncrement * currentMomentum);
     }
 
-    protected abstract int baseCooldown { get; }
-    protected abstract int cooldownMomentumIncrement { get; }
+    protected abstract float baseCooldown { get; }
+    protected abstract float cooldownMomentumIncrement { get; }
 
-    public virtual int GetCooldown(int currentMomentum)
+    public virtual float GetCooldown(int currentMomentum)
     {
         return baseCooldown - (cooldownMomentumIncrement * currentMomentum);
     }

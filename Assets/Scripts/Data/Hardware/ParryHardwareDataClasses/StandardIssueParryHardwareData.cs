@@ -14,13 +14,13 @@ public class StandardIssueParryHardwareData : ParryHardwareData {
         get { return 2; }
     }
 
-    protected override int baseCooldown
+    protected override float baseCooldown
     {
-        get { return 0; }
+        get { return 0f; }
     }
-    protected override int cooldownMomentumIncrement
+    protected override float cooldownMomentumIncrement
     {
-        get { return 0; }
+        get { return 0f; }
     }
 
     protected override float baseMovementModifier

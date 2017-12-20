@@ -7122,19 +7122,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: entityTypeToMomentumValueMap
-      Entry: 7
-      Data: 1|System.Collections.Generic.Dictionary`2[[GlobalConstants+EntityTypes,
-        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
 --- !u!114 &1951959002
 MonoBehaviour:
   m_ObjectHideFlags: 0

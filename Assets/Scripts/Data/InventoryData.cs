@@ -6,27 +6,33 @@ using UnityEngine;
 [Serializable]
 public class InventoryData
 {
-    public Dictionary<HardwareTypes, bool> obtainedInventory;
+    public Dictionary<HardwareTypes, bool> obtainedHardware;
+    public Dictionary<HardwareTypes, List<bool>> discoveredHardwareSubtypes;
     public HardwareTypes[] activeHardware;
     public HardwareTypes[] passiveHardware;
 
     public InventoryData()
     {
-        obtainedInventory = new Dictionary<HardwareTypes, bool>();
+        obtainedHardware = new Dictionary<HardwareTypes, bool>();
+        discoveredHardwareSubtypes = new Dictionary<HardwareTypes, List<bool>>();
 
         foreach (var value in Enum.GetValues(typeof(HardwareTypes)))
         {
             HardwareTypes hardwareType = (HardwareTypes)value;
             if (hardwareType != HardwareTypes.None)
             {
-                obtainedInventory[hardwareType] = false;
+                obtainedHardware[hardwareType] = false;
+                discoveredHardwareSubtypes[hardwareType] = new List<bool>(3)
+                {
+                    false,
+                    false,
+                    false
+                };
             }
         }
 
-        obtainedInventory[HardwareTypes.Parry] = true;
-        obtainedInventory[HardwareTypes.Blink] = true;
-        obtainedInventory[HardwareTypes.Nullify] = true;
-        obtainedInventory[HardwareTypes.Riposte] = true;
+        ObtainHardwareType(HardwareTypes.Parry);
+        ObtainHardwareType(HardwareTypes.Blink);
 
         activeHardware = new HardwareTypes[4]
         {
@@ -37,5 +43,11 @@ public class InventoryData
         };
 
         passiveHardware = new HardwareTypes[4];
+    }
+
+    public void ObtainHardwareType(HardwareTypes hardwareType)
+    {
+        obtainedHardware[hardwareType] = true;
+        discoveredHardwareSubtypes[hardwareType][0] = true;
     }
 }
