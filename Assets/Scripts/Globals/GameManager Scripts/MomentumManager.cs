@@ -11,21 +11,23 @@ public class MomentumManager : MonoBehaviour {
     // Count also used to track total assigned momentum.
     static Stack<HardwareTypes> assignedMomentumTracker;
 
-    int progressTowardNextMomentum = 0;
-    int momentumRequiredForNextPoint
+    static int progressTowardNextMomentum = 0;
+    static int momentumRequiredForNextPoint
     {
         get
         {
-            return (assignedMomentumTracker.Count + 1) * 5;
+            return (assignedMomentumTracker.Count  + unassignedAvailableMomentumPoints + 1) * 5;
         }
     }
 
-    int unassignedAvailableMomentumPoints = 0;
+    static int unassignedAvailableMomentumPoints = 0;
 
     protected void Awake()
     {
         assignedMomentumTracker = new Stack<HardwareTypes>();
         hardwareTypeToMomentumMap = new Dictionary<HardwareTypes, int>();
+
+        Debug.Log("Momentum necessary for point: " + momentumRequiredForNextPoint);
     }
 
     private void OnEnable()
@@ -40,9 +42,17 @@ public class MomentumManager : MonoBehaviour {
 
     #region momentum event handlers
 
-    static void HandleEntityDeathEvent(GlobalConstants.EntityTypes entityType)
+    public static void AddMomentum(int quantityToAdd)
     {
-        
+        progressTowardNextMomentum += quantityToAdd;
+
+        while (progressTowardNextMomentum >= momentumRequiredForNextPoint)
+        {
+            Debug.Log("Ding!");
+            progressTowardNextMomentum %= momentumRequiredForNextPoint;
+            unassignedAvailableMomentumPoints++;
+        }
+        Debug.Log("Momentum necessary for point: " + momentumRequiredForNextPoint);
     }
 
     #endregion

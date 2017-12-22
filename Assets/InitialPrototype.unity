@@ -2082,6 +2082,12 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
@@ -3985,11 +3991,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1301277161 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1406900961984896, guid: edf0a7f7034951a4abeab16b68f80656,
-    type: 2}
-  m_PrefabInternal: {fileID: 2026237665}
 --- !u!1 &1309623908 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1858357648609224, guid: acc5b33bcf989b5438c6533399e59f6c,
@@ -5247,6 +5248,66 @@ Prefab:
       propertyPath: fireCooldown
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114884341736685488, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114884341736685488, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0
@@ -7917,11 +7978,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1392056653}
     m_Modifications:
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4066080051264276, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
       propertyPath: m_LocalPosition.x
       value: 22.73
@@ -7954,11 +8010,54 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-      propertyPath: bulletsParent
+      propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 432056319}
+      objectReference: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114684927475291754, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114884341736685488, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114884341736685488, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
     - target: {fileID: 114880142993645804, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: patrolPoints.Array.data[0]
@@ -7969,232 +8068,24 @@ Prefab:
       propertyPath: patrolPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1198158389}
-    - target: {fileID: 1601806513748870, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: fireCooldown
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: firer
-      value: 
-      objectReference: {fileID: 1301277161}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[1].time
-      value: 0.83172274
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[1].value
-      value: 0.569011
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[1].inSlope
-      value: 2.2429736
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[1].outSlope
-      value: 2.2429736
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[2].time
-      value: 0.9458313
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[2].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[2].inSlope
-      value: 5.9119353
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[2].outSlope
-      value: 5.9119353
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[3].time
-      value: 0.65250015
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[3].value
-      value: 0.58748394
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[3].inSlope
-      value: Infinity
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[3].outSlope
-      value: Infinity
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[4].time
-      value: 0.82916665
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[4].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[4].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[4].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[5].time
-      value: 0.82916665
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[5].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[5].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[5].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[6].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[6].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[6].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[6].outSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[5].tangentMode
-      value: 136
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: gunHeatCurve.m_Curve.Array.data[4].tangentMode
-      value: 136
-      objectReference: {fileID: 0}
-    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: isMoving
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: currentMoveSpeed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.SerializedFormat
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 114045473193365964, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-    - target: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.SerializedFormat
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 114554430662785840, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.SerializedFormat
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-    - target: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.SerializedFormat
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 114298446566352752, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: initialHealth
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
-        type: 2}
-      propertyPath: serializationData.SerializedFormat
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
-    - target: {fileID: 114898195907864656, guid: edf0a7f7034951a4abeab16b68f80656,
+    - target: {fileID: 114097303847368008, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: bulletsParent
+      value: 
+      objectReference: {fileID: 432056319}
+    - target: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 114447805638049918, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+    - target: {fileID: 114303334360997384, guid: edf0a7f7034951a4abeab16b68f80656,
         type: 2}
       propertyPath: serializationData.SerializedFormat
       value: 2
