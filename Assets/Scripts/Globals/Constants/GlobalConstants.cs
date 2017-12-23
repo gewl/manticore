@@ -17,12 +17,4 @@ public static class GlobalConstants {
     {
         StaminaPill 
     }
-
-    public enum EntityTypes
-    {
-        Turret,
-        Cube,
-        ShotgunCube
-    }
-
 }

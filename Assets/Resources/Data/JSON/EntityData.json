@@ -1,0 +1,19 @@
+{
+	"Turret": {
+		"name": "TurretEnemy",
+		"initialHealth": 80,
+		"momentumValue": 2
+	},
+
+	"Cube": {
+		"name": "CubeEnemy",
+		"initialHealth": 90,
+		"momentumValue": 5
+	},
+	
+	"ShotgunCube": {
+		"name": "ShotgunCubeEnemy",
+		"initialHealth": 110,
+		"momentumValue": 5
+	}
+}

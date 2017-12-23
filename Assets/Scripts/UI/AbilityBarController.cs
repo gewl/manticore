@@ -11,6 +11,10 @@ public class AbilityBarController : SerializedMonoBehaviour {
     RectTransform[] abilityBubs;
     Image[] abilityBubImages;
     Image[] cooldownOverlays;
+    GameObject[] abilityMomentumCounters;
+
+    const string COOLDOWN_OVERLAY = "CooldownOverlay";
+    const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
 
     [SerializeField]
     Sprite emptyAbilityBub;
@@ -20,33 +24,24 @@ public class AbilityBarController : SerializedMonoBehaviour {
     private void Awake()
     {
         abilityBubImages = new Image[4];
-        //{
-        //    abilityBubs[0].GetComponent<Image>(),
-        //    abilityBubs[1].GetComponent<Image>(),
-        //    abilityBubs[2].GetComponent<Image>(),
-        //    abilityBubs[3].GetComponent<Image>(),
-        //};
-
         cooldownOverlays = new Image[4];
+        abilityMomentumCounters = new GameObject[4];
 
         for (int i = 0; i < abilityBubs.Length; i++)
         {
             RectTransform abilityBub = abilityBubs[i];
-            Image cooldownOverlay = abilityBub.GetChild(0).GetComponent<Image>();
+
+            Image cooldownOverlay = abilityBub.Find(COOLDOWN_OVERLAY).GetComponent<Image>();
             cooldownOverlays[i] = cooldownOverlay;
             cooldownOverlay.enabled = false;
 
+            GameObject abilityMomentumCounter = abilityBub.Find(ABILITY_MOMENTUM_COUNTER).gameObject;
+            abilityMomentumCounters[i] = abilityMomentumCounter;
+
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
+
         manticoreGear.activeHardwareUpdated += UpdateAbilities;
-    }
-
-    private void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
     }
 
     void UpdateParryCooldown(float percentageCooldownRemaining)
@@ -93,6 +88,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
             {
                 activeHardwareBubSprite = emptyAbilityBub;
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
+                abilityMomentumCounters[i].SetActive(false);
 
                 if (cooldownOverlays[i].enabled == true)
                 {
@@ -105,6 +101,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
                 activeHardwareBubSprite = DataAssociations.GetHardwareTypeBubImage(activeHardwareType);
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
+                abilityMomentumCounters[i].SetActive(true);
 
                 activeHardware.CooldownUpdater = null;
                 activeHardware.CooldownUpdater += GenerateCooldownUpdater(i);

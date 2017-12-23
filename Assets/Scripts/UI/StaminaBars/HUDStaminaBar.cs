@@ -22,7 +22,7 @@ public class HUDStaminaBar : StaminaBar {
 
     EntityStaminaComponent manticoreStaminaComponent;
     float totalStamina;
-    float barHeight = 6f;
+    float barHeight = 10f;
     float barWidth = 0f;
     bool isAdjustingDamageBar = false;
 
@@ -39,7 +39,7 @@ public class HUDStaminaBar : StaminaBar {
 
         barWidth = totalStamina * 2f;
 
-        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
+        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 8f, barHeight + 8f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         staminaBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;

@@ -26,7 +26,7 @@ public class HealthBarComponent : EntityComponent {
     Color dangerColor;
 
     float totalHealth;
-    float barHeight = 15f;
+    float barHeight = 30f;
     float barWidth = 0f;
     bool isAdjustingDamageBar = false;
 
@@ -35,13 +35,13 @@ public class HealthBarComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.HealthChanged, OnHealthChanged);
         
         totalHealth = GameManager.GetPlayerInitialHealth();
-        barWidth = totalHealth;
+        barWidth = totalHealth * 2f;
 
         healthBarBackground = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
         damageBar = healthBarContainer.transform.GetChild(1).GetComponent<Image>();
         healthBar = healthBarContainer.transform.GetChild(2).GetComponent<Image>();
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 4, barHeight + 4f);
+        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 8f, barHeight + 8f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         healthBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
@@ -56,7 +56,7 @@ public class HealthBarComponent : EntityComponent {
     void OnHealthChanged()
     {
         float currentHealth = GameManager.GetPlayerCurrentHealth();
-        float newBarWidth = currentHealth;
+        float newBarWidth = currentHealth * 2f;
 
         healthBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
         float percentageOfHealthRemaining = currentHealth / totalHealth;

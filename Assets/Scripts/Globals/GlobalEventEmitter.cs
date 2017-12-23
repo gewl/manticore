@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GlobalEventEmitter : MonoBehaviour {
 
-    public delegate void EntityAlteredHandler (GlobalConstants.EntityTypes entityType);
-    public static EntityAlteredHandler OnEntityDiedHandler;  
+    //public delegate void EntityAlteredHandler (GlobalConstants.EntityTypes entityType);
+    //public static EntityAlteredHandler OnEntityDiedHandler;  
 
 }
