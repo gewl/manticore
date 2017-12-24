@@ -76,21 +76,15 @@
         </member>
         <member name="M:Sirenix.Utilities.DirectoryInfoExtensions.HasSubDirectory(System.IO.DirectoryInfo,System.IO.DirectoryInfo)">
             <summary>
-            Determines whether [is sub directory of] [the specified dir2].
+            Determines whether the directory has a given directory in its hierarchy of children.
             </summary>
-            <param name="parentDir">The dir1.</param>
-            <param name="subDir">The dir2.</param>
-            <returns>
-              <c>true</c> if [is sub directory of] [the specified dir2]; otherwise, <c>false</c>.
-            </returns>
+            <param name="parentDir">The parent directory.</param>
+            <param name="subDir">The sub directory.</param>
         </member>
         <member name="M:Sirenix.Utilities.DirectoryInfoExtensions.FindParentDirectoryWithName(System.IO.DirectoryInfo,System.String)">
             <summary>
-            Finds the name of the parent directory with.
+            Finds a parent directory with a given name, or null if no such parent directory exists.
             </summary>
-            <param name="dir">The directory info.</param>
-            <param name="folderName">Name of the folder.</param>
-            <returns></returns>
         </member>
         <member name="T:Sirenix.Utilities.FieldInfoExtensions">
             <summary>
@@ -926,13 +920,6 @@
             <param name="rect">The original Rect.</param>
             <param name="move">The change in position.</param>
         </member>
-        <member name="M:Sirenix.Utilities.RectExtensions.MoveHorizontal(UnityEngine.Rect,System.Single)">
-            <summary>
-            Moves a Rect's position along the X-axis.
-            </summary>
-            <param name="rect">The original Rect.</param>
-            <param name="distance">The change in position.</param>
-        </member>
         <member name="M:Sirenix.Utilities.RectExtensions.SetX(UnityEngine.Rect,System.Single)">
             <summary>
             Sets a Rect's X position.
@@ -953,13 +940,6 @@
             </summary>
             <param name="rect">The original Rect.</param>
             <param name="x">The value to subtract.</param>
-        </member>
-        <member name="M:Sirenix.Utilities.RectExtensions.MoveVertical(UnityEngine.Rect,System.Single)">
-            <summary>
-            Moves a Rect's position along the Y-axis.
-            </summary>
-            <param name="rect">The original Rect.</param>
-            <param name="distance">The change in position.</param>
         </member>
         <member name="M:Sirenix.Utilities.RectExtensions.SetY(UnityEngine.Rect,System.Single)">
             <summary>
@@ -1325,6 +1305,11 @@
             <param name="openGenericInterfaceType">Type of the open generic interface.</param>
         </member>
         <member name="M:Sirenix.Utilities.TypeExtensions.GetOperatorMethod(System.Type,Sirenix.Utilities.Operator)">
+            <summary>
+            Gets the MethodInfo of a specific operator type.
+            </summary>
+        </member>
+        <member name="M:Sirenix.Utilities.TypeExtensions.GetOperatorMethods(System.Type,Sirenix.Utilities.Operator)">
             <summary>
             Gets the MethodInfo of a specific operator type.
             </summary>

@@ -9,7 +9,7 @@ public class UnitHealthBar : MonoBehaviour {
     public Transform attachedUnit;
 
     Camera mainCamera;
-    float barHeight = 4f;
+    float barHeight = 8f;
     float damageBarAdjustmentTime = 1f;
 
     RectTransform containerTransform;
@@ -36,14 +36,14 @@ public class UnitHealthBar : MonoBehaviour {
         Vector3 attachedUnitPosition = mainCamera.WorldToScreenPoint(attachedUnit.position);
 
         attachedUnitPosition.x -= 30f;
-        attachedUnitPosition.y -= 30f;
+        attachedUnitPosition.y -= 50f;
 
         transform.position = attachedUnitPosition;
     }
 
     public void SetTotalHealth(float totalHealth)
     {
-        Vector2 startingBarSize = new Vector2(totalHealth / 2f, barHeight);
+        Vector2 startingBarSize = new Vector2(totalHealth, barHeight);
 
         containerTransform.sizeDelta = new Vector2(startingBarSize.x + 4f, barHeight + 4f);
         healthBarBackground.rectTransform.sizeDelta = startingBarSize;
@@ -53,7 +53,7 @@ public class UnitHealthBar : MonoBehaviour {
 
     public void UpdateHealth(float currentHealth)
     {
-        float barWidth = currentHealth / 2f;
+        float barWidth = currentHealth;
         healthBar.rectTransform.sizeDelta = new Vector2(barWidth, barHeight);
 
         if (isAdjustingDamageBar)

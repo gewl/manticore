@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class MomentumManager : MonoBehaviour {
 
+    public delegate void MomentumPointsUpdatedDelegate(int availablePoints);
+    public static MomentumPointsUpdatedDelegate OnAvailableMomentumPointsUpdated;
+
+    public delegate void AssignedMomentumPointsUpdatedDelegate(Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap);
+    public static AssignedMomentumPointsUpdatedDelegate OnAssignedMomentumPointsUpdated;
+
     static Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap;
     // This tracks in what order & to which Hardware momentum was assigned.
     // When player loses momentum, the last assigned momentum is removed.
@@ -21,6 +27,7 @@ public class MomentumManager : MonoBehaviour {
     }
 
     static int unassignedAvailableMomentumPoints = 0;
+    public static int UnassignedAvailableMomentumPoints { get { return unassignedAvailableMomentumPoints; } }
 
     protected void Awake()
     {
@@ -48,11 +55,11 @@ public class MomentumManager : MonoBehaviour {
 
         while (progressTowardNextMomentum >= momentumRequiredForNextPoint)
         {
-            Debug.Log("Ding!");
             progressTowardNextMomentum %= momentumRequiredForNextPoint;
             unassignedAvailableMomentumPoints++;
+
+            OnAvailableMomentumPointsUpdated(unassignedAvailableMomentumPoints);
         }
-        Debug.Log("Momentum necessary for point: " + momentumRequiredForNextPoint);
     }
 
     #endregion
@@ -68,8 +75,13 @@ public class MomentumManager : MonoBehaviour {
         return hardwareTypeToMomentumMap[hardwareType];
     }
 
-    static void AssignMomentumPointToHardware(HardwareTypes hardwareType)
+    public static void AssignMomentumPointToHardware(HardwareTypes hardwareType)
     {
+        if (unassignedAvailableMomentumPoints == 0)
+        {
+            Debug.LogError("Attempting to assign momentum points; no momentum points to assign.");
+            return;
+        }
         if (!hardwareTypeToMomentumMap.ContainsKey(hardwareType))
         {
             hardwareTypeToMomentumMap[hardwareType] = 0;
@@ -77,6 +89,10 @@ public class MomentumManager : MonoBehaviour {
 
         hardwareTypeToMomentumMap[hardwareType]++;
         assignedMomentumTracker.Push(hardwareType);
+        OnAssignedMomentumPointsUpdated(hardwareTypeToMomentumMap);
+
+        unassignedAvailableMomentumPoints--;
+        OnAvailableMomentumPointsUpdated(unassignedAvailableMomentumPoints);
     }
 
     static void RemoveLastMomentumPoint()
@@ -89,12 +105,14 @@ public class MomentumManager : MonoBehaviour {
         HardwareTypes lastHardwareTypeIncremented = assignedMomentumTracker.Pop();
 
         hardwareTypeToMomentumMap[lastHardwareTypeIncremented]--;
+        OnAssignedMomentumPointsUpdated(hardwareTypeToMomentumMap);
     }
 
     static void ClearMomentum(InventoryData inventory)
     {
         hardwareTypeToMomentumMap.Clear();
         assignedMomentumTracker.Clear();
+        OnAssignedMomentumPointsUpdated(hardwareTypeToMomentumMap);
     }
     #endregion
 }

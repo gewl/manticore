@@ -198,7 +198,7 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -3
+  textureFormat: -2
   maxTextureSize: 2048
   textureSettings:
     filterMode: 2
@@ -233,13 +233,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 4, y: 17}
-        - {x: -17, y: 2}
+      - - {x: 14, y: 17}
+        - {x: -6, y: 17}
+        - {x: -17, y: -5}
         - {x: -17, y: -16}
-        - {x: -3, y: -16}
-        - {x: 17, y: -7}
-        - {x: 17, y: 12}
-        - {x: 10, y: 17}
+        - {x: -5, y: -16}
+        - {x: 14, y: -2}
+        - {x: 17, y: 5}
+        - {x: 17, y: 14}
     - name: PenMinus
       rect:
         serializedVersion: 2
@@ -251,14 +252,18 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -2, y: 13}
-        - {x: -14, y: 1}
-        - {x: -17, y: -9}
-        - {x: -17, y: -17}
-        - {x: -2, y: -17}
-        - {x: 16, y: -5}
-        - {x: 17, y: -2}
+      - - {x: 16, y: 5}
+        - {x: 17, y: 7}
         - {x: 17, y: 13}
+        - {x: -4, y: 13}
+        - {x: -15, y: 0}
+        - {x: -17, y: -8}
+        - {x: -17, y: -16}
+        - {x: -15, y: -17}
+        - {x: -7, y: -17}
+        - {x: -1, y: -14}
+        - {x: 12, y: -1}
+        - {x: 11, y: 1}
     - name: Cut
       rect:
         serializedVersion: 2
@@ -270,11 +275,19 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 17}
-        - {x: -13, y: -17}
+      - - {x: 10, y: -3}
+        - {x: 13, y: 16}
+        - {x: 10, y: 17}
+        - {x: 6, y: 17}
+        - {x: 1, y: 10}
+        - {x: -8, y: 17}
+        - {x: -11, y: 17}
+        - {x: -13, y: 13}
+        - {x: -13, y: -14}
+        - {x: -11, y: -17}
         - {x: 9, y: -17}
-        - {x: 13, y: -15}
-        - {x: 13, y: 17}
+        - {x: 13, y: -13}
+        - {x: 13, y: -6}
     - name: Move
       rect:
         serializedVersion: 2
@@ -286,16 +299,25 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 17}
-        - {x: -13, y: 15}
-        - {x: -17, y: 6}
-        - {x: -17, y: -5}
-        - {x: -13, y: -10}
-        - {x: -8, y: -17}
-        - {x: 14, y: -17}
-        - {x: 17, y: -6}
-        - {x: 17, y: 9}
-        - {x: 9, y: 17}
+      - - {x: 9, y: 9}
+        - {x: 7, y: 7}
+        - {x: 9, y: 10}
+        - {x: 12, y: 13}
+        - {x: 4, y: 17}
+        - {x: -8, y: 17}
+        - {x: -17, y: 5}
+        - {x: -17, y: -3}
+        - {x: -12, y: -8}
+        - {x: -9, y: -8}
+        - {x: -7, y: -6}
+        - {x: -10, y: -10}
+        - {x: -10, y: -11}
+        - {x: -6, y: -17}
+        - {x: 5, y: -17}
+        - {x: 12, y: -15}
+        - {x: 17, y: -9}
+        - {x: 17, y: 5}
+        - {x: 14, y: 12}
     - name: Rotate
       rect:
         serializedVersion: 2
@@ -307,20 +329,20 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: 17}
-        - {x: -17, y: 16}
+      - - {x: 8, y: 17}
+        - {x: -17, y: 17}
         - {x: -17, y: 2}
         - {x: -15, y: 0}
-        - {x: -3, y: -1}
-        - {x: -10, y: -3}
-        - {x: -14, y: -8}
-        - {x: -15, y: -12}
-        - {x: -9, y: -17}
-        - {x: 7, y: -17}
-        - {x: 13, y: -16}
-        - {x: 17, y: -10}
-        - {x: 17, y: 15}
-        - {x: 9, y: 17}
+        - {x: -4, y: 0}
+        - {x: -1, y: 3}
+        - {x: 1, y: -7}
+        - {x: -7, y: -1}
+        - {x: -17, y: -7}
+        - {x: -11, y: -16}
+        - {x: -7, y: -17}
+        - {x: 9, y: -17}
+        - {x: 17, y: -9}
+        - {x: 17, y: 9}
     - name: X
       rect:
         serializedVersion: 2
@@ -364,14 +386,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -10, y: 14}
+      - - {x: -9, y: 14}
         - {x: -14, y: 6}
         - {x: -14, y: -8}
         - {x: -11, y: -15}
-        - {x: 10, y: -15}
+        - {x: 9, y: -15}
         - {x: 15, y: -12}
-        - {x: 15, y: 10}
-        - {x: 8, y: 14}
+        - {x: 15, y: 9}
+        - {x: 6, y: 14}
     - name: SingleUser
       rect:
         serializedVersion: 2
@@ -383,13 +405,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 6, y: 16}
-        - {x: -10, y: 16}
-        - {x: -15, y: 4}
-        - {x: -15, y: -15}
-        - {x: 15, y: -15}
-        - {x: 15, y: 2}
-        - {x: 12, y: 12}
+      - - {x: 10, y: 11}
+        - {x: 6, y: 16}
+        - {x: -3, y: 16}
+        - {x: -10, y: 14}
+        - {x: -15, y: -3}
+        - {x: -15, y: -13}
+        - {x: -14, y: -15}
+        - {x: 13, y: -15}
+        - {x: 15, y: -13}
+        - {x: 15, y: -6}
     - name: MultiUser
       rect:
         serializedVersion: 2
@@ -401,13 +426,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 5, y: 17}
-        - {x: -12, y: 17}
-        - {x: -17, y: 7}
-        - {x: -17, y: -15}
+      - - {x: 10, y: 13}
+        - {x: 3, y: 17}
+        - {x: -5, y: 17}
+        - {x: -11, y: 15}
+        - {x: -17, y: -2}
+        - {x: -17, y: -13}
+        - {x: -16, y: -15}
         - {x: 17, y: -15}
-        - {x: 17, y: 1}
-        - {x: 15, y: 11}
+        - {x: 17, y: 3}
+        - {x: 15, y: 10}
     - name: Male
       rect:
         serializedVersion: 2
@@ -421,12 +449,11 @@ TextureImporter:
       outline:
       - - {x: -4, y: 17}
         - {x: -8, y: 12}
-        - {x: -8, y: -4}
-        - {x: -7, y: -17}
-        - {x: 6, y: -17}
-        - {x: 9, y: -11}
-        - {x: 9, y: 13}
-        - {x: 8, y: 17}
+        - {x: -8, y: -7}
+        - {x: -5, y: -17}
+        - {x: 9, y: -17}
+        - {x: 9, y: 15}
+        - {x: 6, y: 17}
     - name: Female
       rect:
         serializedVersion: 2
@@ -439,13 +466,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -5, y: 17}
-        - {x: -11, y: 2}
-        - {x: -11, y: -4}
-        - {x: -6, y: -17}
-        - {x: 6, y: -17}
+        - {x: -7, y: 16}
+        - {x: -10, y: 8}
+        - {x: -10, y: -5}
+        - {x: -8, y: -17}
+        - {x: 5, y: -17}
         - {x: 10, y: -7}
-        - {x: 10, y: 11}
-        - {x: 7, y: 17}
+        - {x: 10, y: 7}
+        - {x: 8, y: 17}
     - name: LightBulb
       rect:
         serializedVersion: 2
@@ -457,14 +485,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 4, y: 15}
-        - {x: -8, y: 15}
-        - {x: -11, y: 12}
-        - {x: -11, y: -2}
-        - {x: -7, y: -15}
-        - {x: 8, y: -15}
-        - {x: 10, y: -8}
-        - {x: 10, y: 13}
+      - - {x: 7, y: 15}
+        - {x: -5, y: 15}
+        - {x: -11, y: 14}
+        - {x: -11, y: 1}
+        - {x: -7, y: -13}
+        - {x: -3, y: -15}
+        - {x: 5, y: -15}
+        - {x: 10, y: -4}
+        - {x: 10, y: 9}
     - name: Pen
       rect:
         serializedVersion: 2
@@ -476,13 +505,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 6, y: 15}
-        - {x: -15, y: -7}
+      - - {x: 7, y: 15}
+        - {x: -15, y: 1}
         - {x: -15, y: -15}
-        - {x: 0, y: -15}
-        - {x: 14, y: 6}
-        - {x: 14, y: 14}
-        - {x: 11, y: 15}
+        - {x: -8, y: -15}
+        - {x: 14, y: 3}
+        - {x: 14, y: 12}
+        - {x: 12, y: 15}
     - name: LockLocked
       rect:
         serializedVersion: 2
@@ -494,12 +523,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 16}
-        - {x: -13, y: 8}
+      - - {x: -7, y: 16}
+        - {x: -13, y: 7}
         - {x: -13, y: -16}
         - {x: 14, y: -16}
         - {x: 14, y: 6}
-        - {x: 7, y: 16}
+        - {x: 8, y: 16}
     - name: LockUnloacked
       rect:
         serializedVersion: 2
@@ -511,14 +540,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 15}
+      - - {x: -5, y: 15}
         - {x: -16, y: 7}
-        - {x: -16, y: -13}
-        - {x: -15, y: -15}
-        - {x: 8, y: -15}
-        - {x: 16, y: 0}
-        - {x: 16, y: 10}
-        - {x: 12, y: 15}
+        - {x: -16, y: -15}
+        - {x: 11, y: -15}
+        - {x: 16, y: -3}
+        - {x: 16, y: 15}
     - name: ArrowUp
       rect:
         serializedVersion: 2
@@ -530,15 +557,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 5, y: 14}
-        - {x: -1, y: 14}
-        - {x: -13, y: 9}
-        - {x: -13, y: -14}
-        - {x: -12, y: -15}
-        - {x: 7, y: -15}
-        - {x: 8, y: -14}
-        - {x: 14, y: 1}
-        - {x: 14, y: 4}
+      - - {x: -1, y: 14}
+        - {x: -13, y: 5}
+        - {x: -13, y: -5}
+        - {x: -9, y: -15}
+        - {x: 9, y: -15}
+        - {x: 13, y: 1}
+        - {x: 13, y: 4}
+        - {x: 2, y: 14}
     - name: ArrowDown
       rect:
         serializedVersion: 2
@@ -550,15 +576,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 15}
-        - {x: -9, y: 14}
+      - - {x: -9, y: 15}
         - {x: -13, y: 0}
         - {x: -13, y: -5}
         - {x: -2, y: -14}
         - {x: 1, y: -14}
         - {x: 13, y: -5}
-        - {x: 13, y: 5}
-        - {x: 9, y: 15}
+        - {x: 13, y: 4}
+        - {x: 8, y: 15}
     - name: ArrowRight
       rect:
         serializedVersion: 2
@@ -607,11 +632,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 17}
-        - {x: -11, y: 12}
+      - - {x: 9, y: 17}
+        - {x: -10, y: 17}
+        - {x: -11, y: 15}
         - {x: -11, y: -17}
         - {x: 11, y: -17}
-        - {x: 11, y: 17}
+        - {x: 11, y: -9}
+        - {x: 9, y: 16}
     - name: Crosshair
       rect:
         serializedVersion: 2
@@ -623,22 +650,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 15, y: 6}
-        - {x: 14, y: 9}
-        - {x: 9, y: 14}
-        - {x: 6, y: 15}
-        - {x: -5, y: 15}
-        - {x: -8, y: 14}
-        - {x: -13, y: 9}
-        - {x: -14, y: 6}
-        - {x: -14, y: -5}
-        - {x: -13, y: -8}
-        - {x: -8, y: -13}
-        - {x: -5, y: -14}
+      - - {x: 13, y: 10}
+        - {x: 8, y: 15}
+        - {x: -4, y: 15}
+        - {x: -14, y: 13}
+        - {x: -14, y: -8}
+        - {x: -7, y: -14}
         - {x: 6, y: -14}
-        - {x: 9, y: -13}
-        - {x: 14, y: -8}
+        - {x: 10, y: -13}
         - {x: 15, y: -5}
+        - {x: 15, y: 5}
     - name: Globe
       rect:
         serializedVersion: 2
@@ -650,14 +671,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: 16}
-        - {x: -16, y: 14}
-        - {x: -16, y: -14}
-        - {x: -13, y: -17}
-        - {x: 13, y: -17}
-        - {x: 17, y: -10}
-        - {x: 17, y: 14}
-        - {x: 10, y: 16}
+      - - {x: -10, y: 16}
+        - {x: -16, y: 7}
+        - {x: -16, y: -5}
+        - {x: -15, y: -11}
+        - {x: -7, y: -16}
+        - {x: 9, y: -16}
+        - {x: 16, y: -9}
+        - {x: 16, y: 14}
+        - {x: 9, y: 16}
     - name: House
       rect:
         serializedVersion: 2
@@ -669,14 +691,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -12, y: 15}
-        - {x: -16, y: 8}
-        - {x: -16, y: -4}
-        - {x: -14, y: -15}
-        - {x: 13, y: -15}
-        - {x: 16, y: -6}
-        - {x: 16, y: 7}
-        - {x: 3, y: 15}
+      - - {x: 2, y: 15}
+        - {x: -12, y: 15}
+        - {x: -16, y: 9}
+        - {x: -16, y: -3}
+        - {x: -11, y: -15}
+        - {x: 10, y: -15}
+        - {x: 11, y: -13}
+        - {x: 15, y: -1}
+        - {x: 15, y: 6}
     - name: Stop
       rect:
         serializedVersion: 2
@@ -688,9 +711,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 13}
-        - {x: -13, y: -14}
-        - {x: 12, y: -14}
+      - - {x: -11, y: 13}
+        - {x: -13, y: 11}
+        - {x: -13, y: -12}
+        - {x: -10, y: -14}
+        - {x: 9, y: -14}
         - {x: 13, y: -11}
         - {x: 13, y: 11}
         - {x: 11, y: 13}
@@ -705,14 +730,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -5, y: 15}
-        - {x: -7, y: 14}
-        - {x: -7, y: -15}
-        - {x: -5, y: -16}
-        - {x: -2, y: -16}
-        - {x: 8, y: -9}
-        - {x: 8, y: 7}
-        - {x: -3, y: 15}
+      - - {x: -3, y: 14}
+        - {x: -5, y: 14}
+        - {x: -7, y: 12}
+        - {x: -7, y: -14}
+        - {x: -5, y: -15}
+        - {x: -1, y: -15}
+        - {x: 6, y: -7}
+        - {x: 8, y: -2}
+        - {x: 8, y: 3}
     - name: Previous
       rect:
         serializedVersion: 2
@@ -724,15 +750,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -1, y: 15}
-        - {x: -12, y: 5}
-        - {x: -12, y: -2}
-        - {x: -10, y: -5}
-        - {x: -6, y: -10}
-        - {x: -1, y: -15}
-        - {x: 10, y: -15}
-        - {x: 12, y: -14}
-        - {x: 12, y: 15}
+      - - {x: -5, y: 14}
+        - {x: -12, y: 2}
+        - {x: -12, y: -6}
+        - {x: -4, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 12}
+        - {x: 10, y: 14}
     - name: Eject
       rect:
         serializedVersion: 2
@@ -744,14 +768,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -2, y: 12}
-        - {x: -15, y: 0}
-        - {x: -15, y: -3}
-        - {x: -14, y: -10}
-        - {x: -13, y: -12}
-        - {x: 16, y: -12}
-        - {x: 16, y: 1}
-        - {x: 2, y: 12}
+      - - {x: -5, y: 11}
+        - {x: -14, y: 1}
+        - {x: -14, y: -12}
+        - {x: 15, y: -12}
+        - {x: 15, y: 4}
+        - {x: 2, y: 11}
     - name: MagnifyingGlass
       rect:
         serializedVersion: 2
@@ -763,14 +785,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -12, y: 17}
-        - {x: -17, y: 11}
-        - {x: -17, y: -6}
-        - {x: 4, y: -17}
-        - {x: 16, y: -17}
-        - {x: 17, y: -16}
-        - {x: 17, y: -4}
-        - {x: 6, y: 17}
+      - - {x: 2, y: 17}
+        - {x: -14, y: 17}
+        - {x: -17, y: 14}
+        - {x: -17, y: -2}
+        - {x: -14, y: -11}
+        - {x: 11, y: -17}
+        - {x: 13, y: -17}
+        - {x: 17, y: -14}
+        - {x: 17, y: -6}
+        - {x: 11, y: 14}
     - name: Letter
       rect:
         serializedVersion: 2
@@ -782,12 +806,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 13, y: 11}
-        - {x: -16, y: 11}
-        - {x: -16, y: -12}
+      - - {x: -16, y: 11}
+        - {x: -16, y: -10}
+        - {x: -14, y: -12}
         - {x: 15, y: -12}
-        - {x: 16, y: -10}
-        - {x: 16, y: 10}
+        - {x: 15, y: 11}
     - name: SettingsCog
       rect:
         serializedVersion: 2
@@ -799,15 +822,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 14}
-        - {x: -10, y: 12}
-        - {x: -15, y: 6}
-        - {x: -15, y: -7}
-        - {x: -8, y: -15}
-        - {x: 11, y: -15}
-        - {x: 15, y: -12}
+      - - {x: -14, y: -14}
+        - {x: -13, y: -15}
+        - {x: 8, y: -15}
+        - {x: 15, y: -9}
         - {x: 15, y: 8}
-        - {x: 10, y: 14}
+        - {x: 13, y: 10}
+        - {x: 5, y: 14}
+        - {x: -9, y: 14}
+        - {x: -14, y: 12}
     - name: Tag
       rect:
         serializedVersion: 2
@@ -819,14 +842,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 15}
-        - {x: -15, y: 11}
-        - {x: -15, y: -1}
-        - {x: -3, y: -14}
+      - - {x: -6, y: -14}
         - {x: 6, y: -14}
         - {x: 14, y: -9}
-        - {x: 14, y: 4}
-        - {x: 7, y: 15}
+        - {x: 14, y: 3}
+        - {x: 5, y: 15}
+        - {x: -14, y: 15}
+        - {x: -14, y: -3}
     - name: TrafficStopLight
       rect:
         serializedVersion: 2
@@ -838,11 +860,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 17}
-        - {x: -13, y: -11}
-        - {x: -5, y: -17}
+      - - {x: -9, y: 17}
+        - {x: -13, y: 13}
+        - {x: -13, y: -7}
+        - {x: -4, y: -17}
         - {x: 4, y: -17}
-        - {x: 13, y: -8}
+        - {x: 13, y: -7}
         - {x: 13, y: 17}
     - name: Link
       rect:
@@ -855,15 +878,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -1, y: 16}
-        - {x: -16, y: 0}
-        - {x: -16, y: -10}
-        - {x: -10, y: -17}
-        - {x: -4, y: -17}
-        - {x: 6, y: -10}
-        - {x: 16, y: -2}
-        - {x: 16, y: 10}
-        - {x: 13, y: 16}
+      - - {x: -3, y: 16}
+        - {x: -12, y: 7}
+        - {x: -16, y: -4}
+        - {x: -16, y: -12}
+        - {x: -9, y: -16}
+        - {x: -1, y: -16}
+        - {x: 16, y: 1}
+        - {x: 16, y: 12}
+        - {x: 10, y: 16}
     - name: Tree
       rect:
         serializedVersion: 2
@@ -875,14 +898,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 16}
-        - {x: -15, y: 12}
-        - {x: -15, y: -6}
-        - {x: -7, y: -17}
-        - {x: 4, y: -17}
-        - {x: 15, y: -11}
-        - {x: 15, y: 14}
-        - {x: 8, y: 16}
+      - - {x: 10, y: 16}
+        - {x: -11, y: 16}
+        - {x: -15, y: 11}
+        - {x: -15, y: -5}
+        - {x: -4, y: -17}
+        - {x: 5, y: -17}
+        - {x: 15, y: -2}
+        - {x: 15, y: 9}
     - name: Airplane
       rect:
         serializedVersion: 2
@@ -894,11 +917,19 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -17, y: 15}
-        - {x: -17, y: -17}
-        - {x: 15, y: -17}
-        - {x: 17, y: -14}
+      - - {x: 10, y: 3}
+        - {x: 12, y: 3}
+        - {x: 17, y: 9}
         - {x: 17, y: 15}
+        - {x: -12, y: 15}
+        - {x: -15, y: 13}
+        - {x: -17, y: 8}
+        - {x: -17, y: -15}
+        - {x: -16, y: -17}
+        - {x: 15, y: -17}
+        - {x: 17, y: -9}
+        - {x: 15, y: 2}
+        - {x: 12, y: 3}
     - name: PacmanGhost
       rect:
         serializedVersion: 2
@@ -911,11 +942,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -13, y: 15}
-        - {x: -14, y: 12}
+        - {x: -14, y: 10}
         - {x: -14, y: -15}
-        - {x: 14, y: -15}
-        - {x: 14, y: 14}
-        - {x: 12, y: 15}
+        - {x: 13, y: -15}
+        - {x: 14, y: -12}
+        - {x: 14, y: 11}
+        - {x: 9, y: 15}
     - name: Podium
       rect:
         serializedVersion: 2
@@ -927,14 +959,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 14}
-        - {x: -14, y: 9}
+      - - {x: -6, y: 14}
+        - {x: -13, y: 10}
+        - {x: -14, y: 8}
         - {x: -14, y: -11}
-        - {x: -7, y: -16}
-        - {x: 6, y: -16}
-        - {x: 13, y: -12}
-        - {x: 13, y: 13}
-        - {x: 9, y: 14}
+        - {x: -8, y: -16}
+        - {x: 13, y: -16}
+        - {x: 13, y: 14}
     - name: Car
       rect:
         serializedVersion: 2
@@ -946,12 +977,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 10}
-        - {x: -17, y: 4}
+      - - {x: -4, y: 10}
+        - {x: -17, y: 7}
         - {x: -17, y: -11}
-        - {x: 17, y: -11}
-        - {x: 17, y: 4}
-        - {x: 11, y: 10}
+        - {x: 16, y: -11}
+        - {x: 17, y: -10}
+        - {x: 17, y: 5}
+        - {x: 12, y: 10}
     - name: AlertCircle
       rect:
         serializedVersion: 2
@@ -963,22 +995,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 15, y: 4}
-        - {x: 13, y: 9}
-        - {x: 10, y: 12}
-        - {x: 5, y: 14}
+      - - {x: 9, y: 14}
         - {x: -5, y: 14}
-        - {x: -10, y: 12}
-        - {x: -13, y: 9}
-        - {x: -15, y: 4}
+        - {x: -15, y: 11}
         - {x: -15, y: -6}
-        - {x: -13, y: -11}
-        - {x: -10, y: -14}
+        - {x: -12, y: -15}
         - {x: -5, y: -16}
-        - {x: 5, y: -16}
-        - {x: 10, y: -14}
-        - {x: 13, y: -11}
+        - {x: 9, y: -16}
+        - {x: 14, y: -13}
         - {x: 15, y: -6}
+        - {x: 15, y: 7}
     - name: AlertTriangle
       rect:
         serializedVersion: 2
@@ -990,16 +1016,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 3, y: 14}
-        - {x: -2, y: 14}
-        - {x: -7, y: 11}
-        - {x: -17, y: -7}
-        - {x: -17, y: -13}
-        - {x: -16, y: -14}
+      - - {x: -5, y: 13}
+        - {x: -17, y: -8}
+        - {x: -17, y: -14}
         - {x: 15, y: -14}
-        - {x: 16, y: -12}
-        - {x: 16, y: -6}
-        - {x: 5, y: 11}
+        - {x: 16, y: -13}
+        - {x: 16, y: -5}
+        - {x: 4, y: 13}
     - name: Info
       rect:
         serializedVersion: 2
@@ -1012,13 +1035,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -8, y: 16}
-        - {x: -16, y: 9}
-        - {x: -16, y: -7}
-        - {x: -9, y: -16}
-        - {x: 8, y: -16}
-        - {x: 16, y: -12}
-        - {x: 16, y: 9}
-        - {x: 14, y: 16}
+        - {x: -15, y: 11}
+        - {x: -16, y: 6}
+        - {x: -16, y: -9}
+        - {x: -13, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Checkmark
       rect:
         serializedVersion: 2
@@ -1030,14 +1052,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -10, y: -16}
-        - {x: 4, y: -16}
-        - {x: 17, y: -2}
-        - {x: 17, y: 11}
-        - {x: 16, y: 16}
-        - {x: 1, y: 16}
-        - {x: -17, y: 5}
-        - {x: -17, y: -8}
+      - - {x: 16, y: 14}
+        - {x: 11, y: 16}
+        - {x: 5, y: 16}
+        - {x: -12, y: 4}
+        - {x: -16, y: -2}
+        - {x: -16, y: -7}
+        - {x: -6, y: -15}
+        - {x: 2, y: -15}
+        - {x: 12, y: -2}
+        - {x: 16, y: 8}
     - name: Refresh
       rect:
         serializedVersion: 2
@@ -1049,13 +1073,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 15}
-        - {x: -16, y: 6}
-        - {x: -16, y: -5}
+      - - {x: 14, y: 15}
+        - {x: -5, y: 15}
+        - {x: -15, y: 12}
         - {x: -15, y: -16}
-        - {x: 8, y: -16}
-        - {x: 15, y: -12}
-        - {x: 15, y: 15}
+        - {x: -2, y: -16}
+        - {x: 10, y: -14}
+        - {x: 14, y: -11}
     - name: ImageCollection
       rect:
         serializedVersion: 2
@@ -1068,10 +1092,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -17, y: 13}
-        - {x: -17, y: -14}
-        - {x: 17, y: -14}
-        - {x: 17, y: 9}
-        - {x: 13, y: 13}
+        - {x: -17, y: -11}
+        - {x: -13, y: -14}
+        - {x: 16, y: -14}
+        - {x: 17, y: -11}
+        - {x: 17, y: 12}
+        - {x: 14, y: 13}
     - name: Image
       rect:
         serializedVersion: 2
@@ -1098,14 +1124,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 3, y: 15}
-        - {x: 2, y: 15}
-        - {x: -14, y: 6}
-        - {x: -14, y: -13}
+      - - {x: -2, y: 14}
+        - {x: -14, y: 5}
+        - {x: -14, y: -11}
         - {x: -10, y: -14}
-        - {x: -7, y: -14}
-        - {x: 13, y: -1}
-        - {x: 13, y: 4}
+        - {x: -6, y: -13}
+        - {x: 12, y: 1}
+        - {x: 12, y: 6}
+        - {x: 3, y: 14}
     - name: Undo
       rect:
         serializedVersion: 2
@@ -1117,16 +1143,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -1, y: 15}
-        - {x: -2, y: 15}
-        - {x: -13, y: 4}
-        - {x: -13, y: 0}
-        - {x: 0, y: -8}
-        - {x: 7, y: -14}
-        - {x: 12, y: -14}
-        - {x: 14, y: -8}
-        - {x: 14, y: 2}
-        - {x: 9, y: 8}
+      - - {x: -5, y: -14}
+        - {x: 14, y: -14}
+        - {x: 14, y: 4}
+        - {x: 6, y: 14}
+        - {x: -7, y: 14}
+        - {x: -12, y: 9}
+        - {x: -12, y: -10}
     - name: Flag
       rect:
         serializedVersion: 2
@@ -1138,13 +1161,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -12, y: 16}
-        - {x: -14, y: 14}
-        - {x: -14, y: -17}
-        - {x: -1, y: -17}
-        - {x: 15, y: -9}
+      - - {x: -14, y: 16}
+        - {x: -14, y: -16}
+        - {x: -7, y: -16}
+        - {x: 3, y: -9}
+        - {x: 15, y: 1}
         - {x: 15, y: 12}
-        - {x: 2, y: 16}
+        - {x: 8, y: 16}
     - name: FlagFinnish
       rect:
         serializedVersion: 2
@@ -1157,10 +1180,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -13, y: 16}
-        - {x: -13, y: -17}
-        - {x: -4, y: -17}
-        - {x: 13, y: -9}
-        - {x: 13, y: 16}
+        - {x: -13, y: -14}
+        - {x: -12, y: -16}
+        - {x: -4, y: -16}
+        - {x: 13, y: -5}
+        - {x: 13, y: 14}
+        - {x: 10, y: 16}
     - name: FinnishBanner
       rect:
         serializedVersion: 2
@@ -1173,8 +1198,8 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -17, y: 15}
-        - {x: -17, y: -16}
-        - {x: 17, y: -16}
+        - {x: -17, y: -15}
+        - {x: 17, y: -15}
         - {x: 17, y: 15}
     - name: File
       rect:
@@ -1204,12 +1229,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -16, y: 11}
-        - {x: -16, y: -11}
-        - {x: -15, y: -12}
-        - {x: 16, y: -12}
-        - {x: 17, y: -4}
-        - {x: 17, y: 6}
-        - {x: 15, y: 11}
+        - {x: -16, y: -10}
+        - {x: -14, y: -12}
+        - {x: 15, y: -12}
+        - {x: 17, y: -8}
+        - {x: 17, y: 7}
+        - {x: 16, y: 11}
     - name: FileCabinet
       rect:
         serializedVersion: 2
@@ -1221,14 +1246,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -8, y: 14}
-        - {x: -17, y: 12}
+      - - {x: 9, y: 14}
+        - {x: -12, y: 14}
+        - {x: -17, y: 8}
         - {x: -17, y: -13}
         - {x: -15, y: -15}
-        - {x: 16, y: -15}
-        - {x: 17, y: -14}
-        - {x: 17, y: 12}
-        - {x: 15, y: 14}
+        - {x: 17, y: -15}
+        - {x: 17, y: 11}
+        - {x: 15, y: 13}
     - name: Paperclip
       rect:
         serializedVersion: 2
@@ -1240,12 +1265,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: 16}
-        - {x: -15, y: -2}
-        - {x: -7, y: -15}
-        - {x: 14, y: -15}
-        - {x: 14, y: -2}
-        - {x: 7, y: 16}
+      - - {x: -14, y: 16}
+        - {x: -15, y: 14}
+        - {x: -15, y: 6}
+        - {x: -13, y: -3}
+        - {x: -1, y: -15}
+        - {x: 8, y: -15}
+        - {x: 14, y: -13}
+        - {x: 14, y: 3}
+        - {x: -3, y: 16}
     - name: FolderBack
       rect:
         serializedVersion: 2
@@ -1257,14 +1285,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 10, y: 11}
-        - {x: -11, y: 11}
-        - {x: -17, y: 7}
-        - {x: -17, y: -9}
-        - {x: -16, y: -12}
-        - {x: 16, y: -12}
-        - {x: 17, y: -11}
-        - {x: 17, y: 8}
+      - - {x: -1, y: 11}
+        - {x: -12, y: 11}
+        - {x: -16, y: 6}
+        - {x: -16, y: -7}
+        - {x: -14, y: -10}
+        - {x: -12, y: -12}
+        - {x: 17, y: -12}
+        - {x: 17, y: 9}
+        - {x: 16, y: 9}
     - name: SpeechBubbleSquare
       rect:
         serializedVersion: 2
@@ -1276,11 +1305,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 14}
+      - - {x: -11, y: 14}
         - {x: -14, y: 11}
-        - {x: -14, y: -15}
-        - {x: 4, y: -15}
-        - {x: 15, y: -12}
+        - {x: -14, y: -5}
+        - {x: -7, y: -14}
+        - {x: -2, y: -14}
+        - {x: 12, y: -8}
+        - {x: 15, y: -5}
         - {x: 15, y: 11}
         - {x: 12, y: 14}
     - name: Bell
@@ -1294,15 +1325,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 17}
-        - {x: -13, y: 1}
-        - {x: -13, y: -12}
-        - {x: -12, y: -13}
-        - {x: -2, y: -17}
-        - {x: 10, y: -17}
-        - {x: 14, y: -16}
-        - {x: 14, y: 14}
-        - {x: 8, y: 17}
+      - - {x: 3, y: 17}
+        - {x: -7, y: 17}
+        - {x: -13, y: 12}
+        - {x: -13, y: -16}
+        - {x: -5, y: -17}
+        - {x: 4, y: -17}
+        - {x: 14, y: -11}
+        - {x: 14, y: 1}
+        - {x: 12, y: 11}
     - name: SpeechBubblesSquare
       rect:
         serializedVersion: 2
@@ -1314,13 +1345,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -14, y: 14}
-        - {x: -17, y: 7}
-        - {x: -17, y: -9}
-        - {x: 10, y: -14}
+      - - {x: -11, y: 14}
+        - {x: -17, y: 13}
+        - {x: -17, y: -10}
+        - {x: -7, y: -14}
         - {x: 17, y: -14}
         - {x: 17, y: 7}
-        - {x: 9, y: 14}
+        - {x: 13, y: 14}
     - name: SpeechBubblesRound
       rect:
         serializedVersion: 2
@@ -1332,13 +1363,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 13}
-        - {x: -17, y: 6}
-        - {x: -17, y: -11}
-        - {x: -16, y: -14}
+      - - {x: -17, y: 13}
+        - {x: -17, y: -7}
+        - {x: -14, y: -13}
+        - {x: -2, y: -14}
         - {x: 17, y: -14}
-        - {x: 17, y: 10}
-        - {x: 5, y: 13}
+        - {x: 17, y: 6}
+        - {x: 15, y: 13}
     - name: SpeechBubbleRound
       rect:
         serializedVersion: 2
@@ -1350,13 +1381,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 15}
-        - {x: -17, y: 12}
-        - {x: -17, y: -15}
-        - {x: 0, y: -15}
-        - {x: 17, y: -7}
-        - {x: 17, y: 10}
-        - {x: 13, y: 15}
+      - - {x: -10, y: 15}
+        - {x: -17, y: 7}
+        - {x: -17, y: -9}
+        - {x: -16, y: -14}
+        - {x: -12, y: -15}
+        - {x: -2, y: -15}
+        - {x: 16, y: -9}
+        - {x: 16, y: 9}
+        - {x: 15, y: 15}
     - name: ReceptionSignal
       rect:
         serializedVersion: 2
@@ -1384,15 +1417,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -12, y: 15}
+      - - {x: 8, y: 14}
+        - {x: -11, y: 14}
         - {x: -16, y: 8}
-        - {x: -16, y: 2}
-        - {x: -3, y: -14}
-        - {x: 1, y: -14}
-        - {x: 14, y: -1}
-        - {x: 15, y: 2}
+        - {x: -16, y: 0}
+        - {x: -6, y: -12}
+        - {x: -3, y: -13}
+        - {x: 5, y: -13}
+        - {x: 9, y: -6}
+        - {x: 15, y: 6}
         - {x: 15, y: 10}
-        - {x: 8, y: 15}
     - name: SmartPhone
       rect:
         serializedVersion: 2
@@ -1404,10 +1438,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 16}
-        - {x: -11, y: -17}
-        - {x: 11, y: -17}
-        - {x: 11, y: 16}
+      - - {x: -8, y: 16}
+        - {x: -11, y: 13}
+        - {x: -11, y: -14}
+        - {x: -8, y: -17}
+        - {x: 8, y: -17}
+        - {x: 11, y: -14}
+        - {x: 11, y: 13}
+        - {x: 8, y: 16}
     - name: MobilePhone
       rect:
         serializedVersion: 2
@@ -1419,10 +1457,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -10, y: 16}
-        - {x: -10, y: -17}
-        - {x: 11, y: -17}
-        - {x: 11, y: 16}
+      - - {x: -7, y: 16}
+        - {x: -10, y: 13}
+        - {x: -10, y: -14}
+        - {x: -7, y: -17}
+        - {x: 8, y: -17}
+        - {x: 11, y: -14}
+        - {x: 11, y: 13}
+        - {x: 8, y: 16}
     - name: GridBlocks
       rect:
         serializedVersion: 2
@@ -1528,7 +1570,8 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 16}
+      - - {x: -11, y: 16}
+        - {x: -13, y: 13}
         - {x: -13, y: -15}
         - {x: 14, y: -15}
         - {x: 14, y: 11}
@@ -1544,14 +1587,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 16}
-        - {x: -15, y: 8}
-        - {x: -15, y: -6}
-        - {x: -13, y: -16}
-        - {x: 13, y: -16}
-        - {x: 16, y: -9}
-        - {x: 16, y: 11}
-        - {x: 7, y: 16}
+      - - {x: -12, y: 15}
+        - {x: -15, y: 7}
+        - {x: -15, y: -12}
+        - {x: -8, y: -16}
+        - {x: 9, y: -16}
+        - {x: 16, y: -7}
+        - {x: 16, y: 13}
+        - {x: 11, y: 15}
     - name: Clock
       rect:
         serializedVersion: 2
@@ -1563,16 +1606,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 5, y: 16}
-        - {x: -8, y: 16}
-        - {x: -16, y: 11}
-        - {x: -17, y: 5}
+      - - {x: 12, y: 16}
+        - {x: -12, y: 16}
+        - {x: -17, y: 14}
         - {x: -17, y: -9}
-        - {x: -14, y: -17}
-        - {x: 14, y: -17}
-        - {x: 16, y: -7}
-        - {x: 16, y: 9}
-        - {x: 10, y: 15}
+        - {x: -10, y: -17}
+        - {x: 5, y: -17}
+        - {x: 11, y: -15}
+        - {x: 16, y: -8}
+        - {x: 16, y: 5}
     - name: Minimize
       rect:
         serializedVersion: 2
@@ -1584,10 +1626,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: -15}
-        - {x: 15, y: -15}
-        - {x: 15, y: 15}
-        - {x: -15, y: 15}
+      - - {x: -15, y: 15}
+        - {x: -15, y: -15}
+        - {x: 12, y: -15}
+        - {x: 15, y: -12}
+        - {x: 15, y: 12}
+        - {x: 12, y: 15}
     - name: Maximize
       rect:
         serializedVersion: 2
@@ -1599,10 +1643,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: -15}
-        - {x: 15, y: -15}
-        - {x: 15, y: 15}
-        - {x: -15, y: 15}
+      - - {x: -15, y: 15}
+        - {x: -15, y: -15}
+        - {x: 12, y: -15}
+        - {x: 15, y: -12}
+        - {x: 15, y: 12}
+        - {x: 12, y: 15}
     - name: Stretch
       rect:
         serializedVersion: 2
@@ -1614,10 +1660,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -15, y: -15}
-        - {x: 15, y: -15}
-        - {x: 15, y: 15}
-        - {x: -15, y: 15}
+      - - {x: -15, y: 15}
+        - {x: -15, y: -15}
+        - {x: 12, y: -15}
+        - {x: 15, y: -12}
+        - {x: 15, y: 12}
+        - {x: 12, y: 15}
     - name: Char1
       rect:
         serializedVersion: 2
@@ -1629,12 +1677,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 17}
-        - {x: -16, y: 14}
-        - {x: -16, y: -16}
-        - {x: 17, y: -16}
-        - {x: 17, y: 16}
-        - {x: 15, y: 17}
+      - - {x: -7, y: 17}
+        - {x: -16, y: 12}
+        - {x: -16, y: -12}
+        - {x: -15, y: -16}
+        - {x: 13, y: -16}
+        - {x: 17, y: -15}
+        - {x: 17, y: 15}
+        - {x: 11, y: 17}
     - name: Char2
       rect:
         serializedVersion: 2
@@ -1647,13 +1697,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -8, y: 16}
-        - {x: -16, y: 9}
-        - {x: -16, y: -7}
-        - {x: -9, y: -16}
-        - {x: 8, y: -16}
-        - {x: 16, y: -12}
-        - {x: 16, y: 9}
-        - {x: 14, y: 16}
+        - {x: -15, y: 11}
+        - {x: -16, y: 6}
+        - {x: -16, y: -9}
+        - {x: -13, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Char3
       rect:
         serializedVersion: 2
@@ -1666,13 +1715,12 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -8, y: 16}
-        - {x: -16, y: 9}
-        - {x: -16, y: -7}
-        - {x: -9, y: -16}
-        - {x: 8, y: -16}
-        - {x: 16, y: -12}
-        - {x: 16, y: 9}
-        - {x: 14, y: 16}
+        - {x: -15, y: 11}
+        - {x: -16, y: 6}
+        - {x: -16, y: -9}
+        - {x: -13, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: CharGraph
       rect:
         serializedVersion: 2
@@ -1684,12 +1732,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 3, y: 15}
-        - {x: -16, y: 15}
-        - {x: -16, y: -15}
+      - - {x: 2, y: 14}
+        - {x: -16, y: 14}
+        - {x: -16, y: -12}
+        - {x: -13, y: -15}
         - {x: 17, y: -15}
-        - {x: 17, y: 12}
-        - {x: 15, y: 12}
+        - {x: 17, y: 9}
     - name: ShoppingBasket
       rect:
         serializedVersion: 2
@@ -1701,14 +1749,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -7, y: 14}
-        - {x: -15, y: 9}
-        - {x: -16, y: 7}
-        - {x: -16, y: -5}
-        - {x: -14, y: -14}
-        - {x: 17, y: -14}
-        - {x: 17, y: 11}
-        - {x: 10, y: 14}
+      - - {x: -4, y: 14}
+        - {x: -8, y: 13}
+        - {x: -16, y: 8}
+        - {x: -16, y: -6}
+        - {x: -15, y: -12}
+        - {x: -11, y: -14}
+        - {x: 14, y: -14}
+        - {x: 17, y: -13}
+        - {x: 17, y: 12}
+        - {x: 12, y: 14}
     - name: ShoppingCart
       rect:
         serializedVersion: 2
@@ -1720,15 +1770,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -14, y: 15}
-        - {x: -15, y: 14}
-        - {x: -15, y: 5}
-        - {x: -12, y: -9}
+      - - {x: -12, y: 14}
+        - {x: -15, y: 13}
+        - {x: -15, y: 3}
         - {x: -10, y: -15}
         - {x: 13, y: -15}
-        - {x: 15, y: -8}
+        - {x: 15, y: -6}
         - {x: 15, y: 10}
-        - {x: -3, y: 15}
+        - {x: -1, y: 14}
     - name: Money
       rect:
         serializedVersion: 2
@@ -1740,13 +1789,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 8, y: 13}
-        - {x: -11, y: 13}
-        - {x: -16, y: 8}
-        - {x: -16, y: -14}
+      - - {x: 12, y: 8}
+        - {x: 8, y: 13}
+        - {x: -7, y: 13}
+        - {x: -15, y: -1}
+        - {x: -15, y: -14}
         - {x: 16, y: -14}
         - {x: 16, y: -7}
-        - {x: 12, y: 8}
     - name: LoadingBar
       rect:
         serializedVersion: 2
@@ -1773,16 +1822,24 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 16}
-        - {x: -14, y: 8}
-        - {x: -14, y: -3}
-        - {x: -12, y: -14}
-        - {x: -9, y: -16}
-        - {x: -1, y: -16}
-        - {x: 14, y: -11}
-        - {x: 15, y: -2}
+      - - {x: 1, y: -6}
+        - {x: 1, y: -7}
+        - {x: 2, y: -9}
+        - {x: -1, y: -10}
+        - {x: -1, y: -13}
+        - {x: 2, y: -14}
+        - {x: 11, y: -14}
+        - {x: 15, y: -7}
         - {x: 15, y: 13}
-        - {x: 10, y: 16}
+        - {x: 14, y: 15}
+        - {x: -2, y: 15}
+        - {x: -14, y: 9}
+        - {x: -14, y: -6}
+        - {x: -11, y: -16}
+        - {x: 0, y: -16}
+        - {x: -2, y: -13}
+        - {x: -4, y: -11}
+        - {x: 0, y: -10}
     - name: Clouds
       rect:
         serializedVersion: 2
@@ -1794,14 +1851,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 10, y: 12}
-        - {x: -15, y: 12}
-        - {x: -17, y: 11}
-        - {x: -17, y: -10}
-        - {x: -12, y: -11}
-        - {x: 11, y: -11}
+      - - {x: -12, y: 11}
+        - {x: -17, y: 7}
+        - {x: -17, y: -6}
+        - {x: -15, y: -11}
+        - {x: 16, y: -11}
         - {x: 17, y: -8}
         - {x: 17, y: 8}
+        - {x: 7, y: 11}
     - name: Upload
       rect:
         serializedVersion: 2
@@ -1813,14 +1870,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 13}
-        - {x: -17, y: 6}
-        - {x: -17, y: -7}
-        - {x: -14, y: -12}
-        - {x: 10, y: -12}
-        - {x: 17, y: -8}
-        - {x: 17, y: 9}
-        - {x: 10, y: 13}
+      - - {x: 3, y: 12}
+        - {x: -8, y: 12}
+        - {x: -17, y: 5}
+        - {x: -17, y: -8}
+        - {x: -9, y: -12}
+        - {x: 15, y: -12}
+        - {x: 17, y: -5}
+        - {x: 17, y: 7}
+        - {x: 13, y: 10}
     - name: Download
       rect:
         serializedVersion: 2
@@ -1832,15 +1890,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 14}
-        - {x: -17, y: 7}
-        - {x: -17, y: -6}
-        - {x: -14, y: -11}
-        - {x: -7, y: -14}
-        - {x: 3, y: -14}
-        - {x: 17, y: -8}
-        - {x: 17, y: 10}
-        - {x: 10, y: 14}
+      - - {x: -8, y: 13}
+        - {x: -17, y: 6}
+        - {x: -17, y: -14}
+        - {x: 17, y: -14}
+        - {x: 17, y: 6}
+        - {x: 15, y: 13}
     - name: CloudsRainyThunder
       rect:
         serializedVersion: 2
@@ -1852,15 +1907,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -4, y: 16}
-        - {x: -16, y: 11}
-        - {x: -16, y: -11}
-        - {x: -6, y: -17}
+      - - {x: 7, y: 16}
+        - {x: -13, y: 16}
+        - {x: -16, y: 14}
+        - {x: -16, y: -4}
+        - {x: -11, y: -16}
+        - {x: -8, y: -17}
         - {x: 2, y: -17}
-        - {x: 14, y: -9}
-        - {x: 16, y: 0}
-        - {x: 16, y: 13}
-        - {x: 12, y: 16}
+        - {x: 8, y: -13}
+        - {x: 16, y: -2}
+        - {x: 16, y: 12}
     - name: CloudsThunder
       rect:
         serializedVersion: 2
@@ -1872,13 +1928,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 16}
-        - {x: -16, y: 14}
-        - {x: -16, y: -3}
-        - {x: -11, y: -16}
-        - {x: 8, y: -16}
-        - {x: 16, y: -5}
-        - {x: 16, y: 16}
+      - - {x: -9, y: 16}
+        - {x: -16, y: 10}
+        - {x: -16, y: -6}
+        - {x: -4, y: -17}
+        - {x: 10, y: -17}
+        - {x: 15, y: -11}
+        - {x: 16, y: -6}
+        - {x: 16, y: 13}
+        - {x: 6, y: 16}
     - name: CloudsRainySunny
       rect:
         serializedVersion: 2
@@ -1890,15 +1948,19 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 17}
+      - - {x: 6, y: -17}
+        - {x: 17, y: -7}
+        - {x: 17, y: 13}
+        - {x: 10, y: 17}
+        - {x: 0, y: 17}
         - {x: -16, y: 4}
-        - {x: -16, y: -6}
-        - {x: -12, y: -16}
-        - {x: 2, y: -16}
-        - {x: 14, y: -14}
-        - {x: 17, y: -2}
-        - {x: 17, y: 14}
-        - {x: 15, y: 17}
+        - {x: -16, y: -12}
+        - {x: -9, y: -17}
+        - {x: -4, y: -17}
+        - {x: -3, y: -16}
+        - {x: -3, y: -14}
+        - {x: -2, y: -14}
+        - {x: 2, y: -17}
     - name: StarPointer
       rect:
         serializedVersion: 2
@@ -1910,15 +1972,12 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 9, y: 11}
-        - {x: -4, y: 11}
-        - {x: -11, y: 9}
-        - {x: -11, y: -7}
-        - {x: -7, y: -12}
-        - {x: 8, y: -12}
-        - {x: 12, y: -8}
-        - {x: 12, y: 7}
-        - {x: 11, y: 10}
+      - - {x: -7, y: 11}
+        - {x: -11, y: 7}
+        - {x: -11, y: -11}
+        - {x: -6, y: -12}
+        - {x: 12, y: -12}
+        - {x: 12, y: 11}
     - name: GKey
       rect:
         serializedVersion: 2
@@ -1931,11 +1990,13 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -8, y: 17}
-        - {x: -12, y: 7}
-        - {x: -12, y: -14}
-        - {x: -9, y: -17}
-        - {x: 12, y: -17}
-        - {x: 12, y: 17}
+        - {x: -12, y: 2}
+        - {x: -12, y: -9}
+        - {x: -7, y: -17}
+        - {x: 7, y: -17}
+        - {x: 12, y: -10}
+        - {x: 12, y: 6}
+        - {x: 8, y: 17}
     - name: Sound
       rect:
         serializedVersion: 2
@@ -1947,16 +2008,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 5, y: 16}
-        - {x: -15, y: 8}
-        - {x: -17, y: 5}
-        - {x: -17, y: -7}
-        - {x: -1, y: -15}
-        - {x: 13, y: -15}
-        - {x: 16, y: -13}
-        - {x: 17, y: -2}
+      - - {x: 13, y: 15}
+        - {x: 4, y: 15}
+        - {x: -7, y: 10}
+        - {x: -16, y: 4}
+        - {x: -16, y: -6}
+        - {x: 3, y: -15}
+        - {x: 15, y: -15}
+        - {x: 17, y: -12}
         - {x: 17, y: 10}
-        - {x: 13, y: 16}
+        - {x: 16, y: 14}
     - name: Microphone
       rect:
         serializedVersion: 2
@@ -1968,14 +2029,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -5, y: 17}
+      - - {x: 9, y: 17}
+        - {x: -6, y: 17}
+        - {x: -8, y: 16}
         - {x: -13, y: 10}
-        - {x: -13, y: -15}
-        - {x: -12, y: -17}
-        - {x: 12, y: -17}
+        - {x: -13, y: -9}
+        - {x: -11, y: -17}
+        - {x: 8, y: -17}
+        - {x: 10, y: -15}
         - {x: 13, y: -11}
         - {x: 13, y: 9}
-        - {x: 6, y: 17}
     - name: RulerRect
       rect:
         serializedVersion: 2
@@ -1987,8 +2050,9 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -6, y: 17}
-        - {x: -17, y: 15}
+      - - {x: -14, y: 17}
+        - {x: -16, y: 15}
+        - {x: -17, y: 4}
         - {x: -17, y: -15}
         - {x: -16, y: -17}
         - {x: 17, y: -17}
@@ -2005,11 +2069,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -16, y: 17}
-        - {x: -16, y: -11}
-        - {x: -10, y: -17}
+        - {x: -16, y: -10}
+        - {x: -9, y: -17}
         - {x: 17, y: -17}
-        - {x: 17, y: -2}
-        - {x: -2, y: 17}
+        - {x: 17, y: 5}
+        - {x: -3, y: 17}
     - name: Marker
       rect:
         serializedVersion: 2
@@ -2021,13 +2085,16 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 15}
+      - - {x: 10, y: 15}
+        - {x: -7, y: 15}
         - {x: -12, y: 13}
-        - {x: -12, y: -10}
-        - {x: -3, y: -16}
-        - {x: 6, y: -16}
-        - {x: 12, y: -13}
-        - {x: 12, y: 15}
+        - {x: -12, y: -2}
+        - {x: -8, y: -12}
+        - {x: -2, y: -15}
+        - {x: 4, y: -15}
+        - {x: 7, y: -13}
+        - {x: 12, y: -2}
+        - {x: 12, y: 13}
     - name: Next
       rect:
         serializedVersion: 2
@@ -2039,12 +2106,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 14}
+      - - {x: 1, y: 14}
+        - {x: -11, y: 14}
         - {x: -11, y: -15}
-        - {x: 5, y: -15}
-        - {x: 12, y: -3}
-        - {x: 12, y: 5}
-        - {x: 2, y: 14}
+        - {x: 2, y: -15}
+        - {x: 9, y: -6}
+        - {x: 12, y: -2}
+        - {x: 12, y: 1}
     - name: TriangleRight
       rect:
         serializedVersion: 2
@@ -2056,16 +2124,15 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -4, y: 11}
-        - {x: -9, y: 11}
-        - {x: -11, y: 10}
-        - {x: -11, y: -10}
-        - {x: -10, y: -12}
+      - - {x: 10, y: 5}
+        - {x: -5, y: 11}
+        - {x: -11, y: 11}
+        - {x: -11, y: -11}
+        - {x: -9, y: -12}
         - {x: -7, y: -12}
-        - {x: 8, y: -6}
-        - {x: 11, y: -3}
-        - {x: 11, y: 1}
-        - {x: 8, y: 5}
+        - {x: 9, y: -5}
+        - {x: 11, y: -1}
+        - {x: 11, y: 3}
     - name: TriangleDown
       rect:
         serializedVersion: 2
@@ -2096,16 +2163,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 2}
-        - {x: -13, y: -2}
-        - {x: -10, y: -6}
-        - {x: 2, y: -12}
-        - {x: 7, y: -12}
+      - - {x: 5, y: 9}
+        - {x: -10, y: 2}
+        - {x: -10, y: -3}
+        - {x: -2, y: -9}
+        - {x: 2, y: -11}
         - {x: 9, y: -11}
         - {x: 9, y: 9}
-        - {x: 8, y: 11}
-        - {x: 5, y: 11}
-        - {x: -10, y: 5}
     - name: TriangleUp
       rect:
         serializedVersion: 2
@@ -2121,7 +2185,7 @@ TextureImporter:
         - {x: -9, y: -4}
         - {x: -9, y: -10}
         - {x: 11, y: -10}
-        - {x: 11, y: -4}
+        - {x: 11, y: -6}
         - {x: 4, y: 9}
     - name: Transparent
       rect:

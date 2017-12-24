@@ -11,10 +11,15 @@ public class AbilityBarController : SerializedMonoBehaviour {
     RectTransform[] abilityBubs;
     Image[] abilityBubImages;
     Image[] cooldownOverlays;
+
     GameObject[] abilityMomentumCounters;
+    Text[] abilityMomentumCounterTextElements;
+
+    Button[] assignMomentumButtons;
 
     const string COOLDOWN_OVERLAY = "CooldownOverlay";
     const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
+    const string ASSIGN_MOMENTUM_BUTTON = "AssignMomentumButton";
 
     [SerializeField]
     Sprite emptyAbilityBub;
@@ -26,6 +31,8 @@ public class AbilityBarController : SerializedMonoBehaviour {
         abilityBubImages = new Image[4];
         cooldownOverlays = new Image[4];
         abilityMomentumCounters = new GameObject[4];
+        abilityMomentumCounterTextElements = new Text[4];
+        assignMomentumButtons = new Button[4];
 
         for (int i = 0; i < abilityBubs.Length; i++)
         {
@@ -37,11 +44,20 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
             GameObject abilityMomentumCounter = abilityBub.Find(ABILITY_MOMENTUM_COUNTER).gameObject;
             abilityMomentumCounters[i] = abilityMomentumCounter;
+            Text abilityMomentumCounterText = abilityMomentumCounter.GetComponentInChildren<Text>();
+            abilityMomentumCounterTextElements[i] = abilityMomentumCounterText;
+
+            Button assignMomentumButton = abilityBub.Find(ASSIGN_MOMENTUM_BUTTON).GetComponent<Button>();
+            assignMomentumButtons[i] = assignMomentumButton;
 
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
 
         manticoreGear.activeHardwareUpdated += UpdateAbilities;
+        MomentumManager.OnAvailableMomentumPointsUpdated += UpdateMomentumPointButtons;
+        MomentumManager.OnAssignedMomentumPointsUpdated += UpdateAbilityMomentumCounters;
+
+        UpdateMomentumPointButtons(MomentumManager.UnassignedAvailableMomentumPoints);
     }
 
     void UpdateParryCooldown(float percentageCooldownRemaining)
@@ -108,4 +124,49 @@ public class AbilityBarController : SerializedMonoBehaviour {
             }
         }
     }
+
+    void UpdateMomentumPointButtons(int availablePoints)
+    {
+        if (availablePoints <= 0)
+        {
+            ToggleMomentumButtons(false);
+            return;
+        }
+
+        ToggleMomentumButtons(true);
+
+        HardwareTypes[] activeHardware = InventoryController.GetEquippedActiveHardware();
+        for (int i = 0; i < activeHardware.Length; i++)
+        {
+            assignMomentumButtons[i].interactable = activeHardware[i] != HardwareTypes.None;
+        }
+    }
+
+    void UpdateAbilityMomentumCounters(Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap)
+    {
+        HardwareTypes[] allEquippedActiveHardware = InventoryController.GetEquippedActiveHardware();
+        for (int i = 0; i < abilityMomentumCounters.Length; i++)
+        {
+            HardwareTypes activeHardwareType = allEquippedActiveHardware[i];
+            if (activeHardwareType != HardwareTypes.None)
+            {
+                abilityMomentumCounterTextElements[i].text = MomentumManager.GetMomentumPointsByHardwareType(activeHardwareType).ToString();
+            }
+        } 
+    }
+
+    void ToggleMomentumButtons(bool isEnabled)
+    {
+        for (int i = 0; i < assignMomentumButtons.Length; i++)
+        {
+            assignMomentumButtons[i].gameObject.SetActive(isEnabled);
+        }
+    }
+
+    public void OnAssignMomentumButtonClick(int buttonIndex)
+    {
+        HardwareTypes equippedHardwareType = InventoryController.GetEquippedActiveHardware()[buttonIndex];
+        MomentumManager.AssignMomentumPointToHardware(equippedHardwareType);
+    }
+
 }

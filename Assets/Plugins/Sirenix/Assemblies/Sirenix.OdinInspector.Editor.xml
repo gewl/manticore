@@ -9,6 +9,61 @@
             Contains configuration for generating an assembly that provides increased AOT support in Odin.
             </summary>
         </member>
+        <member name="P:Sirenix.Serialization.AOTGenerationConfig.AutomateBeforeBuilds">
+            <summary>
+            <para>
+            Whether to automatically scan the project and generate an AOT dll, right before builds. This will only affect platforms that are in the <see cref="P:Sirenix.Serialization.AOTGenerationConfig.AutomateForPlatforms"/> list.
+            </para>
+            <para>
+            **This will only work on Unity 5.6 and higher!**
+            </para>
+            </summary>
+        </member>
+        <member name="P:Sirenix.Serialization.AOTGenerationConfig.DeleteDllAfterBuilds">
+            <summary>
+            Whether to automatically delete the generated AOT dll after a build has completed.
+            </summary>
+        </member>
+        <member name="P:Sirenix.Serialization.AOTGenerationConfig.AutomateForPlatforms">
+            <summary>
+            A list of platforms to automatically scan the project and generate an AOT dll for, right before builds. This will do nothing unless <see cref="P:Sirenix.Serialization.AOTGenerationConfig.AutomateBeforeBuilds"/> is true.
+            </summary>
+        </member>
+        <member name="P:Sirenix.Serialization.AOTGenerationConfig.AOTFolderPath">
+            <summary>
+            The path to the AOT folder that the AOT .dll and linker file is created in, relative to the current project folder.
+            </summary>
+        </member>
+        <member name="M:Sirenix.Serialization.AOTGenerationConfig.ScanProject">
+            <summary>
+            Scans the entire project for types to support AOT serialization for.
+            </summary>
+        </member>
+        <member name="M:Sirenix.Serialization.AOTGenerationConfig.GenerateDLL">
+            <summary>
+            Generates an AOT DLL, using the current configuration of the AOTGenerationConfig instance.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.ColorPalette">
+            <summary>
+            A color palette.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.Editor.ColorPalette.Name">
+            <summary>
+            Name of the color palette.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.Editor.ColorPalette.Colors">
+            <summary>
+            The colors.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.Editor.ColorPalette.ShowAlpha">
+            <summary>
+            Whether to show the alpha channel.
+            </summary>
+        </member>
         <member name="T:Sirenix.OdinInspector.Editor.ColorPaletteManager">
             <summary>
             <para>Add, Edit or remove custom color palettes used by the <see cref="T:Sirenix.OdinInspector.ColorPaletteAttribute"/>.</para>
@@ -38,11 +93,147 @@
             If true, a toolbar with the name of the color palette is shown above each color palette.
             </summary>
         </member>
+        <member name="P:Sirenix.OdinInspector.Editor.ColorPaletteManager.ColorPalettes">
+            <summary>
+            Gives you the list of all custom color palettes.
+            Remember to call UnityEditor.EditorUtility.SetDirty(ColorPaletteManager.Instance) after modifying the list. 
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.Editor.UnityEditorEventUtility.DelayAction(System.Action)">
             <summary>
             Sometimes, an idiot overrides a delay action subscription to <see cref="F:UnityEditor.EditorApplication.delayCall"/>,
             which can be done because the people at Unity didn't know what events were once upon a time.
             This method subscribes to a lot of different callbacks, in the hopes of catching at least one.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeCharDrawer">
+            <summary>
+            Draws char properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeCharDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Char},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeStringDrawer">
+            <summary>
+            Draws string properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeStringDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.String},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeSByteDrawer">
+            <summary>
+            Draws sbyte properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeSByteDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.SByte},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeByteDrawer">
+            <summary>
+            Draws byte properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeByteDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Byte},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt16Drawer">
+            <summary>
+            Draws short properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt16Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Int16},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt16Drawer">
+            <summary>
+            Draws ushort properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt16Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.UInt16},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt32Drawer">
+            <summary>
+            Draws int properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt32Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Int32},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt32Drawer">
+            <summary>
+            Draws uint properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt32Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.UInt32},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt64Drawer">
+            <summary>
+            Draws long properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeInt64Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Int64},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt64Drawer">
+            <summary>
+            Draws ulong properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeUInt64Drawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.UInt64},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeFloatDrawer">
+            <summary>
+            Draws float properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeFloatDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Single},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeDoubleDrawer">
+            <summary>
+            Draws double properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeDoubleDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Double},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeDecimalDrawer">
+            <summary>
+            Draws decimal properties marked with <see cref="T:Sirenix.OdinInspector.DelayedPropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.DelayedPropertyAttributeDecimalDrawer.DrawPropertyLayout(Sirenix.OdinInspector.Editor.IPropertyValueEntry{System.Decimal},Sirenix.OdinInspector.DelayedPropertyAttribute,UnityEngine.GUIContent)">
+            <summary>
+            Draws the property.
             </summary>
         </member>
         <member name="T:Sirenix.OdinInspector.Editor.Drawers.TextAreaAttributeDrawer">
@@ -2129,17 +2320,17 @@
             Draws the property.
             </summary>
         </member>
-        <member name="T:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`2">
+        <member name="T:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`3">
             <summary>
             Draws all Unity DecoratorDrawers within prepend attribute drawers within Odin.
             </summary>
         </member>
-        <member name="M:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`2.#cctor">
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`3.#cctor">
             <summary>
-            Initializes the <see cref="T:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`2"/> class.
+            Initializes the <see cref="!:UnityDecoratorAttributeDrawer&lt;TDrawer, TAttribute&gt;"/> class.
             </summary>
         </member>
-        <member name="M:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`2.DrawPropertyLayout(Sirenix.OdinInspector.Editor.InspectorProperty,`1,UnityEngine.GUIContent)">
+        <member name="M:Sirenix.OdinInspector.Editor.Drawers.UnityDecoratorAttributeDrawer`3.DrawPropertyLayout(Sirenix.OdinInspector.Editor.InspectorProperty,`1,UnityEngine.GUIContent)">
             <summary>
             Draws the property.
             </summary>
@@ -2657,6 +2848,11 @@
             Specify whether or not lists should show item count.
             </summary>
         </member>
+        <member name="P:Sirenix.OdinInspector.Editor.GeneralDrawerConfig.ShowIndexLabels">
+            <summary>
+            Specify whether or not lists should show item count.
+            </summary>
+        </member>
         <member name="P:Sirenix.OdinInspector.Editor.GeneralDrawerConfig.ShowMonoScriptInEditor">
             <summary>
             Specify whether or not the script selector above components should be drawn.
@@ -2697,6 +2893,11 @@
         <member name="P:Sirenix.OdinInspector.Editor.InspectorConfig.DefaultEditorBehaviour">
             <summary>
             InspectorDefaultEditors is a bitmask used to tell which types should have an Odin Editor generated.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.Editor.InspectorConfig.DrawingConfig">
+            <summary>
+            The config which contains configuration data for which types Odin should draw in the inspector.
             </summary>
         </member>
         <member name="M:Sirenix.OdinInspector.Editor.InspectorConfig.UpdateOdinEditors">
@@ -4213,17 +4414,17 @@
             Not yet documented.
             </summary>
         </member>
-        <member name="T:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`2">
+        <member name="T:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`3">
             <summary>
             Unity property attribute drawer.
             </summary>
         </member>
-        <member name="M:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`2.#ctor">
+        <member name="M:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`3.#ctor">
             <summary>
             Initializes the drawer.
             </summary>
         </member>
-        <member name="M:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`2.DrawPropertyLayout(Sirenix.OdinInspector.Editor.InspectorProperty,`1,UnityEngine.GUIContent)">
+        <member name="M:Sirenix.OdinInspector.Editor.UnityPropertyAttributeDrawer`3.DrawPropertyLayout(Sirenix.OdinInspector.Editor.InspectorProperty,`1,UnityEngine.GUIContent)">
             <summary>
             Draws the proprety.
             </summary>
@@ -7443,6 +7644,11 @@
             tree is no longer being used, allowing the GC to collect the property tree.
             </summary>
         </member>
+        <member name="E:Sirenix.OdinInspector.Editor.PropertyTree.OnPropertyValueChanged">
+            <summary>
+            This event is invoked whenever the value of any property in the entire property tree is changed through the property system.
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.Editor.PropertyTree.#ctor">
             <summary>
             Creates a new <see cref="T:Sirenix.OdinInspector.Editor.PropertyTree" /> for all target values of a <see cref="T:UnityEditor.SerializedObject" />.
@@ -9245,6 +9451,16 @@
             Persistent Context cache object.
             </summary>
         </member>
+        <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.CacheSize">
+            <summary>
+            Estimated cache size in bytes.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.EntryCount">
+            <summary>
+            The current number of context entries in the cache.
+            </summary>
+        </member>
         <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.EnableCaching">
             <summary>
             If <c>true</c> then persistent context is disabled entirely.
@@ -9258,16 +9474,6 @@
         <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.MaxCacheByteSize">
             <summary>
             The max size of the cache in bytes.
-            </summary>
-        </member>
-        <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.CacheSize">
-            <summary>
-            Estimated cache size in bytes.
-            </summary>
-        </member>
-        <member name="P:Sirenix.OdinInspector.Editor.PersistentContextCache.EntryCount">
-            <summary>
-            The current number of context entries in the cache.
             </summary>
         </member>
         <member name="M:Sirenix.OdinInspector.Editor.PersistentContextCache.DeleteCache">
