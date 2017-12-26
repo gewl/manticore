@@ -7,8 +7,7 @@ public class CollectibleSpawnerComponent : EntityComponent {
 
     [SerializeField]
     GlobalConstants.Collectibles collectible;
-    [SerializeField]
-    float launchSpeed;
+    float launchSpeed = 10f;
 
     protected override void Subscribe()
     {

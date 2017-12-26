@@ -32,17 +32,17 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 		entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
     }
 
     protected override void Unsubscribe()
     {
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnUpdate);
+		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
     }
 
-    void OnUpdate()
+    void OnFixedUpdate()
     {
         if (!isOnARamp && groundedCount == 0)
         {
@@ -61,22 +61,18 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         if (isOnARamp)
         {
             Vector3 testPosition = transform.position + projectedMovement;
+            Ray checkTestPosition = new Ray(testPosition, Vector3.down);
             RaycastHit hit;
-            if (Physics.Raycast(testPosition, Vector3.down, out hit, terrainMask))
+            if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y, terrainMask))
             {
                 Vector3 newPosition = hit.point;
                 newPosition.y += entityBounds.extents.y;
                 transform.position = newPosition;
-            }
-            else
-            { 
-                transform.position += projectedMovement;
+                return;
             }
         }
-        else
-        {
-            transform.position += projectedMovement;
-        }
+
+        transform.position += projectedMovement;
     }
 
     void OnStop()

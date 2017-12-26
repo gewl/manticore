@@ -6,7 +6,7 @@ using UnityEngine;
 /// Generic class stores data for the entity to which it's assigned, as well as implementing functionality for accessing/updating that data.
 /// </summary>
 [Serializable]
-public class EntityData : MonoBehaviour 
+public class RuntimeEntityData : MonoBehaviour 
 {
     // Holds references to components that all entities will have. If they don't, something is wrong,
     // so the game _should_ break then.
