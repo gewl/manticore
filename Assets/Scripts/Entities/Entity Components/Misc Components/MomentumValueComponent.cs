@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MomentumValueComponent : EntityComponent {
 
-    [SerializeField]
-    int momentumValue;
+    string entityID { get { return entityInformation.Data.ID; } }
+    int momentumValue { get { return entityInformation.Data.MomentumValue; } }
 
     protected override void Subscribe()
     {
@@ -24,6 +24,6 @@ public class MomentumValueComponent : EntityComponent {
         {
             Debug.LogError("Momentum value is zero.");
         }
-        MomentumManager.AddMomentum(momentumValue);
+        GlobalEventEmitter.OnEntityDied(entityID, momentumValue);
     }
 }

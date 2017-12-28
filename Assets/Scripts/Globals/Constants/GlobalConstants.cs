@@ -17,4 +17,15 @@ public static class GlobalConstants {
     {
         StaminaPill 
     }
+
+    public enum EntityAllegiance
+    {
+        Friendly,
+        Enemy
+    }
+
+    public enum Events
+    {
+        EntityDied
+    }
 }

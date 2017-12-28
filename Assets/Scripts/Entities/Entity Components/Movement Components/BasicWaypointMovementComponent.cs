@@ -9,11 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class BasicWaypointMovementComponent : EntityComponent {
 
-    [SerializeField]
-    bool isMoving = true;
-    [SerializeField]
-    float baseMoveSpeed;
-    [SerializeField]
+    bool isMoving = false;
+    float baseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
     float currentMoveSpeed;
     bool isOnARamp = false;
     bool isGrounded = false;

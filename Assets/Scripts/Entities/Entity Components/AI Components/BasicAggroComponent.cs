@@ -10,8 +10,19 @@ using UnityEngine;
 /// </summary>
 
 public class BasicAggroComponent : EntityComponent {
-    [SerializeField]
-    float aggroRange = 0f;
+    float _aggroRange;
+    float aggroRange
+    {
+        get
+        {
+            if (_aggroRange == 0.0f)
+            {
+                _aggroRange = entityInformation.Data.AggroRange;
+            }
+
+            return _aggroRange;
+        }
+    }
 
     protected override void Subscribe()
     {

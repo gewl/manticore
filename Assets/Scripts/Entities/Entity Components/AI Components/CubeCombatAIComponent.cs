@@ -8,21 +8,33 @@ public class CubeCombatAIComponent : EntityComponent {
     bool isAggroed = false;
     bool isFunctioning = false;
     bool isChasing = false;
-    [SerializeField]
-    float fireCooldown;
-    [SerializeField]
-    float arcOfFire;
-    [SerializeField]
-    float attackRange;
+
+    RangedEntityData _entityData;
+    RangedEntityData entityData
+    {
+        get
+        {
+            if (_entityData == null)
+            {
+                _entityData = entityInformation.Data as RangedEntityData;
+            }
+
+            return _entityData;
+        }
+    }
+
+    float fireCooldown { get { return entityData.FireCooldown; } }
+    float arcOfFire { get { return entityData.ArcOfFire; } }
+    float attackRange { get { return entityData.AttackRange; } }
 
     [SerializeField]
     float combatMoveSpeedModifier = 1f;
     [SerializeField]
     float chaseMoveSpeedModifier = 1f;
     [SerializeField]
-    float minimumMovementPause;
+    float minimumMovementPause = 1.0f;
     [SerializeField]
-    float maximumMovementPause;
+    float maximumMovementPause = 1.5f;
 
     float timeElapsedSinceLastFire;
     Transform currentTarget;

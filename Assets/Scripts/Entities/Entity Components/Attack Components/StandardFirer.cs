@@ -7,18 +7,16 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     Transform bulletsParent;
     [SerializeField]
-    Transform projectile;
-    [SerializeField]
     Transform firer;
 
-    IStandardFirerData _standardFirerData;
-    IStandardFirerData standardFirerData
+    RangedEntityData _standardFirerData;
+    RangedEntityData standardFirerData
     {
         get
         {
             if (_standardFirerData == null)
             {
-                _standardFirerData = entityInformation.Data as IStandardFirerData;
+                _standardFirerData = entityInformation.Data as RangedEntityData;
             }
 
             return _standardFirerData;
@@ -28,6 +26,7 @@ public class StandardFirer : EntityComponent {
     float projectileStrength { get { return standardFirerData.ProjectileStrength; } }
     float bulletSpeed { get { return standardFirerData.BulletSpeed; } }
     float aimNoiseInDegrees { get { return standardFirerData.AimNoiseInDegrees; } }
+    Transform projectile { get { return standardFirerData.Projectile; } }
 
     List<Vector3> cachedTargetVelocities;
 
@@ -47,10 +46,6 @@ public class StandardFirer : EntityComponent {
     float maximumWarmUpNoiseModifier = 3f;
     float timeAggroed;
     float timeWarmedUp;
-
-    enum FireType { Direct, Lead }
-    [SerializeField]
-    FireType currentFireType = FireType.Lead;
 
     protected override void OnEnable()
     {
@@ -107,28 +102,26 @@ public class StandardFirer : EntityComponent {
         }
         Vector3 relativePos = currentTarget.position - firer.transform.position;
 
-        if (currentFireType == FireType.Lead)
+        // Lead bullet logic
+        float timeToImpact = relativePos.sqrMagnitude / (bulletSpeed * bulletSpeed);
+        Vector3 currentTargetVelocity = targetRigidbody.velocity;
+
+        cachedTargetVelocities.Add(currentTargetVelocity);
+        currentVelocityCacheIndex++;
+        if (currentVelocityCacheIndex >= maximumVelocitiesToCache)
         {
-            float timeToImpact = relativePos.sqrMagnitude / (bulletSpeed * bulletSpeed);
-            Vector3 currentTargetVelocity = targetRigidbody.velocity;
-
-            cachedTargetVelocities.Add(currentTargetVelocity);
-            currentVelocityCacheIndex++;
-            if (currentVelocityCacheIndex >= maximumVelocitiesToCache)
-            {
-                currentVelocityCacheIndex = 0;
-            }
-
-            Vector3 cumulativeVelocity = Vector3.zero;
-            for (int i = 0; i < cachedTargetVelocities.Count; i++)
-            {
-                cumulativeVelocity += cachedTargetVelocities[i];
-            }
-
-            Vector3 averageVelocity = cumulativeVelocity / maximumVelocitiesToCache;
-            averageVelocity *= timeToImpact;
-            relativePos += averageVelocity;
+            currentVelocityCacheIndex = 0;
         }
+
+        Vector3 cumulativeVelocity = Vector3.zero;
+        for (int i = 0; i < cachedTargetVelocities.Count; i++)
+        {
+            cumulativeVelocity += cachedTargetVelocities[i];
+        }
+
+        Vector3 averageVelocity = cumulativeVelocity / maximumVelocitiesToCache;
+        averageVelocity *= timeToImpact;
+        relativePos += averageVelocity;
 
         float baseNoiseAdjustment = Random.Range(-aimNoiseInDegrees, aimNoiseInDegrees);
         relativePos = Vector3.RotateTowards(relativePos, transform.right, Mathf.Deg2Rad * baseNoiseAdjustment, 1);
@@ -136,7 +129,7 @@ public class StandardFirer : EntityComponent {
         float currentTime = Time.time;
         if (currentTime < timeWarmedUp)
         {
-            //ApplyWarmUpNoise(ref relativePos, currentTime);
+            ApplyWarmUpNoise(ref relativePos, currentTime);
         }
         relativePos.y = 0f;
 

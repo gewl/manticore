@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class MobileEntityHealthComponent : EntityComponent {
 
-    [SerializeField]
-    bool isPlayer = false;
-    [SerializeField]
-    bool invulnerableOnDamage = false;
-    [SerializeField]
-    float initialHealth;
-    [SerializeField]
-    float recoveryTime;
-    [SerializeField]
-    float timeToDie;
+    EntityData entityData { get { return entityInformation.Data; } }
+
+    float initialHealth { get { return entityData.Health; } }
+    GlobalConstants.EntityAllegiance entityAllegiance { get { return entityInformation.Data.Allegiance; } }
+    bool isPlayer { get { return entityInformation.Data.isPlayer; } }
+
+    float recoveryTime = 0.8f;
+    float timeToDie = 1.0f;
     [SerializeField]
     Material damagedSkin;
     [SerializeField]
@@ -37,11 +35,8 @@ public class MobileEntityHealthComponent : EntityComponent {
     float currentDeathTimer;
     Material originalSkin;
 
-    enum Allegiance { Friendly, Enemy }
-    [SerializeField]
-    Allegiance entityAllegiance = Allegiance.Enemy;
-
     float currentHealth = -1;
+    [HideInInspector]
     public bool IsInvulnerable = false;
     bool isStunned = false;
     bool isDead = false;
@@ -198,8 +193,8 @@ public class MobileEntityHealthComponent : EntityComponent {
         unitHealthBarObject.SetActive(true);
         unitHealthBar.UpdateHealth(currentHealth);
 
-        // Damage or kill depending on remaining health.
-        if (invulnerableOnDamage)
+        // Player becomes invulnerable on damage
+        if (isPlayer)
         {
             Invoke("SetInvulnerable", recoveryTime - 0.1f);
         }
@@ -214,11 +209,11 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     bool DoesBulletDamage(GameObject bullet)
     {
-        if (entityAllegiance == Allegiance.Enemy)
+        if (entityAllegiance == GlobalConstants.EntityAllegiance.Enemy)
         {
             return bullet.CompareTag("FriendlyBullet");
         }
-        else if (entityAllegiance == Allegiance.Friendly)
+        else if (entityAllegiance == GlobalConstants.EntityAllegiance.Friendly)
         {
             return bullet.CompareTag("EnemyBullet");
         }
@@ -320,7 +315,8 @@ public class MobileEntityHealthComponent : EntityComponent {
                 {
                     entityEmitter.EmitEvent(EntityEvents.Unstun);
                 }
-                if (invulnerableOnDamage)
+                // Revert invulnerable-on-damage
+                if (isPlayer)
                 {
                     IsInvulnerable = false;
                 }

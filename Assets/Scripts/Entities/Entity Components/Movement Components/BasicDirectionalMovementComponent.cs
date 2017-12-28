@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class BasicDirectionalMovementComponent : EntityComponent {
 
-    [SerializeField]
-    float baseMoveSpeed;
+    float baseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
 
     LayerMask terrainMask;
     float distanceToGround;

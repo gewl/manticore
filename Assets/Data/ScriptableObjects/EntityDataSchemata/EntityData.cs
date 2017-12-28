@@ -1,14 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public abstract class EntityData : ScriptableObject {
-    protected abstract string displayName { get; }
-    public virtual string Name { get { return displayName; } }
+[CreateAssetMenu(menuName = "EntityData/BasicEntityData")]
+public class EntityData : ScriptableObject {
+    public string ID = "Entity";
+    public int Health;
+    public int MomentumValue;
 
-    protected abstract int initialHealth { get; }
-    public virtual int InitialHealth { get { return initialHealth; } }
+    public float BaseMoveSpeed = 10f;
+    public float AggroRange = 15f;
 
-    protected abstract int momentumValue { get; }
-    public virtual int MomentumValue { get { return momentumValue; } }
+    public GlobalConstants.EntityAllegiance Allegiance = GlobalConstants.EntityAllegiance.Enemy;
+    public bool isPlayer = false;
 }

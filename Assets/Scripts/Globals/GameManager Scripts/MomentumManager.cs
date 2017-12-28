@@ -40,16 +40,23 @@ public class MomentumManager : MonoBehaviour {
     private void OnEnable()
     {
         InventoryController.OnInventoryUpdated += ClearMomentum;
+        GlobalEventEmitter.OnEntityDied += HandleEntityDied;
     }
 
     private void OnDisable()
     {
         InventoryController.OnInventoryUpdated -= ClearMomentum;
+        GlobalEventEmitter.OnEntityDied -= HandleEntityDied;
     }
 
     #region momentum event handlers
 
-    public static void AddMomentum(int quantityToAdd)
+    static void HandleEntityDied(string entityID, int quantity)
+    {
+        AddMomentum(quantity);
+    }
+
+    static void AddMomentum(int quantityToAdd)
     {
         progressTowardNextMomentum += quantityToAdd;
 

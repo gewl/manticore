@@ -5055,7 +5055,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  baseMoveSpeed: 15
 --- !u!114 &1369184815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,7 +5098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd0d5f0a40fb134d9048e675b6b9ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
+  Data: {fileID: 11400000, guid: 9c583a7a1ebfa1c4c8552e3f91b8b5fc, type: 2}
 --- !u!23 &1369184818
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5270,19 +5269,14 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  isPlayer: 1
-  invulnerableOnDamage: 1
-  initialHealth: 210
-  recoveryTime: 0.3
-  timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: 6ed1f39f79d6b45c19960a4f8e62f0d3, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
   darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
-  floatingDamageTextPrefab: {fileID: 0}
+  floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
+    type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
     type: 2}
-  entityAllegiance: 0
   IsInvulnerable: 0
 --- !u!96 &1369184827
 TrailRenderer:
@@ -9276,6 +9270,12 @@ Prefab:
       propertyPath: serializationData.SerializedFormat
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114210256967501578, guid: edf0a7f7034951a4abeab16b68f80656,
+        type: 2}
+      propertyPath: Data
+      value: 
+      objectReference: {fileID: 11400000, guid: 784af12b44310c2448ae66829d4e02e3,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: edf0a7f7034951a4abeab16b68f80656, type: 2}
   m_IsPrefabParent: 0

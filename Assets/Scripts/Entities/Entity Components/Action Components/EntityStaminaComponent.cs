@@ -14,7 +14,9 @@ using UnityEngine;
 public class EntityStaminaComponent : EntityComponent {
 
     public delegate void StaminaUpdated(float newStamina);
+    [HideInInspector]
     public StaminaUpdated TotalStaminaUpdated;
+    [HideInInspector]
     public StaminaUpdated CurrentStaminaUpdated;
 
     [SerializeField]
