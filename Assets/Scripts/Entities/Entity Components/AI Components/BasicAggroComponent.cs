@@ -19,7 +19,7 @@ public class BasicAggroComponent : EntityComponent {
         // about what sorts of entities will be composed in this system.
         // This makes the (reasonable) assumption that an entity with the aggro component can be 'aggroed'
         // from its initial state; still, it's a little bizarre.
-        entityData.SetAttribute(EntityAttributes.IsAggroed, false);
+        entityInformation.SetAttribute(EntityAttributes.IsAggroed, false);
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
     }
@@ -31,7 +31,7 @@ public class BasicAggroComponent : EntityComponent {
 
     public void OnUpdate()
     {
-        Vector3 entityPosition = base.entityData.EntityTransform.position;
+        Vector3 entityPosition = base.entityInformation.EntityTransform.position;
         Vector3 playerPosition = GameManager.GetPlayerPosition();
         float squareDistance = (entityPosition - playerPosition).sqrMagnitude;
 
@@ -43,9 +43,9 @@ public class BasicAggroComponent : EntityComponent {
 
     void SwitchToAggro()
     {
-		entityData.SetAttribute(EntityAttributes.CurrentTarget, GameManager.GetPlayerTransform());
+		entityInformation.SetAttribute(EntityAttributes.CurrentTarget, GameManager.GetPlayerTransform());
 		entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
-		entityData.SetAttribute(EntityAttributes.IsAggroed, true);
+		entityInformation.SetAttribute(EntityAttributes.IsAggroed, true);
 		entityEmitter.EmitEvent(EntityEvents.Aggro);
 
         Unsubscribe();

@@ -38,7 +38,7 @@ public class ShotgunFirer : EntityComponent
 
     void OnPrimaryFire()
     {
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         for (int i = 0; i < numberOfProjectilesFired; i++)
         {
             FireProjectile(currentTarget);

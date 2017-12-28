@@ -29,15 +29,27 @@ public class CubeCombatAIComponent : EntityComponent {
 
     [SerializeField]
     AnimationCurve gunHeatCurve;
-    [SerializeField]
+
+    const string FIRER_ID = "Firer";
     GameObject firer;
     Renderer firerRenderer;
     Color firerOriginalSkin;
 
-    protected override void Subscribe()
+    protected override void Awake()
     {
+        base.Awake();
+
+        firer = GameObject.Find(FIRER_ID);
+        if (firer == null)
+        {
+            Debug.LogError("Firer not found in " + gameObject.name);
+        }
         firerRenderer = firer.GetComponent<Renderer>();
         firerOriginalSkin = firerRenderer.material.color;
+    }
+
+    protected override void Subscribe()
+    {
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, BeginFunctioning);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, BeginFunctioning);
         if (isAggroed)
@@ -75,7 +87,7 @@ public class CubeCombatAIComponent : EntityComponent {
             firerRenderer.material.color = firerOriginalSkin;
         }
 
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
 
         if (!isChasing && !IsInRange(currentTarget))
         {
@@ -111,7 +123,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void TryToFirePrimary()
     {
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
@@ -124,32 +136,32 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void GenerateAndSetWaypoint()
     {
-        currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
 
         if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f) 
         {
             Vector3 nextWaypoint = currentTarget.position;
             nextWaypoint.y = transform.position.y;
-            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
         else if (isChasing)
         {
             Vector3 nextWaypoint = GenerateChaseMovementPosition();
-            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
         else
         {
             Vector3 nextWaypoint = GenerateCombatMovementPosition();
-            float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
+            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
             float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
-            entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         }
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
@@ -162,7 +174,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     Vector3 GenerateChaseMovementPosition()
     {
-        currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 toTarget = currentTarget.position - transform.position;
         Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), attackRange * 2 / 3);
 

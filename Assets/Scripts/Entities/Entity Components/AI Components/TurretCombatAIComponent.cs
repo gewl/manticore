@@ -64,7 +64,7 @@ public class TurretCombatAIComponent : EntityComponent
 
     void TryToFirePrimary()
     {
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
 

@@ -227,11 +227,11 @@ public class StationaryEntityHealthComponent : EntityComponent
             else
             {
                 meshRenderer.material = deadSkin;
-                entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
-                entityData.EntityRigidbody.detectCollisions = false;
-                entityData.EntityRigidbody.drag = 10f;
-                entityData.EntityRigidbody.freezeRotation = true;
-                entityData.EntityRigidbody.AddForce(new Vector3(0f, -100, 0f), ForceMode.Impulse);
+                entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;
+                entityInformation.EntityRigidbody.detectCollisions = false;
+                entityInformation.EntityRigidbody.drag = 10f;
+                entityInformation.EntityRigidbody.freezeRotation = true;
+                entityInformation.EntityRigidbody.AddForce(new Vector3(0f, -100, 0f), ForceMode.Impulse);
                 if (transform.position.y <= -4f)
                 {
                     UnityEngine.Object.Destroy(gameObject);

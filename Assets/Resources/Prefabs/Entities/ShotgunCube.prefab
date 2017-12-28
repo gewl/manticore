@@ -62,8 +62,8 @@ GameObject:
   - component: {fileID: 114243920181927628}
   - component: {fileID: 114097191913748342}
   - component: {fileID: 114972787505605814}
-  - component: {fileID: 114029519813390598}
   - component: {fileID: 114896487572823242}
+  - component: {fileID: 114029519813390598}
   - component: {fileID: 114991476751877698}
   - component: {fileID: 114868139809974298}
   m_Layer: 11
@@ -72,7 +72,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4112209333973624
 Transform:
   m_ObjectHideFlags: 1
@@ -92,15 +92,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1980302879845460}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.8, y: 0, z: 0.61}
-  m_LocalScale: {x: 2.5, y: 2, z: 2.5}
+  m_LocalRotation: {x: 0, y: -0.638029, z: 0, w: 0.7700123}
+  m_LocalPosition: {x: 12.1, y: 0, z: 15.9}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4911900327203260}
   - {fileID: 4112209333973624}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -79.29, z: 0}
 --- !u!4 &4911900327203260
 Transform:
   m_ObjectHideFlags: 1
@@ -108,7 +108,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858357648609224}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.48, y: 0, z: 0.86}
+  m_LocalPosition: {x: 0.48, y: -0, z: 1.16}
   m_LocalScale: {x: 0.1, y: 0.35, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4173872451703318}
@@ -269,6 +269,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede6a94ddf77a284db19c9af1d89d24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   rotationStrength: 3
 --- !u!114 &114097191913748342
 MonoBehaviour:
@@ -281,6 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4390a303a183541a9c52a90063d7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   isMoving: 1
   baseMoveSpeed: 10
   currentMoveSpeed: 0
@@ -295,6 +313,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc8c18a93836e844a281f5b40018870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   aggroRange: 15
 --- !u!114 &114683261763860796
 MonoBehaviour:
@@ -319,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd0d5f0a40fb134d9048e675b6b9ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardAttributeList: []
+  entityID: 
 --- !u!114 &114868139809974298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -331,6 +358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e8a5b9f8b7a654aa0ec0e1080fd5d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   fireCooldown: 0.8
   arcOfFire: 25
   attackRange: 30
@@ -338,6 +374,13 @@ MonoBehaviour:
   chaseMoveSpeedModifier: 1.2
   minimumMovementPause: 1
   maximumMovementPause: 1.5
+  gunHeatCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  firer: {fileID: 0}
 --- !u!114 &114896487572823242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -349,6 +392,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f593db68aee178d469ce98b57e416129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   bulletsParent: {fileID: 0}
   projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   projectileStrength: 20
@@ -368,6 +420,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10ad0309b6c4f04d9eef330d629323e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   patrolMoveSpeedModifier: 1.5
   patrolPoints:
   - {fileID: 0}
@@ -384,17 +445,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4602053b9ea234c924d1ebc8fc2c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  isPlayer: 0
   invulnerableOnDamage: 0
-  currentHealth: 70
+  initialHealth: 0
   recoveryTime: 0.8
-  timeToDie: 1.5
+  timeToDie: 1
   damagedSkin: {fileID: 2100000, guid: bcc54d2e15b69844d9adb89d0edbab42, type: 2}
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
   flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
   darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
-  floatingDamageText: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
-    type: 2}
-  hud: {fileID: 0}
+  floatingDamageTextPrefab: {fileID: 0}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
     type: 2}
   entityAllegiance: 1
+  IsInvulnerable: 0

@@ -138,7 +138,7 @@ public class BlinkHardware : EntityComponent, IHardware
 		yield return new WaitForSeconds(HangTimeBeforeBlinkStarts);
 
         // Get blink destination based on current movement.
-        Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);
+        Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
         currentDirection.Normalize();
         Vector3 origin = transform.position;
 
@@ -196,7 +196,7 @@ public class BlinkHardware : EntityComponent, IHardware
     Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)
     {
         Vector3 testClearPathOrigin = origin;
-        testClearPathOrigin.y -= entityData.EntityCollider.bounds.extents.y / 2f;
+        testClearPathOrigin.y -= entityInformation.EntityCollider.bounds.extents.y / 2f;
         Vector3 destination;
 
         // Check to see if blink can carry target to full range, or if 
@@ -220,7 +220,7 @@ public class BlinkHardware : EntityComponent, IHardware
                 // Projects a ray from above the ramp down, for blinking "up" the ramp.
                 if (Physics.Raycast(testRay, out rampHeightHit, terrainLayerMask))
                 {
-                    destination.y = rampHeightHit.point.y + entityData.EntityCollider.bounds.extents.y;
+                    destination.y = rampHeightHit.point.y + entityInformation.EntityCollider.bounds.extents.y;
 
                     Vector3 directionToDestination = (destination - transform.position).normalized;
 
@@ -230,7 +230,7 @@ public class BlinkHardware : EntityComponent, IHardware
                     // prohibits full length of blink.
                     if (Physics.Raycast(origin, directionToDestination, out rampPathHit, blinkRange, terrainLayerMask))
                     {
-                        float distanceToHit = rampPathHit.distance - entityData.EntityCollider.bounds.size.z;
+                        float distanceToHit = rampPathHit.distance - entityInformation.EntityCollider.bounds.size.z;
                         destination = origin + (directionToDestination * distanceToHit);
                     }
                 }
@@ -243,7 +243,7 @@ public class BlinkHardware : EntityComponent, IHardware
             }
             else
             {
-                float distanceToHit = blinkTestHit.distance - entityData.EntityCollider.bounds.size.z;
+                float distanceToHit = blinkTestHit.distance - entityInformation.EntityCollider.bounds.size.z;
                 destination = origin + (currentDirection * distanceToHit);
             }
         }

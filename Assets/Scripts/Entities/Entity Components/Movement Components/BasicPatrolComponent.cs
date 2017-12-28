@@ -67,7 +67,7 @@ public class BasicPatrolComponent : EntityComponent {
     void SetNewWaypoint()
     {
         Transform nextWaypoint = patrolPoints[patrolPointer];
-        entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint.transform.position);
+        entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint.transform.position);
         patrolPointer++;
         if (patrolPointer >= patrolPoints.Length)
         {
@@ -79,9 +79,9 @@ public class BasicPatrolComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         SetNewWaypoint();
-        float baseMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.BaseMoveSpeed);
+        float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
         float adjustedMoveSpeed = baseMoveSpeed * patrolMoveSpeedModifier;
-        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }

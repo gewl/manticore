@@ -21,8 +21,8 @@ public class BasicWaypointMovementComponent : EntityComponent {
     protected override void OnEnable()
     {
         base.OnEnable();
-        entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
-        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }
 
     protected override void Subscribe()
@@ -49,14 +49,14 @@ public class BasicWaypointMovementComponent : EntityComponent {
     {
         if (!isOnARamp && !isGrounded)
         {
-            entityData.EntityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
+            entityInformation.EntityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
         }
         if (isMoving)
         {
-            Vector3 nextWaypointPosition = (Vector3)entityData.GetAttribute(EntityAttributes.NextWaypoint);
-            Vector3 differenceBetweenPosition = (nextWaypointPosition - entityData.transform.position);
-            currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+            Vector3 nextWaypointPosition = (Vector3)entityInformation.GetAttribute(EntityAttributes.NextWaypoint);
+            Vector3 differenceBetweenPosition = (nextWaypointPosition - entityInformation.transform.position);
+            currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
             if (differenceBetweenPosition.magnitude <= 0.2f)
             {
                 entityEmitter.EmitEvent(EntityEvents.WaypointReached);
@@ -65,7 +65,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
             {
                 Vector3 normalizedDifferenceBetweenPosition = differenceBetweenPosition.normalized;
                 Vector3 nextVelocity = normalizedDifferenceBetweenPosition * currentMoveSpeed;
-                entityData.EntityRigidbody.velocity = nextVelocity;
+                entityInformation.EntityRigidbody.velocity = nextVelocity;
             }
         }
     }
@@ -78,7 +78,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
     void OnMove()
     {
         isMoving = true;
-        currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+        currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
     }
 
     void OnStop()
@@ -86,7 +86,7 @@ public class BasicWaypointMovementComponent : EntityComponent {
         if (isGrounded)
         {
             isMoving = false;
-            base.entityData.EntityRigidbody.velocity = Vector3.zero;
+            base.entityInformation.EntityRigidbody.velocity = Vector3.zero;
             currentMoveSpeed = 0f;
         }
     }

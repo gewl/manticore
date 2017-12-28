@@ -254,10 +254,10 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         // Knock back
         Vector3 collisionVelocity = damagingProjectileCollisionVelocity;
-        entityData.EntityRigidbody.velocity = collisionVelocity;
+        entityInformation.EntityRigidbody.velocity = collisionVelocity;
 
-        entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        entityData.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        entityInformation.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
 
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
@@ -279,11 +279,11 @@ public class MobileEntityHealthComponent : EntityComponent {
         Vector3 collisionVelocity = killingProjectileCollisionVelocity;
 
         gameObject.layer = LayerMask.NameToLayer("DeadEntity");
-        entityData.EntityRigidbody.useGravity = true;
-        entityData.EntityRigidbody.drag = 1f;
-        entityData.EntityRigidbody.constraints = RigidbodyConstraints.None;
-        entityData.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
-        entityData.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
+        entityInformation.EntityRigidbody.useGravity = true;
+        entityInformation.EntityRigidbody.drag = 1f;
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;
+        entityInformation.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
+        entityInformation.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
 
         // Initialize timer from set values
         currentDeathTimer = timeToDie;
@@ -315,7 +315,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 // Once entity has recovered, disable physics and resume action.
                 meshRenderer.material = damagedSkin;
-                entityData.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 if (isStunned)
                 {
                     entityEmitter.EmitEvent(EntityEvents.Unstun);

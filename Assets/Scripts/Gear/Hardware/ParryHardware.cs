@@ -223,9 +223,9 @@ public class ParryHardware : EntityComponent, IHardware {
     void LimitEntityInParry()
     {
         isInParry = true;
-        float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+        float currentMovementSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
         float adjustedMovementSpeed = currentMovementSpeed * subtypeData.GetMovementModifier(ParryMomentum);
-        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
+        entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMovementSpeed);
 		entityEmitter.EmitEvent(EntityEvents.Busy);
 		entityEmitter.EmitEvent(EntityEvents.FreezeRotation);
 	}
@@ -233,9 +233,9 @@ public class ParryHardware : EntityComponent, IHardware {
 	void UnlimitEntityAfterParry()
 	{
         isInParry = false;
-		float currentMovementSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+		float currentMovementSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
 		float restoredMovementSpeed = currentMovementSpeed / subtypeData.GetMovementModifier(ParryMomentum);
-		entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
+		entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, restoredMovementSpeed);
 
 		entityEmitter.EmitEvent(EntityEvents.Available);
 		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);

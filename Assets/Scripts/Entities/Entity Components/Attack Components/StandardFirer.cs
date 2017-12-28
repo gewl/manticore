@@ -11,21 +11,32 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     Transform firer;
 
-    [SerializeField]
-    float projectileStrength = 50f;
-	[SerializeField]
-    float bulletSpeed = 30f;
+    IStandardFirerData _standardFirerData;
+    IStandardFirerData standardFirerData
+    {
+        get
+        {
+            if (_standardFirerData == null)
+            {
+                _standardFirerData = entityInformation.Data as IStandardFirerData;
+            }
+
+            return _standardFirerData;
+        }
+    }
+
+    float projectileStrength { get { return standardFirerData.ProjectileStrength; } }
+    float bulletSpeed { get { return standardFirerData.BulletSpeed; } }
+    float aimNoiseInDegrees { get { return standardFirerData.AimNoiseInDegrees; } }
 
     List<Vector3> cachedTargetVelocities;
-    [SerializeField]
+
     int maximumVelocitiesToCache = 5;
     int currentVelocityCacheIndex = 0;
 
     Transform target;
     Rigidbody targetRigidbody;
 
-    [SerializeField]
-    float baseAimNoiseDegrees = 2f;
     // Experimenting with enemies beginning shooting inaccurately (large amount
     // of noise added to shots), then accuracy increases over period of time until
     // noise floor reached. Should allow players to get the sense of a room at the outset
@@ -69,7 +80,7 @@ public class StandardFirer : EntityComponent {
 
     void OnPrimaryFire()
     {
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         FireProjectile(currentTarget);
     }
 
@@ -119,13 +130,13 @@ public class StandardFirer : EntityComponent {
             relativePos += averageVelocity;
         }
 
-        float baseNoiseAdjustment = Random.Range(-baseAimNoiseDegrees, baseAimNoiseDegrees);
+        float baseNoiseAdjustment = Random.Range(-aimNoiseInDegrees, aimNoiseInDegrees);
         relativePos = Vector3.RotateTowards(relativePos, transform.right, Mathf.Deg2Rad * baseNoiseAdjustment, 1);
 
         float currentTime = Time.time;
         if (currentTime < timeWarmedUp)
         {
-            ApplyWarmUpNoise(ref relativePos, currentTime);
+            //ApplyWarmUpNoise(ref relativePos, currentTime);
         }
         relativePos.y = 0f;
 
@@ -146,7 +157,7 @@ public class StandardFirer : EntityComponent {
         float timeToWarmedUp = timeWarmedUp - currentTime;
         float percentageOfNoiseToApply = timeToWarmedUp / timeToWarmUp;
 
-        float noiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * baseAimNoiseDegrees;
+        float noiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * aimNoiseInDegrees;
 
         Vector3.RotateTowards(aimPosition, transform.right, Mathf.Deg2Rad * noiseToApply, 1);
     }

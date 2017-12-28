@@ -65,16 +65,16 @@ public class MiddleDistanceCombatMovementComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         Vector3 nextWaypoint = GenerateCombatMovementPosition();
-        entityData.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, combatMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }
 
     public Vector3 GenerateCombatMovementPosition()
     {
-        Transform currentTarget = (Transform)entityData.GetAttribute(EntityAttributes.CurrentTarget);
-        Vector3 currentPositionDifference = entityData.EntityTransform.position - currentTarget.position;
+        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
+        Vector3 currentPositionDifference = entityInformation.EntityTransform.position - currentTarget.position;
 
         Vector3 tempWaypoint = currentPositionDifference.normalized;
         tempWaypoint.x = tempWaypoint.x + UnityEngine.Random.Range(-.5f, .5f);

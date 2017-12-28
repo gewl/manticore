@@ -6,11 +6,11 @@ using Sirenix.OdinInspector;
 /// <summary>
 /// Parent component class that all EntityComponents derive from. 
 /// </summary>
-[RequireComponent(typeof(EntityEmitter), typeof(RuntimeEntityData))]
+[RequireComponent(typeof(EntityEmitter), typeof(EntityInformation))]
 public abstract class EntityComponent : SerializedMonoBehaviour {
 
     protected EntityEmitter entityEmitter;
-    protected RuntimeEntityData entityData;
+    protected EntityInformation entityInformation;
 
     protected virtual void OnEnable()
     {
@@ -25,7 +25,7 @@ public abstract class EntityComponent : SerializedMonoBehaviour {
     protected virtual void Awake()
     {
         entityEmitter = GetComponent<EntityEmitter>();
-        entityData = GetComponent<RuntimeEntityData>();
+        entityInformation = GetComponent<EntityInformation>();
     }
 
     /// <summary>

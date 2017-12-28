@@ -26,8 +26,8 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         entityBounds = GetComponent<Collider>().bounds;
         terrainMask = LayerMask.NameToLayer("Terrain");
         distanceToGround = GetComponent<Collider>().bounds.extents.y + 0.05f;
-        entityData.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
-        entityData.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
+        entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }
 
     protected override void Subscribe()
@@ -50,8 +50,8 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         }
         else
         {
-            Vector3 currentDirection = (Vector3)entityData.GetAttribute(EntityAttributes.CurrentDirection);
-            float currentMoveSpeed = (float)entityData.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+            Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
+            float currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
 
             ChangeVelocity(currentDirection, currentMoveSpeed);
         }
