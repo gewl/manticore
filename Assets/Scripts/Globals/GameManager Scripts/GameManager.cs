@@ -202,6 +202,16 @@ public class GameManager : SerializedMonoBehaviour {
         instance.StartCoroutine(freezeCoroutine);
     }
 
+    public static void ShakeScreen(float duration = 0.5f)
+    {
+        cameraController.ShakeScreen(duration);
+    }
+
+    public static void JoltScreen(Vector3 direction)
+    {
+        cameraController.JoltScreen(direction);
+    }
+
     public static void EnterMenu()
     {
         TogglePause();

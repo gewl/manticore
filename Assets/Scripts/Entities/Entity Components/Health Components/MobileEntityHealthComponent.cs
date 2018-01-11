@@ -197,6 +197,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         if (isPlayer)
         {
             Invoke("SetInvulnerable", recoveryTime - 0.1f);
+            GameManager.ShakeScreen();
         }
     }
 
