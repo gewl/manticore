@@ -8,12 +8,12 @@ using UnityEngine;
 public class MasterSerializer : MonoBehaviour {
     const string SAVE_DIRECTORY_PATH = "Saves";
     const string INVENTORY_SAVE_FILE_PATH = "Saves/inventory.binary";
-
-    const string ENTITY_DATA_FILE_PATH = "/Data/JSON/EntityData.json";
+    const string MOMENTUM_SAVE_FILE_PATH = "Saves/momentum.binary";
 
     private void OnEnable()
     {
         InventoryController.OnInventoryUpdated += SaveInventoryData;
+        MomentumManager.OnMomentumUpdated += SaveMomentumData;
     }
 
     #region Data serialization/retrieval
@@ -48,16 +48,35 @@ public class MasterSerializer : MonoBehaviour {
         return loadedInventory;
     }
 
-    public static JSONObject GetEntityDataByID(string entityID)
+    public static void SaveMomentumData(MomentumData momentumData)
     {
-        string entityDataString = File.ReadAllText(Application.dataPath + ENTITY_DATA_FILE_PATH);
-        JSONObject entityData = new JSONObject(entityDataString)[entityID];
-        if (entityData==null)
+        if (!Directory.Exists(SAVE_DIRECTORY_PATH))
         {
-            Debug.LogError("Entity data not found");
+            Directory.CreateDirectory(SAVE_DIRECTORY_PATH);
         }
-        return entityData;
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream saveFile = File.Create(MOMENTUM_SAVE_FILE_PATH);
+
+        formatter.Serialize(saveFile, momentumData);
+
+        saveFile.Close();
     }
 
+    public static bool CanLoadMomentumData()
+    {
+        return File.Exists(MOMENTUM_SAVE_FILE_PATH);
+    }
+
+    public static MomentumData LoadMomentumData()
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream saveFile = File.Open(MOMENTUM_SAVE_FILE_PATH, FileMode.Open);
+
+        MomentumData loadedInventory = (MomentumData)formatter.Deserialize(saveFile);
+
+        saveFile.Close();
+        return loadedInventory;
+    }
     #endregion
 }

@@ -58,7 +58,7 @@ public class EquippedGearMenuController : MonoBehaviour {
 
     void FlagInvalidDropBubs(HardwareTypes hardwareType)
     {
-        HardwareTypes[] activeHardware = InventoryController.Inventory.activeHardware;
+        HardwareTypes[] activeHardware = InventoryController.Inventory.ActiveHardware;
         for (int i = 0; i < activeHardware.Length; i++)
         {
             HardwareTypes thisHardware = activeHardware[i];
@@ -139,15 +139,15 @@ public class EquippedGearMenuController : MonoBehaviour {
 
     void UpdateEquippedGear(InventoryData inventory)
     {
-        for (int i = 0; i < inventory.activeHardware.Length; i++)
+        for (int i = 0; i < inventory.ActiveHardware.Length; i++)
         {
-            HardwareTypes equippedHardware = inventory.activeHardware[i];
+            HardwareTypes equippedHardware = inventory.ActiveHardware[i];
             activeHardwareImages[i].sprite = DataAssociations.GetHardwareTypeBubImage(equippedHardware);
         }
 
-        for (int i = 0; i < inventory.passiveHardware.Length; i++)
+        for (int i = 0; i < inventory.PassiveHardware.Length; i++)
         {
-            HardwareTypes equippedHardware = inventory.passiveHardware[i];
+            HardwareTypes equippedHardware = inventory.PassiveHardware[i];
             passiveHardwareImages[i].sprite = DataAssociations.GetHardwareTypeBubImage(equippedHardware);
         }
     }

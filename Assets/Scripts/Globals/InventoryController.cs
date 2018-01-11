@@ -32,17 +32,17 @@ public class InventoryController {
 
     public static bool HasDiscoveredHardware(HardwareTypes hardwareType)
     {
-        return Inventory.obtainedHardware[hardwareType];
+        return Inventory.ObtainedHardware[hardwareType];
     }
 
     public static HardwareTypes[] GetEquippedActiveHardware()
     {
-        return Inventory.activeHardware;
+        return Inventory.ActiveHardware;
     }
 
     public static HardwareTypes[] GetEquippedPassiveHardware()
     {
-        return Inventory.passiveHardware;
+        return Inventory.PassiveHardware;
     }
 
     #region equipping/unequipping
@@ -54,21 +54,21 @@ public class InventoryController {
             Debug.LogError("Trying to equip in Parry or Blink slot");
             return;
         }
-        Inventory.activeHardware[slot] = hardwareType;
+        Inventory.ActiveHardware[slot] = hardwareType;
 
         OnInventoryUpdated(Inventory);
     }
 
     public static void EquipPassiveHardware(int slot, HardwareTypes hardwareType)
     {
-        Inventory.passiveHardware[slot] = hardwareType;
+        Inventory.PassiveHardware[slot] = hardwareType;
 
         OnInventoryUpdated(Inventory);
     }
 
     public static void UnequipActiveHardware(int slot)
     {
-        Inventory.activeHardware[slot] = HardwareTypes.None;
+        Inventory.ActiveHardware[slot] = HardwareTypes.None;
 
         OnInventoryUpdated(Inventory);
         UnequipPassiveHardware(slot);
@@ -76,7 +76,7 @@ public class InventoryController {
 
     public static void UnequipPassiveHardware(int slot)
     {
-        Inventory.passiveHardware[slot] = HardwareTypes.None;
+        Inventory.PassiveHardware[slot] = HardwareTypes.None;
 
         OnInventoryUpdated(Inventory);
     }

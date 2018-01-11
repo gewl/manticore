@@ -54,10 +54,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
 
         manticoreGear.activeHardwareUpdated += UpdateAbilities;
-        MomentumManager.OnAvailableMomentumPointsUpdated += UpdateMomentumPointButtons;
-        MomentumManager.OnAssignedMomentumPointsUpdated += UpdateAbilityMomentumCounters;
+        MomentumManager.OnMomentumUpdated += UpdateMomentumPointButtons;
+        MomentumManager.OnMomentumUpdated += UpdateAbilityMomentumCounters;
 
-        UpdateMomentumPointButtons(MomentumManager.UnassignedAvailableMomentumPoints);
+        UpdateMomentumPointButtons(MomentumManager.CurrentMomentumData);
+        UpdateAbilityMomentumCounters(MomentumManager.CurrentMomentumData);
     }
 
     void UpdateParryCooldown(float percentageCooldownRemaining)
@@ -125,8 +126,9 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
     }
 
-    void UpdateMomentumPointButtons(int availablePoints)
+    void UpdateMomentumPointButtons(MomentumData momentumData)
     {
+        int availablePoints = momentumData.UnassignedAvailableMomentumPoints;
         if (availablePoints <= 0)
         {
             ToggleMomentumButtons(false);
@@ -142,7 +144,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
     }
 
-    void UpdateAbilityMomentumCounters(Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap)
+    void UpdateAbilityMomentumCounters(MomentumData momentumData)
     {
         HardwareTypes[] allEquippedActiveHardware = InventoryController.GetEquippedActiveHardware();
         for (int i = 0; i < abilityMomentumCounters.Length; i++)
