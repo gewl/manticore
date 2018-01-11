@@ -33,8 +33,6 @@ public class EntityInformation : MonoBehaviour
         Attributes = new Dictionary<EntityAttributes, object>();
     }
 
-    // Components call this during initialization to be certain that any SoftAttribute data values they need will be
-
     // Simple getters.
     public object GetAttribute(EntityAttributes attribute)
     {

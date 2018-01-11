@@ -14,6 +14,8 @@ public class BasicPatrolComponent : EntityComponent {
     [SerializeField]
     float pauseTimer;
 
+    float BaseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
+
     int patrolPointer = 0;
 
     // This initialization assumes that the entity is beginning in a deaggroed state.
@@ -79,8 +81,7 @@ public class BasicPatrolComponent : EntityComponent {
     void GenerateAndMoveToWaypoint()
     {
         SetNewWaypoint();
-        float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-        float adjustedMoveSpeed = baseMoveSpeed * patrolMoveSpeedModifier;
+        float adjustedMoveSpeed = BaseMoveSpeed * patrolMoveSpeedModifier;
         entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
