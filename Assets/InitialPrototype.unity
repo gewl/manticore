@@ -7405,6 +7405,8 @@ MonoBehaviour:
   smoothTime: 0.3
   distanceToMouse: 0.3
   followEntity: {fileID: 1369184821}
+  joltRecoveryTime: 0.3
+  joltMagnitude: 0.4
 --- !u!1 &1742700975
 GameObject:
   m_ObjectHideFlags: 0

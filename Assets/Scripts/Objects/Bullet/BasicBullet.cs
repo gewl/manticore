@@ -129,6 +129,8 @@ public class BasicBullet : MonoBehaviour {
     
     public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength, float speedModifier = 2f)
     {
+        GameManager.JoltScreen(bulletRigidbody.velocity);
+        
         strength = newStrength;
         target = firer;
         firer = newFirer;

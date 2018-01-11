@@ -202,6 +202,11 @@ public class GameManager : SerializedMonoBehaviour {
         instance.StartCoroutine(freezeCoroutine);
     }
 
+    public static void JoltScreen(Vector3 direction)
+    {
+        cameraController.JoltScreen(direction);
+    }
+
     public static void EnterMenu()
     {
         TogglePause();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.PostProcessing;
 
 public class CameraController : MonoBehaviour {
@@ -21,6 +22,11 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     Transform followEntity;
 
+    [SerializeField]
+    float joltRecoveryTime = 0.3f;
+    [SerializeField]
+    float joltMagnitude = 1.0f;
+
     Vector3 dampVelocity = Vector3.zero;
     Camera mainCamera;
 
@@ -36,6 +42,13 @@ public class CameraController : MonoBehaviour {
 
     void Update()
     {
+        Vector3 nextCameraPosition = GetNextCameraPosition();
+
+        transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
+    }
+
+    Vector3 GetNextCameraPosition()
+    {
         Vector3 entityPosition = followEntity.position;
         entityPosition.x += entityXOffset;
         entityPosition.z += entityZOffset;
@@ -46,7 +59,7 @@ public class CameraController : MonoBehaviour {
 
         nextCameraPosition.y = entityPosition.y + yDistance;
 
-        transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
+        return nextCameraPosition;
     }
 
     public void ApplyPauseFilter()
@@ -60,4 +73,22 @@ public class CameraController : MonoBehaviour {
     {
         postProcessingBehaviour.profile = currentProfile;
     }
+
+    // ShakeScreen is for aimless juddering.
+    public void ShakeScreen()
+    {
+    
+    }
+
+    // JoltScreen is for a sudden, directional movement.
+    public void JoltScreen(Vector3 direction)
+    {
+        transform.position += (direction.normalized * joltMagnitude);
+    }
+
+    IEnumerator JoltCameraPosition()
+    {
+        yield return null;
+    }
+
 }
