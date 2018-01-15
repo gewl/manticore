@@ -28,6 +28,7 @@ public class InventoryController {
     public static void DiscoverHardware(HardwareTypes hardwareType)
     {
         Inventory.ObtainHardwareType(hardwareType);
+        OnInventoryUpdated(Inventory);
     }
 
     public static bool HasDiscoveredHardware(HardwareTypes hardwareType)

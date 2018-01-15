@@ -31,7 +31,6 @@ public class InventoryData {
 
         ObtainHardwareType(HardwareTypes.Parry);
         ObtainHardwareType(HardwareTypes.Blink);
-        ObtainHardwareType(HardwareTypes.Riposte);
 
         ActiveHardware = new HardwareTypes[4]
         {
