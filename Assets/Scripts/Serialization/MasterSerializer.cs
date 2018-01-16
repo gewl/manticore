@@ -6,9 +6,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MasterSerializer : MonoBehaviour {
-    const string SAVE_DIRECTORY_PATH = "Saves";
-    const string INVENTORY_SAVE_FILE_PATH = "Saves/inventory.binary";
-    const string MOMENTUM_SAVE_FILE_PATH = "Saves/momentum.binary";
+    static string SAVE_DIRECTORY_PATH { get { return Application.dataPath + "/Saves"; } }
+    static string INVENTORY_SAVE_FILE_PATH { get { return SAVE_DIRECTORY_PATH + "/inventory.binary"; } }
+    static string MOMENTUM_SAVE_FILE_PATH { get { return SAVE_DIRECTORY_PATH + "/momentum.binary"; } }
+
+    static string DATA_DIRECTORY_PATH { get { return Application.dataPath + "/Data"; } }
+    static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
+
+    static Dictionary<HardwareTypes, JSONObject> hardwareTypeToDescriptionsMap;
+
+    private void Awake()
+    {
+        hardwareTypeToDescriptionsMap = new Dictionary<HardwareTypes, JSONObject>();
+    }
 
     private void OnEnable()
     {
@@ -79,4 +89,36 @@ public class MasterSerializer : MonoBehaviour {
         return loadedInventory;
     }
     #endregion
+
+    public static string GetHardwareDescription(HardwareTypes hardwareType)
+    {
+        return GetHardwareDescription(hardwareType, hardwareType);
+    }
+
+    public static string GetHardwareDescription(HardwareTypes hardwareType, HardwareTypes activeHardwareType)
+    {
+        if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
+        {
+            hardwareTypeToDescriptionsMap[hardwareType] = RetrieveDescriptionsObject(hardwareType);
+        }
+        JSONObject hardwareDescriptions = hardwareTypeToDescriptionsMap[hardwareType];
+        string hardwareDescription = hardwareDescriptions[activeHardwareType.ToString()].str;
+
+        Debug.Log(hardwareDescription);
+        if (hardwareDescription == null)
+        {
+            hardwareDescription = "Hardware description not found";
+            Debug.LogError(hardwareDescription);
+        }
+
+        return hardwareDescription;
+    }
+
+    static JSONObject RetrieveDescriptionsObject(HardwareTypes hardwareType)
+    {
+        string hardwareDescriptionsObjectString = File.ReadAllText(HARDWARE_DESCRIPTIONS_DIRECTORY_PATH + "/" + hardwareType.ToString() + ".json");
+        JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsObjectString);
+        return hardwareDescriptionsObject;
+    }
+        
 }

@@ -66,6 +66,11 @@ public class InventoryMenuController : MonoBehaviour {
         draggingHardwareType = HardwareTypes.None;
     }
 
+    public void PointerEnter(HardwareTypes hardwareType)
+    {
+        MasterSerializer.GetHardwareDescription(hardwareType);
+    }
+
     public void EquipDraggedActiveHardware(int slot)
     {
         InventoryController.EquipActiveHardware(slot, draggingHardwareType);

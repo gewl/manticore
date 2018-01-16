@@ -85,6 +85,14 @@ public class HardwareInventoryMenuController : MonoBehaviour {
 
         trigger.triggers.Add(endDragEntry);
 
+        // Point enter listener
+        EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerEnter,
+        };
+        pointerEnterEntry.callback.AddListener(GenerateInventoryButtonListener_PointerEnter(hardwareType));
+
+        trigger.triggers.Add(pointerEnterEntry);
     }
 
     UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareTypes hardwareType)
@@ -108,6 +116,14 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         return (data) =>
         {
             inventoryMenuController.EndDrag();
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerEnter(HardwareTypes hardwareType)
+    {
+        return (data) =>
+        {
+            inventoryMenuController.PointerEnter(hardwareType);
         };
     }
 
