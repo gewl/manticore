@@ -53,7 +53,7 @@ public class StaminaPreview : MonoBehaviour {
         }
         else if (totalStamina < startingStamina)
         {
-            staminaIndicatorReadout.color = Color.red;
+            staminaIndicatorReadout.color = Color.yellow;
         }
         else
         {

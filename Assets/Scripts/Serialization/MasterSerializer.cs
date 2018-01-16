@@ -90,21 +90,33 @@ public class MasterSerializer : MonoBehaviour {
     }
     #endregion
 
-    public static string GetHardwareDescription(HardwareTypes hardwareType)
-    {
-        return GetHardwareDescription(hardwareType, hardwareType);
-    }
-
-    public static string GetHardwareDescription(HardwareTypes hardwareType, HardwareTypes activeHardwareType)
+    public static string GetGeneralHardwareDescription(HardwareTypes hardwareType)
     {
         if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
         {
             hardwareTypeToDescriptionsMap[hardwareType] = RetrieveDescriptionsObject(hardwareType);
         }
         JSONObject hardwareDescriptions = hardwareTypeToDescriptionsMap[hardwareType];
-        string hardwareDescription = hardwareDescriptions[activeHardwareType.ToString()].str;
+        string hardwareDescription = hardwareDescriptions["BaseDescription"].str + "\n\n" + hardwareDescriptions[hardwareType.ToString()].str + "\n\n" + hardwareDescriptions["GeneralPassiveDescription"].str;
 
-        Debug.Log(hardwareDescription);
+        if (hardwareDescription == null)
+        {
+            hardwareDescription = "Hardware description not found";
+            Debug.LogError(hardwareDescription);
+        }
+
+        return hardwareDescription;
+    }
+
+    public static string GetSpecificHardwareDescription(HardwareTypes hardwareType, HardwareTypes activeHardwareType)
+    {
+        if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
+        {
+            hardwareTypeToDescriptionsMap[hardwareType] = RetrieveDescriptionsObject(hardwareType);
+        }
+        JSONObject hardwareDescriptions = hardwareTypeToDescriptionsMap[hardwareType];
+        string hardwareDescription = hardwareDescriptions["BaseDescription"].str + "\n\n" + hardwareDescriptions[activeHardwareType.ToString()].str;
+
         if (hardwareDescription == null)
         {
             hardwareDescription = "Hardware description not found";

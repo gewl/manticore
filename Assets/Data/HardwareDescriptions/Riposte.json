@@ -1,6 +1,8 @@
 {
-  "Parry":  "",
-  "Blink": "",
-  "Riposte":  "Test riposte description",
-  "Nullify":  ""
+  "BaseDescription": "Base Riposte debug description",
+  "GeneralPassiveDescription": "general riposte passive debug description",
+  "Parry":  "Parry active, riposte passive debug desc",
+  "Blink": "Blink active, riposte passive debug desc",
+  "Riposte":  "Riposte active debug description",
+  "Nullify":  "Nullify active, riposte passive debug desc",
 }

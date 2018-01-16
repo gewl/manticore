@@ -5,11 +5,11 @@ using UnityEngine;
 public class TerminalController : MonoBehaviour, IInteractableObjectController {
 
     [SerializeField]
-    InventoryMenuController inventoryMenu;
+    MenuManager menuManager;
 
     public void RegisterInteraction()
     {
-        inventoryMenu.ToggleMenu();
+        menuManager.ToggleInventoryMenu();
     }
 
 }

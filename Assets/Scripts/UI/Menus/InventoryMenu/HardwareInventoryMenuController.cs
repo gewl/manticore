@@ -93,6 +93,15 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         pointerEnterEntry.callback.AddListener(GenerateInventoryButtonListener_PointerEnter(hardwareType));
 
         trigger.triggers.Add(pointerEnterEntry);
+
+        // Point exit listener
+        EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerExit,
+        };
+        pointerExitEntry.callback.AddListener(GenerateInventoryButtonListener_PointerExit());
+
+        trigger.triggers.Add(pointerExitEntry);
     }
 
     UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareTypes hardwareType)
@@ -123,7 +132,15 @@ public class HardwareInventoryMenuController : MonoBehaviour {
     {
         return (data) =>
         {
-            inventoryMenuController.PointerEnter(hardwareType);
+            inventoryMenuController.HardwareInventoryMenu_PointerEnter(hardwareType);
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerExit()
+    {
+        return (data) =>
+        {
+            inventoryMenuController.DeactivateTooltip();
         };
     }
 

@@ -28,6 +28,7 @@ public class EquippedGearMenuController : MonoBehaviour {
             EventTrigger activeHardwareSlotEventTrigger = activeHardware.GetComponent<EventTrigger>();
             AssignDropEventHandler(activeHardwareSlotEventTrigger, i);
             AssignClickEventHandler(activeHardwareSlotEventTrigger, i);
+            AssignPointerEnterExitEventHandlers(activeHardwareSlotEventTrigger, i);
 
             activeHardwareImages[i] = activeHardware.GetComponent<Image>();
 
@@ -35,6 +36,7 @@ public class EquippedGearMenuController : MonoBehaviour {
             EventTrigger passiveHardwareSlotEventTrigger = passiveHardware.GetComponent<EventTrigger>();
             AssignDropEventHandler(passiveHardwareSlotEventTrigger, i, false);
             AssignClickEventHandler(passiveHardwareSlotEventTrigger, i, false);
+            AssignPointerEnterExitEventHandlers(passiveHardwareSlotEventTrigger, i, false);
 
             passiveHardwareImages[i] = passiveHardware.GetComponent<Image>();
         }
@@ -103,6 +105,25 @@ public class EquippedGearMenuController : MonoBehaviour {
         trigger.triggers.Add(clickEntry);
     }
 
+    void AssignPointerEnterExitEventHandlers(EventTrigger trigger, int slot, bool isActiveHardware = true)
+    {
+        EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerEnter,
+        };
+        pointerEnterEntry.callback.AddListener(GenerateInventoryButtonListener_PointerEnter(slot, isActiveHardware));
+
+        trigger.triggers.Add(pointerEnterEntry);
+        
+        EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerExit,
+        };
+        pointerExitEntry.callback.AddListener(GenerateInventoryButtonListener_PointerExit());
+
+        trigger.triggers.Add(pointerExitEntry);
+    }
+
     UnityAction<BaseEventData> GenerateInventoryButtonListener_Drop(int slot, bool isActiveHardware)
     {
         return (data) =>
@@ -134,6 +155,29 @@ public class EquippedGearMenuController : MonoBehaviour {
             {
                 InventoryController.UnequipPassiveHardware(slot);
             }
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerEnter(int slot, bool isActiveHardware)
+    {
+        return (data) =>
+        {
+            if (isActiveHardware)
+            {
+                inventoryMenuController.GenerateActiveHardwareTooltip(slot);
+            }
+            else
+            {
+                inventoryMenuController.GeneratePassiveHardwareTooltip(slot);
+            }
+        };
+    }
+
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerExit()
+    {
+        return (data) =>
+        {
+            inventoryMenuController.DeactivateTooltip();
         };
     }
 
