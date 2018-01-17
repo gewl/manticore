@@ -7,11 +7,6 @@ public class MomentumManager : MonoBehaviour {
 
     public delegate void MomentumUpdatedDelegate(MomentumData momentumData);
     public static MomentumUpdatedDelegate OnMomentumUpdated;
-    //public delegate void MomentumPointsUpdatedDelegate(int availablePoints);
-    //public static MomentumPointsUpdatedDelegate OnAvailableMomentumPointsUpdated;
-
-    //public delegate void AssignedMomentumPointsUpdatedDelegate(Dictionary<HardwareTypes, int> hardwareTypeToMomentumMap);
-    //public static AssignedMomentumPointsUpdatedDelegate OnAssignedMomentumPointsUpdated;
 
     static MomentumData _currentMomentumData;
     public static MomentumData CurrentMomentumData
@@ -33,8 +28,6 @@ public class MomentumManager : MonoBehaviour {
             return _currentMomentumData;
         }
     }
-
-    static float progressTowardNextMomentum { get { return CurrentMomentumData.ProgressTowardNextMomentum; } }
 
     private void OnEnable()
     {
@@ -59,7 +52,6 @@ public class MomentumManager : MonoBehaviour {
     {
         CurrentMomentumData.AddMomentum(quantityToAdd);
 
-        //OnAvailableMomentumPointsUpdated(CurrentMomentumData.UnassignedAvailableMomentumPoints);
         OnMomentumUpdated(CurrentMomentumData);
     }
 

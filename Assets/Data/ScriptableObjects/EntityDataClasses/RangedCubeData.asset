@@ -11,16 +11,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca37263b142ebf641833b0b003a9ae48, type: 3}
   m_Name: RangedCubeData
   m_EditorClassIdentifier: 
-  Name: Cube
+  ID: Entity
   Health: 90
-  MomentumValue: 5
+  MomentumValue: 6
   BaseMoveSpeed: 10
+  AggroRange: 15
   Allegiance: 1
   isPlayer: 0
   ArcOfFire: 25
   AttackRange: 30
   FireCooldown: 0.6
-  AggroRange: 15
   ProjectileStrength: 50
   BulletSpeed: 30
   AimNoiseInDegrees: 2

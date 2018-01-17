@@ -11,11 +11,12 @@ public class MomentumData {
     public Stack<HardwareTypes> AssignedMomentumTracker;
 
     public int ProgressTowardNextMomentum = 0;
+    public int TotalMomentumPoints { get { return AssignedMomentumTracker.Count + UnassignedAvailableMomentumPoints; } }
     public int MomentumRequiredForNextPoint
     {
         get
         {
-            return (AssignedMomentumTracker.Count + UnassignedAvailableMomentumPoints + 1) * 5;
+            return (TotalMomentumPoints + 1) * 5;
         }
     }
 
