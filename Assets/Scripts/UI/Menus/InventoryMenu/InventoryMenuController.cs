@@ -38,11 +38,6 @@ public class InventoryMenuController : MonoBehaviour {
         OnDraggingElement(draggingHardwareType);
     }
 
-    public void DragUpdate()
-    {
-        draggingImage.rectTransform.position = Input.mousePosition;
-    }
-    
     public void EndDrag()
     {
         // TODO: This will need to be fixed to work with other draggable inventory items.

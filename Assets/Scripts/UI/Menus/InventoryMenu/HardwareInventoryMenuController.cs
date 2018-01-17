@@ -67,15 +67,6 @@ public class HardwareInventoryMenuController : MonoBehaviour {
 
         trigger.triggers.Add(beginDragEntry);
 
-        // Drag update listener
-        EventTrigger.Entry dragEntry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.Drag,
-        };
-        dragEntry.callback.AddListener(GenerateInventoryButtonListener_Drag());
-
-        trigger.triggers.Add(dragEntry);
-
         // End drag listener
         EventTrigger.Entry endDragEntry = new EventTrigger.Entry
         {
@@ -109,14 +100,6 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         return (data) =>
         {
             inventoryMenuController.BeginDragging(image, hardwareType);
-        };
-    }
-
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_Drag()
-    {
-        return (data) =>
-        {
-            inventoryMenuController.DragUpdate();
         };
     }
 
