@@ -70,7 +70,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void GenerateActiveHardwareTooltip(int activeHardwareSlot)
     {
-        if (activeHardwareSlot == 0 || activeHardwareSlot == 1)
+        if (draggingHardwareType != HardwareTypes.None && (activeHardwareSlot == 0 || activeHardwareSlot == 1))
         {
             return;
         }

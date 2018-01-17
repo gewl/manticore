@@ -12,6 +12,9 @@ public class EquippedGearMenuController : MonoBehaviour {
     Image[] activeHardwareImages;
     Image[] passiveHardwareImages;
 
+    bool lastTooltipWasActive;
+    int lastTooltipSlot = -1;
+
     private void Awake()
     {
         inventoryMenuController = GetComponentInParent<InventoryMenuController>();
@@ -24,7 +27,9 @@ public class EquippedGearMenuController : MonoBehaviour {
         // Populate arrays of images, assign event handlers for drop
         for (int i = 0; i < childCount; i++)
         {
-            Transform activeHardware = transform.GetChild(i);
+            Transform slot = transform.GetChild(i);
+
+            Transform activeHardware = slot.GetChild(0);
             EventTrigger activeHardwareSlotEventTrigger = activeHardware.GetComponent<EventTrigger>();
             AssignDropEventHandler(activeHardwareSlotEventTrigger, i);
             AssignClickEventHandler(activeHardwareSlotEventTrigger, i);
@@ -32,7 +37,8 @@ public class EquippedGearMenuController : MonoBehaviour {
 
             activeHardwareImages[i] = activeHardware.GetComponent<Image>();
 
-            Transform passiveHardware = activeHardware.GetChild(0);
+            Transform mods = slot.GetChild(1);
+            Transform passiveHardware = mods.GetChild(0);
             EventTrigger passiveHardwareSlotEventTrigger = passiveHardware.GetComponent<EventTrigger>();
             AssignDropEventHandler(passiveHardwareSlotEventTrigger, i, false);
             AssignClickEventHandler(passiveHardwareSlotEventTrigger, i, false);
@@ -119,7 +125,7 @@ public class EquippedGearMenuController : MonoBehaviour {
         {
             eventID = EventTriggerType.PointerExit,
         };
-        pointerExitEntry.callback.AddListener(GenerateInventoryButtonListener_PointerExit());
+        pointerExitEntry.callback.AddListener(GenerateInventoryButtonListener_PointerExit(slot, isActiveHardware));
 
         trigger.triggers.Add(pointerExitEntry);
     }
@@ -170,14 +176,20 @@ public class EquippedGearMenuController : MonoBehaviour {
             {
                 inventoryMenuController.GeneratePassiveHardwareTooltip(slot);
             }
+
+            lastTooltipSlot = slot;
+            lastTooltipWasActive = isActiveHardware;
         };
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerExit()
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerExit(int slot, bool isActiveHardware)
     {
         return (data) =>
         {
-            inventoryMenuController.DeactivateTooltip();
+            //if (isActiveHardware == lastTooltipWasActive && slot == lastTooltipSlot)
+            //{
+                inventoryMenuController.DeactivateTooltip();
+            //}
         };
     }
 
