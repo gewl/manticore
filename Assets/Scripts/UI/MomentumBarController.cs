@@ -69,7 +69,6 @@ public class MomentumBarController : MonoBehaviour {
 
     IEnumerator UpdateMomentumBarProgress()
     {
-        Debug.Log("updating progress");
         float initialWidth = momentumBar.rectTransform.sizeDelta.x;
         float targetWidth = percentageProgressToNextMomentum * maximumMomentumBarWidth;
 
