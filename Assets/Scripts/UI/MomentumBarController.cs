@@ -15,10 +15,7 @@ public class MomentumBarController : MonoBehaviour {
     float percentageProgressToNextMomentum = 0f;
     int currentTotalMomentumPoints = 0;
     
-    float momentumBarXPos;
-    float momentumBarYPos;
-    float maximumMomentumBarWidth;
-    float momentumBarHeight;
+    float momentumBarXPos, momentumBarYPos, maximumMomentumBarWidth, momentumBarHeight;
 
     private void Awake()
     {

@@ -47,12 +47,30 @@ public class ScrollingAlertTextController : MonoBehaviour {
         centerSecondaryPosition = new Vector3(centerX, secondaryY, 0f);
         minimumSecondaryPosition = new Vector3(minRightX, secondaryY, 0f);
 
-        primaryText.transform.position = new Vector3(maxRightX, primaryText.transform.position.y, 0f);
-
-        scrollCoroutineQueue.EnqueueAction(ScrollText("Hello", "Hey"));
-        scrollCoroutineQueue.EnqueueAction(ScrollText("number 2"));
-        scrollCoroutineQueue.EnqueueAction(ScrollText("number 3", "here it is"));
+        primaryText.gameObject.SetActive(false);
+        secondaryText.gameObject.SetActive(false);
 	}
+
+    private void OnEnable()
+    {
+        GlobalEventEmitter.OnGameStateEvent += GameStateEventHandler;
+    }
+
+    private void OnDisable()
+    {
+        GlobalEventEmitter.OnGameStateEvent -= GameStateEventHandler;
+    }
+
+    void GameStateEventHandler(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
+    {
+        string primaryTextContents = GetPrimaryTextContents(gameStateEvent);
+        string secondaryTextContents = GetSecondaryTextContents(gameStateEvent, eventInformation);
+
+        if (primaryTextContents.Length > 0 && secondaryTextContents.Length > 0)
+        {
+            scrollCoroutineQueue.EnqueueAction(ScrollText(primaryTextContents, secondaryTextContents));
+        }
+    }
 
     IEnumerator ScrollText(string primaryTextContents, string secondaryTextContents = "")
     {
@@ -141,6 +159,36 @@ public class ScrollingAlertTextController : MonoBehaviour {
             secondaryText.transform.position = Vector3.Lerp(initialPosition, destinationPosition, curvePosition);
 
             yield return null;
+        }
+    }
+
+    string GetPrimaryTextContents(GlobalConstants.GameStateEvents gameStateEvent)
+    {
+        switch (gameStateEvent)
+        {
+            case GlobalConstants.GameStateEvents.PlayerDied:
+                return "ya dead";
+            case GlobalConstants.GameStateEvents.NewMomentumPoint:
+                return "New Momentum Point Earned";
+            case GlobalConstants.GameStateEvents.HardwareDiscovered:
+                return "New Hardware Discovered";
+            default:
+                return "";
+        }
+    }
+
+    string GetSecondaryTextContents(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
+    {
+        switch (gameStateEvent)
+        {
+            case GlobalConstants.GameStateEvents.PlayerDied:
+                return "by gil";
+            case GlobalConstants.GameStateEvents.NewMomentumPoint:
+                return "Spend It and Accelerate";
+            case GlobalConstants.GameStateEvents.HardwareDiscovered:
+                return "Now You Can " + eventInformation;
+            default:
+                return "";
         }
     }
 }

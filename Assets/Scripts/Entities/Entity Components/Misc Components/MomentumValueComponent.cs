@@ -24,6 +24,6 @@ public class MomentumValueComponent : EntityComponent {
         {
             Debug.LogError("Momentum value is zero.");
         }
-        GlobalEventEmitter.OnEntityDied(entityID, momentumValue);
+        GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.EntityDied, momentumValue.ToString());
     }
 }

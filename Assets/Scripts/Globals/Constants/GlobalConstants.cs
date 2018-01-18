@@ -26,6 +26,9 @@ public static class GlobalConstants {
 
     public enum GameStateEvents
     {
-        EntityDied
+        EntityDied,
+        PlayerDied,
+        NewMomentumPoint,
+        HardwareDiscovered
     }
 }

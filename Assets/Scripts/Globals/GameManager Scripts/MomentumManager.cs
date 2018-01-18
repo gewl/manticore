@@ -32,20 +32,24 @@ public class MomentumManager : MonoBehaviour {
     private void OnEnable()
     {
         InventoryController.OnInventoryUpdated += ClearMomentum;
-        GlobalEventEmitter.OnEntityDied += HandleEntityDied;
+        GlobalEventEmitter.OnGameStateEvent += HandleEntityDied;
     }
 
     private void OnDisable()
     {
         InventoryController.OnInventoryUpdated -= ClearMomentum;
-        GlobalEventEmitter.OnEntityDied -= HandleEntityDied;
+        GlobalEventEmitter.OnGameStateEvent -= HandleEntityDied;
     }
 
     #region momentum event handlers
 
-    static void HandleEntityDied(string entityID, int quantity)
+    static void HandleEntityDied(GlobalConstants.GameStateEvents stateEvent, string quantity)
     {
-        AddMomentum(quantity);
+        if (stateEvent == GlobalConstants.GameStateEvents.EntityDied)
+        {
+            int quantityInt = Int32.Parse(quantity);
+            AddMomentum(quantityInt);
+        }
     }
 
     static void AddMomentum(int quantityToAdd)
@@ -82,10 +86,8 @@ public class MomentumManager : MonoBehaviour {
 
         CurrentMomentumData.HardwareTypeToMomentumMap[hardwareType]++;
         CurrentMomentumData.AssignedMomentumTracker.Push(hardwareType);
-        //OnAssignedMomentumPointsUpdated(CurrentMomentumData.HardwareTypeToMomentumMap);
 
         CurrentMomentumData.UnassignedAvailableMomentumPoints--;
-        //OnAvailableMomentumPointsUpdated(CurrentMomentumData.UnassignedAvailableMomentumPoints);
         OnMomentumUpdated(CurrentMomentumData);
     }
 
@@ -99,14 +101,12 @@ public class MomentumManager : MonoBehaviour {
         HardwareTypes lastHardwareTypeIncremented = CurrentMomentumData.AssignedMomentumTracker.Pop();
 
         CurrentMomentumData.HardwareTypeToMomentumMap[lastHardwareTypeIncremented]--;
-        //OnAssignedMomentumPointsUpdated(CurrentMomentumData.HardwareTypeToMomentumMap);
         OnMomentumUpdated(CurrentMomentumData);
     }
 
     static void ClearMomentum(InventoryData inventory)
     {
         _currentMomentumData = new MomentumData();
-        //OnAssignedMomentumPointsUpdated(CurrentMomentumData.HardwareTypeToMomentumMap);
         OnMomentumUpdated(CurrentMomentumData);
     }
     #endregion
