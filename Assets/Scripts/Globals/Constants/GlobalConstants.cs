@@ -24,7 +24,7 @@ public static class GlobalConstants {
         Enemy
     }
 
-    public enum Events
+    public enum GameStateEvents
     {
         EntityDied
     }

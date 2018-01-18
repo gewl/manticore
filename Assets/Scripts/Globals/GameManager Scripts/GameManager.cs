@@ -399,6 +399,9 @@ public class GameManager : SerializedMonoBehaviour {
     #endregion
 
     #region HUD data retrieval
+    [SerializeField]
+    AnimationCurve belovedSwingCurve;
+    public static AnimationCurve BelovedSwingCurve { get { return instance.belovedSwingCurve; } }
 
     [SerializeField]
     AbilityBarController abilityBar;

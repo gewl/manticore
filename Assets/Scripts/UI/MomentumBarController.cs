@@ -6,8 +6,7 @@ public class MomentumBarController : MonoBehaviour {
 
     [SerializeField]
     float momentumBarAdjustmentTime;
-    [SerializeField]
-    AnimationCurve momentumTransitionCurve;
+    AnimationCurve momentumTransitionCurve { get { return GameManager.BelovedSwingCurve; } }
     [SerializeField]
     Image momentumBar;
 
