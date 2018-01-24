@@ -16,6 +16,8 @@ public class EntityEvents
 	public const string Move = "move";
     public const string Stop = "stop";
 
+    public const string Parry = "parry";
+
     // 'Stun' is both a status effect and the name for the state which the
     // entity enters upon being damaged. It refers to total disconnect between
     // input and action (or AI and action). 

@@ -6,6 +6,7 @@ public class Parry : MonoBehaviour {
 
     ParryHardware parryHardware;
     EntityGearManagement gear;
+    EntityEmitter entityEmitter;
 
     ManticoreAudioComponent audioComponent;
 
@@ -13,6 +14,7 @@ public class Parry : MonoBehaviour {
     {
         parryHardware = GetComponentInParent<ParryHardware>();
         gear = GetComponentInParent<EntityGearManagement>();
+        entityEmitter = GetComponentInParent<EntityEmitter>();
 
         audioComponent = GetComponentInParent<ManticoreAudioComponent>();
     }
@@ -31,9 +33,6 @@ public class Parry : MonoBehaviour {
         bullet.Parry(transform, aimPosition, parryDamage);
         gear.ApplyPassiveHardware(typeof(ParryHardware), bullet.gameObject);
 
-        if (audioComponent != null)
-        {
-            audioComponent.PlayGearSound(HardwareTypes.Parry);
-        }
+        entityEmitter.EmitEvent(EntityEvents.Parry);
     }
 }

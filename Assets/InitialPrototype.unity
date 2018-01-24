@@ -7266,7 +7266,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  parrySuccessfulClip: {fileID: 8300000, guid: 228c70b59a59f1f4bb7d87e4b599dfa1, type: 3}
+  parryClip: {fileID: 8300000, guid: 228c70b59a59f1f4bb7d87e4b599dfa1, type: 3}
   hurtClip: {fileID: 8300000, guid: d2ef776ab22c58145aeb2a40843f7ef9, type: 3}
 --- !u!1 &1375849207 stripped
 GameObject:
@@ -8878,9 +8878,9 @@ Canvas:
   m_GameObject: {fileID: 1650193789}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1734111144}
+  m_PlaneDistance: 0
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -9321,6 +9321,7 @@ GameObject:
   - component: {fileID: 1734111141}
   - component: {fileID: 1734111146}
   - component: {fileID: 1734111147}
+  - component: {fileID: 1734111148}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9358,7 +9359,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 0.5735294, g: 0.04217129, b: 0.5588714, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -9428,9 +9429,26 @@ MonoBehaviour:
   smoothTime: 0.3
   distanceToMouse: 0.3
   followEntity: {fileID: 1369184821}
-  joltRecoveryTime: 0.3
   joltMagnitude: 0.4
   shakeMagnitude: 10
+--- !u!114 &1734111148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1734111140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2712fc376931d874c94f0867eb13c21e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pixelSize: 2
+  filterMode: 0
+  otherCameras: []
+  mat: {fileID: 2100000, guid: 124b8d969a57cb04582b7b7c135696cf, type: 2}
+  screenMat: {fileID: 2100000, guid: e29b084d269b44e41897f618678bf67b, type: 2}
+  badGlare: {fileID: 2100000, guid: eb9033776ecb0e64198225f914bc2c3f, type: 2}
+  baseMat: 1
 --- !u!1 &1742700975
 GameObject:
   m_ObjectHideFlags: 0

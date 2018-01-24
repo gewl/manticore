@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class InventoryData {
 
     public Dictionary<HardwareTypes, bool> ObtainedHardware;
+    public Dictionary<RenewableTypes, bool> ObtainedRenewables;
+
     public Dictionary<HardwareTypes, List<bool>> DiscoveredHardwareSubtypes;
     public HardwareTypes[] ActiveHardware;
     public HardwareTypes[] PassiveHardware;
@@ -12,6 +14,7 @@ public class InventoryData {
     public InventoryData()
     {
         ObtainedHardware = new Dictionary<HardwareTypes, bool>();
+        ObtainedRenewables = new Dictionary<RenewableTypes, bool>();
         DiscoveredHardwareSubtypes = new Dictionary<HardwareTypes, List<bool>>();
 
         foreach (var value in Enum.GetValues(typeof(HardwareTypes)))
@@ -47,5 +50,10 @@ public class InventoryData {
     {
         ObtainedHardware[hardwareType] = true;
         DiscoveredHardwareSubtypes[hardwareType][0] = true;
+    }
+
+    public void ObtainRenewableType(RenewableTypes renewableType)
+    {
+        ObtainedRenewables[renewableType] = true;
     }
 }

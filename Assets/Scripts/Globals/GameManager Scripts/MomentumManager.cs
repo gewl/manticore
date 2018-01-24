@@ -55,7 +55,6 @@ public class MomentumManager : MonoBehaviour {
     static void AddMomentum(int quantityToAdd)
     {
         CurrentMomentumData.AddMomentum(quantityToAdd);
-        Debug.Log("Adding momentum: " + quantityToAdd);
 
         OnMomentumUpdated(CurrentMomentumData);
     }

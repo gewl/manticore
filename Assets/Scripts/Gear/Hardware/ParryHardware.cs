@@ -170,8 +170,7 @@ public class ParryHardware : EntityComponent, IHardware {
             yield break;
         }
 
-        // TODO: Momentum
-        currentComboTimer = subtypeData.GetTimeToCombo(0);
+        currentComboTimer = subtypeData.GetTimeToCombo(ParryMomentum);
 
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
         isOnCooldown = false;

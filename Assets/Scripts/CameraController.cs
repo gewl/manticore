@@ -23,8 +23,6 @@ public class CameraController : MonoBehaviour {
     Transform followEntity;
 
     [SerializeField]
-    float joltRecoveryTime = 0.3f;
-    [SerializeField]
     float joltMagnitude = 1.0f;
     [SerializeField]
     float shakeMagnitude = 1.0f;
@@ -100,10 +98,4 @@ public class CameraController : MonoBehaviour {
     {
         transform.position += (direction.normalized * joltMagnitude);
     }
-
-    IEnumerator JoltCameraPosition()
-    {
-        yield return null;
-    }
-
 }

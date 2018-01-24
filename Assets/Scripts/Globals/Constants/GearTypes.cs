@@ -1,6 +1,5 @@
-﻿
-public enum GearTypes { 
+﻿public enum GearTypes { 
     Hardware,
     Software,
-    Consumable
+    Renewable
 }

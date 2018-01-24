@@ -8,7 +8,7 @@ public class ManticoreAudioComponent : EntityComponent
     AudioSource audioSource;
 
     [SerializeField]
-    AudioClip parrySuccessfulClip;
+    AudioClip parryClip;
     [SerializeField]
     AudioClip hurtClip;
     [SerializeField]
@@ -24,11 +24,13 @@ public class ManticoreAudioComponent : EntityComponent
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.SubscribeToEvent(EntityEvents.Parry, OnParry);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry);
     }
 
     public void PlayGearSound(HardwareTypes gear)
@@ -46,12 +48,11 @@ public class ManticoreAudioComponent : EntityComponent
 
     #region event listeners
 
-    void OnParrySuccessful()
+    void OnParry()
     {
-        if (parrySuccessfulClip != null)
+        if (parryClip != null)
         {
-            audioSource.clip = parrySuccessfulClip;
-            audioSource.Play();
+            PlayGearSound(HardwareTypes.Parry);
         }
     }
 
