@@ -11,12 +11,50 @@ ModelImporter:
     100006: Lamp
     100008: Firer
     100010: Robot
+    100012: Armature
+    100014: Body
+    100016: Bone
+    100018: Bone_end
+    100020: BottomLeg01
+    100022: BottomLeg01_end
+    100024: BottomLeg02
+    100026: BottomLeg02_end
+    100028: BottomLeg03
+    100030: BottomLeg03_end
+    100032: BottomLeg04
+    100034: BottomLeg04_end
+    100036: Root
+    100038: TopLeg01
+    100040: TopLeg02
+    100042: TopLeg02_end
+    100044: TopLeg03
+    100046: TopLeg04
+    100048: TopLeg04_end
     400000: Camera
     400002: Cube
     400004: //RootNode
     400006: Lamp
     400008: Firer
     400010: Robot
+    400012: Armature
+    400014: Body
+    400016: Bone
+    400018: Bone_end
+    400020: BottomLeg01
+    400022: BottomLeg01_end
+    400024: BottomLeg02
+    400026: BottomLeg02_end
+    400028: BottomLeg03
+    400030: BottomLeg03_end
+    400032: BottomLeg04
+    400034: BottomLeg04_end
+    400036: Root
+    400038: TopLeg01
+    400040: TopLeg02
+    400042: TopLeg02_end
+    400044: TopLeg03
+    400046: TopLeg04
+    400048: TopLeg04_end
     2000000: Camera
     2300000: Cube
     2300002: //RootNode
@@ -70,12 +108,12 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
+    optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 1
@@ -86,8 +124,8 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 0
   tangentSpace:
-    normalSmoothAngle: 60
-    normalImportMode: 0
+    normalSmoothAngle: 0
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1

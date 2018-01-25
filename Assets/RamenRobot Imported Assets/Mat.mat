@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat
-  m_Shader: {fileID: 4800000, guid: 40ea267f03442134aa9fb0ce70c691a4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 81e0060a5a13db047a7a2a9535156e5a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -27,15 +27,15 @@ Material:
         m_Scale: {x: 1.3, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PaletteTex:
-        m_Texture: {fileID: 2800000, guid: 0ae9f3a24ef61594d92129313880b538, type: 3}
+        m_Texture: {fileID: 2800000, guid: f7a39e4ad5f1fe84d833942b760a09df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Amount: 1
-    - _ColorCount: 32
+    - _ColorCount: 62.7
     - _Cutoff: 0.6785714
-    - _DitherSize: 2
+    - _DitherSize: 1
     - _Intensity: 1
-    - _PaletteHeight: 64
+    - _PaletteHeight: 1.61
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
