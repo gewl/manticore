@@ -87,7 +87,7 @@ Shader "Unlit/CelEffect"
 
 					float attenuation = LIGHT_ATTENUATION(input); // shadow val
 					//float3 rgb = albedo.rgb * _LightColor0.rgb * lighting * _Color.rgb * attenuation;
-					float3 rgb = albedo.rgb * attenuation * lighting;
+					float3 rgb = albedo.rgb * attenuation * lighting * (_LightColor0.rgb * 2);
 
 					return float4(rgb, 1.0);
 				}
