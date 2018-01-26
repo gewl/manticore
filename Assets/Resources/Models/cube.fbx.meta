@@ -107,13 +107,13 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
-    importBlendShapes: 1
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
+    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 1
@@ -125,8 +125,8 @@ ModelImporter:
     useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 0
-    normalImportMode: 1
-    tangentImportMode: 3
+    normalImportMode: 0
+    tangentImportMode: 0
     normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
