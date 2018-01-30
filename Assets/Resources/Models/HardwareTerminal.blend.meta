@@ -1,9 +1,9 @@
 fileFormatVersion: 2
 guid: 05b610d287f79184f832ddc821e85e64
-timeCreated: 1517294154
+timeCreated: 1517331270
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Body
     100002: Bone
@@ -12,10 +12,10 @@ ModelImporter:
     100008: //RootNode
     100010: LeftArm
     100012: LeftArmBone
-    100014: RightArmBone
-    100016: RightBone
+    100014: RightArm
+    100016: RightArmBone
     100018: Terminal
-    100020: RightArm
+    100020: BodyBone
     400000: Body
     400002: Bone
     400004: Bone_001
@@ -23,30 +23,29 @@ ModelImporter:
     400008: //RootNode
     400010: LeftArm
     400012: LeftArmBone
-    400014: RightArmBone
-    400016: RightBone
+    400014: RightArm
+    400016: RightArmBone
     400018: Terminal
-    400020: RightArm
-    4300000: RightBone
+    400020: BodyBone
+    2100000: Material__AltTerminalSkin
+    2300000: Terminal
+    3300000: Terminal
+    4300000: RightArm
     4300002: LeftArm
     4300004: Terminal
-    4300006: RightArm
     7400000: Default Take
-    7400002: LeftArmAction
-    7400004: RightArmAction
-    7400006: Action
-    7400008: IdleLeftArmWobble
-    7400010: IdleRightArmWobble
-    7400012: IdleLeftArmWobble (1)
+    7400002: IdleLeftArmWobble
+    7400004: IdleRightArmWobble
     9500000: //RootNode
     13700000: LeftArm
-    13700002: RightBone
+    13700002: RightArm
     13700004: Terminal
-    13700006: RightArm
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -59,6 +58,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -68,7 +68,35 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IdleLeftArmWobble (1)
+      name: Default Take
+      takeName: Default Take
+      firstFrame: 0
+      lastFrame: 89
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: IdleLeftArmWobble
       takeName: IdleLeftArmWobble
       firstFrame: 0
       lastFrame: 52
@@ -96,34 +124,6 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: IdleLeftArmWobble
-      takeName: IdleLeftArmWobble
-      firstFrame: 0
-      lastFrame: 52
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
       name: IdleRightArmWobble
       takeName: IdleRightArmWobble
       firstFrame: 0
@@ -134,7 +134,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -157,7 +157,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    importVisibility: 1
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
@@ -166,7 +166,9 @@ ModelImporter:
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
+    preserveHierarchy: 1
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -190,7 +192,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: Body
+    rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
