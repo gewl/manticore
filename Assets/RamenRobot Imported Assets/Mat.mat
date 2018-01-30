@@ -32,10 +32,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Amount: 1
-    - _ColorCount: 53.2
+    - _ColorCount: 43
     - _Cutoff: 0.6785714
     - _DitherSize: 2
     - _Intensity: 1
-    - _PaletteHeight: 35.4
+    - _PaletteHeight: 41
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}

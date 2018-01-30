@@ -1,43 +1,36 @@
 fileFormatVersion: 2
-guid: d9bd69675c755f043bbe0e3433d7a4af
-timeCreated: 1517295831
+guid: 656247fa710732c4a89bffd7206130e1
+timeCreated: 1517295936
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: Body
     100002: Bone
-    100004: Bone.001
-    100006: Bone.001 1
-    100008: Bone.001_end
-    100010: Bone.001_end 1
-    100012: Bone_end
-    100014: LeftArm
-    100016: LeftArmBone
-    100018: RightArmBone
-    100020: RightBone
-    100022: Terminal
-    100024: //RootNode
+    100004: Bone_001
+    100006: Bone_2
+    100008: LeftArm
+    100010: LeftArmBone
+    100012: RightArmBone
+    100014: RightBone
+    100016: Terminal
+    100018: //RootNode
     400000: Body
     400002: Bone
-    400004: Bone.001
-    400006: Bone.001 1
-    400008: Bone.001_end
-    400010: Bone.001_end 1
-    400012: Bone_end
-    400014: LeftArm
-    400016: LeftArmBone
-    400018: RightArmBone
-    400020: RightBone
-    400022: Terminal
-    400024: //RootNode
+    400004: Bone_001
+    400006: Bone_2
+    400008: LeftArm
+    400010: LeftArmBone
+    400012: RightArmBone
+    400014: RightBone
+    400016: Terminal
+    400018: //RootNode
     4300000: RightBone
     4300002: LeftArm
     4300004: Terminal
-    7400000: RightArmBone|LeftArmAction
-    7400002: RightArmBone|RightArmAction
-    7400004: LeftArmBone|LeftArmAction
-    7400006: LeftArmBone|RightArmAction
+    7400000: Default Take
+    7400002: LeftArmAction
+    7400004: RightArmAction
     9500000: //RootNode
     13700000: LeftArm
     13700002: RightBone
@@ -74,8 +67,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

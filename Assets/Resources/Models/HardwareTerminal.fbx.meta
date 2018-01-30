@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: d9bd69675c755f043bbe0e3433d7a4af
-timeCreated: 1517295831
+guid: f4d84252f942400439f6ad72926e59bc
+timeCreated: 1517296190
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -12,12 +12,12 @@ ModelImporter:
     100008: Bone.001_end
     100010: Bone.001_end 1
     100012: Bone_end
-    100014: LeftArm
-    100016: LeftArmBone
-    100018: RightArmBone
-    100020: RightBone
-    100022: Terminal
-    100024: //RootNode
+    100014: //RootNode
+    100016: LeftArm
+    100018: LeftArmBone
+    100020: RightArm
+    100022: RightArmBone
+    100024: Terminal
     400000: Body
     400002: Bone
     400004: Bone.001
@@ -25,22 +25,28 @@ ModelImporter:
     400008: Bone.001_end
     400010: Bone.001_end 1
     400012: Bone_end
-    400014: LeftArm
-    400016: LeftArmBone
-    400018: RightArmBone
-    400020: RightBone
-    400022: Terminal
-    400024: //RootNode
-    4300000: RightBone
+    400014: //RootNode
+    400016: LeftArm
+    400018: LeftArmBone
+    400020: RightArm
+    400022: RightArmBone
+    400024: Terminal
+    4300000: RightArm
     4300002: LeftArm
     4300004: Terminal
-    7400000: RightArmBone|LeftArmAction
-    7400002: RightArmBone|RightArmAction
-    7400004: LeftArmBone|LeftArmAction
-    7400006: LeftArmBone|RightArmAction
+    7400000: RightArmBone|Action
+    7400002: RightArmBone|LeftArmAction
+    7400004: RightArmBone|RightArmAction
+    7400006: LeftArmBone|Action
+    7400008: LeftArmBone|LeftArmAction
+    7400010: LeftArmBone|RightArmAction
+    7400012: RightArmBone|IdleLeftArmWobble
+    7400014: RightArmBone|IdleRightArmWobble
+    7400016: LeftArmBone|IdleLeftArmWobble
+    7400018: LeftArmBone|IdleRightArmWobble
     9500000: //RootNode
     13700000: LeftArm
-    13700002: RightBone
+    13700002: RightArm
     13700004: Terminal
   materials:
     importMaterials: 1
@@ -74,8 +80,8 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
