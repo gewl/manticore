@@ -9,7 +9,11 @@ public class BasicBullet : MonoBehaviour {
     [SerializeField]
     Material friendlyBulletMaterial;
     [SerializeField]
+    Material dissolveBulletMaterial;
+    [SerializeField]
     float defaultStrength = 50f;
+    [SerializeField]
+    float timeToDestroyDissolvingBullet = 2.0f;
 
     MeshRenderer meshRenderer;
     TrailRenderer trailRenderer;
@@ -23,9 +27,11 @@ public class BasicBullet : MonoBehaviour {
     public Vector3 targetPosition;
 
     public bool IsHoming = false;
+    bool isFrozen = false;
 
     public const string ENEMY_BULLET = "EnemyBullet";
     public const string FRIENDLY_BULLET = "FriendlyBullet";
+    public const string NULLIFIER_LAYER = "Nullifier";
 
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
@@ -65,7 +71,7 @@ public class BasicBullet : MonoBehaviour {
             }
         }
 
-        if (bulletRigidbody.velocity.sqrMagnitude < 150f)
+        if (!isFrozen && bulletRigidbody.velocity.sqrMagnitude < 150f)
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
             {
@@ -102,6 +108,11 @@ public class BasicBullet : MonoBehaviour {
             if (collisionObjectLayer != 9) {
                 Destroy(gameObject);
             }
+        }
+        else if (collisionObjectLayer == LayerMask.NameToLayer(NULLIFIER_LAYER))
+        {
+            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            StartCoroutine(DissolveBullet());
         }
         else
         {
@@ -161,6 +172,33 @@ public class BasicBullet : MonoBehaviour {
             strengthScale = Mathf.Pow(strengthScale, 2f);
             transform.localScale *= strengthScale;
         }
+    }
+
+    IEnumerator DissolveBullet()
+    {
+        isFrozen = true;
+        Color materialColor = meshRenderer.material.color;
+
+        bulletRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        GetComponent<Collider>().enabled = false;
+
+        meshRenderer.material = new Material(dissolveBulletMaterial)
+        {
+            color = materialColor
+        };
+
+        float timeElapsed = 0.0f;
+
+        while (timeElapsed < timeToDestroyDissolvingBullet)
+        {
+            timeElapsed += Time.deltaTime;
+            meshRenderer.material.SetFloat("_TimeElapsed", timeElapsed);
+            yield return null;
+        }
+        Debug.Log("destroying");
+
+        Destroy(gameObject);
+        yield break;
     }
 
 }

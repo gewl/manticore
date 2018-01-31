@@ -27,15 +27,15 @@ Material:
         m_Scale: {x: 1.3, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PaletteTex:
-        m_Texture: {fileID: 2800000, guid: 391b87845474fe640b91e1fc69e5f7fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01d5fbf1511518241af20726a444132c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Amount: 1
-    - _ColorCount: 43
+    - _ColorCount: 22.97
     - _Cutoff: 0.6785714
-    - _DitherSize: 2
+    - _DitherSize: 3
     - _Intensity: 1
-    - _PaletteHeight: 41
+    - _PaletteHeight: 106.1
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}

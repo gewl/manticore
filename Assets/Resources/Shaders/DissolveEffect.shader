@@ -10,6 +10,7 @@
 		_ColorThreshold1("Color Threshold 1", float) = 1.0
 		_ColorThreshold2("Color Threshold 2", float) = 1.0
 		_StartTime("Start Time", float) = 1.0
+		_TimeElapsed("Time Elapsed", float) = 0.0
 	}
 		SubShader
 	{
@@ -37,6 +38,7 @@
 			float _ColorThreshold1;
 			float _ColorThreshold2;
 			float _StartTime;
+			float _TimeElapsed;
 
 			struct vertexInput
 			{
@@ -71,15 +73,15 @@
 				float noiseSample = tex2Dlod(_NoiseTex, float4(input.texCoord.xy, 0, 0));
 				
 				// dissolve colors
-				float thresh2 = _Time * _ColorThreshold2 - _StartTime;
+				float thresh2 = _TimeElapsed * _ColorThreshold2 - _StartTime;
 				float useDissolve2 = noiseSample - thresh2 < 0;
 				color = (1 - useDissolve2)*color + useDissolve2*_DissolveColor2;
 
-				float thresh1 = _Time * _ColorThreshold1 - _StartTime;
+				float thresh1 = _TimeElapsed * _ColorThreshold1 - _StartTime;
 				float useDissolve1 = noiseSample - thresh1 < 0;
 				color = (1 - useDissolve1)*color + useDissolve1*_DissolveColor1;
 
-				float threshold = _Time * _DissolveSpeed - _StartTime;
+				float threshold = _TimeElapsed * _DissolveSpeed - _StartTime;
 				clip(noiseSample - threshold);
 				
 				return color;
