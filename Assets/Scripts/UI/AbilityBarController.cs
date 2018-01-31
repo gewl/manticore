@@ -140,7 +140,14 @@ public class AbilityBarController : SerializedMonoBehaviour {
         HardwareTypes[] activeHardware = InventoryController.GetEquippedActiveHardware();
         for (int i = 0; i < activeHardware.Length; i++)
         {
-            assignMomentumButtons[i].interactable = activeHardware[i] != HardwareTypes.None;
+            HardwareTypes hardwareType = activeHardware[i];
+            bool isSlotOccupied = hardwareType != HardwareTypes.None;
+            bool isMaxedOut = false;
+            if (isSlotOccupied)
+            {
+                isMaxedOut = momentumData.HardwareTypeToMomentumMap[hardwareType] >= 5;
+            }
+            assignMomentumButtons[i].interactable = isSlotOccupied && !isMaxedOut;
         }
     }
 

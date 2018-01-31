@@ -35,7 +35,7 @@ public class MomentumData {
 
         while (ProgressTowardNextMomentum >= MomentumRequiredForNextPoint)
         {
-            ProgressTowardNextMomentum %= MomentumRequiredForNextPoint;
+            ProgressTowardNextMomentum -= MomentumRequiredForNextPoint;
             UnassignedAvailableMomentumPoints++;
             GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.NewMomentumPoint);
         }

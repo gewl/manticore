@@ -9,14 +9,15 @@ public class InteractableObject : MonoBehaviour {
     GameObject floatingLetter;
     Vector3 originalLetterPosition;
     Vector3 originalLetterRotationEuler;
-    SkinnedMeshRenderer meshRenderer;
+
+    [SerializeField]
+    Renderer renderer;
 
     IInteractableObjectController objectController;
 
     private void Awake()
     {
         objectController = GetComponent<IInteractableObjectController>();
-        meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     private void OnEnable()
@@ -36,7 +37,7 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        meshRenderer.material.SetFloat("_OutlineExtrusion", 0.0f);
+        renderer.material.SetFloat("_OutlineExtrusion", 0.0f);
 
         floatingLetter.SetActive(false);
         StopCoroutine("ActivateTerminal");
@@ -50,7 +51,7 @@ public class InteractableObject : MonoBehaviour {
             timeElapsed += Time.deltaTime;
 
             float pingPongTime = Mathf.PingPong(timeElapsed, 1.0f);
-            meshRenderer.material.SetFloat("_OutlineExtrusion", pingPongTime);
+            renderer.material.SetFloat("_OutlineExtrusion", pingPongTime);
 
             Vector3 letterRotationEuler = originalLetterRotationEuler;
             letterRotationEuler.z += timeElapsed * 90f;
