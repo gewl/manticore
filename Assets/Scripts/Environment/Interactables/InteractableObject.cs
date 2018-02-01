@@ -10,6 +10,9 @@ public class InteractableObject : MonoBehaviour {
     Vector3 originalLetterPosition;
     Vector3 originalLetterRotationEuler;
 
+    Animator animator;
+    const string IS_ACTIVE_PARAMETER = "isActive";
+
     [SerializeField]
     Renderer renderer;
 
@@ -18,6 +21,7 @@ public class InteractableObject : MonoBehaviour {
     private void Awake()
     {
         objectController = GetComponent<IInteractableObjectController>();
+        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -28,6 +32,8 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        animator.SetBool(IS_ACTIVE_PARAMETER, true);
+
         floatingLetter.SetActive(true);
         floatingLetter.transform.position = originalLetterPosition;
         floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
@@ -37,6 +43,8 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        animator.SetBool(IS_ACTIVE_PARAMETER, false);
+
         renderer.material.SetFloat("_OutlineExtrusion", 0.0f);
 
         floatingLetter.SetActive(false);
