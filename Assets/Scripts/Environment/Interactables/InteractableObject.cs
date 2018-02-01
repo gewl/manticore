@@ -54,6 +54,7 @@ public class InteractableObject : MonoBehaviour {
     IEnumerator ActivateTerminal()
     {
         float timeElapsed = 0.0f;
+
         while (true)
         {
             timeElapsed += Time.deltaTime;
