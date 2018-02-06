@@ -12,8 +12,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     float recoveryTime = 0.8f;
     float timeToDie = 1.0f;
     [SerializeField]
-    Material damagedSkin;
-    [SerializeField]
     Material deadSkin;
     [SerializeField]
     Material flashSkin;
@@ -28,7 +26,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     GameObject unitHealthBarObject;
     UnitHealthBar unitHealthBar;
 
-    MeshRenderer meshRenderer;
+    Renderer[] renderers;
+    int renderersCount;
+    Material[] defaultMaterials;
     Camera mainCamera;
 
     float currentRecoveryTimer;
@@ -57,6 +57,19 @@ public class MobileEntityHealthComponent : EntityComponent {
     }
     #endregion
 
+    protected override void Awake()
+    {
+        base.Awake();
+        renderers = GetComponentsInChildren<Renderer>();
+        renderersCount = renderers.Length;
+        defaultMaterials = new Material[renderersCount];
+
+        for (int i = 0; i < renderersCount; i++)
+        {
+            defaultMaterials[i] = renderers[i].material;
+        }
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -80,8 +93,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     }
 
     protected override void Subscribe() {
-        meshRenderer = GetComponent<MeshRenderer>();
-
         entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
@@ -258,9 +269,10 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
 
-        meshRenderer.material = flashSkin;
-        // Store original skin for lerping
-        originalSkin = meshRenderer.material;
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = flashSkin;
+        }
 
         StartCoroutine("HandleDamage");
     }
@@ -281,12 +293,29 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityInformation.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
         entityInformation.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
 
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        for (int i = 0; i < rigidbodies.Length; i++)
+        {
+            rigidbodies[i].isKinematic = false;
+            rigidbodies[i].useGravity = true;
+        }
+
+        Animator animator = GetComponent<Animator>();
+
+        if (animator != null)
+        {
+            animator.SetBool("isDead", true);
+            animator.enabled = false;
+        }
+
         // Initialize timer from set values
         currentDeathTimer = timeToDie;
 
-        meshRenderer.material = darkFlashSkin;
-        // Store original skin for lerping
-        originalSkin = meshRenderer.material;
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = darkFlashSkin;
+
+        }
 
         StartCoroutine("HandleDeath");
 
@@ -302,7 +331,6 @@ public class MobileEntityHealthComponent : EntityComponent {
                 // Lerp material while entity is recovering.
                 // TODO: Distinguish recovery period more clearly.
                 float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
-                meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
 
                 currentRecoveryTimer -= Time.deltaTime;
                 yield return new WaitForFixedUpdate();
@@ -310,7 +338,10 @@ public class MobileEntityHealthComponent : EntityComponent {
             else if (!isDead)
             {
                 // Once entity has recovered, disable physics and resume action.
-                meshRenderer.material = damagedSkin;
+                for (int i = 0; i < renderersCount; i++)
+                {
+                    renderers[i].material = defaultMaterials[i];
+                }
                 entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 if (isStunned)
                 {
@@ -339,7 +370,10 @@ public class MobileEntityHealthComponent : EntityComponent {
             {
                 float skinTransitionCompletion = (timeToDie - currentDeathTimer) / timeToDie;
                 skinTransitionCompletion = Mathf.Sqrt(skinTransitionCompletion);
-                meshRenderer.material.Lerp(originalSkin, deadSkin, skinTransitionCompletion);
+                for (int i = 0; i < renderersCount; i++)
+                {
+                    renderers[i].material.Lerp(defaultMaterials[i], deadSkin, skinTransitionCompletion);
+                }
 
                 currentDeathTimer -= Time.deltaTime;
                 yield return new WaitForFixedUpdate();
@@ -347,50 +381,14 @@ public class MobileEntityHealthComponent : EntityComponent {
             else
             {
                 unitHealthBar.enabled = false;
-                meshRenderer.material = deadSkin;
+                for (int i = 0; i < renderersCount; i++)
+                {
+                    renderers[i].material = deadSkin;
+                }
                 entityEmitter.isMuted = true;
                 yield break;
             }
         }
     }
 
-    IEnumerator Flash()
-    {
-        bool hasFlashed = false;
-        Material originalMaterial = meshRenderer.material;
-        while (true)
-        {
-            if (!hasFlashed)
-            {
-                meshRenderer.material = flashSkin;
-                hasFlashed = true;
-                yield return new WaitForSeconds(0.02f);
-            }
-            else
-            {
-                meshRenderer.material = originalMaterial;
-                yield break;
-            }
-        }
-    }
-
-    IEnumerator DarkFlash()
-    {
-        bool hasFlashed = false;
-        Material originalMaterial = meshRenderer.material;
-        while (true)
-        {
-            if (!hasFlashed)
-            {
-                meshRenderer.material = darkFlashSkin;
-                hasFlashed = true;
-                yield return new WaitForSeconds(0.05f);
-            }
-            else
-            {
-                meshRenderer.material = originalMaterial;
-                yield break;
-            }
-        }
-    }
 }

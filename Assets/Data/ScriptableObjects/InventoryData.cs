@@ -8,8 +8,9 @@ public class InventoryData {
     public Dictionary<RenewableTypes, bool> ObtainedRenewables;
 
     public Dictionary<HardwareTypes, List<bool>> DiscoveredHardwareSubtypes;
-    public HardwareTypes[] ActiveHardware;
-    public HardwareTypes[] PassiveHardware;
+    public HardwareTypes[] EquippedActiveHardware;
+    public HardwareTypes[] EquippedPassiveHardware;
+    public RenewableTypes EquippedRenewable;
 
     public InventoryData()
     {
@@ -37,7 +38,7 @@ public class InventoryData {
         ObtainHardwareType(HardwareTypes.Riposte);
         ObtainHardwareType(HardwareTypes.Nullify);
 
-        ActiveHardware = new HardwareTypes[4]
+        EquippedActiveHardware = new HardwareTypes[4]
         {
             HardwareTypes.Parry,
             HardwareTypes.Blink,
@@ -45,7 +46,8 @@ public class InventoryData {
             HardwareTypes.None
         };
 
-        PassiveHardware = new HardwareTypes[4];
+        EquippedPassiveHardware = new HardwareTypes[4];
+        EquippedRenewable = RenewableTypes.NoetherFrictionConverter;
     }
 
     public void ObtainHardwareType(HardwareTypes hardwareType)

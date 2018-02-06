@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: 34423f76930ba8e418ce59d80e76b17f
-timeCreated: 1517868138
+guid: 3f317910cd44bb449bad9c14e5ed2dbb
+timeCreated: 1517871103
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
-    100002: Body
-    100004: BottomLeg01
-    100006: BottomLeg02
-    100008: BottomLeg03
-    100010: BottomLeg04
-    100012: //RootNode
+    100002: //RootNode
+    100004: Body
+    100006: BottomLeg01
+    100008: BottomLeg02
+    100010: BottomLeg03
+    100012: BottomLeg04
     100014: Foot01
     100016: Foot02
     100018: Foot03
@@ -22,13 +22,16 @@ ModelImporter:
     100028: TopLeg02
     100030: TopLeg03
     100032: TopLeg04
+    100034: Firer
+    100036: Robot_001
+    100038: Turret
     400000: Armature
-    400002: Body
-    400004: BottomLeg01
-    400006: BottomLeg02
-    400008: BottomLeg03
-    400010: BottomLeg04
-    400012: //RootNode
+    400002: //RootNode
+    400004: Body
+    400006: BottomLeg01
+    400008: BottomLeg02
+    400010: BottomLeg03
+    400012: BottomLeg04
     400014: Foot01
     400016: Foot02
     400018: Foot03
@@ -39,12 +42,25 @@ ModelImporter:
     400028: TopLeg02
     400030: TopLeg03
     400032: TopLeg04
+    400034: Firer
+    400036: Robot_001
+    400038: Turret
     2100000: Material__robotskin_png
+    2300000: Robot
+    3300000: Robot
     4300000: Robot
+    4300002: Firer
+    4300004: Robot_001
+    4300006: Turret
     7400000: Default Take
     7400002: ArmatureAction_002
+    7400004: ForwardWalk
+    7400006: Idle
     9500000: //RootNode
     13700000: Robot
+    13700002: Firer
+    13700004: Robot_001
+    13700006: Turret
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -64,14 +80,70 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Idle
+      firstFrame: 0
+      lastFrame: 16.3
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ForwardWalk
+      takeName: ForwardWalk
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -80,15 +152,15 @@ ModelImporter:
     addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
+    preserveHierarchy: 1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001

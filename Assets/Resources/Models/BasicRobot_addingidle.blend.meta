@@ -1,50 +1,54 @@
 fileFormatVersion: 2
-guid: efce82bfbe8dda746b19fc8ae383b389
-timeCreated: 1517868504
+guid: 8abdb3e93e171e9438c22a44bdb6d699
+timeCreated: 1517943626
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: Armature
-    100002: Body
-    100004: BottomLeg01
-    100006: BottomLeg02
-    100008: BottomLeg03
-    100010: BottomLeg04
-    100012: //RootNode
-    100014: Foot01
-    100016: Foot02
-    100018: Foot03
-    100020: Foot04
-    100022: Robot
-    100024: Root
-    100026: TopLeg01
-    100028: TopLeg02
-    100030: TopLeg03
-    100032: TopLeg04
+    100002: //RootNode
+    100004: Body
+    100006: BottomLeg01
+    100008: BottomLeg02
+    100010: BottomLeg03
+    100012: BottomLeg04
+    100014: Firer
+    100016: Foot01
+    100018: Foot02
+    100020: Foot03
+    100022: Foot04
+    100024: Robot
+    100026: Root
+    100028: TopLeg01
+    100030: TopLeg02
+    100032: TopLeg03
+    100034: TopLeg04
     400000: Armature
-    400002: Body
-    400004: BottomLeg01
-    400006: BottomLeg02
-    400008: BottomLeg03
-    400010: BottomLeg04
-    400012: //RootNode
-    400014: Foot01
-    400016: Foot02
-    400018: Foot03
-    400020: Foot04
-    400022: Robot
-    400024: Root
-    400026: TopLeg01
-    400028: TopLeg02
-    400030: TopLeg03
-    400032: TopLeg04
+    400002: //RootNode
+    400004: Body
+    400006: BottomLeg01
+    400008: BottomLeg02
+    400010: BottomLeg03
+    400012: BottomLeg04
+    400014: Firer
+    400016: Foot01
+    400018: Foot02
+    400020: Foot03
+    400022: Foot04
+    400024: Robot
+    400026: Root
+    400028: TopLeg01
+    400030: TopLeg02
+    400032: TopLeg03
+    400034: TopLeg04
     2100000: Material__robotskin_png
     4300000: Robot
+    4300002: Firer
     7400000: Default Take
-    7400002: ArmatureAction_002
+    7400002: ForwardWalk
     9500000: //RootNode
-    13700000: Robot
+    13700000: Firer
+    13700002: Robot
   externalObjects: {}
   materials:
     importMaterials: 1

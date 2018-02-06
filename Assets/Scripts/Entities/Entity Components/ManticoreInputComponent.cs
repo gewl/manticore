@@ -139,6 +139,14 @@ public class ManticoreInputComponent : EntityComponent {
                 StartCoroutine("PeriodicalStaminaTick_Slot3");
             }
         }
+        else if (Input.GetButtonDown("UseRenewable"))
+        {
+            if (gear.EquippedRenewable == null)
+            {
+                return;
+            }
+            gear.EquippedRenewable.UseRenewable();
+        }
     }
 
     void UseGear(IHardware gear)

@@ -32,7 +32,10 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        animator.SetBool(IS_ACTIVE_PARAMETER, true);
+        if (animator != null)
+        {
+            animator.SetBool(IS_ACTIVE_PARAMETER, true);
+        }
 
         floatingLetter.SetActive(true);
         floatingLetter.transform.position = originalLetterPosition;
@@ -43,7 +46,10 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        animator.SetBool(IS_ACTIVE_PARAMETER, false);
+        if (animator != null)
+        {
+            animator.SetBool(IS_ACTIVE_PARAMETER, false);
+        }
 
         renderer.material.SetFloat("_OutlineExtrusion", 0.0f);
 

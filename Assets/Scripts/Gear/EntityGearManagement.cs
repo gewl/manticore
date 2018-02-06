@@ -9,10 +9,14 @@ public class EntityGearManagement : MonoBehaviour {
     List<IHardware> passiveHardware;
     ApplyPassiveHardwareDelegate[] passiveHardwareDelegates;
 
+    IRenewable equippedRenewable;
+
     public IHardware ParryGear { get { return activeHardware[0]; } }
     public IHardware BlinkGear { get { return activeHardware[1]; } }
     public IHardware EquippedGear_Slot2 { get { return activeHardware[2]; } }
     public IHardware EquippedGear_Slot3 { get { return activeHardware[3]; } }
+
+    public IRenewable EquippedRenewable { get { return equippedRenewable; } }
 
     delegate void ApplyPassiveHardwareDelegate(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
     ApplyPassiveHardwareDelegate passiveHardware_Parry;
@@ -97,23 +101,32 @@ public class EntityGearManagement : MonoBehaviour {
         }
 
         // Add components for new hardware.
-        for (int i = 2; i < inventory.ActiveHardware.Length; i++)
+        for (int i = 2; i < inventory.EquippedActiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.ActiveHardware[i];
+            HardwareTypes hardwareType = inventory.EquippedActiveHardware[i];
             GenerateActiveHardwareComponent(hardwareType, i);
         }
 
         ParryGear.AssignSubtypeData(ScriptableObject.CreateInstance<StandardIssueParryHardwareData>());
 
-        for (int i = 0; i < inventory.PassiveHardware.Length; i++)
+        for (int i = 0; i < inventory.EquippedPassiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.PassiveHardware[i];
+            HardwareTypes hardwareType = inventory.EquippedPassiveHardware[i];
             GeneratePassiveHardwareComponent(hardwareType, i);
         }
 
         if (activeHardwareUpdated != null)
         {
             activeHardwareUpdated(ref activeHardware);
+        }
+
+        if (equippedRenewable != null)
+        {
+            ClearRenewable();
+        }
+        if (inventory.EquippedRenewable != RenewableTypes.None)
+        {
+            GenerateRenewable(inventory.EquippedRenewable);
         }
     }
 
@@ -131,6 +144,21 @@ public class EntityGearManagement : MonoBehaviour {
                 return typeof(NullifyHardware);
             case HardwareTypes.Riposte:
                 return typeof(RiposteHardware);
+            default:
+                return null;
+        }
+    }
+
+    Type GetRenewableType(RenewableTypes renewableType)
+    {
+        switch (renewableType)
+        {
+            case RenewableTypes.None:
+                return null;
+            case RenewableTypes.NoetherFrictionConverter:
+                return typeof(NoetherFrictionConverter);
+            case RenewableTypes.GravesandeImpulseAdapter:
+                return null;
             default:
                 return null;
         }
@@ -164,6 +192,16 @@ public class EntityGearManagement : MonoBehaviour {
         passiveHardware[index] = newPassiveHardware;
     }
 
+    void GenerateRenewable(RenewableTypes newRenewableType)
+    {
+        if (newRenewableType == RenewableTypes.None)
+        {
+            return;
+        }
+        Type newRenewable = GetRenewableType(newRenewableType);
+        equippedRenewable = gameObject.AddComponent(newRenewable) as IRenewable;
+    }
+
     void ClearActiveHardware(int index)
     {
         if (index == 0 || index == 1)
@@ -185,6 +223,13 @@ public class EntityGearManagement : MonoBehaviour {
         Component hardwareComponent = GetComponent(equippedHardware.GetType());
         Destroy(hardwareComponent);
         passiveHardware[index] = null;
+    }
+
+    void ClearRenewable()
+    {
+        Component renewableComponent = GetComponent(equippedRenewable.GetType());
+        Destroy(renewableComponent);
+        renewableComponent = null;
     }
 
     public void ApplyPassiveHardware(Type newHardware, GameObject subject)

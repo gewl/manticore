@@ -1,5 +1,5 @@
 ﻿public enum RenewableTypes {
     None,
-    NoetherHeatFabricator,
-    GravesandeForceConverter
+    NoetherFrictionConverter,
+    GravesandeImpulseAdapter
 }

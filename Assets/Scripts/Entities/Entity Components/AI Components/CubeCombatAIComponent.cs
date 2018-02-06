@@ -43,7 +43,7 @@ public class CubeCombatAIComponent : EntityComponent {
     AnimationCurve gunHeatCurve;
 
     const string FIRER_ID = "Firer";
-    GameObject firer;
+    Transform firer;
     Renderer firerRenderer;
     Color firerOriginalSkin;
 
@@ -51,7 +51,7 @@ public class CubeCombatAIComponent : EntityComponent {
     {
         base.Awake();
 
-        firer = GameObject.Find(FIRER_ID);
+        firer = transform.Find(FIRER_ID);
         if (firer == null)
         {
             Debug.LogError("Firer not found in " + gameObject.name);

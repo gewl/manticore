@@ -15,9 +15,13 @@ public class BasicWaypointMovementComponent : EntityComponent {
     bool isOnARamp = false;
     bool isGrounded = false;
 
+    Animator animator;
+
     protected override void OnEnable()
     {
         base.OnEnable();
+
+        animator = GetComponent<Animator>();
         entityInformation.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
         entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }
@@ -74,12 +78,20 @@ public class BasicWaypointMovementComponent : EntityComponent {
 
     void OnMove()
     {
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", true);
+        }
         isMoving = true;
         currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
     }
 
     void OnStop()
     {
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", false);
+        }
         if (isGrounded)
         {
             isMoving = false;
