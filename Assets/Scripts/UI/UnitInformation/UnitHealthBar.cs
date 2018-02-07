@@ -53,8 +53,10 @@ public class UnitHealthBar : MonoBehaviour {
 
     public void UpdateHealth(float currentHealth)
     {
+        Debug.Log("Previous bar width:" + healthBar.rectTransform.sizeDelta.x);
         float barWidth = currentHealth;
         healthBar.rectTransform.sizeDelta = new Vector2(barWidth, barHeight);
+        Debug.Log("Current bar width:" + healthBar.rectTransform.sizeDelta.x);
 
         if (isAdjustingDamageBar)
         {

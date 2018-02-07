@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarComponent : EntityComponent {
+public class HUDHealthBarComponent : EntityComponent {
 
     [SerializeField]
     Image healthBarContainer;

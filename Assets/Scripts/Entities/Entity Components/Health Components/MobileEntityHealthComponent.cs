@@ -144,6 +144,11 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         currentHealth += amountToRaise;
 
+        if (currentHealth > initialHealth)
+        {
+            currentHealth = initialHealth;
+        }
+
         if (isPlayer)
         {
             float healthPercentage = currentHealth / initialHealth;
@@ -152,6 +157,8 @@ public class MobileEntityHealthComponent : EntityComponent {
                 GameManager.SetIsPlayerLowHealth(false);
             }
         }
+
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
     }
 
     public void OnCollisionEnter(Collision projectile)
@@ -187,6 +194,24 @@ public class MobileEntityHealthComponent : EntityComponent {
             RespondToDeath(damagingEntity);
         }
     }
+
+    public void GetHealed(float healing)
+    {
+        RaiseHealthAmount(healing);
+
+        // Trigger floating damage text.
+        Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
+        damageTextPosition.y += 15f;
+        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        FloatingDamageText floatingDamageText = instantiatedDamageText.GetComponent<FloatingDamageText>();
+        floatingDamageText.isHealing = true;
+        floatingDamageText.DamageValue = healing;
+        floatingDamageText.attachedTransform = transform;
+
+        // Expose & update attached health bar.
+        unitHealthBarObject.SetActive(true);
+        unitHealthBar.UpdateHealth(currentHealth);
+    }
     
     void TakeDamage(float damage)
     {
@@ -210,6 +235,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             Invoke("SetInvulnerable", recoveryTime - 0.1f);
             GameManager.ShakeScreen();
         }
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
     }
 
     // Used to slightly delay invulnerability so blasts go through.
@@ -254,17 +280,20 @@ public class MobileEntityHealthComponent : EntityComponent {
         GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
         entityEmitter.EmitEvent(EntityEvents.Hurt);
-        if (!isStunned)
+        if (!isPlayer)
         {
-            entityEmitter.EmitEvent(EntityEvents.Stun);
+            if (!isStunned)
+            {
+                //entityEmitter.EmitEvent(EntityEvents.Stun);
+            }
+
+            // Knock back
+            Vector3 collisionVelocity = damagingProjectileCollisionVelocity;
+            entityInformation.EntityRigidbody.velocity = collisionVelocity;
+
+            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            entityInformation.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
         }
-
-        // Knock back
-        Vector3 collisionVelocity = damagingProjectileCollisionVelocity;
-        entityInformation.EntityRigidbody.velocity = collisionVelocity;
-
-        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        entityInformation.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
 
         // Initialize timer from set values
         currentRecoveryTimer = recoveryTime;
@@ -323,7 +352,6 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     IEnumerator HandleDamage()
     {
-        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)
         {
             if (currentRecoveryTimer > 0f)
@@ -363,7 +391,6 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     IEnumerator HandleDeath()
     {
-        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
         while (true)
         {
             if (currentDeathTimer > 0f)

@@ -7,13 +7,15 @@ public class FloatingDamageText : MonoBehaviour {
 
     [SerializeField]
     float timeToComplete = 1f;
-    float destinationYDisplacement = 65f;
+    float destinationYDisplacement = 45f;
     float baseYDisplacement = 15f;
 
     Camera mainCamera;
     public float DamageValue;
     public Transform attachedTransform;
 
+    [HideInInspector]
+    public bool isHealing = false;
     Text text;
 
     void Awake()
@@ -24,7 +26,14 @@ public class FloatingDamageText : MonoBehaviour {
 
 	void Start () {
         StartCoroutine("CrawlAndFade");
-        text.text = "-" + DamageValue;
+        if (isHealing)
+        {
+            text.text = "+" + DamageValue;
+        }
+        else
+        {
+            text.text = "-" + DamageValue;
+        }
 	}
 
     IEnumerator CrawlAndFade()
@@ -32,19 +41,27 @@ public class FloatingDamageText : MonoBehaviour {
         float timeElapsed = 0f;
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        Color originalColor = text.color;
+        Color originalColor = Color.red;
+        if (isHealing)
+        {
+            originalColor = Color.green;
+        }
+
+        float initialY = transform.position.y;
+        Vector3 initialWorldPosition = attachedTransform.position;
 
         while (timeElapsed < timeToComplete)
         {
             timeElapsed += Time.deltaTime;
             float percentageComplete = timeElapsed / timeToComplete;
 
-            Vector3 basePosition = mainCamera.WorldToScreenPoint(attachedTransform.position);
-            basePosition.y += baseYDisplacement;
-            Vector3 destinationPosition = basePosition;
+            Vector3 initialScreenPosition = mainCamera.WorldToScreenPoint(initialWorldPosition);
+            Vector3 destinationPosition = initialScreenPosition;
+
+            initialScreenPosition.y += baseYDisplacement;
             destinationPosition.y += destinationYDisplacement;
 
-            rectTransform.position = Vector3.Lerp(basePosition, destinationPosition, percentageComplete);
+            rectTransform.position = Vector3.Lerp(initialScreenPosition, destinationPosition, percentageComplete);
             text.color = new Color(originalColor.r, originalColor.g, originalColor.b, Mathf.Lerp(originalColor.a, 0f, percentageComplete));
             yield return null;
         }
