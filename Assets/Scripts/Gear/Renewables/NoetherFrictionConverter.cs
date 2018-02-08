@@ -7,7 +7,7 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
     MobileEntityHealthComponent healthComponent;
     bool isActive = false;
 
-    float healAmount = 40.0f;
+    float healAmount = 20.0f;
     float cooldown = 12.0f;
     float duration = 4f;
     float cooldownCutFraction = 0.75f;
@@ -53,7 +53,6 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
         else if (isActive)
         {
             isActive = false;
-            Debug.Log("NFC off!");
         }
     }
 
@@ -64,7 +63,6 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
             isActive = true;
             currentCooldown = cooldown;
             durationRemaining = duration;
-            Debug.Log("NFC on!");
         };
     }
 
