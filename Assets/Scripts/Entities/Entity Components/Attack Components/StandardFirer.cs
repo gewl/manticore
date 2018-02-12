@@ -6,7 +6,6 @@ public class StandardFirer : EntityComponent {
 
     [SerializeField]
     Transform bulletsParent;
-    [SerializeField]
     Transform firer;
 
     RangedEntityData _standardFirerData;
@@ -46,6 +45,12 @@ public class StandardFirer : EntityComponent {
     float maximumWarmUpNoiseModifier = 3f;
     float timeAggroed;
     float timeWarmedUp;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        firer = transform.FindChildByRecursive("Firer");
+    }
 
     protected override void OnEnable()
     {

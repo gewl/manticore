@@ -51,7 +51,7 @@ public class CubeCombatAIComponent : EntityComponent {
     {
         base.Awake();
 
-        firer = transform.Find(FIRER_ID);
+        firer = transform.FindChildByRecursive(FIRER_ID);
         if (firer == null)
         {
             Debug.LogError("Firer not found in " + gameObject.name);
@@ -123,6 +123,7 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void OnWaypointReached()
     {
+        Debug.Log("Wayponit reached");
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
         isChasing = false;
 
@@ -150,31 +151,34 @@ public class CubeCombatAIComponent : EntityComponent {
     {
         currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
 
-        if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f) 
-        {
-            Vector3 nextWaypoint = currentTarget.position;
-            nextWaypoint.y = transform.position.y;
-            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-            float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        }
-        else if (isChasing)
-        {
-            Vector3 nextWaypoint = GenerateChaseMovementPosition();
-            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-            float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        }
-        else
-        {
-            Vector3 nextWaypoint = GenerateCombatMovementPosition();
-            float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-            float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
-            entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-            entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        }
+        //if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f)
+        //{
+        //    Vector3 nextWaypoint = currentTarget.position;
+        //    nextWaypoint.y = transform.position.y;
+        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
+        //    float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
+        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+        //}
+        //else if (isChasing)
+        //{
+        //    Vector3 nextWaypoint = GenerateChaseMovementPosition();
+        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
+        //    float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
+        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+        //}
+        //else
+        //{
+        //    Vector3 nextWaypoint = GenerateCombatMovementPosition();
+        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
+        //    float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
+        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
+        //}
+
+        Vector3 nextWaypoint = new Vector3(UnityEngine.Random.RandomRange(-10f, 10f), 0f, UnityEngine.Random.RandomRange(-10f, 10f));
+        entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
     }

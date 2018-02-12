@@ -1,68 +1,76 @@
 fileFormatVersion: 2
-guid: 83ad0fc977f561a4887267d573ebe35c
-timeCreated: 1518108872
+guid: e9ddb78b082b5024dad0506eca4504ab
+timeCreated: 1518476115
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Arm_1_L
-    100004: Arm_1_R
-    100006: Arm_2_L
-    100008: Arm_2_R
-    100010: Arm_3_L
-    100012: Arm_3_R
-    100014: Arm_4_L
-    100016: Arm_4_R
-    100018: Armature
-    100020: Body
-    100022: Firer
-    100024: FootBone_Left
-    100026: FootBone_Right
-    100028: Head
-    100030: Head_0
-    100032: LegBone_LowerLeft
-    100034: LegBone_LowerRight
-    100036: LegBone_UpperLeft
-    100038: LegBone_UpperRight
-    100040: ShooterBot
-    100042: Root
-    400000: //RootNode
-    400002: Arm_1_L
-    400004: Arm_1_R
-    400006: Arm_2_L
-    400008: Arm_2_R
-    400010: Arm_3_L
-    400012: Arm_3_R
-    400014: Arm_4_L
-    400016: Arm_4_R
-    400018: Armature
-    400020: Body
-    400022: Firer
-    400024: FootBone_Left
-    400026: FootBone_Right
-    400028: Head
-    400030: Head_0
-    400032: LegBone_LowerLeft
-    400034: LegBone_LowerRight
-    400036: LegBone_UpperLeft
-    400038: LegBone_UpperRight
-    400040: ShooterBot
-    400042: Root
-    2100000: unnamed
-    2100002: Material
-    2100004: Material__ShooterBot_DefaultTex
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Sphere
-    4300002: ShooterBot
-    4300004: Head
-    4300006: Firer
-    7400000: Default Take
-    7400002: IdleCycle
-    7400004: RunCycle
-    7400006: RunCycle_001
-    7400008: FullRunCycle
+    100000: Arm_1.L
+    100002: Arm_1.R
+    100004: Arm_2.L
+    100006: Arm_2.R
+    100008: Arm_3.L
+    100010: Arm_3.R
+    100012: Arm_4.L
+    100014: Arm_4.L_end
+    100016: Arm_4.R
+    100018: Arm_4.R_end
+    100020: Armature
+    100022: Body
+    100024: Firer
+    100026: FootBone_Left
+    100028: FootBone_Left_end
+    100030: FootBone_Right
+    100032: FootBone_Right_end
+    100034: Head
+    100036: Head 1
+    100038: Head_end
+    100040: LegBone_LowerLeft
+    100042: LegBone_LowerLeft_end
+    100044: LegBone_LowerRight
+    100046: LegBone_LowerRight_end
+    100048: LegBone_UpperLeft
+    100050: LegBone_UpperRight
+    100052: Root
+    100054: ShooterBot
+    100056: //RootNode
+    400000: Arm_1.L
+    400002: Arm_1.R
+    400004: Arm_2.L
+    400006: Arm_2.R
+    400008: Arm_3.L
+    400010: Arm_3.R
+    400012: Arm_4.L
+    400014: Arm_4.L_end
+    400016: Arm_4.R
+    400018: Arm_4.R_end
+    400020: Armature
+    400022: Body
+    400024: Firer
+    400026: FootBone_Left
+    400028: FootBone_Left_end
+    400030: FootBone_Right
+    400032: FootBone_Right_end
+    400034: Head
+    400036: Head 1
+    400038: Head_end
+    400040: LegBone_LowerLeft
+    400042: LegBone_LowerLeft_end
+    400044: LegBone_LowerRight
+    400046: LegBone_LowerRight_end
+    400048: LegBone_UpperLeft
+    400050: LegBone_UpperRight
+    400052: Root
+    400054: ShooterBot
+    400056: //RootNode
+    2100000: Material
+    4300000: ShooterBot
+    4300002: Head
+    4300004: Firer
+    7400000: Armature|FullRunCycle
+    7400002: Armature|IdleCycle
+    7400004: Armature|IdleCycle
+    7400006: Armature|IdleCycle
     9500000: //RootNode
     13700000: Firer
     13700002: Head
@@ -95,10 +103,38 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: FullRunCycle
-      takeName: FullRunCycle
-      firstFrame: -1
-      lastFrame: 30
+      name: Armature|FullRunCycle
+      takeName: Armature|FullRunCycle
+      firstFrame: 0
+      lastFrame: 31
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|IdleCycle
+      takeName: Armature|IdleCycle
+      firstFrame: 0
+      lastFrame: 145
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -122,38 +158,10 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: IdleCycle
-      takeName: IdleCycle
-      firstFrame: 0
-      lastFrame: 144
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
     importVisibility: 0
@@ -166,7 +174,7 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 0
-    preserveHierarchy: 1
+    preserveHierarchy: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001

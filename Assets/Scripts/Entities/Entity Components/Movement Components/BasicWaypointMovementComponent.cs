@@ -82,12 +82,14 @@ public class BasicWaypointMovementComponent : EntityComponent {
         {
             animator.SetBool("isMoving", true);
         }
+        Debug.Log("OnMove");
         isMoving = true;
         currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
     }
 
     void OnStop()
     {
+        Debug.Log("OnStop");
         if (animator != null)
         {
             animator.SetBool("isMoving", false);

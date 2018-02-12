@@ -31,8 +31,9 @@ public class BasicPatrolComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
 
-		GenerateAndMoveToWaypoint();
+		//GenerateAndMoveToWaypoint();
     }
 
     protected override void Unsubscribe()
@@ -43,6 +44,12 @@ public class BasicPatrolComponent : EntityComponent {
 	}
 
     #region EntityEvent handlers
+
+    void OnUpdate()
+    {
+        Invoke("GenerateAndMoveToWaypoint", pauseTimer);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.LateUpdate, OnUpdate);
+    }
 
     void OnAggro()
     {
@@ -80,6 +87,7 @@ public class BasicPatrolComponent : EntityComponent {
     // To be used with Invoke in OnWaypointReached for pause effect before moving again.
     void GenerateAndMoveToWaypoint()
     {
+        Debug.Log("GenerateAndMoveToWaypoint");
         SetNewWaypoint();
         float adjustedMoveSpeed = BaseMoveSpeed * patrolMoveSpeedModifier;
         entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
