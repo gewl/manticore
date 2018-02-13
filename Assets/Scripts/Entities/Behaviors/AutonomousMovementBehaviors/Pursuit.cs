@@ -43,10 +43,10 @@ public class Pursuit : AutonomousMovementBehavior {
         Vector3 targetVelocity = targetRigidbody.velocity;
 
         Vector3 toTarget = (targetPosition - agentPosition);
-        if (Vector3.Dot(toTarget, movementComponent.transform.forward) > 0 && Vector3.Dot(movementComponent.transform.forward, target.forward) < -0.95f)
-        {
-            return seek.CalculateForce(movementComponent);
-        }
+        //if (Vector3.Dot(toTarget, movementComponent.transform.forward) > 0 && Vector3.Dot(movementComponent.transform.forward, target.forward) < -0.95f)
+        //{
+        //    return seek.CalculateForce(movementComponent);
+        //}
 
         float movementProjectionTime = toTarget.magnitude / (movementComponent.maxSpeed + targetVelocity.magnitude);
 

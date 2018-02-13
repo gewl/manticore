@@ -110,6 +110,7 @@ public class AutonomousMovementComponent : EntityComponent {
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
+    Animator animator;
 
     bool isOnARamp;
     int groundedCount = 0;
@@ -118,6 +119,7 @@ public class AutonomousMovementComponent : EntityComponent {
     {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
 
         activeMovementBehaviors = new List<AutonomousMovementBehavior>();
 
@@ -131,7 +133,7 @@ public class AutonomousMovementComponent : EntityComponent {
 
     protected void Start()
     {
-        entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
+        //entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
     }
 
     protected override void Subscribe()
@@ -198,6 +200,16 @@ public class AutonomousMovementComponent : EntityComponent {
         }
 
         accumulatedForce.y = 0f;
+
+        //TODO: Move animation handling to its own component
+        if (animator != null && Math.Abs(accumulatedForce.x) > 0f && Math.Abs(accumulatedForce.x) > 0f)
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
 
         entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
         entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);

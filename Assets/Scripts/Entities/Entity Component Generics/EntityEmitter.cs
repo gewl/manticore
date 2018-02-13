@@ -38,6 +38,11 @@ public class EntityEmitter : MonoBehaviour {
         EmitEvent(EntityEvents.FixedUpdate);
     }
 
+    private void LateUpdate()
+    {
+        EmitEvent(EntityEvents.LateUpdate);
+    }
+
     public void SubscribeToEvent(string entityEvent, UnityAction listener)
     {
         if (!eventSubscriptions.ContainsKey(entityEvent))

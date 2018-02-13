@@ -64,7 +64,7 @@ public class ParryHardware : EntityComponent, IHardware {
     override protected void Awake()
     {
         base.Awake();
-        parryBox = transform.Find(PARRY_BOX_NAME).gameObject;
+        parryBox = transform.FindChildByRecursive(PARRY_BOX_NAME).gameObject;
 
 		parryReadyPosition = parryBox.transform.localPosition;
 		parryReadyRotation = parryBox.transform.localRotation;

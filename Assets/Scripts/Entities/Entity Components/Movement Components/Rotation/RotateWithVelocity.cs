@@ -8,7 +8,7 @@ public class RotateWithVelocity : EntityComponent {
     [SerializeField]
     bool isSmoothing = true;
     [SerializeField]
-    int valuesToSmooth = 5;
+    int velocitiesToCache = 5;
 
     int nextUpdateSlot;
     Vector3[] cachedVelocities;
@@ -17,7 +17,7 @@ public class RotateWithVelocity : EntityComponent {
     {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
-        cachedVelocities = new Vector3[valuesToSmooth];
+        cachedVelocities = new Vector3[velocitiesToCache];
 
         for (int i = 0; i < cachedVelocities.Length; i++)
         {
@@ -62,12 +62,12 @@ public class RotateWithVelocity : EntityComponent {
 
         Vector3 averagedVelocity = Vector3.zero;
 
-        for (int i = 0; i < valuesToSmooth; i++)
+        for (int i = 0; i < velocitiesToCache; i++)
         {
             averagedVelocity += cachedVelocities[i];
         }
 
         averagedVelocity.y = 0f;
-        return averagedVelocity / valuesToSmooth;
+        return averagedVelocity / velocitiesToCache;
     }
 }
