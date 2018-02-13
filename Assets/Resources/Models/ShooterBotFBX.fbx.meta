@@ -64,6 +64,12 @@ ModelImporter:
     400054: ShooterBot
     400056: //RootNode
     2100000: Material
+    2300000: Firer
+    2300002: Head
+    2300004: ShooterBot
+    3300000: Firer
+    3300002: Head
+    3300004: ShooterBot
     4300000: ShooterBot
     4300002: Head
     4300004: Firer
@@ -72,7 +78,10 @@ ModelImporter:
     7400004: Armature|IdleCycle
     7400006: Armature|IdleCycle
     7400008: WalkCycle
+    7400010: Armature|0.IdleCycle
+    7400012: Armature|1.WalkCycle
     9500000: //RootNode
+    11100000: //RootNode
     13700000: Firer
     13700002: Head
     13700004: ShooterBot
@@ -95,7 +104,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -104,11 +113,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IdleCycle
-      takeName: Armature|IdleCycle
+      name: Armature|0.IdleCycle
+      takeName: Armature|0.IdleCycle
       firstFrame: 0
       lastFrame: 145
-      wrapMode: 0
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -132,8 +141,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: WalkCycle
-      takeName: Armature|WalkCycle
+      name: Armature|1.WalkCycle
+      takeName: Armature|1.WalkCycle
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -143,10 +152,10 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -200,10 +209,10 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Root
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2

@@ -15,11 +15,31 @@ public class TankRotation : EntityComponent {
     int nextUpdateSlot;
     Vector3[] cachedVelocities;
 
+    RangedEntityData _rangedEntityData;
+    RangedEntityData rangedEntityData
+    {
+        get
+        {
+            if (_rangedEntityData == null)
+            {
+                _rangedEntityData = entityInformation.Data as RangedEntityData;
+            }
+
+            return _rangedEntityData;
+        }
+    }
+
+    float RotationStrength { get { return rangedEntityData.RotationStrength; } }
+
     [Header("Head Rotation")]
     [SerializeField]
     Transform headBone;
     [SerializeField]
     Transform currentTarget;
+
+    float headRotationXOffset, headRotationYOffset, headRotationZOffset;
+
+    float lastCachedHeadAngle;
 
     protected override void Awake()
     {
@@ -27,6 +47,11 @@ public class TankRotation : EntityComponent {
         entityRigidbody = GetComponent<Rigidbody>();
 
         cachedVelocities = new Vector3[velocitiesToCache];
+
+        Vector3 headBoneRotation = headBone.transform.rotation.eulerAngles;
+        headRotationXOffset = headBoneRotation.x;
+        headRotationYOffset = headBoneRotation.y;
+        headRotationZOffset = headBoneRotation.z;
 
         for (int i = 0; i < velocitiesToCache; i++)
         {
@@ -133,11 +158,39 @@ public class TankRotation : EntityComponent {
             {
                 angleToTarget = -angleToTarget;
             }
-            Debug.Log(angleToTarget);
         }
 
         Vector3 currentRotation = transform.rotation.eulerAngles;
-        Debug.Log(transform.rotation.x);
-        headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, angleToTarget - 180f, currentRotation.z);
+
+        float str = Mathf.Min(RotationStrength * Time.deltaTime, 1);
+        float updatedRotation = Mathf.Lerp(lastCachedHeadAngle, angleToTarget - 180f, str);
+        lastCachedHeadAngle = updatedRotation;
+
+        // TODO: Hardcoded values here to deal w/ weirdness across Unity/Blender axis systems;
+        // could see this causing problems w/ different coordinate paradigms in the future.
+        headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedRotation + 90f);
+
     }
+
+    //void Rotate()
+    //{
+    //    Vector3 lookPosition;
+    //    if (currentTarget != null)
+    //    {
+    //        lookPosition = currentTarget.position;
+    //    }
+    //    else
+    //    {
+    //        lookPosition = transform.forward;
+    //    }
+    //    lookPosition.y = transform.position.y;
+    //    Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
+    //    //targetRotation.x += headRotationXOffset;
+    //    //targetRotation.y += headRotationYOffset;
+    //    //targetRotation.z += headRotationZOffset;
+    //    float str = Mathf.Min(RotationStrength * Time.deltaTime, 1);
+
+    //    headBone.transform.rotation = Quaternion.Lerp(lastCachedHeadAngle, targetRotation, str);
+    //    lastCachedHeadAngle = headBone.transform.rotation;
+    //}
 }

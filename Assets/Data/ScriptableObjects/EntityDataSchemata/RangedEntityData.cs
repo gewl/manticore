@@ -13,4 +13,5 @@ public class RangedEntityData : EntityData {
     public float AimNoiseInDegrees = 2f;
     public Transform Projectile;
     public int NumberOfProjectiles = 1;
+    public float RotationStrength = 3f;
 }

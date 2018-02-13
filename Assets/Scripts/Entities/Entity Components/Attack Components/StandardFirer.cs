@@ -7,6 +7,8 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     Transform bulletsParent;
     Transform firer;
+    [SerializeField]
+    Transform spawnPoint;
 
     RangedEntityData _standardFirerData;
     RangedEntityData standardFirerData
@@ -50,6 +52,12 @@ public class StandardFirer : EntityComponent {
     {
         base.Awake();
         firer = transform.FindChildByRecursive("Firer");
+
+        if (spawnPoint == null)
+        {
+            spawnPoint = firer.transform;
+        }
+        spawnPoint.position = new Vector3(spawnPoint.position.x, 0f, spawnPoint.position.z);
     }
 
     protected override void OnEnable()
@@ -139,7 +147,7 @@ public class StandardFirer : EntityComponent {
         relativePos.y = 0f;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
-        Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
+        Transform createdBullet = Object.Instantiate(projectile, spawnPoint.position, rotation);
         BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();
         bulletController.strength = projectileStrength;
         bulletController.targetPosition = relativePos;

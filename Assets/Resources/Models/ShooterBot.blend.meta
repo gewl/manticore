@@ -53,7 +53,9 @@ ModelImporter:
     2100002: Material
     2100004: Material__ShooterBot_DefaultTex
     2300000: //RootNode
+    2300002: ShooterBot
     3300000: //RootNode
+    3300002: ShooterBot
     4300000: Sphere
     4300002: ShooterBot
     4300004: Head
