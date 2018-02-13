@@ -37,8 +37,6 @@ public class TankRotation : EntityComponent {
     [SerializeField]
     Transform currentTarget;
 
-    float headRotationXOffset, headRotationYOffset, headRotationZOffset;
-
     float lastCachedHeadAngle;
 
     protected override void Awake()
@@ -47,11 +45,6 @@ public class TankRotation : EntityComponent {
         entityRigidbody = GetComponent<Rigidbody>();
 
         cachedVelocities = new Vector3[velocitiesToCache];
-
-        Vector3 headBoneRotation = headBone.transform.rotation.eulerAngles;
-        headRotationXOffset = headBoneRotation.x;
-        headRotationYOffset = headBoneRotation.y;
-        headRotationZOffset = headBoneRotation.z;
 
         for (int i = 0; i < velocitiesToCache; i++)
         {
@@ -150,47 +143,42 @@ public class TankRotation : EntityComponent {
         if (currentTarget != null)
         {
             Vector3 currentForward = transform.forward;
-            angleToTarget = Vector3.Angle(currentForward, currentTarget.position - transform.position);
+            angleToTarget = AngleSigned(currentForward, currentTarget.position - transform.position, Vector3.up);
 
-            Vector3 cross = Vector3.Cross(currentForward, currentTarget.position - transform.position);
-
-            if (cross.y < 0)
-            {
-                angleToTarget = -angleToTarget;
-            }
+            angleToTarget += 180f;
         }
 
         Vector3 currentRotation = transform.rotation.eulerAngles;
 
-        float str = Mathf.Min(RotationStrength * Time.deltaTime, 1);
-        float updatedRotation = Mathf.Lerp(lastCachedHeadAngle, angleToTarget - 180f, str);
-        lastCachedHeadAngle = updatedRotation;
+        float str = Mathf.Min(RotationStrength * Time.deltaTime, 1f);
+
+        // Without this, the head's rotation always takes "the long way around" when the
+        // target passes behind the entity containing this component.
+        if (Mathf.Abs(lastCachedHeadAngle - angleToTarget) > 180f)
+        {
+            if (lastCachedHeadAngle > 180f)
+            {
+                lastCachedHeadAngle -= 360f;
+            } 
+            else
+            {
+                angleToTarget -= 360f;
+            }
+        }
+
+        float updatedZAngle = Mathf.Lerp(lastCachedHeadAngle, angleToTarget, str);
+
+        lastCachedHeadAngle = updatedZAngle;
 
         // TODO: Hardcoded values here to deal w/ weirdness across Unity/Blender axis systems;
         // could see this causing problems w/ different coordinate paradigms in the future.
-        headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedRotation + 90f);
-
+        headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedZAngle + 90f);
     }
 
-    //void Rotate()
-    //{
-    //    Vector3 lookPosition;
-    //    if (currentTarget != null)
-    //    {
-    //        lookPosition = currentTarget.position;
-    //    }
-    //    else
-    //    {
-    //        lookPosition = transform.forward;
-    //    }
-    //    lookPosition.y = transform.position.y;
-    //    Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
-    //    //targetRotation.x += headRotationXOffset;
-    //    //targetRotation.y += headRotationYOffset;
-    //    //targetRotation.z += headRotationZOffset;
-    //    float str = Mathf.Min(RotationStrength * Time.deltaTime, 1);
-
-    //    headBone.transform.rotation = Quaternion.Lerp(lastCachedHeadAngle, targetRotation, str);
-    //    lastCachedHeadAngle = headBone.transform.rotation;
-    //}
+    public static float AngleSigned(Vector3 v1, Vector3 v2, Vector3 n)
+    {
+        return Mathf.Atan2(
+            Vector3.Dot(n, Vector3.Cross(v1, v2)),
+            Vector3.Dot(v1, v2)) * Mathf.Rad2Deg;
+    }
 }
