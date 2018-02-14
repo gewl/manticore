@@ -1706,6 +1706,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  headBone: {fileID: 0}
 --- !u!1 &292899503
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,19 +3155,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.10279255
+      value: -0.113376625
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9947028
+      value: 0.9935521
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_RootOrder
@@ -3282,7 +3283,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -11.8
+      value: -13.02
       objectReference: {fileID: 0}
     - target: {fileID: 400036, guid: e9ddb78b082b5024dad0506eca4504ab, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3871,6 +3872,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  headBone: {fileID: 0}
 --- !u!114 &622498958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5124,6 +5126,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  headBone: {fileID: 0}
 --- !u!114 &750734565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7385,7 +7388,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  movementBehaviors: 05000000
+  movementBehaviors: 
   maximumSteeringForce: 5
   maxSpeed: 5
   Clumsiness: 3
@@ -7525,6 +7528,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  headBone: {fileID: 1767812277}
 --- !u!114 &1056705392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11894,7 +11898,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734111140}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2712fc376931d874c94f0867eb13c21e, type: 3}
   m_Name: 
@@ -13736,6 +13740,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  headBone: {fileID: 0}
 --- !u!82 &1981452783
 AudioSource:
   m_ObjectHideFlags: 0

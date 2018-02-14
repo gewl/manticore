@@ -175,7 +175,8 @@ public class TankRotation : EntityComponent {
         headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedZAngle + 90f);
     }
 
-    public static float AngleSigned(Vector3 v1, Vector3 v2, Vector3 n)
+    // TODO: Put this in math lib
+    public float AngleSigned(Vector3 v1, Vector3 v2, Vector3 n)
     {
         return Mathf.Atan2(
             Vector3.Dot(n, Vector3.Cross(v1, v2)),

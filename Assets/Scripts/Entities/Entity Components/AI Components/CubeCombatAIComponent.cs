@@ -23,9 +23,9 @@ public class CubeCombatAIComponent : EntityComponent {
         }
     }
 
-    float fireCooldown { get { return entityData.FireCooldown; } }
-    float arcOfFire { get { return entityData.ArcOfFire; } }
-    float attackRange { get { return entityData.AttackRange; } }
+    float FireCooldown { get { return entityData.FireCooldown; } }
+    float ArcOfFire { get { return entityData.ArcOfFire; } }
+    float AttackRange { get { return entityData.AttackRange; } }
 
     [SerializeField]
     float combatMoveSpeedModifier = 1f;
@@ -43,6 +43,8 @@ public class CubeCombatAIComponent : EntityComponent {
     AnimationCurve gunHeatCurve;
 
     const string FIRER_ID = "Firer";
+    [SerializeField]
+    Transform headBone;
     Transform firer;
     Renderer firerRenderer;
     Color firerOriginalSkin;
@@ -85,18 +87,20 @@ public class CubeCombatAIComponent : EntityComponent {
 
     void OnUpdate()
     {
-        if (timeElapsedSinceLastFire < fireCooldown)
+        if (timeElapsedSinceLastFire < FireCooldown)
         {
             timeElapsedSinceLastFire += Time.deltaTime;
 
-            float percentageComplete = timeElapsedSinceLastFire / fireCooldown;
+            float percentageComplete = timeElapsedSinceLastFire / FireCooldown;
             firerRenderer.material.color = Color.Lerp(firerOriginalSkin, Color.red, gunHeatCurve.Evaluate(percentageComplete));
         }
         else
         {
-            TryToFirePrimary();
-            timeElapsedSinceLastFire = 0f;
-            firerRenderer.material.color = firerOriginalSkin;
+            if (CanFirePrimary())
+            {
+                timeElapsedSinceLastFire = 0f;
+                firerRenderer.material.color = firerOriginalSkin;
+            }
         }
 
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
@@ -134,16 +138,24 @@ public class CubeCombatAIComponent : EntityComponent {
 
     #region discrete functions to offload event listeners
 
-    void TryToFirePrimary()
+    bool CanFirePrimary()
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
+        float firerFacingAngle = headBone.localRotation.eulerAngles.y - 180f;
 
-        if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
+        float angleBetweenFirerAndTarget = (angleToTarget - Mathf.Abs(firerFacingAngle));
+
+        if (Mathf.Abs(angleBetweenFirerAndTarget) <= ArcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
-            timeElapsedSinceLastFire = fireCooldown; 
+            timeElapsedSinceLastFire = FireCooldown;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -192,7 +204,7 @@ public class CubeCombatAIComponent : EntityComponent {
     {
         currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 toTarget = currentTarget.position - transform.position;
-        Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), attackRange * 2 / 3);
+        Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), AttackRange * 2 / 3);
 
         Vector3 chaseWaypoint = toTarget + clampedFromTarget;
         chaseWaypoint.y = transform.position.y;
@@ -204,7 +216,7 @@ public class CubeCombatAIComponent : EntityComponent {
     {
         float squaredDistanceToTarget = (target.position - transform.position).sqrMagnitude;
 
-        if (squaredDistanceToTarget >= attackRange * attackRange)
+        if (squaredDistanceToTarget >= AttackRange * AttackRange)
         {
             return false;
         }
