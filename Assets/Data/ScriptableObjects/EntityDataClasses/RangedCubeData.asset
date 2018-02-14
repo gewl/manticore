@@ -26,3 +26,4 @@ MonoBehaviour:
   AimNoiseInDegrees: 2
   Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   NumberOfProjectiles: 1
+  RotationStrength: 2

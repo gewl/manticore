@@ -202,11 +202,11 @@ public class AutonomousMovementComponent : EntityComponent {
         accumulatedForce.y = 0f;
 
         //TODO: Move animation handling to its own component
-        if (animator != null && Math.Abs(accumulatedForce.x) > 0f && Math.Abs(accumulatedForce.x) > 0f)
+        if (animator != null && Math.Abs(accumulatedForce.x) > 0f && Math.Abs(accumulatedForce.x) > 0f && !animator.GetBool("isMoving"))
         {
             animator.SetBool("isMoving", true);
         }
-        else
+        else if (Math.Abs(accumulatedForce.x)  == 0f)
         {
             animator.SetBool("isMoving", false);
         }

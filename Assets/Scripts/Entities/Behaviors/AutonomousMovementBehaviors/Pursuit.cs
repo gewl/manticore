@@ -7,6 +7,22 @@ public class Pursuit : AutonomousMovementBehavior {
     Transform target;
     Rigidbody targetRigidbody;
 
+    Vector3[] _cachedPositions;
+    Vector3[] CachedPositions
+    {
+        get
+        {
+            if (_cachedPositions == null)
+            {
+                _cachedPositions = new Vector3[positionsToCache];
+            }
+
+            return _cachedPositions;
+        }
+    }
+    int positionsToCache = 40;
+    int nextUpdateIndex;
+
     Seek _seek;
     Seek seek
     {
@@ -50,9 +66,27 @@ public class Pursuit : AutonomousMovementBehavior {
 
         float movementProjectionTime = toTarget.magnitude / (movementComponent.maxSpeed + targetVelocity.magnitude);
 
-        Vector3 updatedTargetPosition = targetPosition + (targetVelocity * movementProjectionTime);
+        Vector3 updatedTargetPosition = SmoothTargetPosition(targetPosition + (targetVelocity * movementProjectionTime));
 
         return seek.SeekToPosition(agentPosition, updatedTargetPosition, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
+    }
+
+    Vector3 SmoothTargetPosition(Vector3 newTargetPosition)
+    {
+        CachedPositions[nextUpdateIndex++] = newTargetPosition;
+
+        if (nextUpdateIndex == positionsToCache)
+        {
+            nextUpdateIndex = 0;
+        }
+
+        Vector3 averagedPosition = Vector3.zero;
+        for (int i = 0; i < positionsToCache; i++)
+        {
+            averagedPosition += CachedPositions[i];
+        }
+
+        return averagedPosition / positionsToCache;
     }
 
 }

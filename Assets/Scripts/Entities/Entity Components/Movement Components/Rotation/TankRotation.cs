@@ -91,13 +91,13 @@ public class TankRotation : EntityComponent {
     void BeginFunctioning()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
-        entityEmitter.SubscribeToEvent(EntityEvents.LateUpdate, OnLateUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.LateUpdate, CalculateHeadRotation);
     }
 
     void StopFunctioning()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.LateUpdate, OnLateUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.LateUpdate, CalculateHeadRotation);
     }
 
     void OnFixedUpdate()
@@ -137,16 +137,18 @@ public class TankRotation : EntityComponent {
         return averagedVelocity / velocitiesToCache;
     }
 
-    void OnLateUpdate()
+    void CalculateHeadRotation()
     {
-        float angleToTarget = 0f;
-        if (currentTarget != null)
+        if (currentTarget == null)
         {
-            Vector3 currentForward = transform.forward;
-            angleToTarget = AngleSigned(currentForward, currentTarget.position - transform.position, Vector3.up);
-
-            angleToTarget += 180f;
+            return;
         }
+
+        float angleToTarget = 0f;
+        Vector3 currentForward = transform.forward;
+        angleToTarget = AngleSigned(currentForward, currentTarget.position - transform.position, Vector3.up);
+
+        angleToTarget += 180f;
 
         Vector3 currentRotation = transform.rotation.eulerAngles;
 

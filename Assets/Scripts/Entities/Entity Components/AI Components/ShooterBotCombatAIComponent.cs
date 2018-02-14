@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeCombatAIComponent : EntityComponent {
+public class ShooterBotCombatAIComponent : EntityComponent {
 
     bool isAggroed = false;
     bool isFunctioning = false;
