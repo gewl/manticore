@@ -55,9 +55,13 @@ public class AutonomousMovementComponent : EntityComponent {
     float wanderJitter = 0.5f;
     public float WanderJitter { get { return wanderJitter; } }
 
+    #region Serialized fields for individual behaviors
     [Header("Path Following Configuration")]
     [OdinSerialize, HideInInspector]
     public List<Transform> PathNodes;
+    [HideInInspector]
+    public float pauseBetweenPathLegs = 0.5f;
+
 
     [Header("Interpose Configuration")]
     [HideInInspector]
@@ -94,6 +98,8 @@ public class AutonomousMovementComponent : EntityComponent {
     [Header("Arrive Configuration")]
     [HideInInspector]
     public Transform ArriveTarget;
+    [HideInInspector]
+    public Vector3 ArriveLocation;
 
     [Header("Separation Configuration")]
     [HideInInspector]
@@ -106,6 +112,7 @@ public class AutonomousMovementComponent : EntityComponent {
     [Header("Cohesion Configuration")]
     [HideInInspector]
     public float CohesionRadius;
+    #endregion
 
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
@@ -115,20 +122,25 @@ public class AutonomousMovementComponent : EntityComponent {
     bool isOnARamp;
     int groundedCount = 0;
 
+    #region Lifecycle/component subscription functions
     protected override void Awake()
     {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        activeMovementBehaviors = new List<AutonomousMovementBehavior>();
+        GenerateNewActiveMovementBehaviorList();
+    }
 
-        for (int i = 0; i < movementBehaviors.Count; i++)
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
         {
-            AutonomousMovementBehavior behaviorToAdd = GetMovementBehaviorClass(movementBehaviors[i]);
-
-            activeMovementBehaviors.Add(behaviorToAdd);
+            Debug.Log("ding");
+            GenerateNewActiveMovementBehaviorList();
         }
+#endif
     }
 
     protected void Start()
@@ -165,7 +177,9 @@ public class AutonomousMovementComponent : EntityComponent {
 
         AccumulateForce();
     }
+    #endregion
 
+    #region List manipulation
     AutonomousMovementBehavior GetMovementBehaviorClass(MovementBehaviorTypes behaviorType)
     {
         string ns = typeof(MovementBehaviorTypes).Namespace;
@@ -174,6 +188,24 @@ public class AutonomousMovementComponent : EntityComponent {
 
         return (AutonomousMovementBehavior)Activator.CreateInstance(Type.GetType(typeName));
     }
+
+    void ClearMovementBehaviorList()
+    {
+        activeMovementBehaviors.Clear();
+    }
+
+    void GenerateNewActiveMovementBehaviorList()
+    {
+        activeMovementBehaviors = new List<AutonomousMovementBehavior>();
+
+        for (int i = 0; i < movementBehaviors.Count; i++)
+        {
+            AutonomousMovementBehavior behaviorToAdd = GetMovementBehaviorClass(movementBehaviors[i]);
+
+            activeMovementBehaviors.Add(behaviorToAdd);
+        }
+    }
+    #endregion
 
     void AccumulateForce()
     {
@@ -201,20 +233,30 @@ public class AutonomousMovementComponent : EntityComponent {
 
         accumulatedForce.y = 0f;
 
-        //TODO: Move animation handling to its own component
-        if (animator != null && Math.Abs(accumulatedForce.x) > 0f && Math.Abs(accumulatedForce.x) > 0f && !animator.GetBool("isMoving"))
-        {
-            animator.SetBool("isMoving", true);
-        }
-        else if (Math.Abs(accumulatedForce.x)  == 0f)
-        {
-            animator.SetBool("isMoving", false);
-        }
+        float accumulatedForceSqrMag = accumulatedForce.sqrMagnitude;
 
-        entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
-        entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);
+        //TODO: Move animation handling to its own component
+        if (accumulatedForceSqrMag > 0.02f)
+        {
+            entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
+            entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);
+
+            if (animator != null && !animator.GetBool("isMoving"))
+            {
+                animator.SetBool("isMoving", true);
+            }
+        }
+        else
+        {
+            entityRigidbody.velocity = Vector3.zero;
+            if (animator != null && animator.GetBool("isMoving"))
+            {
+                animator.SetBool("isMoving", false);
+            }
+        }
     }
 
+    #region Event Handlers
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Terrain"))
@@ -238,4 +280,5 @@ public class AutonomousMovementComponent : EntityComponent {
             isOnARamp = false;
         }
     }
+    #endregion  
 }

@@ -15,6 +15,11 @@ public class BasicBullet : MonoBehaviour {
     [SerializeField]
     float timeToDestroyDissolvingBullet = 2.0f;
 
+    [SerializeField]
+    float timeToFullSpeedOnParry = 0.3f;
+    [SerializeField]
+    float initialSpeedModifierOnParry = 0.5f;
+
     MeshRenderer meshRenderer;
     TrailRenderer trailRenderer;
     Rigidbody bulletRigidbody;
@@ -47,7 +52,8 @@ public class BasicBullet : MonoBehaviour {
         meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
-        bulletRigidbody.velocity = targetPosition.normalized * speed;
+        //bulletRigidbody.velocity = targetPosition.normalized * speed;
+        StartCoroutine(AccelerateBullet(targetPosition));
         UpdateSize();
 	}
 
@@ -152,12 +158,31 @@ public class BasicBullet : MonoBehaviour {
         gameObject.layer = 12;
         gameObject.tag = FRIENDLY_BULLET;
         speed *= speedModifier;
-        bulletRigidbody.velocity = (targetPosition - transform.position).normalized * speed;
+        StartCoroutine(AccelerateBullet(targetPosition));
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
         UpdateSize();
 	}
+
+    IEnumerator AccelerateBullet(Vector3 targetPosition)
+    {
+        float timeElapsed = 0.0f;
+        Vector3 velocityDirection = (targetPosition - transform.position).normalized;
+
+        while (timeElapsed < timeToFullSpeedOnParry)
+        {
+            timeElapsed += Time.deltaTime;
+            float percentageCompleted = timeElapsed / timeToFullSpeedOnParry;
+            float curvePoint = GameManager.BelovedSwingCurve.Evaluate(percentageCompleted);
+
+            float fractionOfTotalSpeed = Mathf.Lerp(initialSpeedModifierOnParry, 1.0f, curvePoint);
+
+            bulletRigidbody.velocity = velocityDirection * speed * fractionOfTotalSpeed;
+            yield return null;
+        }
+        bulletRigidbody.velocity = velocityDirection * speed;
+    }
 
     void UpdateSize()
     {

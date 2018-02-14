@@ -48,6 +48,8 @@ public class AutonomousMovementComponentEditor : OdinEditor {
             case AutonomousMovementComponent.MovementBehaviorTypes.Arrive:
                 SerializedProperty arriveTarget = serializedObject.FindProperty("ArriveTarget");
                 EditorGUILayout.PropertyField(arriveTarget);
+                SerializedProperty arriveLocation = serializedObject.FindProperty("ArriveLocation");
+                EditorGUILayout.PropertyField(arriveLocation);
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.Pursuit:
                 SerializedProperty pursuitTarget = serializedObject.FindProperty("PursuitTarget");
@@ -82,7 +84,7 @@ public class AutonomousMovementComponentEditor : OdinEditor {
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.PathFollowing:
                 SerializedProperty pathNodes = serializedObject.FindProperty("PathNodes");
-               EditorGUILayout.PropertyField(pathNodes);
+                EditorGUILayout.PropertyField(pathNodes);
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.OffsetPursuit:
                 SerializedProperty offsetPursuitTarget = serializedObject.FindProperty("OffsetPursuitTarget");

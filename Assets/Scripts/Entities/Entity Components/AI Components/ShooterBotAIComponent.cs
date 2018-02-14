@@ -3,11 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShooterBotCombatAIComponent : EntityComponent {
+public class ShooterBotAIComponent : EntityComponent {
+
+    AutonomousMovementComponent movementComponent;
 
     bool isAggroed = false;
-    bool isFunctioning = false;
     bool isChasing = false;
+
+    public List<Transform> patrolNodes;
+    public List<Vector3> patrolPositions;
+    int currentPatrolPositionIndex = 0;
+    bool reachedNewPatrolPoint = false;
+
+    [SerializeField]
+    float minPatrolPause;
+    [SerializeField]
+    float maxPatrolPause;
 
     RangedEntityData _entityData;
     RangedEntityData entityData
@@ -53,6 +64,18 @@ public class ShooterBotCombatAIComponent : EntityComponent {
     {
         base.Awake();
 
+        movementComponent = GetComponent<AutonomousMovementComponent>();
+
+        patrolPositions = new List<Vector3>
+        {
+            transform.position
+        };
+
+        for (int i = 0; i < patrolNodes.Count; i++)
+        {
+            patrolPositions.Add(patrolNodes[i].position);
+        }
+
         firer = transform.FindChildByRecursive(FIRER_ID);
         if (firer == null)
         {
@@ -64,28 +87,96 @@ public class ShooterBotCombatAIComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, BeginFunctioning);
+        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, Reconnect);
+
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stun, Disconnect);
+        entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
         if (isAggroed)
         {
-            BeginFunctioning();
+            OnAggro();
         }
         timeElapsedSinceLastFire = 0f;
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, BeginFunctioning);
-        if (isAggroed)
-        {
-            StopFunctioning();
-        }
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnAggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, Reconnect);
+
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, Disconnect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, Disconnect);
     }
+
+    #region Reused subscription bundles
+    void OnAggro()
+    {
+        isAggroed = true;
+    }
+
+    void OnDeaggro()
+    {
+        isAggroed = false;
+    }
+
+    void Reconnect()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void Disconnect()
+    {
+        CancelInvoke();
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
+    }
+    #endregion
 
     #region EntityEvent handlers
 
     void OnUpdate()
+    {
+        if (isAggroed)
+        {
+            AggroedUpdate();
+        }
+        else
+        {
+            UnaggroedUpdate();
+        }
+    }
+
+    void UnaggroedUpdate()
+    {
+        float distanceToPatrolNode = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
+        if (distanceToPatrolNode <= 0.5f && !reachedNewPatrolPoint)
+        {
+            float patrolPause = UnityEngine.Random.Range(minPatrolPause, maxPatrolPause);
+            reachedNewPatrolPoint = true;
+            Invoke("UpdatePatrolPosition", patrolPause);
+        }
+    }
+
+    void UpdatePatrolPosition()
+    {
+        currentPatrolPositionIndex++;
+
+        if (currentPatrolPositionIndex >= patrolPositions.Count)
+        {
+            currentPatrolPositionIndex = 0;
+        }
+
+        movementComponent.ArriveLocation = patrolPositions[currentPatrolPositionIndex];
+        reachedNewPatrolPoint = false;
+    }
+
+    void AggroedUpdate()
     {
         if (timeElapsedSinceLastFire < FireCooldown)
         {
@@ -117,12 +208,6 @@ public class ShooterBotCombatAIComponent : EntityComponent {
             isChasing = false;
             Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
         }
-    }
-
-    void OnDeaggro()
-    {
-        StopFunctioning();
-        isAggroed = false;
     }
 
     void OnWaypointReached()
@@ -228,41 +313,4 @@ public class ShooterBotCombatAIComponent : EntityComponent {
 
     #endregion
 
-    #region Reused subscription bundles
-    void BeginFunctioning()
-    {
-        if (!isAggroed)
-        {
-            isAggroed = true;
-        }
-        if (!isFunctioning)
-        {
-            isFunctioning = true;
-            entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
-            entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.SubscribeToEvent(EntityEvents.Stun, StopFunctioning);
-            entityEmitter.SubscribeToEvent(EntityEvents.Dead, StopFunctioning);
-
-            entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
-
-            GenerateAndSetWaypoint();
-        }
-    }
-     
-    void StopFunctioning()
-    {
-        CancelInvoke();
-        if (isFunctioning)
-        {
-            isFunctioning = false;
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, StopFunctioning);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, StopFunctioning);
-
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
-            entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-        }
-    }
-    #endregion
 }

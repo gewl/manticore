@@ -45,7 +45,7 @@ public class Evade : AutonomousMovementBehavior {
         Vector3 toTarget = (targetPosition - agentPosition);
         if (Vector3.Dot(toTarget, movementComponent.transform.forward) > 0 && Vector3.Dot(movementComponent.transform.forward, target.forward) < -0.95f)
         {
-            return flee.CalculateForce(movementComponent);
+            return flee.FleeFromPosition(agentPosition, targetPosition, movementComponent.maxSpeed, agentVelocity);
         }
 
         float movementProjectionTime = toTarget.magnitude / (movementComponent.maxSpeed + targetVelocity.magnitude);
