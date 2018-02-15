@@ -71,7 +71,7 @@ public class Cohesion : AutonomousMovementBehavior, ITriggerBasedMovementBehavio
 
         centerOfMass /= TaggedNeighbors.Count;
 
-        return seek.SeekToPosition(movementComponent.transform.position, centerOfMass, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
+        return seek.SeekToPosition(movementComponent.transform.position, centerOfMass, movementComponent.MaxSpeed, movementComponent.CurrentVelocity);
     }
 
     SphereCollider InitializeEntityTrigger(GameObject parentObject, float triggerRadius)

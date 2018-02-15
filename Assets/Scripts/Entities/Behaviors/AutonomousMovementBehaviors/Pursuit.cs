@@ -61,14 +61,14 @@ public class Pursuit : AutonomousMovementBehavior {
         Vector3 toTarget = (targetPosition - agentPosition);
         if (Vector3.Dot(toTarget, movementComponent.transform.forward) > 0 && Vector3.Dot(movementComponent.transform.forward, target.forward) < -0.95f)
         {
-            return seek.SeekToPosition(agentPosition, targetPosition, movementComponent.maxSpeed, agentVelocity);
+            return seek.SeekToPosition(agentPosition, targetPosition, movementComponent.MaxSpeed, agentVelocity);
         }
 
-        float movementProjectionTime = toTarget.magnitude / (movementComponent.maxSpeed + targetVelocity.magnitude);
+        float movementProjectionTime = toTarget.magnitude / (movementComponent.MaxSpeed + targetVelocity.magnitude);
 
         Vector3 updatedTargetPosition = SmoothTargetPosition(targetPosition + (targetVelocity * movementProjectionTime));
 
-        return seek.SeekToPosition(agentPosition, updatedTargetPosition, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
+        return seek.SeekToPosition(agentPosition, updatedTargetPosition, movementComponent.MaxSpeed, movementComponent.CurrentVelocity);
     }
 
     Vector3 SmoothTargetPosition(Vector3 newTargetPosition)

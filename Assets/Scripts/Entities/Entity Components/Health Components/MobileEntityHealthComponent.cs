@@ -14,9 +14,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     [SerializeField]
     Material deadSkin;
     [SerializeField]
-    Material flashSkin;
+    Material damageFlashMaterial;
     [SerializeField]
-    Material darkFlashSkin;
+    Material deathFlashMaterial;
 
     [SerializeField]
     Transform floatingDamageTextPrefab;
@@ -300,7 +300,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         for (int i = 0; i < renderersCount; i++)
         {
-            renderers[i].material = flashSkin;
+            renderers[i].material = damageFlashMaterial;
         }
 
         StartCoroutine("HandleDamage");
@@ -331,18 +331,12 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         Animator animator = GetComponent<Animator>();
 
-        if (animator != null)
-        {
-            animator.SetBool("isDead", true);
-            animator.enabled = false;
-        }
-
         // Initialize timer from set values
         currentDeathTimer = timeToDie;
 
         for (int i = 0; i < renderersCount; i++)
         {
-            renderers[i].material = darkFlashSkin;
+            renderers[i].material = deathFlashMaterial;
 
         }
 

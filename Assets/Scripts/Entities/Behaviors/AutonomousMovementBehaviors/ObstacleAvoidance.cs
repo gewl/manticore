@@ -42,7 +42,7 @@ public class ObstacleAvoidance : AutonomousMovementBehavior, ITriggerBasedMoveme
             obstacleAvoidanceTrigger = InitializeObstacleAvoidanceTrigger(movementComponent.gameObject);
         }
 
-        UpdateTriggerSize(movementComponent.EntityRigidbody.velocity.magnitude, movementComponent.maxSpeed, movementComponent.transform);
+        UpdateTriggerSize(movementComponent.EntityRigidbody.velocity.magnitude, movementComponent.MaxSpeed, movementComponent.transform);
 
         if (TaggedColliders.Count == 0)
         {

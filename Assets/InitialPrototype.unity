@@ -3088,6 +3088,7 @@ MonoBehaviour:
     SerializationNodes: []
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+  aggroClip: {fileID: 0}
 --- !u!114 &622498957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3164,8 +3165,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
-  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  damageFlashMaterial: {fileID: 0}
+  deathFlashMaterial: {fileID: 0}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
@@ -4256,6 +4257,7 @@ MonoBehaviour:
     SerializationNodes: []
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+  aggroClip: {fileID: 0}
 --- !u!114 &750734564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4332,8 +4334,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
-  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  damageFlashMaterial: {fileID: 0}
+  deathFlashMaterial: {fileID: 0}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
@@ -6553,6 +6555,7 @@ GameObject:
   - component: {fileID: 1056705393}
   - component: {fileID: 1056705395}
   - component: {fileID: 1056705394}
+  - component: {fileID: 1056705396}
   m_Layer: 11
   m_Name: ShooterBot
   m_TagString: EnemyBox
@@ -6654,9 +6657,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  movementBehaviors: 02000000
+  movementBehaviors: 00000000
   maximumSteeringForce: 0.5
-  maxSpeed: 4
   Clumsiness: 3
   wanderDistance: 4
   wanderRadius: 1
@@ -6666,6 +6668,7 @@ MonoBehaviour:
   PrimaryInterposeTarget: {fileID: 0}
   SecondaryInterposeTarget: {fileID: 0}
   SeekTarget: {fileID: 0}
+  SeekLocation: {x: 0, y: 0, z: 0}
   PursuitTarget: {fileID: 1369184821}
   OffsetPursuitTarget: {fileID: 0}
   PursuitOffset: {x: 0, y: 0, z: 0}
@@ -6848,8 +6851,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
-  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  damageFlashMaterial: {fileID: 0}
+  deathFlashMaterial: {fileID: 0}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
@@ -6877,6 +6880,7 @@ MonoBehaviour:
     SerializationNodes: []
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+  aggroClip: {fileID: 8300000, guid: a12f0e3ba4d4b004d81b230a9cdef85b, type: 3}
 --- !u!82 &1056705395
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6957,6 +6961,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &1056705396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056705381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6480ee3ff7d7c704f95cc6d7c46eef4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1 &1098611707
 GameObject:
   m_ObjectHideFlags: 0
@@ -8701,8 +8725,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
-  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  damageFlashMaterial: {fileID: 0}
+  deathFlashMaterial: {fileID: 0}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
@@ -13458,6 +13482,7 @@ MonoBehaviour:
     SerializationNodes: []
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
+  aggroClip: {fileID: 0}
 --- !u!114 &1981452785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13518,8 +13543,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  flashSkin: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
-  darkFlashSkin: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
+  damageFlashMaterial: {fileID: 0}
+  deathFlashMaterial: {fileID: 0}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,

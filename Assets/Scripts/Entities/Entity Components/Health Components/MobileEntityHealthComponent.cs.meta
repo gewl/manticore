@@ -1,10 +1,20 @@
 fileFormatVersion: 2
 guid: 5d4602053b9ea234c924d1ebc8fc2c4c
-timeCreated: 1505150371
+timeCreated: 1518717060
 licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
+  - damageFlashMaterial: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f,
+      type: 2}
+  - deathFlashMaterial: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074,
+      type: 2}
+  - floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
+      type: 2}
+  - unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -229,6 +229,7 @@ public class ManticoreInputComponent : EntityComponent {
             Vector3 direction = horizontalMovement + verticalMovement;
             entityInformation.SetAttribute(EntityAttributes.CurrentDirection, direction);
             entityEmitter.EmitEvent(EntityEvents.DirectionChanged);
+            entityEmitter.EmitEvent(EntityEvents.Move);
         }
     }
 

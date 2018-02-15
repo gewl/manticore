@@ -42,14 +42,14 @@ public class Interpose : AutonomousMovementBehavior {
         Vector3 targetMidpoint = CalculateInterposePoint(movementComponent, primaryInterposeTarget, secondaryInterposeTarget, primaryTargetRigidbody.velocity, secondaryTargetRigidbody.velocity);
         Vector3 toTargetMidpoint = targetMidpoint - movementComponent.transform.position;
 
-        return arrive.ArriveToPosition(toTargetMidpoint, movementComponent.maxSpeed, movementComponent.CurrentVelocity);
+        return arrive.ArriveToPosition(toTargetMidpoint, movementComponent.MaxSpeed, movementComponent.CurrentVelocity);
     }
 
     public Vector3 CalculateInterposePoint(AutonomousMovementComponent movementComponent, Transform primaryTarget, Transform secondaryTarget, Vector3 primaryTargetVelocity, Vector3 secondaryTargetVelocity)
     {
         Vector3 midpointBetweenTargets = (primaryTarget.position + secondaryTarget.position) / 2f;
 
-        float timeToReachMidpoint = (midpointBetweenTargets - movementComponent.transform.position).magnitude / movementComponent.maxSpeed;
+        float timeToReachMidpoint = (midpointBetweenTargets - movementComponent.transform.position).magnitude / movementComponent.MaxSpeed;
 
         Vector3 updatedPrimaryTargetPosition = primaryTarget.position + (primaryTargetVelocity * timeToReachMidpoint);
         Vector3 updatedSecondaryTargetPosition = secondaryTarget.position + (secondaryTargetVelocity * timeToReachMidpoint);

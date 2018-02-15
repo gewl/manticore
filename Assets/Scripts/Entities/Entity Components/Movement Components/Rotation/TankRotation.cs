@@ -37,7 +37,7 @@ public class TankRotation : EntityComponent {
     [SerializeField]
     Transform currentTarget;
 
-    float lastCachedHeadAngle;
+    float lastCachedHeadAngle = 180f;
 
     protected override void Awake()
     {

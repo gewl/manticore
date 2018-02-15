@@ -118,6 +118,7 @@ public class ShooterBotAIComponent : EntityComponent {
     void OnAggro()
     {
         isAggroed = true;
+        entityEmitter.EmitEvent(EntityEvents.Stop);
     }
 
     void OnDeaggro()
@@ -154,9 +155,11 @@ public class ShooterBotAIComponent : EntityComponent {
 
     void UnaggroedUpdate()
     {
-        float distanceToPatrolNode = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
-        if (distanceToPatrolNode <= 0.5f && !reachedNewPatrolPoint)
+        float distanceToNextPatrolPosition = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
+        if (distanceToNextPatrolPosition <= 0.05f && !reachedNewPatrolPoint)
         {
+            entityEmitter.EmitEvent(EntityEvents.Stop);
+
             float patrolPause = UnityEngine.Random.Range(minPatrolPause, maxPatrolPause);
             reachedNewPatrolPoint = true;
             Invoke("UpdatePatrolPosition", patrolPause);
@@ -172,8 +175,10 @@ public class ShooterBotAIComponent : EntityComponent {
             currentPatrolPositionIndex = 0;
         }
 
-        movementComponent.ArriveLocation = patrolPositions[currentPatrolPositionIndex];
+        movementComponent.SeekLocation = patrolPositions[currentPatrolPositionIndex];
         reachedNewPatrolPoint = false;
+
+        entityEmitter.EmitEvent(EntityEvents.Move);
     }
 
     void AggroedUpdate()

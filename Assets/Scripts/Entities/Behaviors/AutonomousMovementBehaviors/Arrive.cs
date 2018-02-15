@@ -17,7 +17,7 @@ public class Arrive : AutonomousMovementBehavior {
         Vector3 toTarget = targetPosition - agentPosition;
         int deceleration = movementComponent.Clumsiness;
 
-        return ArriveToPosition(toTarget, movementComponent.maxSpeed, movementComponent.CurrentVelocity, deceleration);
+        return ArriveToPosition(toTarget, movementComponent.MaxSpeed, movementComponent.CurrentVelocity, deceleration);
     }
 
     public Vector3 ArriveToPosition(Vector3 toTarget, float maxSpeed, Vector3 currentVelocity, int deceleration = 1)

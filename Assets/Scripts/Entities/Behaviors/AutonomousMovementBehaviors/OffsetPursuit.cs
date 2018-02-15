@@ -32,9 +32,9 @@ public class OffsetPursuit : AutonomousMovementBehavior {
         Vector3 worldOffsetPosition = target.position + movementComponent.PursuitOffset;
 
         Vector3 toOffset = worldOffsetPosition - movementComponent.transform.position;
-        float timeToOffset = toOffset.magnitude / (movementComponent.maxSpeed + targetRigidbody.velocity.magnitude);
+        float timeToOffset = toOffset.magnitude / (movementComponent.MaxSpeed + targetRigidbody.velocity.magnitude);
         Vector3 updatedTarget = worldOffsetPosition + (targetRigidbody.velocity * timeToOffset);
 
-        return arrive.ArriveToPosition(updatedTarget - movementComponent.transform.position, movementComponent.maxSpeed, movementComponent.CurrentVelocity, 1);
+        return arrive.ArriveToPosition(updatedTarget - movementComponent.transform.position, movementComponent.MaxSpeed, movementComponent.CurrentVelocity, 1);
     }
 }

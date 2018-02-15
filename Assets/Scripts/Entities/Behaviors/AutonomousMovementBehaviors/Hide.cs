@@ -56,7 +56,7 @@ public class Hide : AutonomousMovementBehavior {
             targetPosition = movementComponent.HideTarget.position;
         }
 
-        return arrive.ArriveToPosition(hidingSpot - agent.position, movementComponent.maxSpeed, agentRigidbody.velocity, 1);
+        return arrive.ArriveToPosition(hidingSpot - agent.position, movementComponent.MaxSpeed, agentRigidbody.velocity, 1);
     }
 
     Vector3 GenerateHidingSpot(Transform agent, Transform target)

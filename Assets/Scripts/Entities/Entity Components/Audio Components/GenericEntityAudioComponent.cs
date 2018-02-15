@@ -16,6 +16,8 @@ public class GenericEntityAudioComponent : EntityComponent {
     AudioClip primaryFireClip;
     [SerializeField]
     AudioClip deadClip;
+    [SerializeField]
+    AudioClip aggroClip;
 
     protected override void Awake()
     {
@@ -28,12 +30,14 @@ public class GenericEntityAudioComponent : EntityComponent {
     {
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
+        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
     }
 
     protected override void Unsubscribe()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
     }
 
     #region event listeners
@@ -52,6 +56,15 @@ public class GenericEntityAudioComponent : EntityComponent {
         if (deadClip != null)
         {
             audioSource.clip = deadClip;
+            audioSource.Play();
+        }
+    }
+
+    void OnAggro()
+    {
+        if (aggroClip != null)
+        {
+            audioSource.clip = aggroClip;
             audioSource.Play();
         }
     }

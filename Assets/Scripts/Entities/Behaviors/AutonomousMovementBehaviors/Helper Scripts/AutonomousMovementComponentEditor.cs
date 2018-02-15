@@ -40,6 +40,8 @@ public class AutonomousMovementComponentEditor : OdinEditor {
             case AutonomousMovementComponent.MovementBehaviorTypes.Seek:
                 SerializedProperty seekTarget = serializedObject.FindProperty("SeekTarget");
                 EditorGUILayout.PropertyField(seekTarget);
+                SerializedProperty seekLocation = serializedObject.FindProperty("SeekLocation");
+                EditorGUILayout.PropertyField(seekLocation);
                 break;
             case AutonomousMovementComponent.MovementBehaviorTypes.Flee:
                 SerializedProperty fleeTarget = serializedObject.FindProperty("FleeTarget");

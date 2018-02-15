@@ -7,6 +7,8 @@ using Sirenix.Serialization;
 
 public class AutonomousMovementComponent : EntityComponent {
 
+    bool isConnected = false;
+
     public enum MovementBehaviorTypes
     {
         Seek,
@@ -34,7 +36,7 @@ public class AutonomousMovementComponent : EntityComponent {
 
     [SerializeField]
     float maximumSteeringForce = 50f;
-    public float maxSpeed = 50f;
+    public float MaxSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
 
     // A number of the implementations of behaviors from the Buckland book involve some eyeball-y values for
     // individual features—things like deceleration in Arrive, distance to hide behind things in Hide, etc.
@@ -62,7 +64,6 @@ public class AutonomousMovementComponent : EntityComponent {
     [HideInInspector]
     public float pauseBetweenPathLegs = 0.5f;
 
-
     [Header("Interpose Configuration")]
     [HideInInspector]
     public Transform PrimaryInterposeTarget;
@@ -72,6 +73,8 @@ public class AutonomousMovementComponent : EntityComponent {
     [Header("Seek Configuration")]
     [HideInInspector]
     public Transform SeekTarget;
+    [HideInInspector]
+    public Vector3 SeekLocation;
 
     [Header("Pursuit Configuration")]
     [HideInInspector]
@@ -137,25 +140,49 @@ public class AutonomousMovementComponent : EntityComponent {
 #if UNITY_EDITOR
         if (Application.isPlaying)
         {
-            Debug.Log("ding");
             GenerateNewActiveMovementBehaviorList();
         }
 #endif
     }
 
-    protected void Start()
-    {
-        //entityEmitter.EmitEvent(EntityEvents.TargetUpdated);
-    }
-
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.Move, Connect);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stop, Disconnect);
+        if (!isConnected)
+        {
+            Connect();
+        }
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Move, Connect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, Disconnect);
+
+        if (isConnected)
+        {
+            Disconnect();
+        }
+    }
+
+    void Connect()
+    {
+        if (!isConnected)
+        {
+            entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+            isConnected = true;
+        }
+    }
+
+    void Disconnect()
+    {
+        if (isConnected)
+        {
+            entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+            isConnected = false;
+            entityRigidbody.velocity = Vector3.zero;
+        }
     }
 
     void OnFixedUpdate()
@@ -165,15 +192,15 @@ public class AutonomousMovementComponent : EntityComponent {
             entityRigidbody.velocity = -Vector3.up * GameManager.GetEntityFallSpeed;
             return;
         }
-        if (ArriveTarget != null)
-        {
-            Vector3 toTarget = ArriveTarget.position - transform.position;
-            if (toTarget.sqrMagnitude < 0.1f)
-            {
-                entityRigidbody.velocity = Vector3.zero;
-                return;
-            }
-        }
+        //if (ArriveTarget != null)
+        //{
+        //    Vector3 toTarget = ArriveTarget.position - transform.position;
+        //    if (toTarget.sqrMagnitude < 0.1f)
+        //    {
+        //        entityRigidbody.velocity = Vector3.zero;
+        //        return;
+        //    }
+        //}
 
         AccumulateForce();
     }
@@ -235,25 +262,16 @@ public class AutonomousMovementComponent : EntityComponent {
 
         float accumulatedForceSqrMag = accumulatedForce.sqrMagnitude;
 
-        //TODO: Move animation handling to its own component
-        if (accumulatedForceSqrMag > 0.02f)
-        {
+        //if (accumulatedForceSqrMag > 0.05f)
+        //{
             entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
-            entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, maxSpeed);
-
-            if (animator != null && !animator.GetBool("isMoving"))
-            {
-                animator.SetBool("isMoving", true);
-            }
-        }
-        else
-        {
-            entityRigidbody.velocity = Vector3.zero;
-            if (animator != null && animator.GetBool("isMoving"))
-            {
-                animator.SetBool("isMoving", false);
-            }
-        }
+            entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, MaxSpeed);
+        //}
+        //else
+        //{
+        //    Debug.Log("slowing");
+        //    entityRigidbody.velocity = Vector3.zero;
+        //}
     }
 
     #region Event Handlers
