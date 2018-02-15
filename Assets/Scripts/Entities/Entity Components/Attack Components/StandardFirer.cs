@@ -44,7 +44,7 @@ public class StandardFirer : EntityComponent {
     [SerializeField]
     float timeToWarmUp = 5f;
     [SerializeField]
-    float maximumWarmUpNoiseModifier = 3f;
+    float maximumWarmUpNoiseModifier = 10f;
     float timeAggroed;
     float timeWarmedUp;
 
@@ -142,7 +142,7 @@ public class StandardFirer : EntityComponent {
         float currentTime = Time.time;
         if (currentTime < timeWarmedUp)
         {
-            ApplyWarmUpNoise(ref targetPosition, currentTime);
+            targetPosition = RotateAimPositionByWarmUpNoise(targetPosition, currentTime);
         }
         targetPosition.y = 0f;
 
@@ -158,14 +158,26 @@ public class StandardFirer : EntityComponent {
         createdBullet.transform.parent = bulletsParent.transform;
     }
 
-    void ApplyWarmUpNoise(ref Vector3 aimPosition, float currentTime)
+    Vector3 RotateAimPositionByWarmUpNoise(Vector3 aimPoint, float currentTime)
     {
         float timeToWarmedUp = timeWarmedUp - currentTime;
         float percentageOfNoiseToApply = timeToWarmedUp / timeToWarmUp;
 
-        float noiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * AimNoiseInDegrees;
+        float degreesOfNoiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * AimNoiseInDegrees;
 
-        Vector3.RotateTowards(aimPosition, transform.right, Mathf.Deg2Rad * noiseToApply, 1);
+        float coinFlipForSign = Random.value;
+
+        if (coinFlipForSign > 0.5f)
+        {
+            degreesOfNoiseToApply *= -1;
+        }
+
+        Quaternion rotationAngles = Quaternion.Euler(0.0f, degreesOfNoiseToApply, 0.0f);
+
+        Vector3 direction = aimPoint - transform.position;
+        direction = rotationAngles * direction;
+
+        return direction + transform.position;
     }
 
 }

@@ -6829,7 +6829,7 @@ MonoBehaviour:
   bulletsParent: {fileID: 432056319}
   spawnPoint: {fileID: 1110900713}
   timeToWarmUp: 5
-  maximumWarmUpNoiseModifier: 3
+  maximumWarmUpNoiseModifier: 10
 --- !u!114 &1056705393
 MonoBehaviour:
   m_ObjectHideFlags: 0
