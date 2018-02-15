@@ -137,17 +137,17 @@ public class StandardFirer : EntityComponent {
         targetPosition += averageVelocity;
 
         float baseNoiseAdjustment = Random.Range(-AimNoiseInDegrees, AimNoiseInDegrees);
-        targetPosition = Vector3.RotateTowards(targetPosition, transform.right, Mathf.Deg2Rad * baseNoiseAdjustment, 1);
+        targetPosition = RotatePointAroundPivot(targetPosition, transform.position, baseNoiseAdjustment);
 
         float currentTime = Time.time;
         if (currentTime < timeWarmedUp)
         {
-            targetPosition = RotateAimPositionByWarmUpNoise(targetPosition, currentTime);
+            targetPosition = ApplyWarmUpNoiseToPoint(targetPosition, currentTime);
         }
         targetPosition.y = 0f;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
-        Transform createdBullet = Object.Instantiate(Projectile, spawnPoint.position, rotation);
+        Transform createdBullet = Instantiate(Projectile, spawnPoint.position, rotation);
         BasicBullet bulletController = createdBullet.GetComponent<BasicBullet>();
         bulletController.strength = ProjectileStrength;
         bulletController.targetPosition = targetPosition;
@@ -158,7 +158,7 @@ public class StandardFirer : EntityComponent {
         createdBullet.transform.parent = bulletsParent.transform;
     }
 
-    Vector3 RotateAimPositionByWarmUpNoise(Vector3 aimPoint, float currentTime)
+    Vector3 ApplyWarmUpNoiseToPoint(Vector3 aimPoint, float currentTime)
     {
         float timeToWarmedUp = timeWarmedUp - currentTime;
         float percentageOfNoiseToApply = timeToWarmedUp / timeToWarmUp;
@@ -172,12 +172,15 @@ public class StandardFirer : EntityComponent {
             degreesOfNoiseToApply *= -1;
         }
 
-        Quaternion rotationAngles = Quaternion.Euler(0.0f, degreesOfNoiseToApply, 0.0f);
-
-        Vector3 direction = aimPoint - transform.position;
-        direction = rotationAngles * direction;
-
-        return direction + transform.position;
+        return RotatePointAroundPivot(aimPoint, transform.position, degreesOfNoiseToApply);
     }
 
+    Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float degreesToRotate)
+    {
+        Quaternion rotationAngles = Quaternion.Euler(0.0f, degreesToRotate, 0.0f);
+
+        Vector3 direction = point - pivot;
+        direction = rotationAngles * direction;
+        return direction + pivot;
+    }
 }

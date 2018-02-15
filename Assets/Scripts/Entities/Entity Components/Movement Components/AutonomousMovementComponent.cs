@@ -262,16 +262,8 @@ public class AutonomousMovementComponent : EntityComponent {
 
         float accumulatedForceSqrMag = accumulatedForce.sqrMagnitude;
 
-        //if (accumulatedForceSqrMag > 0.05f)
-        //{
-            entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
-            entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, MaxSpeed);
-        //}
-        //else
-        //{
-        //    Debug.Log("slowing");
-        //    entityRigidbody.velocity = Vector3.zero;
-        //}
+        entityRigidbody.AddForce(accumulatedForce, ForceMode.VelocityChange);
+        entityRigidbody.velocity = Vector3.ClampMagnitude(entityRigidbody.velocity, MaxSpeed);
     }
 
     #region Event Handlers

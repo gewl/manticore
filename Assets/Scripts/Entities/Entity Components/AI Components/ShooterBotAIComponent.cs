@@ -16,12 +16,17 @@ public class ShooterBotAIComponent : EntityComponent {
     bool reachedNewPatrolPoint = false;
 
     [SerializeField]
-    float minPatrolPause;
+    float minPatrolPause = 0.1f;
     [SerializeField]
-    float maxPatrolPause;
+    float maxPatrolPause = 0.5f;
+
+    [SerializeField]
+    float minCombatPause = 0.1f;
+    [SerializeField]
+    float maxCombatPause = 0.5f;
 
     RangedEntityData _entityData;
-    RangedEntityData entityData
+    RangedEntityData EntityData
     {
         get
         {
@@ -34,9 +39,9 @@ public class ShooterBotAIComponent : EntityComponent {
         }
     }
 
-    float FireCooldown { get { return entityData.FireCooldown; } }
-    float ArcOfFire { get { return entityData.ArcOfFire; } }
-    float AttackRange { get { return entityData.AttackRange; } }
+    float FireCooldown { get { return EntityData.FireCooldown; } }
+    float ArcOfFire { get { return EntityData.ArcOfFire; } }
+    float AttackRange { get { return EntityData.AttackRange; } }
 
     [SerializeField]
     float combatMoveSpeedModifier = 1f;

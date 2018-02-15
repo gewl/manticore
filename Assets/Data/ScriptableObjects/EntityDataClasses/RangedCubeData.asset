@@ -22,7 +22,7 @@ MonoBehaviour:
   AttackRange: 30
   FireCooldown: 0.6
   ProjectileStrength: 50
-  BulletSpeed: 40
+  BulletSpeed: 25
   AimNoiseInDegrees: 2
   Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   NumberOfProjectiles: 1
