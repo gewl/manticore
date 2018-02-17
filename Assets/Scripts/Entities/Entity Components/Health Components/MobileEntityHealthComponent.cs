@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MobileEntityHealthComponent : EntityComponent {
 
@@ -312,10 +313,17 @@ public class MobileEntityHealthComponent : EntityComponent {
         GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (agent != false)
+        {
+            agent.enabled = false;
+        }
+
         // Knock back
         Vector3 collisionVelocity = killingProjectileCollisionVelocity;
 
         gameObject.layer = LayerMask.NameToLayer("DeadEntity");
+        entityInformation.EntityRigidbody.isKinematic = false;
         entityInformation.EntityRigidbody.useGravity = true;
         entityInformation.EntityRigidbody.drag = 1f;
         entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;

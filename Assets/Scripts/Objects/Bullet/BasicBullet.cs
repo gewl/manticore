@@ -52,8 +52,8 @@ public class BasicBullet : MonoBehaviour {
         meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
-        //bulletRigidbody.velocity = targetPosition.normalized * speed;
-        StartCoroutine(AccelerateBullet(targetPosition));
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
 	}
 
@@ -158,18 +158,20 @@ public class BasicBullet : MonoBehaviour {
         gameObject.layer = 12;
         gameObject.tag = FRIENDLY_BULLET;
         speed *= speedModifier;
-        StartCoroutine(AccelerateBullet(targetPosition));
+
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        StartCoroutine(AccelerateBullet(direction));
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
         UpdateSize();
 	}
 
-    IEnumerator AccelerateBullet(Vector3 targetPosition)
+    IEnumerator AccelerateBullet(Vector3 direction)
     {
         float timeElapsed = 0.0f;
-        Vector3 velocityDirection = (targetPosition - transform.position).normalized;
 
+        bulletRigidbody.velocity = direction * speed * initialSpeedModifierOnParry;
         while (timeElapsed < timeToFullSpeedOnParry)
         {
             timeElapsed += Time.deltaTime;
@@ -178,10 +180,10 @@ public class BasicBullet : MonoBehaviour {
 
             float fractionOfTotalSpeed = Mathf.Lerp(initialSpeedModifierOnParry, 1.0f, curvePoint);
 
-            bulletRigidbody.velocity = velocityDirection * speed * fractionOfTotalSpeed;
+            bulletRigidbody.velocity = direction * speed * fractionOfTotalSpeed;
             yield return null;
         }
-        bulletRigidbody.velocity = velocityDirection * speed;
+        bulletRigidbody.velocity = direction * speed;
     }
 
     void UpdateSize()

@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ShooterBotAIComponent : EntityComponent {
 
     AutonomousMovementComponent movementComponent;
+    NavMeshAgent navMeshAgent;
 
     bool isAggroed = false;
     bool isChasing = false;
@@ -70,6 +72,7 @@ public class ShooterBotAIComponent : EntityComponent {
         base.Awake();
 
         movementComponent = GetComponent<AutonomousMovementComponent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
         patrolPositions = new List<Vector3>
         {
@@ -160,8 +163,8 @@ public class ShooterBotAIComponent : EntityComponent {
 
     void UnaggroedUpdate()
     {
-        float distanceToNextPatrolPosition = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
-        if (distanceToNextPatrolPosition <= 0.05f && !reachedNewPatrolPoint)
+        float sqrDistanceToNextPatrolPosition = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
+        if (sqrDistanceToNextPatrolPosition <= 0.5f && !reachedNewPatrolPoint)
         {
             entityEmitter.EmitEvent(EntityEvents.Stop);
 
@@ -180,7 +183,7 @@ public class ShooterBotAIComponent : EntityComponent {
             currentPatrolPositionIndex = 0;
         }
 
-        movementComponent.SeekLocation = patrolPositions[currentPatrolPositionIndex];
+        navMeshAgent.SetDestination(patrolPositions[currentPatrolPositionIndex]);
         reachedNewPatrolPoint = false;
 
         entityEmitter.EmitEvent(EntityEvents.Move);

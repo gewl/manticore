@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator))]
 public class AnimatorStateChangeComponent : EntityComponent {
 
     Animator animator;
-    Rigidbody entityRigidbody;
+    NavMeshAgent agent;
 
     float MaxSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
-    float sqrMaxSpeed;
 
     const string IS_MOVING = "isMoving";
     const string IS_DEAD = "isDead";
@@ -17,10 +17,9 @@ public class AnimatorStateChangeComponent : EntityComponent {
     protected override void Awake()
     {
         base.Awake();
-        sqrMaxSpeed = MaxSpeed * MaxSpeed;
 
+        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        entityRigidbody = GetComponent<Rigidbody>();
     }
 
     protected override void Subscribe()
@@ -68,11 +67,8 @@ public class AnimatorStateChangeComponent : EntityComponent {
     // Only runs while moving.
     void OnFixedUpdate()
     {
-        Vector3 currentVelocity = entityRigidbody.velocity;
-        currentVelocity.y = 0f;
-
-        float sqrCurrentMoveSpeed = currentVelocity.sqrMagnitude;
-        float percentageOfMaxSpeed = sqrCurrentMoveSpeed / sqrMaxSpeed;
+        float currentMoveSpeed = agent.speed;
+        float percentageOfMaxSpeed = currentMoveSpeed / MaxSpeed;
 
         animator.speed = percentageOfMaxSpeed;
     }
