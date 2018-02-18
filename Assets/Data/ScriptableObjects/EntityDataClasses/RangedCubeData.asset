@@ -20,7 +20,7 @@ MonoBehaviour:
   isPlayer: 0
   ArcOfFire: 25
   AttackRange: 30
-  FireCooldown: 0.6
+  AttackCooldown: 0.6
   ProjectileStrength: 50
   BulletSpeed: 25
   AimNoiseInDegrees: 2

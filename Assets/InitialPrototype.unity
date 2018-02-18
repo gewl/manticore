@@ -3089,6 +3089,7 @@ MonoBehaviour:
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
   aggroClip: {fileID: 0}
+  randomizePitch: 0
 --- !u!114 &622498957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4312,6 +4313,7 @@ MonoBehaviour:
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
   aggroClip: {fileID: 0}
+  randomizePitch: 0
 --- !u!114 &750734564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4732,7 +4734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &804024548
 Transform:
   m_ObjectHideFlags: 0
@@ -4790,8 +4792,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.002893, y: 4.28, z: 1.3300492}
-  m_Center: {x: -0.71, y: 0.15362442, z: 0.20456944}
+  m_Size: {x: 4.470428, y: 4.28, z: 1.1351587}
+  m_Center: {x: -0.74448055, y: 0.15362442, z: 0.10712378}
 --- !u!33 &804024551
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6629,6 +6631,8 @@ GameObject:
   - component: {fileID: 1056705394}
   - component: {fileID: 1056705396}
   - component: {fileID: 1056705397}
+  - component: {fileID: 1056705399}
+  - component: {fileID: 1056705398}
   m_Layer: 11
   m_Name: ShooterBot
   m_TagString: EnemyBox
@@ -6956,6 +6960,7 @@ MonoBehaviour:
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
   aggroClip: {fileID: 8300000, guid: a12f0e3ba4d4b004d81b230a9cdef85b, type: 3}
+  randomizePitch: 1
 --- !u!82 &1056705395
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7023,7 +7028,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -7077,6 +7082,47 @@ NavMeshAgent:
   m_BaseOffset: 1.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1056705398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056705381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca57053cc7610f940a11f315d2a32a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  collectible: 0
+--- !u!114 &1056705399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056705381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c74fe8af739884fa8f22e184267887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1 &1098611707
 GameObject:
   m_ObjectHideFlags: 0
@@ -13597,6 +13643,7 @@ MonoBehaviour:
   primaryFireClip: {fileID: 8300000, guid: 6e58d78d57e662241b5c6ab985ad85c4, type: 3}
   deadClip: {fileID: 8300000, guid: 3ab977fbd48132345992dd1329f5ffbb, type: 3}
   aggroClip: {fileID: 0}
+  randomizePitch: 0
 --- !u!114 &1981452785
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -41,7 +41,7 @@ public class ShooterBotAIComponent : EntityComponent {
         }
     }
 
-    float FireCooldown { get { return EntityData.FireCooldown; } }
+    float FireCooldown { get { return EntityData.AttackCooldown; } }
     float ArcOfFire { get { return EntityData.ArcOfFire; } }
     float AttackRange { get { return EntityData.AttackRange; } }
 

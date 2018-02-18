@@ -6,9 +6,9 @@ using UnityEngine;
 public class RangedEntityData : EntityData {
     public float ArcOfFire = 25f;
     public int AttackRange;
-    public float FireCooldown;
+    public float AttackCooldown;
 
-    public int ProjectileStrength = 50;
+    public int ProjectileDamage = 50;
     public float BulletSpeed = 30f;
     public float AimNoiseInDegrees = 2f;
     public Transform Projectile;

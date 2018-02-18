@@ -24,7 +24,7 @@ public class StandardFirer : EntityComponent {
         }
     }
 
-    float ProjectileStrength { get { return StandardFirerData.ProjectileStrength; } }
+    float ProjectileStrength { get { return StandardFirerData.ProjectileDamage; } }
     float BulletSpeed { get { return StandardFirerData.BulletSpeed; } }
     float AimNoiseInDegrees { get { return StandardFirerData.AimNoiseInDegrees; } }
     Transform Projectile { get { return StandardFirerData.Projectile; } }

@@ -18,12 +18,19 @@ public class GenericEntityAudioComponent : EntityComponent {
     AudioClip deadClip;
     [SerializeField]
     AudioClip aggroClip;
+    [SerializeField]
+    bool randomizePitch = false;
 
     protected override void Awake()
     {
         base.Awake();
 
         audioSource = GetComponent<AudioSource>();
+
+        if (randomizePitch)
+        {
+            audioSource.pitch = UnityEngine.Random.Range(0.7f, 1.5f);
+        }
     }
 
     protected override void Subscribe()
