@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntityData : ScriptableObject {
     public string ID = "Entity";
     public int Health;
+    public float BaseDamage = 50f;
     public int MomentumValue;
 
     public float BaseMoveSpeed = 10f;

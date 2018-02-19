@@ -8,7 +8,6 @@ public class RangedEntityData : EntityData {
     public int AttackRange;
     public float AttackCooldown;
 
-    public int ProjectileDamage = 50;
     public float BulletSpeed = 30f;
     public float AimNoiseInDegrees = 2f;
     public Transform Projectile;
