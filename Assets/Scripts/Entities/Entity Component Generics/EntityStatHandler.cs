@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EntityEmitter), typeof(EntityInformation))]
 public class EntityStatHandler : EntityComponent {
 
     float baseDamage { get { return entityInformation.Data.BaseDamage; } }
@@ -15,5 +14,10 @@ public class EntityStatHandler : EntityComponent {
 
     protected override void Unsubscribe()
     {
+    }
+
+    public float GetMoveSpeed()
+    {
+        float calculatedDamage = baseDamage;
     }
 }
