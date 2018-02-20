@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+[Serializable]
 public class StandardIssueRiposteHardwareData : RiposteHardwareData {
 
     protected override int baseStaminaCost

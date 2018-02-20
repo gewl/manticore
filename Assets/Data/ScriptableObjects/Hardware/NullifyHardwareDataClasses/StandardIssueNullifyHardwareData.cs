@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+[Serializable]
 public class StandardIssueNullifyHardwareData : NullifyHardwareData {
 
     protected override int baseStaminaCost
@@ -23,29 +21,29 @@ public class StandardIssueNullifyHardwareData : NullifyHardwareData {
         get { return 0.25f; }
     }
 
-    protected override float baseNullifyRadius
+    protected override float BaseNullifyRadius
     {
         get { return 8f; }
     }
-    protected override float nullifyRadiusMomentumIncrement
+    protected override float NullifyRadiusMomentumIncrement
     {
         get { return 0.4f; }
     }
 
-    protected override float baseLingerDuration
+    protected override float BaseLingerDuration
     {
-        get { return 0.2f; }
+        get { return 0.8f; }
     }
-    protected override float lingerDurationMomentumIncrement
+    protected override float LingerDurationMomentumIncrement
     {
         get { return 0f; }
     }
 
-    protected override float baseTimeToComplete
+    protected override float BaseTimeToExpand
     {
         get { return 0.3f; }
     }
-    protected override float timeToCompleteMomentumIncrement
+    protected override float TimeToExpandMomentumDecrement
     {
         get { return 0.02f; }
     }

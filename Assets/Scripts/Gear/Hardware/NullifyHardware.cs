@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NullifyHardware : MonoBehaviour, IHardware {
 
+    EntityGearManagement gear;
     HardwareType type = HardwareType.Nullify;
     public HardwareType Type { get { return type; } }
 
@@ -18,15 +19,26 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         subtypeData = hardwareData as NullifyHardwareData;
     }
 
-    EntityGearManagement gear;
+    int NullifyMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(HardwareType.Nullify); } } 
 
-    private int baseStaminaCost = 80;
-    public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int StaminaCost { get { return baseStaminaCost; } }
+    public int StaminaCost { get { return subtypeData.GetStaminaCost(NullifyMomentum); } }
+    float NullifyCooldown { get { return subtypeData.GetCooldown(NullifyMomentum); } }
+
+    // Active hardware values
+    float NullifyRadius { get { return subtypeData.GetNullifyRadius(NullifyMomentum); } }
+    float TimeToExpandActiveEffect { get { return subtypeData.GetTimeToExpand(NullifyMomentum); } }
+    float TimeToLinger { get { return subtypeData.GetLingerDuration(NullifyMomentum); } }
+    float TotalTimeToComplete { get { return TimeToExpandActiveEffect + TimeToLinger; } }
+
+    // Passive hardware (Parry) values
+    float BulletNullifyRadius { get { return NullifyRadius / 2f; } }
+    float TimeToExpandParryPassiveEffect { get { return TimeToExpandActiveEffect / 3f; } }
+    // Passive hardware (Riposte) values
+    float TimeToExpandRipostePassiveEffect { get { return TimeToExpandActiveEffect * 2f; } }
+    float hangTimeOnCompletion = 0.2f;
 
     private bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
-    float nullifyCooldown = 4f;
     float percentOfCooldownRemaining = 0.0f;
     public CooldownDelegate CooldownUpdater { get; set; }
 
@@ -60,17 +72,6 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         }
     }
 
-    // Active hardware values
-    float entityNullifyRadius = 8f;
-    float timeToCompleteActiveEffect = 0.3f;
-
-    // Passive hardware (Parry) values
-    float bulletNullifyRadius = 4f;
-    float timeToExpandParryPassiveEffect = 0.1f;
-    // Passive hardware (Riposte) values
-    float timeToExpandRipostePassiveEffect = 0.8f;
-    float hangTimeOnCompletion = 0.2f;
-
     void OnEnable()
     {
         gear = GetComponent<EntityGearManagement>();
@@ -79,7 +80,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     #region Active hardware use
     public void UseActiveHardware()
     {
-        StartCoroutine(FireNullifyEffect(timeToCompleteActiveEffect));
+        StartCoroutine(FireNullifyEffect(TotalTimeToComplete));
     }
 
     IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false, bool isActiveHardware = true)
@@ -92,19 +93,21 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
         float timeElapsed = 0.0f;
         Vector3 originalSize = spawnedNullification.transform.localScale;
-        Vector3 targetSize = new Vector3(entityNullifyRadius, 1f, entityNullifyRadius);
+        Vector3 targetSize = new Vector3(NullifyRadius, 1f, NullifyRadius);
 
-        while (timeElapsed < duration)
+        while (timeElapsed < TimeToExpandActiveEffect)
         {
             timeElapsed += Time.deltaTime;
 
-            float percentageComplete = timeElapsed / duration;
+            float percentageComplete = timeElapsed / TimeToExpandActiveEffect;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
             spawnedNullification.transform.position = transform.position;
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
             yield return null;
         }
+
+        yield return new WaitForSeconds(TimeToLinger);
 
         if (isActiveHardware)
         {
@@ -119,10 +122,10 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         float timeElapsed = 0.0f;
         isOnCooldown = true;
 
-        while (timeElapsed < nullifyCooldown)
+        while (timeElapsed < NullifyCooldown)
         {
             timeElapsed += Time.deltaTime;
-            percentOfCooldownRemaining = 1 - (timeElapsed / nullifyCooldown);
+            percentOfCooldownRemaining = 1 - (timeElapsed / NullifyCooldown);
             CooldownUpdater(percentOfCooldownRemaining);
             yield return null;
         }
@@ -160,14 +163,14 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, bullet.transform.position, Quaternion.identity, bullet.transform);
 
         Vector3 originalSize = spawnedNullification.transform.localScale;
-        Vector3 targetSize = new Vector3(bulletNullifyRadius, 1f, bulletNullifyRadius);
+        Vector3 targetSize = new Vector3(BulletNullifyRadius, 1f, BulletNullifyRadius);
 
         float timeElapsed = 0.0f;
-        while (timeElapsed < timeToExpandParryPassiveEffect)
+        while (timeElapsed < TimeToExpandParryPassiveEffect)
         {
             timeElapsed += Time.deltaTime;
 
-            float percentageComplete = timeElapsed / timeToExpandParryPassiveEffect;
+            float percentageComplete = timeElapsed / TimeToExpandParryPassiveEffect;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
@@ -199,11 +202,11 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         Vector3 targetSize = new Vector3(10f, originalSize.y, 2f);
 
         float timeElapsed = 0.0f;
-        while (timeElapsed < timeToExpandRipostePassiveEffect)
+        while (timeElapsed < TimeToExpandRipostePassiveEffect)
         {
             timeElapsed += Time.deltaTime;
 
-            float percentageComplete = timeElapsed / timeToExpandRipostePassiveEffect;
+            float percentageComplete = timeElapsed / TimeToExpandRipostePassiveEffect;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Serializable]
 public abstract class HardwareData : ScriptableObject {
 
     protected abstract int baseStaminaCost { get; }

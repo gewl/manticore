@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     GearTypes draggingGearType;
     HardwareType draggingHardwareType;
+    Type draggingHardwareSubtype;
 
     [SerializeField]
     Image draggingImage;
@@ -24,12 +24,13 @@ public class InventoryMenuController : MonoBehaviour {
 
     // TODO: Overload this for other gearTypes, or cast enum value to int,
     // then cast int back to whichever enum is being dragged?
-    public void BeginDragging(Sprite image, HardwareType hardwareType)
+    public void BeginDragging(Sprite image, HardwareType hardwareType, Type hardwareSubtype)
     {
         menuManager.DeactivateTooltip();
 
         draggingGearType = GearTypes.Hardware;
         draggingHardwareType = hardwareType;
+        draggingHardwareSubtype = hardwareSubtype;
 
         draggingImage.sprite = image;
         draggingImage.preserveAspect = true;
@@ -50,6 +51,7 @@ public class InventoryMenuController : MonoBehaviour {
         OnStopDraggingElement(draggingHardwareType);
 
         draggingHardwareType = HardwareType.None;
+        draggingHardwareSubtype = null;
     }
 
     public void HardwareInventoryMenu_PointerEnter(HardwareType hardwareType)
@@ -99,7 +101,7 @@ public class InventoryMenuController : MonoBehaviour {
         {
             return;
         }
-        InventoryController.EquipActiveHardware(slot, draggingHardwareType);
+        InventoryController.EquipActiveHardware(slot, draggingHardwareType, draggingHardwareSubtype);
         EndDrag();
     }
 

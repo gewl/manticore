@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+[Serializable]
 public class StandardIssueBlinkHardwareData : BlinkHardwareData {
 
     protected override int baseStaminaCost
@@ -23,20 +21,20 @@ public class StandardIssueBlinkHardwareData : BlinkHardwareData {
         get { return 0f; }
     }
 
-    protected override float baseBlinkRange
+    protected override float BaseBlinkRange
     {
         get { return 15f; }
     }
-    protected override float blinkRangeMomentumIncrement
+    protected override float BlinkRangeMomentumIncrement
     {
         get { return 0f; }
     }
 
-    protected override float baseTimeToCompleteBlink
+    protected override float BaseTimeToCompleteBlink
     {
         get { return 0.2f; }
     }
-    protected override float timeToCompleteMomentumIncrement
+    protected override float TimeToCompleteMomentumIncrement
     {
         get { return 0f; }
     }

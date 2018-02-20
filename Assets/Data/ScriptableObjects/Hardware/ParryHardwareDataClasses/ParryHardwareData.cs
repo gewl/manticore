@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
+[Serializable]
 public abstract class ParryHardwareData : HardwareData {
 
     protected abstract float baseDamageDealt { get; }

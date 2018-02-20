@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 
 [Serializable]
@@ -8,7 +9,10 @@ public class InventoryData {
     public Dictionary<RenewableTypes, bool> ObtainedRenewables;
 
     public Dictionary<HardwareType, List<bool>> DiscoveredHardwareSubtypes;
+
     public HardwareType[] EquippedActiveHardware;
+    public Type[] EquippedActiveSubtypes;
+
     public HardwareType[] EquippedPassiveHardware;
     public RenewableTypes EquippedRenewable;
 
@@ -44,6 +48,14 @@ public class InventoryData {
             HardwareType.Blink,
             HardwareType.None,
             HardwareType.None
+        };
+
+        EquippedActiveSubtypes = new Type[4]
+        {
+            typeof(StandardIssueParryHardwareData),
+            typeof(StandardIssueBlinkHardwareData),
+            null,
+            null
         };
 
         EquippedPassiveHardware = new HardwareType[4];

@@ -101,17 +101,27 @@ public class EntityGearManagement : MonoBehaviour {
         }
 
         // Add components for new hardware.
-        for (int i = 2; i < inventory.EquippedActiveHardware.Length; i++)
+        for (int i = 0; i < inventory.EquippedActiveHardware.Length; i++)
         {
             HardwareType hardwareType = inventory.EquippedActiveHardware[i];
-            GenerateActiveHardwareComponent(hardwareType, i);
+            if (hardwareType == HardwareType.None)
+            {
+                continue;
+            }
+            if (i != 0 && i != 1)
+            {
+                GenerateActiveHardwareComponent(hardwareType, i);
+            }
+            AssignSubtypeData(i);
         }
-
-        ParryGear.AssignSubtypeData(ScriptableObject.CreateInstance<StandardIssueParryHardwareData>());
 
         for (int i = 0; i < inventory.EquippedPassiveHardware.Length; i++)
         {
             HardwareType hardwareType = inventory.EquippedPassiveHardware[i];
+            if (hardwareType == HardwareType.None)
+            {
+                continue;
+            }
             GeneratePassiveHardwareComponent(hardwareType, i);
         }
 
@@ -166,20 +176,19 @@ public class EntityGearManagement : MonoBehaviour {
     
     void GenerateActiveHardwareComponent(HardwareType newHardwareType, int index)
     {
-        if (newHardwareType == HardwareType.None)
-        {
-            return;
-        }
         Type newHardware = GetHardwareType(newHardwareType);
         activeHardware[index] = gameObject.AddComponent(newHardware) as IHardware;
     }
 
+    void AssignSubtypeData(int index)
+    {
+        Type hardwareSubtype = InventoryController.Inventory.EquippedActiveSubtypes[index];
+        HardwareData subtypeScriptableObject = ScriptableObject.CreateInstance(hardwareSubtype.ToString()) as HardwareData;
+        activeHardware[index].AssignSubtypeData(subtypeScriptableObject);
+    }
+
     void GeneratePassiveHardwareComponent(HardwareType newHardwareType, int index)
     {
-        if (newHardwareType == HardwareType.None)
-        {
-            return;
-        }
         if (passiveHardware[index] != null)
         {
             Debug.LogError("Already passive hardware in that slot");

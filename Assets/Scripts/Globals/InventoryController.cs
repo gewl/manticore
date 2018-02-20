@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class InventoryController {
 
@@ -25,6 +26,29 @@ public class InventoryController {
         }
     }
 
+    // TODO: Right now this is only returning the default subtype for each
+    // HardwareType to get the subtypeData wired into logic. When more subtypes
+    // are added, this will have to be fleshed in a bit, as will UI-side stuff.
+    public static Type GetHardwareSubtype(HardwareType hardwareType)
+    {
+        switch (hardwareType)
+        {
+            case HardwareType.None:
+                return null;
+            case HardwareType.Parry:
+                return typeof(StandardIssueParryHardwareData);
+            case HardwareType.Blink:
+                return typeof(StandardIssueBlinkHardwareData);
+            case HardwareType.Nullify:
+                return typeof(StandardIssueNullifyHardwareData);
+            case HardwareType.Riposte:
+                return typeof(StandardIssueRiposteHardwareData);
+            default:
+                Debug.LogError("Attempted to retrieve subtype for invalid HardwareType: " + hardwareType);
+                return null;
+        }
+    }
+
     public static void DiscoverHardware(HardwareType hardwareType)
     {
         Inventory.ObtainHardwareType(hardwareType);
@@ -48,7 +72,7 @@ public class InventoryController {
 
     #region equipping/unequipping
 
-    public static void EquipActiveHardware(int slot, HardwareType hardwareType)
+    public static void EquipActiveHardware(int slot, HardwareType hardwareType, Type hardwareSubtype)
     {
         if (slot == 0 || slot == 1)
         {
@@ -56,6 +80,7 @@ public class InventoryController {
             return;
         }
         Inventory.EquippedActiveHardware[slot] = hardwareType;
+        Inventory.EquippedActiveSubtypes[slot] = hardwareSubtype;
 
         OnInventoryUpdated(Inventory);
     }

@@ -16,6 +16,11 @@ public class BlinkHardware : EntityComponent, IHardware
         subtypeData = hardwareData as BlinkHardwareData;
     }
 
+    int BlinkMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(HardwareType.Blink); } }
+    float BlinkRange { get { return subtypeData.GetBlinkRange(BlinkMomentum); } }
+	public float TimeToCompleteBlink { get { return subtypeData.GetTimeToCompleteBlink(BlinkMomentum); } }
+    public int StaminaCost { get { return subtypeData.GetStaminaCost(BlinkMomentum); } }
+
     public bool IsInUse { get { return false; } }
     public bool DoesBlinkDamage = false;
     public float BlinkDamage = 0f;
@@ -25,11 +30,6 @@ public class BlinkHardware : EntityComponent, IHardware
     // Serialized values
     [SerializeField]
     Material blinkMaterial;
-    [SerializeField]
-    float blinkRange;
-	[SerializeField]
-	float timeToCompleteBlink;
-    public float TimeToCompleteBlink { get { return timeToCompleteBlink; } }
     float hangTimeBeforeBlinkStarts = 0.1f;
     public float HangTimeBeforeBlinkStarts { get { return hangTimeBeforeBlinkStarts; } }
 
@@ -40,11 +40,6 @@ public class BlinkHardware : EntityComponent, IHardware
     TrailRenderer trailRenderer;
     ManticoreInputComponent inputComponent;
     EntityGearManagement gear;
-
-    // IHardware properties
-    int baseStaminaCost = 40;
-    public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int StaminaCost { get { return baseStaminaCost; } }
 
     // State management
     bool isOnCooldown = false;
@@ -62,7 +57,7 @@ public class BlinkHardware : EntityComponent, IHardware
 
         gear = GetComponent<EntityGearManagement>();
         inputComponent = GetComponent<ManticoreInputComponent>();
-        if (blinkMaterial == null || System.Math.Abs(blinkRange) < 0.1f)
+        if (blinkMaterial == null) 
         {
             Debug.LogError("Serialized values unassigned in BlinkComponent on " + transform.name); 
         }
@@ -150,7 +145,7 @@ public class BlinkHardware : EntityComponent, IHardware
         Vector3 destination = GetBlinkDestination(origin, currentDirection);
 
 		float step = 0f;
-        float rate = 1 / timeToCompleteBlink;
+        float rate = 1 / TimeToCompleteBlink;
 
         while (step < 1f)
         {
@@ -203,13 +198,13 @@ public class BlinkHardware : EntityComponent, IHardware
         // something is in the way. Set destination accordingly.
         RaycastHit blinkTestHit = new RaycastHit();
 
-        if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, blinkRange, terrainLayerMask))
+        if (Physics.Raycast(testClearPathOrigin, currentDirection, out blinkTestHit, BlinkRange, terrainLayerMask))
         {
             GameObject hitTerrain = blinkTestHit.collider.gameObject;
 
             if (hitTerrain.CompareTag("Ramp"))
             {
-                destination = origin + (currentDirection * blinkRange);
+                destination = origin + (currentDirection * BlinkRange);
                 Vector3 rampTopBlinkPoint = destination;
 
                 rampTopBlinkPoint.y = blinkTestHit.collider.bounds.max.y + 1f;
@@ -228,7 +223,7 @@ public class BlinkHardware : EntityComponent, IHardware
 
                     // If possible "blink up ramp" destination is found, checks again to see if any terrain
                     // prohibits full length of blink.
-                    if (Physics.Raycast(origin, directionToDestination, out rampPathHit, blinkRange, terrainLayerMask))
+                    if (Physics.Raycast(origin, directionToDestination, out rampPathHit, BlinkRange, terrainLayerMask))
                     {
                         float distanceToHit = rampPathHit.distance - entityInformation.EntityCollider.bounds.size.z;
                         destination = origin + (directionToDestination * distanceToHit);
@@ -249,7 +244,7 @@ public class BlinkHardware : EntityComponent, IHardware
         }
         else
         {
-			destination = origin + (currentDirection * blinkRange);
+			destination = origin + (currentDirection * BlinkRange);
 		}
 
         return destination;

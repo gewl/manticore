@@ -63,7 +63,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         {
             eventID = EventTriggerType.BeginDrag,
         };
-        beginDragEntry.callback.AddListener(GenerateInventoryButtonListener_BeginDrag(hardwareImage, hardwareType));
+        beginDragEntry.callback.AddListener(GenerateInventoryButtonListener_BeginDrag(hardwareImage, hardwareType, InventoryController.GetHardwareSubtype(hardwareType)));
 
         trigger.triggers.Add(beginDragEntry);
 
@@ -95,11 +95,11 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         trigger.triggers.Add(pointerExitEntry);
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareType hardwareType)
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareType hardwareType, Type hardwareSubtype)
     {
         return (data) =>
         {
-            inventoryMenuController.BeginDragging(image, hardwareType);
+            inventoryMenuController.BeginDragging(image, hardwareType, hardwareSubtype);
         };
     }
 

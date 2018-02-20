@@ -1,30 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
+[Serializable]
 public abstract class NullifyHardwareData : HardwareData {
 
-    protected abstract float baseNullifyRadius { get; }
-    protected abstract float nullifyRadiusMomentumIncrement { get; }
+    protected abstract float BaseNullifyRadius { get; }
+    protected abstract float NullifyRadiusMomentumIncrement { get; }
 
     public virtual float GetNullifyRadius(int currentMomentum)
     {
-        return baseNullifyRadius + (nullifyRadiusMomentumIncrement * currentMomentum);
+        return BaseNullifyRadius + (NullifyRadiusMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float baseTimeToComplete { get; }
-    protected abstract float timeToCompleteMomentumIncrement { get; }
+    protected abstract float BaseTimeToExpand { get; }
+    protected abstract float TimeToExpandMomentumDecrement { get; }
 
-    public virtual float GetTimeToComplete(int currentMomentum)
+    public virtual float GetTimeToExpand(int currentMomentum)
     {
-        return baseTimeToComplete + (timeToCompleteMomentumIncrement * currentMomentum);
+        return BaseTimeToExpand - (TimeToExpandMomentumDecrement * currentMomentum);
     }
 
-    protected abstract float baseLingerDuration { get; }
-    protected abstract float lingerDurationMomentumIncrement { get; }
+    protected abstract float BaseLingerDuration { get; }
+    protected abstract float LingerDurationMomentumIncrement { get; }
 
     public virtual float GetLingerDuration(int currentMomentum)
     {
-        return baseLingerDuration + (lingerDurationMomentumIncrement * currentMomentum);
+        return BaseLingerDuration + (LingerDurationMomentumIncrement * currentMomentum);
     }
 }
