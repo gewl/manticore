@@ -50,7 +50,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         else
         {
             Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
-            float currentMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.CurrentMoveSpeed);
+            float currentMoveSpeed = entityStats.GetMoveSpeed();
 
             ChangeVelocity(currentDirection, currentMoveSpeed);
         }

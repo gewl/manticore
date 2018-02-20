@@ -114,7 +114,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
             }
             else
             {
-                HardwareTypes activeHardwareType = activeHardware.Type;
+                HardwareType activeHardwareType = activeHardware.Type;
 
                 activeHardwareBubSprite = DataAssociations.GetHardwareTypeBubImage(activeHardwareType);
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
@@ -137,11 +137,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
         ToggleMomentumButtons(true);
 
-        HardwareTypes[] activeHardware = InventoryController.GetEquippedActiveHardware();
+        HardwareType[] activeHardware = InventoryController.GetEquippedActiveHardware();
         for (int i = 0; i < activeHardware.Length; i++)
         {
-            HardwareTypes hardwareType = activeHardware[i];
-            bool isSlotOccupied = hardwareType != HardwareTypes.None;
+            HardwareType hardwareType = activeHardware[i];
+            bool isSlotOccupied = hardwareType != HardwareType.None;
             bool isMaxedOut = false;
             if (isSlotOccupied)
             {
@@ -153,11 +153,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     void UpdateAbilityMomentumCounters(MomentumData momentumData)
     {
-        HardwareTypes[] allEquippedActiveHardware = InventoryController.GetEquippedActiveHardware();
+        HardwareType[] allEquippedActiveHardware = InventoryController.GetEquippedActiveHardware();
         for (int i = 0; i < abilityMomentumCounters.Length; i++)
         {
-            HardwareTypes activeHardwareType = allEquippedActiveHardware[i];
-            if (activeHardwareType != HardwareTypes.None)
+            HardwareType activeHardwareType = allEquippedActiveHardware[i];
+            if (activeHardwareType != HardwareType.None)
             {
                 abilityMomentumCounterTextElements[i].text = MomentumManager.GetMomentumPointsByHardwareType(activeHardwareType).ToString();
             }
@@ -174,7 +174,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     public void OnAssignMomentumButtonClick(int buttonIndex)
     {
-        HardwareTypes equippedHardwareType = InventoryController.GetEquippedActiveHardware()[buttonIndex];
+        HardwareType equippedHardwareType = InventoryController.GetEquippedActiveHardware()[buttonIndex];
         MomentumManager.AssignMomentumPointToHardware(equippedHardwareType);
     }
 

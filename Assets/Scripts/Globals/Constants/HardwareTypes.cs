@@ -1,4 +1,4 @@
-﻿public enum HardwareTypes
+﻿public enum HardwareType
 {
     None,
     Parry,

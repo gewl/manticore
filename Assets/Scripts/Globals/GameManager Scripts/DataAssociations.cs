@@ -14,8 +14,8 @@ public class DataAssociations : SerializedMonoBehaviour {
     }
 
     [OdinSerialize]
-    Dictionary<HardwareTypes, Sprite> hardwareTypeToBubImageMap;
-    public static Sprite GetHardwareTypeBubImage(HardwareTypes hardwareType)
+    Dictionary<HardwareType, Sprite> hardwareTypeToBubImageMap;
+    public static Sprite GetHardwareTypeBubImage(HardwareType hardwareType)
     {
         return instance.hardwareTypeToBubImageMap[hardwareType];
     }

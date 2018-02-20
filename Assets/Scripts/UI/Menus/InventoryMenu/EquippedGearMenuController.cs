@@ -64,21 +64,21 @@ public class EquippedGearMenuController : MonoBehaviour {
         inventoryMenuController.OnStopDraggingElement -= UnflagInvalidDropBubs;
     }
 
-    void FlagInvalidDropBubs(HardwareTypes hardwareType)
+    void FlagInvalidDropBubs(HardwareType hardwareType)
     {
-        HardwareTypes[] activeHardware = InventoryController.Inventory.EquippedActiveHardware;
+        HardwareType[] activeHardware = InventoryController.Inventory.EquippedActiveHardware;
         for (int i = 0; i < activeHardware.Length; i++)
         {
-            HardwareTypes thisHardware = activeHardware[i];
+            HardwareType thisHardware = activeHardware[i];
 
-            if (thisHardware == HardwareTypes.None)
+            if (thisHardware == HardwareType.None)
             {
                 passiveHardwareImages[i].color = Color.blue;
             }
         }
     }
 
-    void UnflagInvalidDropBubs(HardwareTypes hardwareType)
+    void UnflagInvalidDropBubs(HardwareType hardwareType)
     {
         for (int i = 0; i < passiveHardwareImages.Length; i++)
         {
@@ -197,13 +197,13 @@ public class EquippedGearMenuController : MonoBehaviour {
     {
         for (int i = 0; i < inventory.EquippedActiveHardware.Length; i++)
         {
-            HardwareTypes equippedHardware = inventory.EquippedActiveHardware[i];
+            HardwareType equippedHardware = inventory.EquippedActiveHardware[i];
             activeHardwareImages[i].sprite = DataAssociations.GetHardwareTypeBubImage(equippedHardware);
         }
 
         for (int i = 0; i < inventory.EquippedPassiveHardware.Length; i++)
         {
-            HardwareTypes equippedHardware = inventory.EquippedPassiveHardware[i];
+            HardwareType equippedHardware = inventory.EquippedPassiveHardware[i];
             passiveHardwareImages[i].sprite = DataAssociations.GetHardwareTypeBubImage(equippedHardware);
         }
     }

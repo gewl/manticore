@@ -25,30 +25,30 @@ public class InventoryController {
         }
     }
 
-    public static void DiscoverHardware(HardwareTypes hardwareType)
+    public static void DiscoverHardware(HardwareType hardwareType)
     {
         Inventory.ObtainHardwareType(hardwareType);
         OnInventoryUpdated(Inventory);
     }
 
-    public static bool HasDiscoveredHardware(HardwareTypes hardwareType)
+    public static bool HasDiscoveredHardware(HardwareType hardwareType)
     {
         return Inventory.ObtainedHardware[hardwareType];
     }
 
-    public static HardwareTypes[] GetEquippedActiveHardware()
+    public static HardwareType[] GetEquippedActiveHardware()
     {
         return Inventory.EquippedActiveHardware;
     }
 
-    public static HardwareTypes[] GetEquippedPassiveHardware()
+    public static HardwareType[] GetEquippedPassiveHardware()
     {
         return Inventory.EquippedPassiveHardware;
     }
 
     #region equipping/unequipping
 
-    public static void EquipActiveHardware(int slot, HardwareTypes hardwareType)
+    public static void EquipActiveHardware(int slot, HardwareType hardwareType)
     {
         if (slot == 0 || slot == 1)
         {
@@ -60,7 +60,7 @@ public class InventoryController {
         OnInventoryUpdated(Inventory);
     }
 
-    public static void EquipPassiveHardware(int slot, HardwareTypes hardwareType)
+    public static void EquipPassiveHardware(int slot, HardwareType hardwareType)
     {
         Inventory.EquippedPassiveHardware[slot] = hardwareType;
 
@@ -69,7 +69,7 @@ public class InventoryController {
 
     public static void UnequipActiveHardware(int slot)
     {
-        Inventory.EquippedActiveHardware[slot] = HardwareTypes.None;
+        Inventory.EquippedActiveHardware[slot] = HardwareType.None;
 
         OnInventoryUpdated(Inventory);
         UnequipPassiveHardware(slot);
@@ -77,7 +77,7 @@ public class InventoryController {
 
     public static void UnequipPassiveHardware(int slot)
     {
-        Inventory.EquippedPassiveHardware[slot] = HardwareTypes.None;
+        Inventory.EquippedPassiveHardware[slot] = HardwareType.None;
 
         OnInventoryUpdated(Inventory);
     }

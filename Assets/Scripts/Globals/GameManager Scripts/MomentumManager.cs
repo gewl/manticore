@@ -62,7 +62,7 @@ public class MomentumManager : MonoBehaviour {
     #endregion
 
     #region point manipulation
-    public static int GetMomentumPointsByHardwareType(HardwareTypes hardwareType)
+    public static int GetMomentumPointsByHardwareType(HardwareType hardwareType)
     {
         if (!CurrentMomentumData.HardwareTypeToMomentumMap.ContainsKey(hardwareType))
         {
@@ -72,7 +72,7 @@ public class MomentumManager : MonoBehaviour {
         return CurrentMomentumData.HardwareTypeToMomentumMap[hardwareType];
     }
 
-    public static void AssignMomentumPointToHardware(HardwareTypes hardwareType)
+    public static void AssignMomentumPointToHardware(HardwareType hardwareType)
     {
         if (CurrentMomentumData.UnassignedAvailableMomentumPoints == 0)
         {
@@ -98,7 +98,7 @@ public class MomentumManager : MonoBehaviour {
             Debug.Log("Trying to undo last momentum assignment with no momentum assigned.");
             return;
         }
-        HardwareTypes lastHardwareTypeIncremented = CurrentMomentumData.AssignedMomentumTracker.Pop();
+        HardwareType lastHardwareTypeIncremented = CurrentMomentumData.AssignedMomentumTracker.Pop();
 
         CurrentMomentumData.HardwareTypeToMomentumMap[lastHardwareTypeIncremented]--;
         OnMomentumUpdated(CurrentMomentumData);

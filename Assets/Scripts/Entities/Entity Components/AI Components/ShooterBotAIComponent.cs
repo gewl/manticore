@@ -151,6 +151,7 @@ public class ShooterBotAIComponent : EntityComponent {
 
     void OnUpdate()
     {
+        navMeshAgent.speed = entityStats.GetMoveSpeed();
         if (isAggroed)
         {
             AggroedUpdate();

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ParryHardware : EntityComponent, IHardware {
 
-    HardwareTypes type = HardwareTypes.Parry;
-    public HardwareTypes Type { get { return type; } }
+    HardwareType type = HardwareType.Parry;
+    public HardwareType Type { get { return type; } }
 
     public bool IsInUse { get { return false; } }
 
@@ -22,11 +22,11 @@ public class ParryHardware : EntityComponent, IHardware {
     {
         get
         {
-            return MomentumManager.GetMomentumPointsByHardwareType(HardwareTypes.Parry);
+            return MomentumManager.GetMomentumPointsByHardwareType(HardwareType.Parry);
         }
     }
 
-    public float ParryDamage { get { return subtypeData.GetDamageDealt(ParryMomentum); } }
+    public float ParryDamage { get { return subtypeData.GetDamageDealt(ParryMomentum) * entityStats.GetDamageDealtModifier(); } }
     public int StaminaCost
     {
         get
@@ -80,9 +80,7 @@ public class ParryHardware : EntityComponent, IHardware {
 		parryBox.SetActive(false);
 	}
 
-    protected override void Unsubscribe()
-    {
-	}
+    protected override void Unsubscribe() { }
 
     #region IHardware methods
 
@@ -107,7 +105,7 @@ public class ParryHardware : EntityComponent, IHardware {
         }
     }
 
-    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         Debug.LogError("Trying to apply Parry passively.");
     }

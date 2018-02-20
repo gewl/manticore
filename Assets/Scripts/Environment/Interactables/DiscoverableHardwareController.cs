@@ -5,7 +5,7 @@ using UnityEngine;
 public class DiscoverableHardwareController : MonoBehaviour, IInteractableObjectController {
 
     [SerializeField]
-    HardwareTypes typeToDiscover;
+    HardwareType typeToDiscover;
 
     public void RegisterInteraction()
     {

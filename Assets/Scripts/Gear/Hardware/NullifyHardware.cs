@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class NullifyHardware : MonoBehaviour, IHardware {
 
-    HardwareTypes type = HardwareTypes.Nullify;
-    public HardwareTypes Type { get { return type; } }
+    HardwareType type = HardwareType.Nullify;
+    public HardwareType Type { get { return type; } }
 
     public bool IsInUse { get { return false; } }
 
@@ -134,20 +134,20 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     #endregion
 
     #region Passive hardware use
-    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         switch (activeHardwareType)
         {
-            case HardwareTypes.Parry:
+            case HardwareType.Parry:
                 StartCoroutine(ApplyPassiveHardware_Parry(subject));
                 break;
-            case HardwareTypes.Blink:
+            case HardwareType.Blink:
                 StartCoroutine(ApplyPassiveHardware_Blink(activeHardware, subject));
                 break;
-            case HardwareTypes.Nullify:
+            case HardwareType.Nullify:
                 Debug.LogError("Trying to apply Nullify passive effect to Nullify active hardware.");
                 break;
-            case HardwareTypes.Riposte:
+            case HardwareType.Riposte:
                 StartCoroutine(ApplyPassiveHardware_Riposte(activeHardware, subject));
                 break;
             default:

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiposteHardware : MonoBehaviour, IHardware {
+public class RiposteHardware : EntityComponent, IHardware {
     // Naming: "Dash" refers to the short Blink triggered when a bullet hits the player while the player is channeling.
     // "Riposte" refers both to the gear itself and to the teleport/damage combo triggered if the player impacts an
     // entity while Dashing.
 
-    HardwareTypes type = HardwareTypes.Riposte;
-    public HardwareTypes Type { get { return type; } }
+    EntityGearManagement gear;
+    HardwareType type = HardwareType.Riposte;
+    public HardwareType Type { get { return type; } }
 
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Channel;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
@@ -19,16 +20,13 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         subtypeData = hardwareData as RiposteHardwareData;
     }
 
-    EntityGearManagement gear;
+    int RiposteMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(HardwareType.Riposte); } }
 
-    int baseStaminaCost = 10;
-    public int BaseStaminaCost { get { return baseStaminaCost; } }
-    public int StaminaCost { get { return baseStaminaCost; } }
-
-    float riposteDamage = 100f;
-    float initialDashRange = 10f;
-    // In units per second.
-    float dashRangeIncreaseRate = 8f;
+    public int StaminaCost { get { return subtypeData.GetStaminaCost(RiposteMomentum); } }
+    public float RiposteDamage { get { return subtypeData.GetDamageDealt(RiposteMomentum) * entityStats.GetDamageDealtModifier(); } }
+    float InitialDashRange { get { return subtypeData.GetDashRange(RiposteMomentum); } }
+    float DashRangeIncreaseRate { get { return subtypeData.GetDashRangeIncreaseRate(RiposteMomentum); } }
+    float RiposteCooldown { get { return subtypeData.GetCooldown(RiposteMomentum); } }
 
     Vector3 currentDashAimPosition;
 
@@ -44,8 +42,6 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     bool isDashing = false;
     public bool IsDashing { get { return isDashing; } }
-
-    float riposteCooldown = 4f;
 
     float hangTimeBeforeDashStarts = 0.1f;
     float timeToCompleteDash = 0.4f;
@@ -69,6 +65,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
 
     private void OnEnable()
     {
+        base.OnEnable();
         GameObject riposteZonePrefab = (GameObject)Resources.Load(RIPOSTE_ZONE_PATH);
         riposteZone = Instantiate(riposteZonePrefab, transform);
 
@@ -83,6 +80,9 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         entityCollider = GetComponent<Collider>();
         trailRenderer = GetComponent<TrailRenderer>();
     }
+
+    protected override void Subscribe() { }
+    protected override void Unsubscribe() { }
 
     private void OnDestroy()
     {
@@ -123,10 +123,10 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     {
         float timeElapsed = 0.0f;
 
-        while (timeElapsed < riposteCooldown)
+        while (timeElapsed < RiposteCooldown)
         {
             timeElapsed += Time.deltaTime;
-            percentOfCooldownRemaining = 1 - (timeElapsed / riposteCooldown);
+            percentOfCooldownRemaining = 1 - (timeElapsed / RiposteCooldown);
             CooldownUpdater(percentOfCooldownRemaining);
             yield return null;
         }
@@ -143,13 +143,13 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         riposteZone.SetActive(true);
 
         GearRangeIndicator gearRangeIndicator = GameManager.ActivateAndGetGearRangeIndicator();
-        float currentRiposteRange = initialDashRange;
+        float currentRiposteRange = InitialDashRange;
 
         healthComponent.IsInvulnerable = true;
 
         while (isChanneling && !hasDashed)
         {
-            currentRiposteRange += dashRangeIncreaseRate * Time.deltaTime;
+            currentRiposteRange += DashRangeIncreaseRate * Time.deltaTime;
 
             Vector3 mousePosition = GameManager.GetMousePositionOnPlayerPlane();
             Vector3 normalizedToMouse = (mousePosition - transform.position).normalized;
@@ -296,11 +296,11 @@ public class RiposteHardware : MonoBehaviour, IHardware {
         yield return new WaitForSeconds(0.2f);
 
         GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.Riposte);
-        target.GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(transform, riposteDamage);
+        target.GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(transform, RiposteDamage);
         gear.ApplyPassiveHardware(typeof(RiposteHardware), target.gameObject);
         if (audioComponent != null)
         {
-            audioComponent.PlayGearSound(HardwareTypes.Riposte);
+            audioComponent.PlayGearSound(HardwareType.Riposte);
         }
         targetEmitter.EmitEvent(EntityEvents.ResumeRotation);
 
@@ -312,20 +312,20 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     }
     #endregion
 
-    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         switch (activeHardwareType)
         {
-            case HardwareTypes.Parry:
+            case HardwareType.Parry:
                 ApplyPassiveHardware_Parry(subject);
                 break;
-            case HardwareTypes.Blink:
+            case HardwareType.Blink:
                 ApplyPassiveHardware_Blink(activeHardware as BlinkHardware, subject);
                 break;
-            case HardwareTypes.Nullify:
+            case HardwareType.Nullify:
                 ApplyPassiveHardware_Nullify(subject);
                 break;
-            case HardwareTypes.Riposte:
+            case HardwareType.Riposte:
                 Debug.LogError("Trying to apply Riposte passive hardware to Riposte active hardware.");
                 break;
             default:
@@ -341,7 +341,7 @@ public class RiposteHardware : MonoBehaviour, IHardware {
     void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware, GameObject entity)
     {
         blinkHardware.DoesBlinkDamage = true;
-        blinkHardware.BlinkDamage = riposteDamage / 3f;
+        blinkHardware.BlinkDamage = RiposteDamage / 3f;
     }
 
     void ApplyPassiveHardware_Nullify(GameObject nullifyZone)

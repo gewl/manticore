@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: RangedCubeData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 40
+  Health: 400
+  BaseDamage: 50
   MomentumValue: 6
   BaseMoveSpeed: 5
   AggroRange: 15
@@ -21,7 +22,6 @@ MonoBehaviour:
   ArcOfFire: 25
   AttackRange: 30
   AttackCooldown: 0.6
-  ProjectileStrength: 50
   BulletSpeed: 25
   AimNoiseInDegrees: 2
   Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}

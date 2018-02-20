@@ -30,6 +30,7 @@ public abstract class EntityComponent : SerializedMonoBehaviour {
         entityEmitter = GetComponent<EntityEmitter>();
         entityInformation = GetComponent<EntityInformation>();
         entityStats = GetComponent<EntityStatHandler>();
+        entityModifierHandler = GetComponent<EntityModifierHandler>();
     }
 
     /// <summary>

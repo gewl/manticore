@@ -5,11 +5,11 @@ using System.Collections.Generic;
 [Serializable]
 public class MomentumData {
 
-    public Dictionary<HardwareTypes, int> HardwareTypeToMomentumMap;
+    public Dictionary<HardwareType, int> HardwareTypeToMomentumMap;
     // This tracks in what order & to which Hardware momentum was assigned.
     // When player loses momentum, the last assigned momentum is removed.
     // Count also used to track total assigned momentum.
-    public Stack<HardwareTypes> AssignedMomentumTracker;
+    public Stack<HardwareType> AssignedMomentumTracker;
 
     public int ProgressTowardNextMomentum = 0;
     public int TotalMomentumPoints { get { return AssignedMomentumTracker.Count + UnassignedAvailableMomentumPoints; } }
@@ -25,8 +25,8 @@ public class MomentumData {
 
     public MomentumData()
     {
-        HardwareTypeToMomentumMap = new Dictionary<HardwareTypes, int>();
-        AssignedMomentumTracker = new Stack<HardwareTypes>();
+        HardwareTypeToMomentumMap = new Dictionary<HardwareType, int>();
+        AssignedMomentumTracker = new Stack<HardwareType>();
     }
 
     public void AddMomentum(int quantityToAdd)

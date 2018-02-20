@@ -4,24 +4,24 @@ using System.Collections.Generic;
 [Serializable]
 public class InventoryData {
 
-    public Dictionary<HardwareTypes, bool> ObtainedHardware;
+    public Dictionary<HardwareType, bool> ObtainedHardware;
     public Dictionary<RenewableTypes, bool> ObtainedRenewables;
 
-    public Dictionary<HardwareTypes, List<bool>> DiscoveredHardwareSubtypes;
-    public HardwareTypes[] EquippedActiveHardware;
-    public HardwareTypes[] EquippedPassiveHardware;
+    public Dictionary<HardwareType, List<bool>> DiscoveredHardwareSubtypes;
+    public HardwareType[] EquippedActiveHardware;
+    public HardwareType[] EquippedPassiveHardware;
     public RenewableTypes EquippedRenewable;
 
     public InventoryData()
     {
-        ObtainedHardware = new Dictionary<HardwareTypes, bool>();
+        ObtainedHardware = new Dictionary<HardwareType, bool>();
         ObtainedRenewables = new Dictionary<RenewableTypes, bool>();
-        DiscoveredHardwareSubtypes = new Dictionary<HardwareTypes, List<bool>>();
+        DiscoveredHardwareSubtypes = new Dictionary<HardwareType, List<bool>>();
 
-        foreach (var value in Enum.GetValues(typeof(HardwareTypes)))
+        foreach (var value in Enum.GetValues(typeof(HardwareType)))
         {
-            HardwareTypes hardwareType = (HardwareTypes)value;
-            if (hardwareType != HardwareTypes.None)
+            HardwareType hardwareType = (HardwareType)value;
+            if (hardwareType != HardwareType.None)
             {
                 ObtainedHardware[hardwareType] = false;
                 DiscoveredHardwareSubtypes[hardwareType] = new List<bool>(3)
@@ -33,24 +33,24 @@ public class InventoryData {
             }
         }
 
-        ObtainHardwareType(HardwareTypes.Parry);
-        ObtainHardwareType(HardwareTypes.Blink);
-        ObtainHardwareType(HardwareTypes.Riposte);
-        ObtainHardwareType(HardwareTypes.Nullify);
+        ObtainHardwareType(HardwareType.Parry);
+        ObtainHardwareType(HardwareType.Blink);
+        ObtainHardwareType(HardwareType.Riposte);
+        ObtainHardwareType(HardwareType.Nullify);
 
-        EquippedActiveHardware = new HardwareTypes[4]
+        EquippedActiveHardware = new HardwareType[4]
         {
-            HardwareTypes.Parry,
-            HardwareTypes.Blink,
-            HardwareTypes.None,
-            HardwareTypes.None
+            HardwareType.Parry,
+            HardwareType.Blink,
+            HardwareType.None,
+            HardwareType.None
         };
 
-        EquippedPassiveHardware = new HardwareTypes[4];
+        EquippedPassiveHardware = new HardwareType[4];
         EquippedRenewable = RenewableTypes.NoetherFrictionConverter;
     }
 
-    public void ObtainHardwareType(HardwareTypes hardwareType)
+    public void ObtainHardwareType(HardwareType hardwareType)
     {
         ObtainedHardware[hardwareType] = true;
         DiscoveredHardwareSubtypes[hardwareType][0] = true;

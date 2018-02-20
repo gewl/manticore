@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿public class EntityStatHandler : EntityComponent {
 
-public class EntityStatHandler : EntityComponent {
+    float BaseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
+    float BaseDamageDealtModifier { get { return 1.0f; } }
+    float BaseDamageReceivedModifier { get { return 1.0f; } }
 
-    float baseDamage { get { return entityInformation.Data.BaseDamage; } }
-    float baseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
+    protected override void Subscribe() { }
 
-    protected override void Subscribe()
-    {
-    }
-
-    protected override void Unsubscribe()
-    {
-    }
+    protected override void Unsubscribe() { }
 
     public float GetMoveSpeed()
     {
-        float calculatedDamage = baseDamage;
+        float calculatedMoveSpeed = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.MoveSpeed, BaseMoveSpeed);
+        return calculatedMoveSpeed;
+    }
+
+    public float GetDamageDealtModifier()
+    {
+        float damageDealtModifier = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.DamageDealt, BaseDamageDealtModifier);
+        return damageDealtModifier;
+    }
+
+    public float GetDamageReceivedModifier()
+    {
+        float damageReceivedModifier = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.DamageReceived, BaseDamageReceivedModifier);
+        return damageReceivedModifier;
     }
 }

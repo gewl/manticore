@@ -13,11 +13,11 @@ public class MasterSerializer : MonoBehaviour {
     static string DATA_DIRECTORY_PATH { get { return Application.dataPath + "/Data"; } }
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
 
-    static Dictionary<HardwareTypes, JSONObject> hardwareTypeToDescriptionsMap;
+    static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
 
     private void Awake()
     {
-        hardwareTypeToDescriptionsMap = new Dictionary<HardwareTypes, JSONObject>();
+        hardwareTypeToDescriptionsMap = new Dictionary<HardwareType, JSONObject>();
     }
 
     private void OnEnable()
@@ -90,7 +90,7 @@ public class MasterSerializer : MonoBehaviour {
     }
     #endregion
 
-    public static string GetGeneralHardwareDescription(HardwareTypes hardwareType)
+    public static string GetGeneralHardwareDescription(HardwareType hardwareType)
     {
         if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
         {
@@ -108,7 +108,7 @@ public class MasterSerializer : MonoBehaviour {
         return hardwareDescription;
     }
 
-    public static string GetSpecificHardwareDescription(HardwareTypes hardwareType, HardwareTypes activeHardwareType)
+    public static string GetSpecificHardwareDescription(HardwareType hardwareType, HardwareType activeHardwareType)
     {
         if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
         {
@@ -126,7 +126,7 @@ public class MasterSerializer : MonoBehaviour {
         return hardwareDescription;
     }
 
-    static JSONObject RetrieveDescriptionsObject(HardwareTypes hardwareType)
+    static JSONObject RetrieveDescriptionsObject(HardwareType hardwareType)
     {
         string hardwareDescriptionsObjectString = File.ReadAllText(HARDWARE_DESCRIPTIONS_DIRECTORY_PATH + "/" + hardwareType.ToString() + ".json");
         JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsObjectString);

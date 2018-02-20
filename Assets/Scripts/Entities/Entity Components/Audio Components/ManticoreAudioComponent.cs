@@ -12,7 +12,7 @@ public class ManticoreAudioComponent : EntityComponent
     [SerializeField]
     AudioClip hurtClip;
     [SerializeField]
-    Dictionary<HardwareTypes, AudioClip> activeHardwareSounds;
+    Dictionary<HardwareType, AudioClip> activeHardwareSounds;
     
     protected override void Awake()
     {
@@ -33,7 +33,7 @@ public class ManticoreAudioComponent : EntityComponent
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Parry, OnParry);
     }
 
-    public void PlayGearSound(HardwareTypes gear)
+    public void PlayGearSound(HardwareType gear)
     {
         AudioClip gearClip = activeHardwareSounds[gear];
         audioSource.clip = gearClip;
@@ -52,7 +52,7 @@ public class ManticoreAudioComponent : EntityComponent
     {
         if (parryClip != null)
         {
-            PlayGearSound(HardwareTypes.Parry);
+            PlayGearSound(HardwareType.Parry);
         }
     }
 

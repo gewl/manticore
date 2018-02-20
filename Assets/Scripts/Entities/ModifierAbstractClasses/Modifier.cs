@@ -14,17 +14,16 @@ public abstract class Modifier {
         Stun
     }
 
-    ModifierType modifierType;
-    public ModifierType GetModifierType { get { return modifierType; } }
+    public virtual ModifierType GetModifierType { get; set; }
+    public virtual float BaseDuration { get; set; }
 
     EntityModifierHandler modifierHandler;
-    float baseDuration;
     float durationRemaining;
 
     public Modifier(EntityModifierHandler _modifierHandler)
     {
         modifierHandler = _modifierHandler;
-        durationRemaining = baseDuration;
+        durationRemaining = BaseDuration;
     }
 
     public void Update(float deltaTime)

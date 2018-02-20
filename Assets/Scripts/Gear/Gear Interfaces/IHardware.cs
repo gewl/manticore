@@ -12,7 +12,7 @@ public interface IHardware
     bool IsOnCooldown { get; }
     CooldownDelegate CooldownUpdater { get; set; }
 
-    HardwareTypes Type { get; }
+    HardwareType Type { get; }
     HardwareUseTypes HardwareUseType { get; }
 
     void AssignSubtypeData(HardwareData hardwareData);
@@ -28,5 +28,5 @@ public interface IHardware
     /// What 'subject' refers to will depend on the hardware type.
     /// e.g. a bullet for Parry hardware, spawnedNullification for Nullify hardware, or riposteTarget for Riposte.
     /// </remarks>
-    void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
+    void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject);
 }

@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class InventoryMenuController : MonoBehaviour {
 
-    public delegate void MenuEventListener(HardwareTypes hardwareType);
+    public delegate void MenuEventListener(HardwareType hardwareType);
     public MenuEventListener OnDraggingElement;
     public MenuEventListener OnStopDraggingElement;
 
     MenuManager menuManager;
 
     GearTypes draggingGearType;
-    HardwareTypes draggingHardwareType;
+    HardwareType draggingHardwareType;
 
     [SerializeField]
     Image draggingImage;
@@ -24,7 +24,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     // TODO: Overload this for other gearTypes, or cast enum value to int,
     // then cast int back to whichever enum is being dragged?
-    public void BeginDragging(Sprite image, HardwareTypes hardwareType)
+    public void BeginDragging(Sprite image, HardwareType hardwareType)
     {
         menuManager.DeactivateTooltip();
 
@@ -41,7 +41,7 @@ public class InventoryMenuController : MonoBehaviour {
     public void EndDrag()
     {
         // TODO: This will need to be fixed to work with other draggable inventory items.
-        if (draggingHardwareType == HardwareTypes.None)
+        if (draggingHardwareType == HardwareType.None)
         {
             return;
         }
@@ -49,10 +49,10 @@ public class InventoryMenuController : MonoBehaviour {
         draggingImage.gameObject.SetActive(false);
         OnStopDraggingElement(draggingHardwareType);
 
-        draggingHardwareType = HardwareTypes.None;
+        draggingHardwareType = HardwareType.None;
     }
 
-    public void HardwareInventoryMenu_PointerEnter(HardwareTypes hardwareType)
+    public void HardwareInventoryMenu_PointerEnter(HardwareType hardwareType)
     {
         string hardwareDescription = MasterSerializer.GetGeneralHardwareDescription(hardwareType);
         menuManager.ActivateTooltip(hardwareType.ToString(), hardwareDescription);
@@ -65,12 +65,12 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void GenerateActiveHardwareTooltip(int activeHardwareSlot)
     {
-        if (draggingHardwareType != HardwareTypes.None && (activeHardwareSlot == 0 || activeHardwareSlot == 1))
+        if (draggingHardwareType != HardwareType.None && (activeHardwareSlot == 0 || activeHardwareSlot == 1))
         {
             return;
         }
-        HardwareTypes hardwareType = draggingHardwareType != HardwareTypes.None ? draggingHardwareType : InventoryController.GetEquippedActiveHardware()[activeHardwareSlot];
-        if (hardwareType == HardwareTypes.None)
+        HardwareType hardwareType = draggingHardwareType != HardwareType.None ? draggingHardwareType : InventoryController.GetEquippedActiveHardware()[activeHardwareSlot];
+        if (hardwareType == HardwareType.None)
         {
             return;
         }
@@ -81,10 +81,10 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void GeneratePassiveHardwareTooltip(int passiveHardwareSlot)
     {
-        HardwareTypes hardwareType = draggingHardwareType != HardwareTypes.None ? draggingHardwareType : InventoryController.GetEquippedPassiveHardware()[passiveHardwareSlot];
-        HardwareTypes activeHardwareType = InventoryController.GetEquippedActiveHardware()[passiveHardwareSlot];
+        HardwareType hardwareType = draggingHardwareType != HardwareType.None ? draggingHardwareType : InventoryController.GetEquippedPassiveHardware()[passiveHardwareSlot];
+        HardwareType activeHardwareType = InventoryController.GetEquippedActiveHardware()[passiveHardwareSlot];
 
-        if (hardwareType == HardwareTypes.None || activeHardwareType == HardwareTypes.None)
+        if (hardwareType == HardwareType.None || activeHardwareType == HardwareType.None)
         {
             return;
         }
@@ -95,7 +95,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void EquipDraggedActiveHardware(int slot)
     {
-        if (draggingHardwareType == HardwareTypes.None)
+        if (draggingHardwareType == HardwareType.None)
         {
             return;
         }
@@ -105,7 +105,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void EquipDraggedPassiveHardware(int slot)
     {
-        if (draggingHardwareType == HardwareTypes.None)
+        if (draggingHardwareType == HardwareType.None)
         {
             return;
         }

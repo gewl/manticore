@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18066521, g: 0.22617, b: 0.3071283, a: 1}
+  m_IndirectSpecularColor: {r: 0.18066543, g: 0.22617039, b: 0.30712885, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -6621,6 +6621,8 @@ GameObject:
   - component: {fileID: 1056705387}
   - component: {fileID: 1056705389}
   - component: {fileID: 1056705390}
+  - component: {fileID: 1056705401}
+  - component: {fileID: 1056705400}
   - component: {fileID: 1056705384}
   - component: {fileID: 1056705385}
   - component: {fileID: 1056705388}
@@ -6930,8 +6932,8 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   deadSkin: {fileID: 2100000, guid: 373a696c17a524074ad796fed5e07ccb, type: 2}
-  damageFlashMaterial: {fileID: 0}
-  deathFlashMaterial: {fileID: 0}
+  damageFlashMaterial: {fileID: 2100000, guid: c0466437fbf39c849b477b90ebbcf35f, type: 2}
+  deathFlashMaterial: {fileID: 2100000, guid: 232181017c4890143bd7f9683cf74074, type: 2}
   floatingDamageTextPrefab: {fileID: 224678591430901264, guid: 721e7dc7f0374d94da8e283b9d1225a3,
     type: 2}
   unitHealthBarPrefab: {fileID: 1109543358358190, guid: ca92282b88dce0c4baf344f5e9727cdf,
@@ -7112,6 +7114,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40c74fe8af739884fa8f22e184267887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+--- !u!114 &1056705400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056705381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb623730f15dd45bb914abeac4f9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+--- !u!114 &1056705401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056705381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03ae0d53c9138f4dbd62e959a396bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -8613,6 +8655,8 @@ GameObject:
   - component: {fileID: 1369184830}
   - component: {fileID: 1369184817}
   - component: {fileID: 1369184816}
+  - component: {fileID: 1369184834}
+  - component: {fileID: 1369184833}
   - component: {fileID: 1369184814}
   - component: {fileID: 1369184822}
   - component: {fileID: 1369184815}
@@ -9187,11 +9231,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: activeHardwareSounds
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[HardwareTypes, Assembly-CSharp],[UnityEngine.AudioClip,
+      Data: 0|System.Collections.Generic.Dictionary`2[[HardwareType, Assembly-CSharp],[UnityEngine.AudioClip,
         UnityEngine.AudioModule]], mscorlib
     - Name: 
       Entry: 7
-      Data: 1|System.Collections.Generic.EqualityComparer`1+DefaultComparer[[HardwareTypes,
+      Data: 1|System.Collections.Generic.EqualityComparer`1+DefaultComparer[[HardwareType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
@@ -9231,6 +9275,46 @@ MonoBehaviour:
       Data: 
   parryClip: {fileID: 8300000, guid: 228c70b59a59f1f4bb7d87e4b599dfa1, type: 3}
   hurtClip: {fileID: 8300000, guid: d2ef776ab22c58145aeb2a40843f7ef9, type: 3}
+--- !u!114 &1369184833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1369184813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03ae0d53c9138f4dbd62e959a396bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+--- !u!114 &1369184834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1369184813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb623730f15dd45bb914abeac4f9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1 &1373877169
 GameObject:
   m_ObjectHideFlags: 0
@@ -12303,7 +12387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1890118277
 Transform:
   m_ObjectHideFlags: 0
@@ -12714,11 +12798,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: hardwareTypeToBubImageMap
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[HardwareTypes, Assembly-CSharp],[UnityEngine.Sprite,
+      Data: 0|System.Collections.Generic.Dictionary`2[[HardwareType, Assembly-CSharp],[UnityEngine.Sprite,
         UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 7
-      Data: 1|System.Collections.Generic.EqualityComparer`1+DefaultComparer[[HardwareTypes,
+      Data: 1|System.Collections.Generic.EqualityComparer`1+DefaultComparer[[HardwareType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

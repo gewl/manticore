@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BlinkHardware : EntityComponent, IHardware
 {
-    HardwareTypes type = HardwareTypes.Blink;
-    public HardwareTypes Type { get { return type; } }
+    HardwareType type = HardwareType.Blink;
+    public HardwareType Type { get { return type; } }
 
     HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
     public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
@@ -89,7 +89,7 @@ public class BlinkHardware : EntityComponent, IHardware
         StartCoroutine("FireBlink");
     }
 
-    public void ApplyPassiveHardware(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject)
     {
         Debug.LogError("Attempting to apply Blink hardware passively");
     }

@@ -11,7 +11,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
 
     Image[] hardwareInventoryImages;
     EventTrigger[] hardwareInventoryEventTriggers;
-    HardwareTypes[] discoverableHardwareTypes;
+    HardwareType[] discoverableHardwareTypes;
 
     InventoryMenuController inventoryMenuController;
 
@@ -21,7 +21,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
 
         hardwareInventoryImages = GetComponentsInChildren<Image>();
         hardwareInventoryEventTriggers = GetComponentsInChildren<EventTrigger>();
-        HardwareTypes[] allHardwareTypes = (HardwareTypes[])Enum.GetValues(typeof(HardwareTypes));
+        HardwareType[] allHardwareTypes = (HardwareType[])Enum.GetValues(typeof(HardwareType));
         discoverableHardwareTypes = allHardwareTypes.Skip(3).ToArray();
     }
 
@@ -43,7 +43,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
     {
         for (int i = 0; i < discoverableHardwareTypes.Length; i++)
         {
-            HardwareTypes hardwareType = discoverableHardwareTypes[i];
+            HardwareType hardwareType = discoverableHardwareTypes[i];
             if (InventoryController.HasDiscoveredHardware(hardwareType))
             {
                 Sprite discoverableHardwareBubImage = DataAssociations.GetHardwareTypeBubImage(hardwareType);
@@ -56,7 +56,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         }
     }
 
-    void AssignDragEventListeners(EventTrigger trigger, Sprite hardwareImage, HardwareTypes hardwareType)
+    void AssignDragEventListeners(EventTrigger trigger, Sprite hardwareImage, HardwareType hardwareType)
     {
         // Begin drag listener
         EventTrigger.Entry beginDragEntry = new EventTrigger.Entry
@@ -95,7 +95,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         trigger.triggers.Add(pointerExitEntry);
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareTypes hardwareType)
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_BeginDrag(Sprite image, HardwareType hardwareType)
     {
         return (data) =>
         {
@@ -111,7 +111,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         };
     }
 
-    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerEnter(HardwareTypes hardwareType)
+    UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerEnter(HardwareType hardwareType)
     {
         return (data) =>
         {
@@ -131,7 +131,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
     {
         for (int i = 0; i < discoverableHardwareTypes.Length; i++)
         {
-            HardwareTypes hardwareType = discoverableHardwareTypes[i];
+            HardwareType hardwareType = discoverableHardwareTypes[i];
 
             if (inventory.EquippedActiveHardware.Contains(hardwareType) || inventory.EquippedPassiveHardware.Contains(hardwareType))
             {

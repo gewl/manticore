@@ -72,8 +72,8 @@ public class EntityStaminaComponent : EntityComponent {
 
         for (int i = 2; i < inventory.EquippedActiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.EquippedActiveHardware[i];
-            if (hardwareType != HardwareTypes.None)
+            HardwareType hardwareType = inventory.EquippedActiveHardware[i];
+            if (hardwareType != HardwareType.None)
             {
                 adjustedMaximumStamina -= equipCost_activeHardware;
             }
@@ -81,8 +81,8 @@ public class EntityStaminaComponent : EntityComponent {
 
         for (int i = 0; i < inventory.EquippedPassiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.EquippedPassiveHardware[i];
-            if (hardwareType != HardwareTypes.None)
+            HardwareType hardwareType = inventory.EquippedPassiveHardware[i];
+            if (hardwareType != HardwareType.None)
             {
                 adjustedMaximumStamina -= equipCost_passiveHardware;
             }

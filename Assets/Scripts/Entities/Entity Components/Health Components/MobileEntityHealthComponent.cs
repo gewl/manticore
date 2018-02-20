@@ -216,6 +216,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     
     void TakeDamage(float damage)
     {
+        damage *= entityStats.GetDamageReceivedModifier();
         LowerHealthAmount(damage);
 
         // Trigger floating damage text.

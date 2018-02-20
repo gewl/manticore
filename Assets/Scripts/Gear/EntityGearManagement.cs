@@ -18,7 +18,7 @@ public class EntityGearManagement : MonoBehaviour {
 
     public IRenewable EquippedRenewable { get { return equippedRenewable; } }
 
-    delegate void ApplyPassiveHardwareDelegate(HardwareTypes activeHardwareType, IHardware activeHardware, GameObject subject);
+    delegate void ApplyPassiveHardwareDelegate(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject);
     ApplyPassiveHardwareDelegate passiveHardware_Parry;
     ApplyPassiveHardwareDelegate passiveHardware_Blink;
     ApplyPassiveHardwareDelegate passiveHardware_Slot2;
@@ -103,7 +103,7 @@ public class EntityGearManagement : MonoBehaviour {
         // Add components for new hardware.
         for (int i = 2; i < inventory.EquippedActiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.EquippedActiveHardware[i];
+            HardwareType hardwareType = inventory.EquippedActiveHardware[i];
             GenerateActiveHardwareComponent(hardwareType, i);
         }
 
@@ -111,7 +111,7 @@ public class EntityGearManagement : MonoBehaviour {
 
         for (int i = 0; i < inventory.EquippedPassiveHardware.Length; i++)
         {
-            HardwareTypes hardwareType = inventory.EquippedPassiveHardware[i];
+            HardwareType hardwareType = inventory.EquippedPassiveHardware[i];
             GeneratePassiveHardwareComponent(hardwareType, i);
         }
 
@@ -130,19 +130,19 @@ public class EntityGearManagement : MonoBehaviour {
         }
     }
 
-    Type GetHardwareType(HardwareTypes hardwareType)
+    Type GetHardwareType(HardwareType hardwareType)
     {
         switch (hardwareType)
         {
-            case HardwareTypes.None:
+            case HardwareType.None:
                 return null;
-            case HardwareTypes.Parry:
+            case HardwareType.Parry:
                 return typeof(ParryHardware);
-            case HardwareTypes.Blink:
+            case HardwareType.Blink:
                 return typeof(BlinkHardware);
-            case HardwareTypes.Nullify:
+            case HardwareType.Nullify:
                 return typeof(NullifyHardware);
-            case HardwareTypes.Riposte:
+            case HardwareType.Riposte:
                 return typeof(RiposteHardware);
             default:
                 return null;
@@ -164,9 +164,9 @@ public class EntityGearManagement : MonoBehaviour {
         }
     }
     
-    void GenerateActiveHardwareComponent(HardwareTypes newHardwareType, int index)
+    void GenerateActiveHardwareComponent(HardwareType newHardwareType, int index)
     {
-        if (newHardwareType == HardwareTypes.None)
+        if (newHardwareType == HardwareType.None)
         {
             return;
         }
@@ -174,9 +174,9 @@ public class EntityGearManagement : MonoBehaviour {
         activeHardware[index] = gameObject.AddComponent(newHardware) as IHardware;
     }
 
-    void GeneratePassiveHardwareComponent(HardwareTypes newHardwareType, int index)
+    void GeneratePassiveHardwareComponent(HardwareType newHardwareType, int index)
     {
-        if (newHardwareType == HardwareTypes.None)
+        if (newHardwareType == HardwareType.None)
         {
             return;
         }
