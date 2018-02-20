@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
+[Serializable]
 public abstract class ValueModifier : Modifier {
 
     public ValueModifier(EntityModifierHandler _modifierHandler) : base(_modifierHandler) { }
 
-    protected virtual float ValueFactor { get; set; }
+    protected abstract float ValueFactor { get; }
 
     public float ModifyValue(float currentValue)
     {

@@ -14,8 +14,8 @@ public abstract class Modifier {
         Stun
     }
 
-    public virtual ModifierType GetModifierType { get; set; }
-    public virtual float BaseDuration { get; set; }
+    public abstract ModifierType GetModifierType { get; }
+    public abstract float BaseDuration { get; }
 
     EntityModifierHandler modifierHandler;
     float durationRemaining;

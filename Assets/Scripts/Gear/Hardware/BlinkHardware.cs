@@ -181,7 +181,7 @@ public class BlinkHardware : EntityComponent, IHardware
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject entity = hits[i].collider.gameObject;
-// TODO: Make this work for other health components.
+            // TODO: Make this work for other health components.
             MobileEntityHealthComponent entityHealthComponent = entity.GetComponent<MobileEntityHealthComponent>();
             entityHealthComponent.ReceiveDamageDirectly(transform, BlinkDamage);
         }

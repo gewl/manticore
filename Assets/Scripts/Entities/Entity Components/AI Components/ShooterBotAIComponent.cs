@@ -22,10 +22,10 @@ public class ShooterBotAIComponent : EntityComponent {
     [SerializeField]
     float maxPatrolPause = 0.5f;
 
-    [SerializeField]
-    float minCombatPause = 0.1f;
-    [SerializeField]
-    float maxCombatPause = 0.5f;
+    //[SerializeField]
+    //float minCombatPause = 0.1f;
+    //[SerializeField]
+    //float maxCombatPause = 0.5f;
 
     RangedEntityData _entityData;
     RangedEntityData EntityData
