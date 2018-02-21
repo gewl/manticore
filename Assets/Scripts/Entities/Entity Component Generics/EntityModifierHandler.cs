@@ -8,6 +8,8 @@ public class EntityModifierHandler : EntityComponent {
     List<ValueModifier> activeDamageDealtModifiers;
     List<ValueModifier> activeDamageReceivedModifiers;
 
+    Modifier activeStunModifier;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,49 +46,69 @@ public class EntityModifierHandler : EntityComponent {
         }
     }
 
-    public void RegisterModifier(Modifier modifier)
+    public void RegisterModifier(Modifier newModifier)
     {
-        modifier.Init(this);
-        switch (modifier.modifierType)
+        newModifier.Init(this);
+        switch (newModifier.modifierType)
         {
             case ModifierType.MoveSpeed:
-                activeMoveSpeedModifiers.Add(modifier as ValueModifier);
+                activeMoveSpeedModifiers.Add(newModifier as ValueModifier);
                 break;
             case ModifierType.DamageDealt:
-                activeDamageDealtModifiers.Add(modifier as ValueModifier);
+                activeDamageDealtModifiers.Add(newModifier as ValueModifier);
                 break;
             case ModifierType.DamageReceived:
-                activeDamageReceivedModifiers.Add(modifier as ValueModifier);
+                activeDamageReceivedModifiers.Add(newModifier as ValueModifier);
                 break;
             case ModifierType.Mark:
                 break;
             case ModifierType.Movement:
                 break;
             case ModifierType.Stun:
+                if (activeStunModifier == null)
+                {
+                    activeStunModifier = newModifier;
+                }
+                else if (newModifier.baseDuration > activeStunModifier.DurationRemaining)
+                {
+                    Destroy(activeStunModifier);
+                    activeStunModifier = newModifier;
+                }
+                else
+                {
+                    Destroy(newModifier);
+                }
+                entityEmitter.isStunned = true;
                 break;
             default:
                 break;
         }
     }
 
-    public void DeregisterModifier(Modifier modifier)
+    public void DeregisterModifier(Modifier modifierToDeregister)
     {
-        switch (modifier.modifierType)
+        switch (modifierToDeregister.modifierType)
         {
             case ModifierType.MoveSpeed:
-                activeMoveSpeedModifiers.Remove(modifier as ValueModifier);
+                activeMoveSpeedModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.DamageDealt:
-                activeDamageDealtModifiers.Remove(modifier as ValueModifier);
+                activeDamageDealtModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.DamageReceived:
-                activeDamageReceivedModifiers.Remove(modifier as ValueModifier);
+                activeDamageReceivedModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.Mark:
                 break;
             case ModifierType.Movement:
                 break;
             case ModifierType.Stun:
+                if (modifierToDeregister == activeStunModifier)
+                {
+                    Destroy(modifierToDeregister);
+                    activeStunModifier = null;
+                    entityEmitter.isStunned = false;
+                }
                 break;
             default:
                 break;

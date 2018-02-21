@@ -12,6 +12,7 @@ public class EntityEmitter : MonoBehaviour {
     Dictionary<string, List<UnityAction>> eventSubscriptions;
 
     public bool isMuted = false;
+    public bool isStunned = false;
 
     private void Awake()
     {
@@ -69,7 +70,7 @@ public class EntityEmitter : MonoBehaviour {
 
     public void EmitEvent(string entityEvent)
     {
-        if (isMuted || !eventSubscriptions.ContainsKey(entityEvent))
+        if (isMuted || isStunned || !eventSubscriptions.ContainsKey(entityEvent))
         {
             return;
         }

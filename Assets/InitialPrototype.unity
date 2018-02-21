@@ -6187,7 +6187,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1305936714024294, guid: 15470089193dac545b1d3188093a4c74, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198488690288691224, guid: 15470089193dac545b1d3188093a4c74,
         type: 2}
@@ -11745,7 +11745,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734111140}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2712fc376931d874c94f0867eb13c21e, type: 3}
   m_Name: 

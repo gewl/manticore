@@ -12,6 +12,7 @@ public class Modifier : ScriptableObject {
 
     EntityModifierHandler modifierHandler;
     float durationRemaining;
+    public float DurationRemaining { get { return durationRemaining; } }
 
     public void Init(EntityModifierHandler _modifierHandler)
     {
