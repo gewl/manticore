@@ -13,4 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifierType: 0
   baseDuration: 2
-  valueFactor: 0.1
+  modifierEffectParticles: {fileID: 1674978430116560, guid: e7b1d2e00b4517c47b0771e4af1efc4f,
+    type: 2}
+  valueFactor: 0.4
