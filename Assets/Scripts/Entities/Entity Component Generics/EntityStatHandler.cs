@@ -10,19 +10,19 @@
 
     public float GetMoveSpeed()
     {
-        float calculatedMoveSpeed = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.MoveSpeed, BaseMoveSpeed);
+        float calculatedMoveSpeed = entityModifierHandler.ApplyModifiersToValue(ModifierType.MoveSpeed, BaseMoveSpeed);
         return calculatedMoveSpeed;
     }
 
     public float GetDamageDealtModifier()
     {
-        float damageDealtModifier = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.DamageDealt, BaseDamageDealtModifier);
+        float damageDealtModifier = entityModifierHandler.ApplyModifiersToValue(ModifierType.DamageDealt, BaseDamageDealtModifier);
         return damageDealtModifier;
     }
 
     public float GetDamageReceivedModifier()
     {
-        float damageReceivedModifier = entityModifierHandler.ApplyModifiersToValue(Modifier.ModifierType.DamageReceived, BaseDamageReceivedModifier);
+        float damageReceivedModifier = entityModifierHandler.ApplyModifiersToValue(ModifierType.DamageReceived, BaseDamageReceivedModifier);
         return damageReceivedModifier;
     }
 }

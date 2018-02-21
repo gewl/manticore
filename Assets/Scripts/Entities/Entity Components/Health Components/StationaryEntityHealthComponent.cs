@@ -116,7 +116,7 @@ public class StationaryEntityHealthComponent : EntityComponent
         }
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable)
         {
-            BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
+            BulletController bullet = projectile.transform.GetComponent<BulletController>();
             float damage = bullet.strength;
             currentHealth -= damage;
 

@@ -11,9 +11,9 @@ public class Nullify : MonoBehaviour {
     {
         if (IsReflecting)
         {
-            BasicBullet bullet = other.GetComponent<BasicBullet>();
+            BulletController bullet = other.GetComponent<BulletController>();
 
-            if (bullet != null && bullet.CompareTag(BasicBullet.ENEMY_BULLET))
+            if (bullet != null && bullet.CompareTag(BulletController.ENEMY_BULLET))
             {
                 bullet.Parry(transform.parent, bullet.strength * handicap, handicap);
             }

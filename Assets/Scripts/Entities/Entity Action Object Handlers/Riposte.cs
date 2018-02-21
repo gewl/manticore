@@ -20,7 +20,7 @@ public class Riposte : MonoBehaviour {
         if (other.gameObject.layer == enemyBulletLayer)
         {
             other.GetComponent<Collider>().enabled = false;
-            other.GetComponent<BasicBullet>().enabled = false;
+            other.GetComponent<BulletController>().enabled = false;
 
             riposteHardware.StartAbsorbingBullet(other.gameObject);
         }

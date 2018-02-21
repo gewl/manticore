@@ -23,11 +23,11 @@ GameObject:
   - component: {fileID: 135758704189025598}
   - component: {fileID: 23754850670682814}
   - component: {fileID: 54213273796349374}
-  - component: {fileID: 114392065188491070}
+  - component: {fileID: 114459769294849922}
   - component: {fileID: 120437426340101018}
   - component: {fileID: 96787907787702388}
   m_Layer: 9
-  m_Name: Bullet
+  m_Name: SlowBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
+  - {fileID: 2100000, guid: 4c73c0e62fc8d2748b2a456b68cdf371, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -207,7 +207,7 @@ TrailRenderer:
     generateLightingData: 1
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &114392065188491070
+--- !u!114 &114459769294849922
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -215,16 +215,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1947742881152404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94c9efb0839d342978e83b0297f9d2f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 497398932fb6d894a90eb2e840fa635e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBulletMaterial: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
-  friendlyBulletMaterial: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f,
+  friendlyBulletMaterial: {fileID: 2100000, guid: cc8ff22ff50f37c4b9e0ba4c5a4ce36c,
     type: 2}
   dissolveBulletMaterial: {fileID: 2100000, guid: abf28aa594e4e174c978bea953255082,
     type: 2}
   defaultStrength: 50
   timeToDestroyDissolvingBullet: 15
+  timeToFullSpeedOnParry: 0.3
+  initialSpeedModifierOnParry: 0.5
   speed: 50
   strength: 50
   firer: {fileID: 0}
@@ -240,7 +241,8 @@ MonoBehaviour:
     type: 2}
   friendlyBulletCollisionParticles: {fileID: 1175951107517830, guid: 98ff1fd7e0cc04b4ea0a6a081431cc2e,
     type: 2}
-  effectParent: {fileID: 0}
+  particlesParent: {fileID: 0}
+  slowModifier: {fileID: 11400000, guid: 058129fb64daac0459d69133834b4673, type: 2}
 --- !u!120 &120437426340101018
 LineRenderer:
   m_ObjectHideFlags: 1

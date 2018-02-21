@@ -2,31 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Modifier {
+public class Modifier : ScriptableObject {
 
-    public enum ModifierType
-    {
-        MoveSpeed,
-        DamageDealt,
-        DamageReceived,
-        Mark,
-        Movement,
-        Stun
-    }
-
-    public abstract ModifierType GetModifierType { get; }
-    public abstract float BaseDuration { get; }
+    public ModifierType modifierType;
+    public float baseDuration;
 
     EntityModifierHandler modifierHandler;
     float durationRemaining;
 
-    public Modifier(EntityModifierHandler _modifierHandler)
+    public void Init(EntityModifierHandler _modifierHandler)
     {
         modifierHandler = _modifierHandler;
-        durationRemaining = BaseDuration;
+        durationRemaining = baseDuration;
     }
 
-    public void Update(float deltaTime)
+    public void UpdateModifierDuration(float deltaTime)
     {
         durationRemaining -= deltaTime;
 

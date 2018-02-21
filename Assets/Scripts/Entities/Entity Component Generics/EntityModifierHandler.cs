@@ -29,30 +29,40 @@ public class EntityModifierHandler : EntityComponent {
     void OnUpdate()
     {
         float timeElapsed = Time.deltaTime;
+
         for (int i = 0; i < activeMoveSpeedModifiers.Count; i++)
         {
-            activeMoveSpeedModifiers[i].Update(timeElapsed);
+            activeMoveSpeedModifiers[i].UpdateModifierDuration(timeElapsed);
+        }
+        for (int i = 0; i < activeDamageDealtModifiers.Count; i++)
+        {
+            activeDamageDealtModifiers[i].UpdateModifierDuration(timeElapsed);
+        }
+        for (int i = 0; i < activeDamageReceivedModifiers.Count; i++)
+        {
+            activeDamageReceivedModifiers[i].UpdateModifierDuration(timeElapsed);
         }
     }
 
     public void RegisterModifier(Modifier modifier)
     {
-        switch (modifier.GetModifierType)
+        modifier.Init(this);
+        switch (modifier.modifierType)
         {
-            case Modifier.ModifierType.MoveSpeed:
+            case ModifierType.MoveSpeed:
                 activeMoveSpeedModifiers.Add(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.DamageDealt:
+            case ModifierType.DamageDealt:
                 activeDamageDealtModifiers.Add(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.DamageReceived:
+            case ModifierType.DamageReceived:
                 activeDamageReceivedModifiers.Add(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.Mark:
+            case ModifierType.Mark:
                 break;
-            case Modifier.ModifierType.Movement:
+            case ModifierType.Movement:
                 break;
-            case Modifier.ModifierType.Stun:
+            case ModifierType.Stun:
                 break;
             default:
                 break;
@@ -61,37 +71,37 @@ public class EntityModifierHandler : EntityComponent {
 
     public void DeregisterModifier(Modifier modifier)
     {
-        switch (modifier.GetModifierType)
+        switch (modifier.modifierType)
         {
-            case Modifier.ModifierType.MoveSpeed:
+            case ModifierType.MoveSpeed:
                 activeMoveSpeedModifiers.Remove(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.DamageDealt:
+            case ModifierType.DamageDealt:
                 activeDamageDealtModifiers.Remove(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.DamageReceived:
+            case ModifierType.DamageReceived:
                 activeDamageReceivedModifiers.Remove(modifier as ValueModifier);
                 break;
-            case Modifier.ModifierType.Mark:
+            case ModifierType.Mark:
                 break;
-            case Modifier.ModifierType.Movement:
+            case ModifierType.Movement:
                 break;
-            case Modifier.ModifierType.Stun:
+            case ModifierType.Stun:
                 break;
             default:
                 break;
         }
     }
 
-    List<ValueModifier> GetValueModifierList(Modifier.ModifierType modifierType)
+    List<ValueModifier> GetValueModifierList(ModifierType modifierType)
     {
         switch (modifierType)
         {
-            case Modifier.ModifierType.MoveSpeed:
+            case ModifierType.MoveSpeed:
                 return activeMoveSpeedModifiers;
-            case Modifier.ModifierType.DamageDealt:
+            case ModifierType.DamageDealt:
                 return activeDamageDealtModifiers;
-            case Modifier.ModifierType.DamageReceived:
+            case ModifierType.DamageReceived:
                 return activeDamageReceivedModifiers;
             default:
                 Debug.LogError("Trying to get ValueModifierList for incompatible ModifierType: " + modifierType);
@@ -99,7 +109,7 @@ public class EntityModifierHandler : EntityComponent {
         }
     }
 
-    public float ApplyModifiersToValue(Modifier.ModifierType modifierType, float currentValue)
+    public float ApplyModifiersToValue(ModifierType modifierType, float currentValue)
     {
         List<ValueModifier> activeModifierList = GetValueModifierList(modifierType);
 

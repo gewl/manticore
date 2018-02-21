@@ -1,14 +1,13 @@
 ﻿using System;
+using UnityEngine;
 
-[Serializable]
-public abstract class ValueModifier : Modifier {
+[CreateAssetMenu(menuName="Modifiers/ValueModifier")]
+public class ValueModifier : Modifier {
 
-    public ValueModifier(EntityModifierHandler _modifierHandler) : base(_modifierHandler) { }
-
-    protected abstract float ValueFactor { get; }
+    public float valueFactor;
 
     public float ModifyValue(float currentValue)
     {
-        return currentValue * ValueFactor;
+        return currentValue * valueFactor;
     }
 }

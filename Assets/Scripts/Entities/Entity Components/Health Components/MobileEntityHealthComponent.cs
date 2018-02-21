@@ -167,7 +167,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         if (DoesBulletDamage(projectile.gameObject) && !IsInvulnerable) 
         {
             // Get & deal damage.
-            BasicBullet bullet = projectile.transform.GetComponent<BasicBullet>();
+            BulletController bullet = projectile.transform.GetComponent<BulletController>();
             float damage = bullet.strength;
             TakeDamage(damage);
 

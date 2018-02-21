@@ -22,7 +22,7 @@ public class Parry : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         GameObject bulletObject = other.gameObject;
-        BasicBullet bullet = other.GetComponent<BasicBullet>();
+        BulletController bullet = other.GetComponent<BulletController>();
         if (bullet == null)
         {
             return;

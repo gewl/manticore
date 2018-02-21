@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicBullet : MonoBehaviour {
+public class BulletController : MonoBehaviour {
 
-    [SerializeField]
-    Material enemyBulletMaterial;
     [SerializeField]
     Material friendlyBulletMaterial;
     [SerializeField]
@@ -45,7 +43,7 @@ public class BasicBullet : MonoBehaviour {
     [SerializeField]
     GameObject friendlyBulletCollisionParticles;
     [SerializeField]
-    Transform effectParent;
+    Transform particlesParent;
 
 	void Start () {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -81,11 +79,11 @@ public class BasicBullet : MonoBehaviour {
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
             {
-                Instantiate(friendlyBulletCollisionParticles, transform.position, Quaternion.identity, effectParent);
+                Instantiate(friendlyBulletCollisionParticles, transform.position, Quaternion.identity, particlesParent);
             }
             else
             {
-                Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, effectParent);
+                Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, particlesParent);
             }
             Destroy(gameObject);
         }
@@ -95,7 +93,9 @@ public class BasicBullet : MonoBehaviour {
     {
         Vector3 collisionPoint = collision.contacts[0].point;
         Vector3 normal = collision.contacts[0].normal;
-        Impact(collisionPoint, normal, collision.gameObject.layer);
+        int collisionObjectLayer = collision.gameObject.layer;
+
+        Impact(collisionPoint, normal, collision.gameObject, collisionObjectLayer);
     }
 
     void OnTriggerEnter(Collider other)
@@ -106,23 +106,23 @@ public class BasicBullet : MonoBehaviour {
 		}
 	}
 
-    void Impact(Vector3 point, Vector3 normal, int collisionObjectLayer)
+    protected virtual void Impact(Vector3 point, Vector3 normal, GameObject collisionObject, int collisionObjectLayer)
     {
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
-            Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
             if (collisionObjectLayer != 9) {
                 Destroy(gameObject);
             }
         }
         else if (collisionObjectLayer == LayerMask.NameToLayer(NULLIFIER_LAYER))
         {
-            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
             StartCoroutine(DissolveBullet());
         }
         else
         {
-            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), effectParent);
+            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
             Destroy(gameObject);
         }
     }
@@ -133,12 +133,13 @@ public class BasicBullet : MonoBehaviour {
         Parry(newFirer, firer.position, strength);
     }
 
+    // If no target position supplied, apply new strength in reverse direction.
     public void Parry(Transform newFirer, float newStrength, float speedModifier = 2f)
     {
         Parry(newFirer, firer.position, newStrength, speedModifier);
     }
 
-    // If no new strength supplied, executes parry maintaining current strength.
+    // If no new strength supplied, maintain current strength.
     public void Parry(Transform newFirer, Vector3 targetPosition)
     {
         Parry(newFirer, targetPosition, strength);

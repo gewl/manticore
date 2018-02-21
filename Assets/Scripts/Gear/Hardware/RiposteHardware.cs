@@ -335,7 +335,7 @@ public class RiposteHardware : EntityComponent, IHardware {
 
     void ApplyPassiveHardware_Parry(GameObject bullet)
     {
-        bullet.GetComponent<BasicBullet>().IsHoming = true;
+        bullet.GetComponent<BulletController>().IsHoming = true;
     }
 
     void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware, GameObject entity)

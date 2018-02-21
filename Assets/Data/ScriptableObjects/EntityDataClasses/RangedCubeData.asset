@@ -24,6 +24,6 @@ MonoBehaviour:
   AttackCooldown: 0.6
   BulletSpeed: 25
   AimNoiseInDegrees: 2
-  Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
+  Projectile: {fileID: 4748067459592758, guid: 6da50b93aad3f194aa929d169a2ceeab, type: 2}
   NumberOfProjectiles: 1
   RotationStrength: 2
