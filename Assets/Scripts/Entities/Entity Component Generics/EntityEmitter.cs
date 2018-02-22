@@ -82,7 +82,10 @@ public class EntityEmitter : MonoBehaviour {
 
     public void EmitEvent(string entityEvent)
     {
-        if (isMuted || isStunned || !eventSubscriptions.ContainsKey(entityEvent))
+        // Adding this conditional logic feels like a slippery slope, but entities *need*
+        // to be reacting to damage/death even when they're stunned.
+        bool isReactingToDamage = entityEvent == EntityEvents.Hurt || entityEvent == EntityEvents.Dead;
+        if (!isReactingToDamage && (isMuted || isStunned) || !eventSubscriptions.ContainsKey(entityEvent))
         {
             return;
         }

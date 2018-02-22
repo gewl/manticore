@@ -9,6 +9,7 @@ public class EntityModifierHandler : EntityComponent {
     List<ValueModifier> activeDamageReceivedModifiers;
 
     Modifier activeStunModifier;
+    OnDamageMarkModifier activeMark;
 
     protected override void Awake()
     {
@@ -18,9 +19,23 @@ public class EntityModifierHandler : EntityComponent {
         activeDamageReceivedModifiers = new List<ValueModifier>();
     }
 
-    protected override void Subscribe() { }
+    protected override void Subscribe()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Hurt, OnHurt);
+    }
 
-    protected override void Unsubscribe() { }
+    protected override void Unsubscribe()
+    {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Hurt, OnHurt);
+    }
+
+    void OnHurt()
+    {
+        if (activeMark != null)
+        {
+            activeMark.ActivateMark(transform);
+        }
+    }
 
     // This is happening OUTSIDE of normal entity event lifecycle,
     // because effects should progress/lapse even if emitter is disconnected.
@@ -45,6 +60,11 @@ public class EntityModifierHandler : EntityComponent {
         {
             activeStunModifier.UpdateModifierDuration(timeElapsed);
         }
+
+        if (activeMark != null)
+        {
+            activeMark.UpdateModifierDuration(timeElapsed);
+        }
     }
 
     public void RegisterModifier(Modifier newModifier)
@@ -62,6 +82,11 @@ public class EntityModifierHandler : EntityComponent {
                 activeDamageReceivedModifiers.Add(newModifier as ValueModifier);
                 break;
             case ModifierType.Mark:
+                if (activeMark != null)
+                {
+                    Destroy(activeMark);
+                }
+                activeMark = newModifier as OnDamageMarkModifier;
                 break;
             case ModifierType.Movement:
                 break;
@@ -100,6 +125,7 @@ public class EntityModifierHandler : EntityComponent {
                 activeDamageReceivedModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.Mark:
+                activeMark = null;
                 break;
             case ModifierType.Movement:
                 break;
