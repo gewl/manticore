@@ -14,6 +14,18 @@ public class EntityEmitter : MonoBehaviour {
     public bool isMuted = false;
     public bool isStunned = false;
 
+    public void SetStunned()
+    {
+        EmitEvent(EntityEvents.Stun);
+        isStunned = true;
+    }
+
+    public void SetUnstunned()
+    {
+        isStunned = false;
+        EmitEvent(EntityEvents.Unstun);
+    }
+
     private void Awake()
     {
         eventSubscriptions = new Dictionary<string, List<UnityAction>>();

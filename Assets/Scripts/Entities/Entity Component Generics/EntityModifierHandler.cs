@@ -18,17 +18,13 @@ public class EntityModifierHandler : EntityComponent {
         activeDamageReceivedModifiers = new List<ValueModifier>();
     }
 
-    protected override void Subscribe()
-    {
-        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
-    }
+    protected override void Subscribe() { }
 
-    protected override void Unsubscribe()
-    {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-    }
+    protected override void Unsubscribe() { }
 
-    void OnUpdate()
+    // This is happening OUTSIDE of normal entity event lifecycle,
+    // because effects should progress/lapse even if emitter is disconnected.
+    void Update()
     {
         float timeElapsed = Time.deltaTime;
 
@@ -43,6 +39,11 @@ public class EntityModifierHandler : EntityComponent {
         for (int i = 0; i < activeDamageReceivedModifiers.Count; i++)
         {
             activeDamageReceivedModifiers[i].UpdateModifierDuration(timeElapsed);
+        }
+
+        if (activeStunModifier != null)
+        {
+            activeStunModifier.UpdateModifierDuration(timeElapsed);
         }
     }
 
@@ -67,6 +68,7 @@ public class EntityModifierHandler : EntityComponent {
             case ModifierType.Stun:
                 if (activeStunModifier == null)
                 {
+                    entityEmitter.SetStunned();
                     activeStunModifier = newModifier;
                 }
                 else if (newModifier.baseDuration > activeStunModifier.DurationRemaining)
@@ -78,7 +80,6 @@ public class EntityModifierHandler : EntityComponent {
                 {
                     Destroy(newModifier);
                 }
-                entityEmitter.isStunned = true;
                 break;
             default:
                 break;
@@ -103,12 +104,9 @@ public class EntityModifierHandler : EntityComponent {
             case ModifierType.Movement:
                 break;
             case ModifierType.Stun:
-                if (modifierToDeregister == activeStunModifier)
-                {
-                    Destroy(modifierToDeregister);
-                    activeStunModifier = null;
-                    entityEmitter.isStunned = false;
-                }
+                Destroy(modifierToDeregister);
+                activeStunModifier = null;
+                entityEmitter.SetUnstunned();
                 break;
             default:
                 break;

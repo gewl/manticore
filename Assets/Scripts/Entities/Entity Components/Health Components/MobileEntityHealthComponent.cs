@@ -39,7 +39,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     float currentHealth = -1;
     [HideInInspector]
     public bool IsInvulnerable = false;
-    bool isStunned = false;
     bool isDead = false;
 
     #region accessors
@@ -96,15 +95,11 @@ public class MobileEntityHealthComponent : EntityComponent {
     protected override void Subscribe() {
         entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
-        entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
-        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnUnstun);
 	}
 
     protected override void Unsubscribe() {
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnStun);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnUnstun);
 	}
 
     void OnInvulnerable()
@@ -115,16 +110,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     void OnVulnerable()
     {
         IsInvulnerable = false; 
-    }
-
-    void OnStun()
-    {
-        isStunned = true;
-    }
-
-    void OnUnstun()
-    {
-        isStunned = false;
     }
 
     void LowerHealthAmount(float amountToLower)
@@ -284,11 +269,6 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityEmitter.EmitEvent(EntityEvents.Hurt);
         if (!isPlayer)
         {
-            if (!isStunned)
-            {
-                //entityEmitter.EmitEvent(EntityEvents.Stun);
-            }
-
             // Knock back
             Vector3 collisionVelocity = damagingProjectileCollisionVelocity;
             entityInformation.EntityRigidbody.velocity = collisionVelocity;
@@ -374,10 +354,7 @@ public class MobileEntityHealthComponent : EntityComponent {
                     renderers[i].material = defaultMaterials[i];
                 }
                 entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                if (isStunned)
-                {
-                    entityEmitter.EmitEvent(EntityEvents.Unstun);
-                }
+
                 // Revert invulnerable-on-damage
                 if (isPlayer)
                 {

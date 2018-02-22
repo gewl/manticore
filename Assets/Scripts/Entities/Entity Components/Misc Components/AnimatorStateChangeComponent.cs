@@ -13,6 +13,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
 
     const string IS_MOVING = "isMoving";
     const string IS_DEAD = "isDead";
+    const string IS_STUNNED = "isStunned";
 
     protected override void Awake()
     {
@@ -27,7 +28,8 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Move, OnMove);
         entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
-
+        entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnUnstun);
     }
 
     protected override void Unsubscribe()
@@ -35,7 +37,8 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Move, OnMove);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
-
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnStun);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnUnstun);
     }
 
     void OnMove()
@@ -61,6 +64,23 @@ public class AnimatorStateChangeComponent : EntityComponent {
         if (!animator.GetBool(IS_DEAD))
         {
             animator.SetBool(IS_DEAD, true);
+        }
+    }
+
+    void OnStun()
+    {
+        if (!animator.GetBool(IS_STUNNED))
+        {
+            animator.SetBool(IS_STUNNED, true);
+        }
+    }
+
+    void OnUnstun()
+    {
+        Debug.Log("unstunning");
+        if (animator.GetBool(IS_STUNNED))
+        {
+            animator.SetBool(IS_STUNNED, false);
         }
     }
 

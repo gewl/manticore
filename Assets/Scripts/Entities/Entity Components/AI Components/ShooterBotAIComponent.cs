@@ -126,6 +126,7 @@ public class ShooterBotAIComponent : EntityComponent {
     void OnAggro()
     {
         isAggroed = true;
+        navMeshAgent.isStopped = true;
         entityEmitter.EmitEvent(EntityEvents.Stop);
     }
 
@@ -142,9 +143,11 @@ public class ShooterBotAIComponent : EntityComponent {
     void Disconnect()
     {
         CancelInvoke();
+        navMeshAgent.isStopped = true;
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
     }
+
     #endregion
 
     #region EntityEvent handlers

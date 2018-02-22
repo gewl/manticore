@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName="Modifiers/BaseModifier")]
 public class Modifier : ScriptableObject {
 
     public ModifierType modifierType;
