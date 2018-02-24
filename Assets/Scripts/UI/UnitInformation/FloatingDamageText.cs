@@ -7,8 +7,8 @@ public class FloatingDamageText : MonoBehaviour {
 
     [SerializeField]
     float timeToComplete = 1f;
-    float destinationYDisplacement = 45f;
-    float baseYDisplacement = 15f;
+    float destinationYDisplacement = 100f;
+    float baseYDisplacement = 50f;
 
     Camera mainCamera;
     public float DamageValue;

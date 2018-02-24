@@ -14,9 +14,9 @@ public class BulletController : MonoBehaviour {
     float timeToDestroyDissolvingBullet = 2.0f;
 
     [SerializeField]
-    float timeToFullSpeedOnParry = 0.3f;
+    float timeToFullSpeed = 0.3f;
     [SerializeField]
-    float initialSpeedModifierOnParry = 0.5f;
+    float initialSpeedModifier = 0.5f;
 
     MeshRenderer meshRenderer;
     TrailRenderer trailRenderer;
@@ -161,7 +161,7 @@ public class BulletController : MonoBehaviour {
         speed *= speedModifier;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
-        StartCoroutine(AccelerateBullet(direction));
+        bulletRigidbody.velocity = direction * speed;
 
         meshRenderer.material = friendlyBulletMaterial;
 		trailRenderer.material = friendlyBulletMaterial;
@@ -172,14 +172,14 @@ public class BulletController : MonoBehaviour {
     {
         float timeElapsed = 0.0f;
 
-        bulletRigidbody.velocity = direction * speed * initialSpeedModifierOnParry;
-        while (timeElapsed < timeToFullSpeedOnParry)
+        bulletRigidbody.velocity = direction * speed * initialSpeedModifier;
+        while (timeElapsed < timeToFullSpeed)
         {
             timeElapsed += Time.deltaTime;
-            float percentageCompleted = timeElapsed / timeToFullSpeedOnParry;
+            float percentageCompleted = timeElapsed / timeToFullSpeed;
             float curvePoint = GameManager.BelovedSwingCurve.Evaluate(percentageCompleted);
 
-            float fractionOfTotalSpeed = Mathf.Lerp(initialSpeedModifierOnParry, 1.0f, curvePoint);
+            float fractionOfTotalSpeed = Mathf.Lerp(initialSpeedModifier, 1.0f, curvePoint);
 
             bulletRigidbody.velocity = direction * speed * fractionOfTotalSpeed;
             yield return null;
