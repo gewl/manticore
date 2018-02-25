@@ -13,7 +13,7 @@ public class ShooterBotAIComponent : EntityComponent {
     bool isChasing = false;
 
     public List<Transform> patrolNodes;
-    public List<Vector3> patrolPositions;
+    List<Vector3> patrolPositions;
     int currentPatrolPositionIndex = 0;
     bool reachedNewPatrolPoint = false;
 

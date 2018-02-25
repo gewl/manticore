@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProBuilder2;
 
 public class AreaController : MonoBehaviour {
 
     [Header("Area Sections")]
     [SerializeField]
-    List<GameObject> collapsibleWallList;
+    List<GameObject> fadableWallList;
     [SerializeField]
     GameObject roof;
     [SerializeField]
@@ -28,6 +29,7 @@ public class AreaController : MonoBehaviour {
 
     MeshRenderer roofRenderer;
     List<MeshRenderer> sectionsToFadeRenderers;
+    List<MeshRenderer> wallRenderers;
 
     List<float> expandedWallScales;
     List<float> collapsedWallScales;
@@ -45,13 +47,15 @@ public class AreaController : MonoBehaviour {
         }
 
         expandedWallScales = new List<float>();
+        wallRenderers = new List<MeshRenderer>();
         collapsedWallScales = new List<float>();
         interiorEntityTracker = new Dictionary<GameObject, int>();
-        for (int i = 0; i < collapsibleWallList.Count; i++)
+        for (int i = 0; i < fadableWallList.Count; i++)
         {
-            Transform wall = collapsibleWallList[i].transform;
-            expandedWallScales.Add(wall.localScale.z);
-            collapsedWallScales.Add(wall.localScale.z * 0.2f);
+            //Transform wall = fadableWallList[i].transform;
+            //expandedWallScales.Add(wall.localScale.z);
+            //collapsedWallScales.Add(wall.localScale.z * 0.2f);
+            wallRenderers.Add(fadableWallList[i].GetComponent<MeshRenderer>());
         }
     }
 
@@ -71,11 +75,11 @@ public class AreaController : MonoBehaviour {
     {
         if (roof != null)
         {
-            StartCoroutine(FadeObject(roofRenderer, isActive));
+            StartCoroutine(FadeObject(roofRenderer, isActive, true));
         }
         if (isActive)
         {
-            CollapseWalls();
+            HideWalls();
 
             for (int i = 0; i < areasToFadeWhenActive.Count; i++)
             {
@@ -84,7 +88,7 @@ public class AreaController : MonoBehaviour {
         }
         else
         {
-            ExpandWalls();
+            ShowWalls();
 
             for (int i = 0; i < areasToFadeWhenActive.Count; i++)
             {
@@ -159,28 +163,30 @@ public class AreaController : MonoBehaviour {
     #endregion
 
     #region Area manipulation 
-    void CollapseWalls()
+    void HideWalls()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < collapsibleWallList.Count; i++)
+        for (int i = 0; i < wallRenderers.Count; i++)
         {
-            StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
+            //StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
+            StartCoroutine(FadeObject(wallRenderers[i], true));
         }
     }
 
-    void ExpandWalls()
+    void ShowWalls()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < collapsibleWallList.Count; i++)
+        for (int i = 0; i < wallRenderers.Count; i++)
         {
-            StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
+            //StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
+            StartCoroutine(FadeObject(wallRenderers[i], false));
         }
     }
     #endregion
 
-    IEnumerator FadeObject(MeshRenderer renderer, bool isFading)
+    IEnumerator FadeObject(MeshRenderer renderer, bool isFading, bool fadeCompletely = false)
     {
         Color originalColor = renderer.material.color;
         Color finalColor = originalColor;
@@ -195,7 +201,14 @@ public class AreaController : MonoBehaviour {
         }
         else
         {
-            finalColor.a = playerInAreaFadeValue;
+            if (fadeCompletely)
+            {
+                finalColor.a = 0f;
+            }
+            else
+            {
+                finalColor.a = playerInAreaFadeValue;
+            }
         }
 
         float transitionTime = GameManager.RoomTransitionTime;
@@ -216,7 +229,8 @@ public class AreaController : MonoBehaviour {
 
     IEnumerator SlideWallDownward(int wallIndex, float slideTime, AnimationCurve slideCurve)
     {
-        GameObject wall = collapsibleWallList[wallIndex];
+        Debug.Log("sliding wall downward");
+        GameObject wall = fadableWallList[wallIndex];
 
         Vector3 originalScale = wall.transform.localScale;
         Vector3 finalScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, collapsedWallScales[wallIndex]);
@@ -236,7 +250,7 @@ public class AreaController : MonoBehaviour {
 
     IEnumerator SlideWallUpward(int wallIndex, float slideTime, AnimationCurve slideCurve)
     {
-        GameObject wall = collapsibleWallList[wallIndex];
+        GameObject wall = fadableWallList[wallIndex];
 
         Vector3 originalScale = wall.transform.localScale;
         Vector3 finalScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, expandedWallScales[wallIndex]);
