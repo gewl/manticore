@@ -75,7 +75,7 @@ public class BulletController : MonoBehaviour {
             }
         }
 
-        if (!isFrozen && bulletRigidbody.velocity.sqrMagnitude < 150f)
+        if (!isFrozen && bulletRigidbody.velocity.sqrMagnitude < 50f)
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
             {
@@ -148,6 +148,7 @@ public class BulletController : MonoBehaviour {
     public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength, float speedModifier = 2f)
     {
         GameManager.JoltScreen(bulletRigidbody.velocity);
+        StopAllCoroutines();
         
         strength = newStrength;
         target = firer;

@@ -378,6 +378,7 @@ public class GameManager : SerializedMonoBehaviour {
             relativeMousePosition.y = playerTransform.position.y;
         }
 
+        Debug.DrawLine(playerTransform.position, relativeMousePosition, Color.red, 0.1f);
         return relativeMousePosition;
     }
 

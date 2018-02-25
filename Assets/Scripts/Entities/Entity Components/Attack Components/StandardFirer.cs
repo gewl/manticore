@@ -57,7 +57,7 @@ public class StandardFirer : EntityComponent {
         {
             spawnPoint = firer.transform;
         }
-        spawnPoint.position = new Vector3(spawnPoint.position.x, 0f, spawnPoint.position.z);
+        spawnPoint.position = new Vector3(spawnPoint.position.x, transform.position.y, spawnPoint.position.z);
     }
 
     protected override void OnEnable()
