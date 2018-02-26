@@ -400,6 +400,7 @@ public class MobileEntityHealthComponent : EntityComponent {
             yield return null;
         }
 
+        
         Destroy(gameObject);
         yield break;
     }

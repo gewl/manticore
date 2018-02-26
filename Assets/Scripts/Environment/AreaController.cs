@@ -5,6 +5,8 @@ using ProBuilder2;
 
 public class AreaController : MonoBehaviour {
 
+    private const string FLOOR_PREFIX = "Floor";
+
     [Header("Area Sections")]
     [SerializeField]
     List<GameObject> fadableWallList;
@@ -31,14 +33,18 @@ public class AreaController : MonoBehaviour {
     List<MeshRenderer> sectionsToFadeRenderers;
     List<MeshRenderer> wallRenderers;
 
-    List<float> expandedWallScales;
-    List<float> collapsedWallScales;
-
     Dictionary<GameObject, int> interiorEntityTracker;
     List<GameObject> entitiesToRemove;
 
     float currentPlayerTriggerCount;
     bool isAreaFaded = false;
+
+    int currentlyActiveFloor = -1;
+    int lastFloor = -1;
+    [SerializeField]
+    int numberOfFloors = -1;
+
+    List<GameObject> floorGroups;
 
     void Awake()
     {
@@ -47,14 +53,28 @@ public class AreaController : MonoBehaviour {
             roofRenderer = roof.GetComponent<MeshRenderer>();
         }
 
-        expandedWallScales = new List<float>();
         wallRenderers = new List<MeshRenderer>();
-        collapsedWallScales = new List<float>();
         interiorEntityTracker = new Dictionary<GameObject, int>();
         entitiesToRemove = new List<GameObject>();
+        floorGroups = new List<GameObject>();
+
         for (int i = 0; i < fadableWallList.Count; i++)
         {
             wallRenderers.Add(fadableWallList[i].GetComponent<MeshRenderer>());
+        }
+
+        // TODO: Remove
+        if (numberOfFloors < 0)
+        {
+            Debug.LogError("Set number of floors!");
+        }
+
+        if (numberOfFloors > 1)
+        {
+            for (int i = 1; i <= numberOfFloors; i++)
+            {
+                floorGroups.Add(transform.Find(FLOOR_PREFIX + i).gameObject);
+            }
         }
     }
 
@@ -149,7 +169,6 @@ public class AreaController : MonoBehaviour {
 
     public void RegisterEntityExit(GameObject entity)
     {
-        Debug.Log("registering exiting entity");
         interiorEntityTracker[entity]--;
 
         if (interiorEntityTracker[entity] <= 0)
@@ -158,35 +177,77 @@ public class AreaController : MonoBehaviour {
         }
     }
 
-    public void RegisterPlayerEnter()
+    public void RegisterPlayerEnter(int floor)
     {
         currentPlayerTriggerCount++;
+
+        lastFloor = currentlyActiveFloor;
+        currentlyActiveFloor = floor;
 
         if (currentPlayerTriggerCount == 1)
         {
             ToggleAreaActive(true);
         }
+
+        UpdateFloorVisibility();
     }
 
-    public void RegisterPlayerExit()
+    public void RegisterPlayerExit(int floor)
     {
         currentPlayerTriggerCount--;
 
         if (currentPlayerTriggerCount == 0)
         {
             ToggleAreaActive(false);
+            currentlyActiveFloor = -1;
+            lastFloor = -1;
         }
+        else if (currentlyActiveFloor == floor)
+        {
+            currentlyActiveFloor = lastFloor;
+            lastFloor = floor;
+        }
+
+        UpdateFloorVisibility();
     }
     #endregion
 
     #region Area manipulation 
+    void UpdateFloorVisibility()
+    {
+        if (numberOfFloors < 2)
+        {
+            return; 
+        }
+
+        if (currentlyActiveFloor == -1)
+        {
+            for (int i = 0; i < floorGroups.Count; i++)
+            {
+                floorGroups[i].SetActive(true);
+            }
+        }
+        else
+        {
+            for (int i = 1; i <= currentlyActiveFloor; i++)
+            {
+                int floorIndex = i - 1;
+                floorGroups[floorIndex].SetActive(true);
+            }
+            for (int i = currentlyActiveFloor + 1; i <= numberOfFloors; i++)
+            {
+                int floorIndex = i - 1;
+                floorGroups[floorIndex].SetActive(false);
+            }
+        }
+    }
+
     void HideWalls()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallRenderers.Count; i++)
         {
-            //StartCoroutine(SlideWallDownward(i, roomTransitionTime, roomTransitionCurve));
             StartCoroutine(FadeObject(wallRenderers[i], true));
         }
     }
@@ -197,7 +258,6 @@ public class AreaController : MonoBehaviour {
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
         for (int i = 0; i < wallRenderers.Count; i++)
         {
-            //StartCoroutine(SlideWallUpward(i, roomTransitionTime, roomTransitionCurve));
             StartCoroutine(FadeObject(wallRenderers[i], false));
         }
     }
@@ -244,44 +304,4 @@ public class AreaController : MonoBehaviour {
         }
     }
 
-    IEnumerator SlideWallDownward(int wallIndex, float slideTime, AnimationCurve slideCurve)
-    {
-        Debug.Log("sliding wall downward");
-        GameObject wall = fadableWallList[wallIndex];
-
-        Vector3 originalScale = wall.transform.localScale;
-        Vector3 finalScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, collapsedWallScales[wallIndex]);
-
-        float timeElapsed = 0.0f;
-
-        while (timeElapsed < slideTime)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float percentageComplete = timeElapsed / slideTime;
-
-            wall.transform.localScale = Vector3.Lerp(originalScale, finalScale, slideCurve.Evaluate(percentageComplete));
-            yield return null;
-        }
-    }
-
-    IEnumerator SlideWallUpward(int wallIndex, float slideTime, AnimationCurve slideCurve)
-    {
-        GameObject wall = fadableWallList[wallIndex];
-
-        Vector3 originalScale = wall.transform.localScale;
-        Vector3 finalScale = new Vector3(wall.transform.localScale.x, wall.transform.localScale.y, expandedWallScales[wallIndex]);
-
-        float timeElapsed = 0.0f;
-
-        while (timeElapsed < slideTime)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float percentageComplete = timeElapsed / slideTime;
-
-            wall.transform.localScale = Vector3.Lerp(originalScale, finalScale, slideCurve.Evaluate(percentageComplete));
-            yield return null;
-        }
-    }
 }

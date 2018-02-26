@@ -5,7 +5,11 @@ using UnityEngine;
 public class AreaTrigger : MonoBehaviour {
 
     AreaController areaController;
-    bool isPlayerInside = false;
+    bool isActive = false;
+
+    [SerializeField]
+    int floor = 1;
+
     int playerLayer;
     int entityLayer;
 
@@ -19,10 +23,10 @@ public class AreaTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         int collidedObjectLayer = other.gameObject.layer;
-        if (collidedObjectLayer == playerLayer && !isPlayerInside)
+        if (collidedObjectLayer == playerLayer && !isActive)
         {
-            areaController.RegisterPlayerEnter();
-            isPlayerInside = true;
+            areaController.RegisterPlayerEnter(floor);
+            isActive = true;
         }
         else if (collidedObjectLayer == entityLayer)
         {
@@ -33,10 +37,10 @@ public class AreaTrigger : MonoBehaviour {
     void OnTriggerExit(Collider other)
     {
         int collidedObjectLayer = other.gameObject.layer;
-        if (collidedObjectLayer == playerLayer && isPlayerInside)
+        if (collidedObjectLayer == playerLayer && isActive)
         {
-            areaController.RegisterPlayerExit();
-            isPlayerInside = false;
+            areaController.RegisterPlayerExit(floor);
+            isActive = false;
         }
         else if (collidedObjectLayer == entityLayer)
         {
