@@ -35,6 +35,7 @@ public class AreaController : MonoBehaviour {
     List<float> collapsedWallScales;
 
     Dictionary<GameObject, int> interiorEntityTracker;
+    List<GameObject> entitiesToRemove;
 
     float currentPlayerTriggerCount;
     bool isAreaFaded = false;
@@ -50,11 +51,9 @@ public class AreaController : MonoBehaviour {
         wallRenderers = new List<MeshRenderer>();
         collapsedWallScales = new List<float>();
         interiorEntityTracker = new Dictionary<GameObject, int>();
+        entitiesToRemove = new List<GameObject>();
         for (int i = 0; i < fadableWallList.Count; i++)
         {
-            //Transform wall = fadableWallList[i].transform;
-            //expandedWallScales.Add(wall.localScale.z);
-            //collapsedWallScales.Add(wall.localScale.z * 0.2f);
             wallRenderers.Add(fadableWallList[i].GetComponent<MeshRenderer>());
         }
     }
@@ -98,8 +97,25 @@ public class AreaController : MonoBehaviour {
 
         foreach (GameObject entity in interiorEntityTracker.Keys)
         {
-            entity.SetActive(isActive);
+            if (entity != null)
+            {
+                entity.SetActive(isActive);
+            }
+            else
+            {
+                entitiesToRemove.Add(entity);
+            }
         }
+
+        int numberOfEntitiesToRemove = entitiesToRemove.Count;
+        if (numberOfEntitiesToRemove > 0)
+        {
+            for (int i = 0; i < numberOfEntitiesToRemove; i++)
+            {
+                interiorEntityTracker.Remove(entitiesToRemove[i]);
+            }
+        }
+        entitiesToRemove.Clear();
     }
 
     void ToggleAreaFaded(bool isFading)
@@ -133,6 +149,7 @@ public class AreaController : MonoBehaviour {
 
     public void RegisterEntityExit(GameObject entity)
     {
+        Debug.Log("registering exiting entity");
         interiorEntityTracker[entity]--;
 
         if (interiorEntityTracker[entity] <= 0)

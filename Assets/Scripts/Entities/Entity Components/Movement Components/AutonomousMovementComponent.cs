@@ -120,7 +120,6 @@ public class AutonomousMovementComponent : EntityComponent {
     Rigidbody entityRigidbody;
     public Rigidbody EntityRigidbody { get { return entityRigidbody; } }
     public Vector3 CurrentVelocity { get { return entityRigidbody.velocity; } }
-    Animator animator;
 
     bool isOnARamp;
     int groundedCount = 0;
@@ -130,7 +129,6 @@ public class AutonomousMovementComponent : EntityComponent {
     {
         base.Awake();
         entityRigidbody = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
 
         GenerateNewActiveMovementBehaviorList();
     }

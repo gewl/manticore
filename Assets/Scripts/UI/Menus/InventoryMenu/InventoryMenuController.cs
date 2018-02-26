@@ -10,7 +10,6 @@ public class InventoryMenuController : MonoBehaviour {
 
     MenuManager menuManager;
 
-    GearTypes draggingGearType;
     HardwareType draggingHardwareType;
     Type draggingHardwareSubtype;
 
@@ -28,7 +27,6 @@ public class InventoryMenuController : MonoBehaviour {
     {
         menuManager.DeactivateTooltip();
 
-        draggingGearType = GearTypes.Hardware;
         draggingHardwareType = hardwareType;
         draggingHardwareSubtype = hardwareSubtype;
 

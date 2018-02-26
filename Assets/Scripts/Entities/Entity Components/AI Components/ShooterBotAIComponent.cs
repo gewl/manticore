@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class ShooterBotAIComponent : EntityComponent {
 
-    AutonomousMovementComponent movementComponent;
     NavMeshAgent navMeshAgent;
 
     bool isAggroed = false;
@@ -45,10 +44,10 @@ public class ShooterBotAIComponent : EntityComponent {
     float ArcOfFire { get { return EntityData.ArcOfFire; } }
     float AttackRange { get { return EntityData.AttackRange; } }
 
-    [SerializeField]
-    float combatMoveSpeedModifier = 1f;
-    [SerializeField]
-    float chaseMoveSpeedModifier = 1f;
+    //[SerializeField]
+    //float combatMoveSpeedModifier = 1f;
+    //[SerializeField]
+    //float chaseMoveSpeedModifier = 1f;
     [SerializeField]
     float minimumMovementPause = 1.0f;
     [SerializeField]
@@ -71,7 +70,6 @@ public class ShooterBotAIComponent : EntityComponent {
     {
         base.Awake();
 
-        movementComponent = GetComponent<AutonomousMovementComponent>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         patrolPositions = new List<Vector3>

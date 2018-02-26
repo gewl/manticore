@@ -12,9 +12,6 @@ public class EquippedGearMenuController : MonoBehaviour {
     Image[] activeHardwareImages;
     Image[] passiveHardwareImages;
 
-    bool lastTooltipWasActive;
-    int lastTooltipSlot = -1;
-
     private void Awake()
     {
         inventoryMenuController = GetComponentInParent<InventoryMenuController>();
@@ -176,9 +173,6 @@ public class EquippedGearMenuController : MonoBehaviour {
             {
                 inventoryMenuController.GeneratePassiveHardwareTooltip(slot);
             }
-
-            lastTooltipSlot = slot;
-            lastTooltipWasActive = isActiveHardware;
         };
     }
 

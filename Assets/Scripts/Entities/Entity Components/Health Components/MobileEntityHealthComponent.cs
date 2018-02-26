@@ -35,6 +35,9 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     Material originalSkin;
 
+    const string DEAD_ENTITY = "DeadEntity";
+    const string IGNORE_ALL = "IgnoreAll";
+
     float currentHealth = -1;
     [HideInInspector]
     public bool IsInvulnerable = false;
@@ -299,7 +302,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Knock back
         Vector3 collisionVelocity = killingProjectileCollisionVelocity;
 
-        gameObject.layer = LayerMask.NameToLayer("DeadEntity");
+        gameObject.layer = LayerMask.NameToLayer(DEAD_ENTITY);
         entityInformation.EntityRigidbody.isKinematic = false;
         entityInformation.EntityRigidbody.useGravity = true;
         entityInformation.EntityRigidbody.drag = 1f;
@@ -376,10 +379,10 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityEmitter.isMuted = true;
 
         entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        entityInformation.EntityRigidbody.isKinematic = true;
+        //entityInformation.EntityRigidbody.isKinematic = true;
         entityInformation.EntityRigidbody.useGravity = false;
 
-        gameObject.layer = LayerMask.NameToLayer("IgnoreAll");
+        gameObject.layer = LayerMask.NameToLayer(IGNORE_ALL);
 
         Vector3 startingPosition = transform.position;
         Vector3 destinationPosition = startingPosition;
