@@ -14,7 +14,7 @@ public class InteractableObject : MonoBehaviour {
     const string IS_ACTIVE_PARAMETER = "isActive";
 
     [SerializeField]
-    Renderer renderer;
+    Renderer objectRenderer;
 
     IInteractableObjectController objectController;
 
@@ -51,7 +51,7 @@ public class InteractableObject : MonoBehaviour {
             animator.SetBool(IS_ACTIVE_PARAMETER, false);
         }
 
-        renderer.material.SetFloat("_OutlineExtrusion", 0.0f);
+        objectRenderer.material.SetFloat("_OutlineExtrusion", 0.0f);
 
         floatingLetter.SetActive(false);
         StopCoroutine("ActivateTerminal");
@@ -66,7 +66,7 @@ public class InteractableObject : MonoBehaviour {
             timeElapsed += Time.deltaTime;
 
             float pingPongTime = Mathf.PingPong(timeElapsed, 1.0f);
-            renderer.material.SetFloat("_OutlineExtrusion", pingPongTime);
+            objectRenderer.material.SetFloat("_OutlineExtrusion", pingPongTime);
 
             Vector3 letterRotationEuler = originalLetterRotationEuler;
             letterRotationEuler.z += timeElapsed * 90f;

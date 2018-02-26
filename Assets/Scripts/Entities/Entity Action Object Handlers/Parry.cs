@@ -8,15 +8,11 @@ public class Parry : MonoBehaviour {
     EntityGearManagement gear;
     EntityEmitter entityEmitter;
 
-    ManticoreAudioComponent audioComponent;
-
     void Awake()
     {
         parryHardware = GetComponentInParent<ParryHardware>();
         gear = GetComponentInParent<EntityGearManagement>();
         entityEmitter = GetComponentInParent<EntityEmitter>();
-
-        audioComponent = GetComponentInParent<ManticoreAudioComponent>();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -63,7 +63,7 @@ public class RiposteHardware : EntityComponent, IHardware {
     Collider entityCollider;
     TrailRenderer trailRenderer;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         base.OnEnable();
         GameObject riposteZonePrefab = (GameObject)Resources.Load(RIPOSTE_ZONE_PATH);

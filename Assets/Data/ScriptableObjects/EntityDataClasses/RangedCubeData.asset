@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: RangedCubeData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 400
+  Health: 40
   BaseDamage: 50
   MomentumValue: 6
   BaseMoveSpeed: 5

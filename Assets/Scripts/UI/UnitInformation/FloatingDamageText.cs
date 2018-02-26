@@ -47,7 +47,6 @@ public class FloatingDamageText : MonoBehaviour {
             originalColor = Color.green;
         }
 
-        float initialY = transform.position.y;
         Vector3 initialWorldPosition = attachedTransform.position;
 
         while (timeElapsed < timeToComplete)

@@ -34,7 +34,7 @@ TagManager:
   - EntityTrigger
   - RiposteTrigger
   - InteractableTrigger
-  - 
+  - IgnoreAll
   - 
   - 
   - 

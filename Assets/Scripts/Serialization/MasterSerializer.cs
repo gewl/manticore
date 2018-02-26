@@ -26,6 +26,10 @@ public class MasterSerializer : MonoBehaviour {
         MomentumManager.OnMomentumUpdated += SaveMomentumData;
     }
 
+    private void OnDisable()
+    {
+    }
+
     #region Data serialization/retrieval
     public static void SaveInventoryData(InventoryData inventory)
     {

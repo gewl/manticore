@@ -291,7 +291,7 @@ public class ShooterBotAIComponent : EntityComponent {
         //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
         //}
 
-        Vector3 nextWaypoint = new Vector3(UnityEngine.Random.RandomRange(-10f, 10f), 0f, UnityEngine.Random.RandomRange(-10f, 10f));
+        Vector3 nextWaypoint = new Vector3(UnityEngine.Random.Range(-10f, 10f), 0f, UnityEngine.Random.Range(-10f, 10f));
         entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);

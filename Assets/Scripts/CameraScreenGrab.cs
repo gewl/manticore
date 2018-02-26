@@ -6,7 +6,7 @@ public class CameraScreenGrab : MonoBehaviour {
 	//how chunky to make the screen
 	public int pixelSize = 4;
 	public FilterMode filterMode = FilterMode.Point;
-    Camera camera;
+    Camera mainCamera;
 	public Camera[] otherCameras;
 	public Material mat;
 	Texture2D tex;
@@ -16,7 +16,7 @@ public class CameraScreenGrab : MonoBehaviour {
 
     private void Awake()
     {
-        camera = GetComponent<Camera>();
+        mainCamera = GetComponent<Camera>();
     }
     void Start () {
         //bloomMat = new Material(bloomShader);
@@ -29,7 +29,7 @@ public class CameraScreenGrab : MonoBehaviour {
 
 	public void Init()
 	{
-        camera.pixelRect = new Rect(0, 0, Screen.width / pixelSize, Screen.height / pixelSize);
+        mainCamera.pixelRect = new Rect(0, 0, Screen.width / pixelSize, Screen.height / pixelSize);
     }
 	
 	void OnGUI()
@@ -62,9 +62,9 @@ public class CameraScreenGrab : MonoBehaviour {
 
 		DestroyImmediate(tex);
 		
-		tex = new Texture2D(Mathf.FloorToInt(camera.pixelWidth), Mathf.FloorToInt(camera.pixelHeight));
+		tex = new Texture2D(Mathf.FloorToInt(mainCamera.pixelWidth), Mathf.FloorToInt(mainCamera.pixelHeight));
 		tex.filterMode = filterMode;
-		tex.ReadPixels(new Rect(0, 0, camera.pixelWidth, camera.pixelHeight), 0, 0);
+		tex.ReadPixels(new Rect(0, 0, mainCamera.pixelWidth, mainCamera.pixelHeight), 0, 0);
         tex.Apply();
 
     }

@@ -10,8 +10,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     GlobalConstants.EntityAllegiance entityAllegiance { get { return entityInformation.Data.Allegiance; } }
     bool isPlayer { get { return entityInformation.Data.isPlayer; } }
 
-    float recoveryTime = 0.8f;
+    float recoveryTime = 0.3f;
     float timeToDie = 1.0f;
+    float timeToSinkOnDeath = 3f;
     [SerializeField]
     Material deadSkin;
     [SerializeField]
@@ -32,8 +33,6 @@ public class MobileEntityHealthComponent : EntityComponent {
     Material[] defaultMaterials;
     Camera mainCamera;
 
-    float currentRecoveryTimer;
-    float currentDeathTimer;
     Material originalSkin;
 
     float currentHealth = -1;
@@ -277,9 +276,6 @@ public class MobileEntityHealthComponent : EntityComponent {
             entityInformation.EntityRigidbody.AddTorque(0f, Mathf.Sqrt(Mathf.Abs(collisionVelocity.x * collisionVelocity.z)), 0f);
         }
 
-        // Initialize timer from set values
-        currentRecoveryTimer = recoveryTime;
-
         for (int i = 0; i < renderersCount; i++)
         {
             renderers[i].material = damageFlashMaterial;
@@ -318,11 +314,6 @@ public class MobileEntityHealthComponent : EntityComponent {
             rigidbodies[i].useGravity = true;
         }
 
-        Animator animator = GetComponent<Animator>();
-
-        // Initialize timer from set values
-        currentDeathTimer = timeToDie;
-
         for (int i = 0; i < renderersCount; i++)
         {
             renderers[i].material = deathFlashMaterial;
@@ -335,67 +326,79 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     IEnumerator HandleDamage()
     {
-        while (true)
+        float recoveredTime = Time.time + recoveryTime;
+
+        while (Time.time < recoveredTime)
         {
-            if (currentRecoveryTimer > 0f)
-            {
-                // Lerp material while entity is recovering.
-                // TODO: Distinguish recovery period more clearly.
-                float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
+            yield return null;
+        }
 
-                currentRecoveryTimer -= Time.deltaTime;
-                yield return new WaitForFixedUpdate();
-            }
-            else if (!isDead)
+        if (!isDead)
+        {
+            // Once entity has recovered, disable physics and resume action.
+            for (int i = 0; i < renderersCount; i++)
             {
-                // Once entity has recovered, disable physics and resume action.
-                for (int i = 0; i < renderersCount; i++)
-                {
-                    renderers[i].material = defaultMaterials[i];
-                }
-                entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                renderers[i].material = defaultMaterials[i];
+            }
+            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 
-                // Revert invulnerable-on-damage
-                if (isPlayer)
-                {
-                    IsInvulnerable = false;
-                }
-                yield break;
-            }
-            else
+            // Revert invulnerable-on-damage
+            if (isPlayer)
             {
-                yield break;
+                IsInvulnerable = false;
             }
         }
+
+        yield break;
     }
 
     IEnumerator HandleDeath()
     {
-        while (true)
+        float deathTransitionCompletionTime = Time.time + timeToDie;
+
+        while (Time.time < deathTransitionCompletionTime)
         {
-            if (currentDeathTimer > 0f)
+            float skinTransitionCompletion = (deathTransitionCompletionTime - Time.time) / timeToDie;
+            skinTransitionCompletion = 1 - skinTransitionCompletion;
+            for (int i = 0; i < renderersCount; i++)
             {
-                float skinTransitionCompletion = (timeToDie - currentDeathTimer) / timeToDie;
-                skinTransitionCompletion = Mathf.Sqrt(skinTransitionCompletion);
-                for (int i = 0; i < renderersCount; i++)
-                {
-                    renderers[i].material.Lerp(defaultMaterials[i], deadSkin, skinTransitionCompletion);
-                }
-
-                currentDeathTimer -= Time.deltaTime;
-                yield return new WaitForFixedUpdate();
+                renderers[i].material.Lerp(deathFlashMaterial, deadSkin, skinTransitionCompletion);
             }
-            else
-            {
-                unitHealthBar.enabled = false;
-                for (int i = 0; i < renderersCount; i++)
-                {
-                    renderers[i].material = deadSkin;
-                }
-                entityEmitter.isMuted = true;
-                yield break;
-            }
+            yield return null;
         }
-    }
 
+           
+        unitHealthBar.enabled = false;
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = deadSkin;
+        }
+        entityEmitter.isMuted = true;
+
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        entityInformation.EntityRigidbody.isKinematic = true;
+        entityInformation.EntityRigidbody.useGravity = false;
+
+        gameObject.layer = LayerMask.NameToLayer("IgnoreAll");
+
+        Vector3 startingPosition = transform.position;
+        Vector3 destinationPosition = startingPosition;
+        destinationPosition.y -= entityInformation.EntityCollider.bounds.size.y;
+        float timeSunk = Time.time + timeToSinkOnDeath;
+
+        while (Time.time < timeSunk)
+        {
+            float sinkingCompletion = (timeSunk - Time.time) / timeToSinkOnDeath;
+            sinkingCompletion = 1 - sinkingCompletion;
+
+            Vector3 newPosition = Vector3.Lerp(startingPosition, destinationPosition, sinkingCompletion);
+            transform.position = newPosition;
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
+        yield break;
+    }
+    
 }
