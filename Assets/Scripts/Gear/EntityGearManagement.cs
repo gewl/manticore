@@ -1,4 +1,7 @@
-﻿#pragma warning disable 0649
+﻿// Disable warnings about PassiveHardwareDelegates not being assigned to;
+// other components subscribe to them in their OnEnable methods.
+#pragma warning disable 0649
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
