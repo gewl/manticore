@@ -9,9 +9,7 @@ public class AreaController : MonoBehaviour {
 
     [Header("Area Sections")]
     [SerializeField]
-    List<GameObject> fadableWallList;
-    [SerializeField]
-    GameObject roof;
+    List<GameObject> sectionsToFadeWhenAreaActive;
     [SerializeField]
     GameObject interior;
     [SerializeField]
@@ -29,11 +27,13 @@ public class AreaController : MonoBehaviour {
     [SerializeField]
     List<AreaController> areasToFadeWhenActive;
 
-    MeshRenderer roofRenderer;
     List<MeshRenderer> sectionsToFadeRenderers;
-    List<MeshRenderer> wallRenderers;
+    List<MeshRenderer> fadableSectionRenderers;
 
-    Dictionary<GameObject, int> interiorEntityTracker;
+    // This tracks number of times an entity has been registered to handle
+    // the possibility of it setting off multiple triggers on one floor
+    // without being added to the list twice, etc.
+    Dictionary<int, Dictionary<GameObject, int>> floorsToEntitiesMap; 
     List<GameObject> entitiesToRemove;
 
     float currentPlayerTriggerCount;
@@ -48,19 +48,15 @@ public class AreaController : MonoBehaviour {
 
     void Awake()
     {
-        if (roof != null)
-        {
-            roofRenderer = roof.GetComponent<MeshRenderer>();
-        }
-
-        wallRenderers = new List<MeshRenderer>();
-        interiorEntityTracker = new Dictionary<GameObject, int>();
+        fadableSectionRenderers = new List<MeshRenderer>();
         entitiesToRemove = new List<GameObject>();
         floorGroups = new List<GameObject>();
 
-        for (int i = 0; i < fadableWallList.Count; i++)
+        floorsToEntitiesMap = new Dictionary<int, Dictionary<GameObject, int>>();
+
+        for (int i = 0; i < sectionsToFadeWhenAreaActive.Count; i++)
         {
-            wallRenderers.Add(fadableWallList[i].GetComponent<MeshRenderer>());
+            fadableSectionRenderers.Add(sectionsToFadeWhenAreaActive[i].GetComponent<MeshRenderer>());
         }
 
         // TODO: Remove
@@ -92,13 +88,9 @@ public class AreaController : MonoBehaviour {
 
     void ToggleAreaActive(bool isActive)
     {
-        if (roof != null)
-        {
-            StartCoroutine(FadeObject(roofRenderer, isActive, true));
-        }
         if (isActive)
         {
-            HideWalls();
+            FadeSections();
 
             for (int i = 0; i < areasToFadeWhenActive.Count; i++)
             {
@@ -107,35 +99,13 @@ public class AreaController : MonoBehaviour {
         }
         else
         {
-            ShowWalls();
+            ShowSections();
 
             for (int i = 0; i < areasToFadeWhenActive.Count; i++)
             {
                 areasToFadeWhenActive[i].ToggleAreaFaded(false);
             }
         }
-
-        foreach (GameObject entity in interiorEntityTracker.Keys)
-        {
-            if (entity != null)
-            {
-                entity.SetActive(isActive);
-            }
-            else
-            {
-                entitiesToRemove.Add(entity);
-            }
-        }
-
-        int numberOfEntitiesToRemove = entitiesToRemove.Count;
-        if (numberOfEntitiesToRemove > 0)
-        {
-            for (int i = 0; i < numberOfEntitiesToRemove; i++)
-            {
-                interiorEntityTracker.Remove(entitiesToRemove[i]);
-            }
-        }
-        entitiesToRemove.Clear();
     }
 
     void ToggleAreaFaded(bool isFading)
@@ -158,22 +128,45 @@ public class AreaController : MonoBehaviour {
     }
 
     #region Entity entrance/exit handling
-    public void RegisterEntityEnter(GameObject entity)
+    public void RegisterEntityEnter(GameObject entity, int floor = 1)
     {
-        if (!interiorEntityTracker.ContainsKey(entity))
+        if (!floorsToEntitiesMap.ContainsKey(floor))
         {
-            interiorEntityTracker[entity] = 0;
+            floorsToEntitiesMap[floor] = new Dictionary<GameObject, int>();
         }
-        interiorEntityTracker[entity]++;
+
+        Dictionary<GameObject, int> entitiesOnFloorTracker = floorsToEntitiesMap[floor];
+
+        if (!entitiesOnFloorTracker.ContainsKey(entity))
+        {
+            entitiesOnFloorTracker[entity] = 0;
+        }
+        entitiesOnFloorTracker[entity]++;
+
+        if (floor == currentlyActiveFloor || currentlyActiveFloor == -1)
+        {
+            entity.GetComponent<EntityManagement>().SetEntityVisibility(true);
+        }
     }
 
-    public void RegisterEntityExit(GameObject entity)
+    public void RegisterEntityExit(GameObject entity, int floor = 1)
     {
-        interiorEntityTracker[entity]--;
-
-        if (interiorEntityTracker[entity] <= 0)
+        if (!floorsToEntitiesMap.ContainsKey(floor))
         {
-            interiorEntityTracker.Remove(entity);
+            floorsToEntitiesMap[floor] = new Dictionary<GameObject, int>();
+        }
+
+        Dictionary<GameObject, int> entitiesOnFloorTracker = floorsToEntitiesMap[floor];
+        entitiesOnFloorTracker[entity]--;
+
+        if (entitiesOnFloorTracker[entity] <= 0)
+        {
+            entitiesOnFloorTracker.Remove(entity);
+
+            if (floor == currentlyActiveFloor)
+            {
+                entity.GetComponent<EntityManagement>().SetEntityVisibility(false);
+            }
         }
     }
 
@@ -229,36 +222,58 @@ public class AreaController : MonoBehaviour {
         }
         else
         {
-            for (int i = 1; i <= currentlyActiveFloor; i++)
+            RevealAllFloorsUpToCurrentFloor(currentlyActiveFloor);
+        }
+
+        SetVisibilityForEntitiesByFloor(currentlyActiveFloor);
+    }
+
+    void RevealAllFloorsUpToCurrentFloor(int currentFloor)
+    {
+        for (int i = 1; i <= currentFloor; i++)
+        {
+            int floorIndex = i - 1;
+            floorGroups[floorIndex].SetActive(true);
+        }
+        for (int i = currentFloor + 1; i <= numberOfFloors; i++)
+        {
+            int floorIndex = i - 1;
+            floorGroups[floorIndex].SetActive(false);
+        }
+    }
+
+    void SetVisibilityForEntitiesByFloor(int currentFloor)
+    {
+        foreach (int floor in floorsToEntitiesMap.Keys)
+        {
+            Dictionary<GameObject, int> entitiesOnFloorTracker = floorsToEntitiesMap[floor];
+
+            bool areEntitiesVisible = floor <= currentFloor || currentFloor == -1; 
+
+            foreach (GameObject entity in entitiesOnFloorTracker.Keys)
             {
-                int floorIndex = i - 1;
-                floorGroups[floorIndex].SetActive(true);
-            }
-            for (int i = currentlyActiveFloor + 1; i <= numberOfFloors; i++)
-            {
-                int floorIndex = i - 1;
-                floorGroups[floorIndex].SetActive(false);
+                entity.GetComponent<EntityManagement>().SetEntityVisibility(areEntitiesVisible);
             }
         }
     }
 
-    void HideWalls()
+    void FadeSections()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < wallRenderers.Count; i++)
+        for (int i = 0; i < fadableSectionRenderers.Count; i++)
         {
-            StartCoroutine(FadeObject(wallRenderers[i], true));
+            StartCoroutine(FadeObject(fadableSectionRenderers[i], true));
         }
     }
 
-    void ShowWalls()
+    void ShowSections()
     {
         float roomTransitionTime = GameManager.RoomTransitionTime;
         AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < wallRenderers.Count; i++)
+        for (int i = 0; i < fadableSectionRenderers.Count; i++)
         {
-            StartCoroutine(FadeObject(wallRenderers[i], false));
+            StartCoroutine(FadeObject(fadableSectionRenderers[i], false));
         }
     }
     #endregion

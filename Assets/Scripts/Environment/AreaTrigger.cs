@@ -30,7 +30,7 @@ public class AreaTrigger : MonoBehaviour {
         }
         else if (collidedObjectLayer == entityLayer)
         {
-            areaController.RegisterEntityEnter(other.gameObject);
+            areaController.RegisterEntityEnter(other.gameObject, floor);
         }
     }
 
@@ -44,7 +44,7 @@ public class AreaTrigger : MonoBehaviour {
         }
         else if (collidedObjectLayer == entityLayer)
         {
-            areaController.RegisterEntityExit(other.gameObject);
+            areaController.RegisterEntityExit(other.gameObject, floor);
         }
     }
 }

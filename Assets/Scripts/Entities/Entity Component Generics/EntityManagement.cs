@@ -6,7 +6,7 @@ using UnityEngine;
 /// Generic class stores data for the entity to which it's assigned, as well as implementing functionality for accessing/updating that data.
 /// </summary>
 [Serializable]
-public class EntityInformation : MonoBehaviour 
+public class EntityManagement : MonoBehaviour 
 {
     // Holds references to components that all entities will have. If they don't, something is wrong,
     // so the game _should_ break then.
@@ -16,6 +16,20 @@ public class EntityInformation : MonoBehaviour
     public Collider EntityCollider { get { return entityCollider; } }
     Transform entityTransform;
     public Transform EntityTransform { get { return entityTransform; } }
+
+    Renderer[] _entityRenderers;
+    Renderer[] EntityRenderers
+    {
+        get
+        {
+            if (_entityRenderers == null)
+            {
+                _entityRenderers = GetComponentsInChildren<Renderer>();
+            }
+
+            return _entityRenderers;
+        }
+    }
 
     // Dictionaries to hold attributes at runtime
     public Dictionary<EntityAttributes, object> Attributes;
@@ -64,5 +78,13 @@ public class EntityInformation : MonoBehaviour
         }
 
         Attributes[attribute] = newValue;
+    }
+
+    public void SetEntityVisibility(bool isVisible)
+    {
+        for (int i = 0; i < EntityRenderers.Length; i++)
+        {
+            EntityRenderers[i].enabled = isVisible;
+        }
     }
 }

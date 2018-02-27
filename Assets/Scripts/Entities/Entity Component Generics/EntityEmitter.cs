@@ -11,8 +11,9 @@ public class EntityEmitter : MonoBehaviour {
 
     Dictionary<string, List<UnityAction>> eventSubscriptions;
 
+    [HideInInspector]
     public bool isMuted = false;
-    public bool isStunned = false;
+    bool isStunned = false;
 
     public void SetStunned()
     {
