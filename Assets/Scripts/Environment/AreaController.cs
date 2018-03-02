@@ -30,7 +30,7 @@ public class AreaController : MonoBehaviour {
     List<MeshRenderer> sectionsToFadeRenderers;
     List<MeshRenderer> fadableSectionRenderers;
 
-    // This tracks number of times an entity has been registered to handle
+    // This tracks number of times an entity has been registered on a given floor, to handle
     // the possibility of it setting off multiple triggers on one floor
     // without being added to the list twice, etc.
     Dictionary<int, Dictionary<GameObject, int>> floorsToEntitiesMap; 
