@@ -7,9 +7,12 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     float baseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
 
+    public bool isDebugging = false;
+
     LayerMask terrainMask;
+    LayerMask allButTerrainMask;
     float distanceToGround;
-    bool isOnARamp;
+    int rampCount = 0;
     int groundedCount = 0;
 
     Bounds entityBounds;
@@ -24,7 +27,8 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         base.OnEnable();
         entityBounds = GetComponent<Collider>().bounds;
         terrainMask = LayerMask.NameToLayer("Terrain");
-        distanceToGround = GetComponent<Collider>().bounds.extents.y + 0.05f;
+        allButTerrainMask = 1 << terrainMask;
+        distanceToGround = entityBounds.extents.y;
         entityInformation.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
         entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, baseMoveSpeed);
     }
@@ -43,8 +47,12 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     void OnFixedUpdate()
     {
-        if (!isOnARamp && groundedCount == 0)
+        if (rampCount == 0 && groundedCount == 0)
         {
+            if (isDebugging)
+            {
+                Debug.Log("Falling");
+            }
             ChangeVelocity(-Vector3.up, GameManager.GetEntityFallSpeed);
         }
         else
@@ -56,14 +64,23 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         }
 
         Vector3 projectedMovement = currentVelocity * Time.deltaTime;
+        if (isDebugging)
+        {
+            Debug.Log(currentVelocity.magnitude);
+        }
 
-        if (isOnARamp)
+        if (rampCount != 0 || groundedCount != 0)
         {
             Vector3 testPosition = transform.position + projectedMovement;
+            testPosition.y += entityBounds.extents.y;
             Ray checkTestPosition = new Ray(testPosition, Vector3.down);
             RaycastHit hit;
-            if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y, terrainMask))
+            if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y * 2f, allButTerrainMask, QueryTriggerInteraction.Ignore))
             {
+                if (isDebugging)
+                {
+                Debug.Log("position determined by raycast");
+                }
                 Vector3 newPosition = hit.point;
                 newPosition.y += entityBounds.extents.y;
                 transform.position = newPosition;
@@ -71,6 +88,10 @@ public class BasicDirectionalMovementComponent : EntityComponent {
             }
         }
 
+        if (isDebugging)
+        {
+            Debug.Log("position determined by manual transform adjustment");
+        }
         transform.position += projectedMovement;
     }
 
@@ -101,7 +122,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         }
         if (collision.gameObject.CompareTag("Ramp"))
         {
-            isOnARamp = true;
+            rampCount++;
         }
     }
 
@@ -113,7 +134,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         }
         if (collision.gameObject.CompareTag("Ramp"))
         {
-            isOnARamp = false;
+            rampCount--;
         }
     }
 }
