@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: ManticoreData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 210
+  Health: 10
   BaseDamage: 50
   MomentumValue: -1
-  BaseMoveSpeed: 25
+  BaseMoveSpeed: 20
   AggroRange: -1
   Allegiance: 0
   isPlayer: 1

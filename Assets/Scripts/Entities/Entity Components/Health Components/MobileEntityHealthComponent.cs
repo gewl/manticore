@@ -400,8 +400,15 @@ public class MobileEntityHealthComponent : EntityComponent {
             yield return null;
         }
 
-        
-        Destroy(gameObject);
+
+        if (!isPlayer)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            GameManager.HandlePlayerDeath();
+        }
         yield break;
     }
     

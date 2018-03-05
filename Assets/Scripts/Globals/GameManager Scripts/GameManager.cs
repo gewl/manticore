@@ -194,6 +194,13 @@ public class GameManager : SerializedMonoBehaviour {
 
     #region gamestate handlers
 
+    public static void HandlePlayerDeath()
+    {
+        MuteAllEmitters();
+
+        GlobalEventEmitter.FireGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
+    }
+
     public static void FreezeGame(GlobalConstants.GameFreezeEvent freezeEvent)
     {
         int freezeFrameCount = instance.gameFreezeTimers[freezeEvent];

@@ -7,8 +7,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
     float baseMoveSpeed { get { return entityInformation.Data.BaseMoveSpeed; } }
 
-    public bool isDebugging = false;
-
     LayerMask terrainMask;
     LayerMask allButTerrainMask;
     float distanceToGround;
@@ -49,10 +47,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (rampCount == 0 && groundedCount == 0)
         {
-            if (isDebugging)
-            {
-                Debug.Log("Falling");
-            }
             ChangeVelocity(-Vector3.up, GameManager.GetEntityFallSpeed);
         }
         else
@@ -64,10 +58,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         }
 
         Vector3 projectedMovement = currentVelocity * Time.deltaTime;
-        if (isDebugging)
-        {
-            Debug.Log(currentVelocity.magnitude);
-        }
 
         if (rampCount != 0 || groundedCount != 0)
         {
@@ -77,10 +67,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
             RaycastHit hit;
             if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y * 2f, allButTerrainMask, QueryTriggerInteraction.Ignore))
             {
-                if (isDebugging)
-                {
-                Debug.Log("position determined by raycast");
-                }
                 Vector3 newPosition = hit.point;
                 newPosition.y += entityBounds.extents.y;
                 transform.position = newPosition;
@@ -88,10 +74,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
             }
         }
 
-        if (isDebugging)
-        {
-            Debug.Log("position determined by manual transform adjustment");
-        }
         transform.position += projectedMovement;
     }
 
