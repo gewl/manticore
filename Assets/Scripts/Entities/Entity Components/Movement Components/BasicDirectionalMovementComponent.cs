@@ -49,7 +49,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (rampCount == 0 && groundedCount == 0)
         {
-            Debug.Log("Falling");
             ChangeVelocity(-Vector3.up, GameManager.GetEntityFallSpeed);
         }
         else

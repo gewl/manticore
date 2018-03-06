@@ -244,7 +244,6 @@ public class GameManager : SerializedMonoBehaviour {
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
 
         playerTransform.position = currentlyActiveLevel.SpawnPoint.position;
-        playerTransform.rotation = currentlyActiveLevel.SpawnPoint.rotation;
 
         EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
 
