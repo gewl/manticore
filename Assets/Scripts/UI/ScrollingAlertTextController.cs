@@ -53,12 +53,12 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     private void OnEnable()
     {
-        GlobalEventEmitter.FireGameStateEvent += GameStateEventHandler;
+        GlobalEventEmitter.OnGameStateEvent += GameStateEventHandler;
     }
 
     private void OnDisable()
     {
-        GlobalEventEmitter.FireGameStateEvent -= GameStateEventHandler;
+        GlobalEventEmitter.OnGameStateEvent -= GameStateEventHandler;
     }
 
     void GameStateEventHandler(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)

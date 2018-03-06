@@ -33,8 +33,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     Material[] defaultMaterials;
     Camera mainCamera;
 
-    Material originalSkin;
-
+    const string PLAYER_LAYER = "Player";
     const string DEAD_ENTITY = "DeadEntity";
     const string IGNORE_ALL = "IgnoreAll";
 
@@ -97,11 +96,13 @@ public class MobileEntityHealthComponent : EntityComponent {
     protected override void Subscribe() {
         entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
+        entityEmitter.SubscribeToEvent(EntityEvents.Respawning, OnRespawn);
 	}
 
     protected override void Unsubscribe() {
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, OnRespawn);
 	}
 
     void OnInvulnerable()
@@ -112,6 +113,27 @@ public class MobileEntityHealthComponent : EntityComponent {
     void OnVulnerable()
     {
         IsInvulnerable = false; 
+    }
+    
+    void OnRespawn()
+    {
+        isDead = false;
+        currentHealth = initialHealth;
+
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
+
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = defaultMaterials[i];
+        }           
+
+        unitHealthBar.enabled = true;
+
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        entityInformation.EntityRigidbody.useGravity = false;
+        entityInformation.EntityRigidbody.isKinematic = false;
+
+        gameObject.layer = LayerMask.NameToLayer(PLAYER_LAYER);
     }
 
     void LowerHealthAmount(float amountToLower)
@@ -306,7 +328,14 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityInformation.EntityRigidbody.isKinematic = false;
         entityInformation.EntityRigidbody.useGravity = true;
         entityInformation.EntityRigidbody.drag = 1f;
-        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;
+        if (isPlayer)
+        {
+            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else
+        {
+            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;
+        }
         entityInformation.EntityRigidbody.AddForce(collisionVelocity, ForceMode.Impulse);
         entityInformation.EntityRigidbody.AddTorque(collisionVelocity.z, 0f, -collisionVelocity.x, ForceMode.Impulse);
 
@@ -379,7 +408,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         entityEmitter.isMuted = true;
 
         entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        //entityInformation.EntityRigidbody.isKinematic = true;
+        entityInformation.EntityRigidbody.isKinematic = true;
         entityInformation.EntityRigidbody.useGravity = false;
 
         gameObject.layer = LayerMask.NameToLayer(IGNORE_ALL);

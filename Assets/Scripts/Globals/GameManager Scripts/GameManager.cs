@@ -30,11 +30,19 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    // Environment references
+    static LevelManager currentlyActiveLevel;
+
     // Player references
     static GameObject playerObject;
     static Transform playerTransform;
     static MobileEntityHealthComponent playerHealthManager;
     Plane playerPlane;
+
+    [SerializeField]
+    GameObject manticorePrefab;
+    [SerializeField]
+    float respawnTimer;
 
     [SerializeField]
     float entityFallSpeed = 30f;
@@ -63,7 +71,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     #region lazyload references
     static Transform _terrain;
-    static Transform terrain
+    static Transform Terrain
     {
         get
         {
@@ -77,7 +85,7 @@ public class GameManager : SerializedMonoBehaviour {
     }
 
     static Camera _mainCamera;
-    static Camera mainCamera
+    static Camera MainCamera
     {
         get
         {
@@ -104,8 +112,22 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    static Image _fadeScreen;
+    static Image FadeScreen
+    {
+        get
+        {
+            if (_fadeScreen == null)
+            {
+                _fadeScreen = GameObject.Find("FadeScreen").GetComponent<Image>();
+            }
+
+            return _fadeScreen;
+        }
+    }
+
     static List<EntityEmitter> _activeEmittersInScene;
-    static List<EntityEmitter> activeEmittersInScene
+    static List<EntityEmitter> ActiveEmittersInScene
     {
         get
         {
@@ -120,13 +142,13 @@ public class GameManager : SerializedMonoBehaviour {
 
 
     static CameraController _cameraController;
-    static CameraController cameraController
+    static CameraController CameraController
     {
         get
         {
             if (_cameraController == null)
             {
-                _cameraController = mainCamera.GetComponent<CameraController>();
+                _cameraController = MainCamera.GetComponent<CameraController>();
             }
 
             return _cameraController;
@@ -134,7 +156,7 @@ public class GameManager : SerializedMonoBehaviour {
     }
 
     private static GameObject _player;
-    private static GameObject player
+    private static GameObject Player
     {
         get
         {
@@ -154,7 +176,7 @@ public class GameManager : SerializedMonoBehaviour {
         {
             if (_momentumManager == null)
             {
-                _momentumManager = player.GetComponent<MomentumManager>();
+                _momentumManager = Player.GetComponent<MomentumManager>();
             }
 
             return _momentumManager;
@@ -196,9 +218,57 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static void HandlePlayerDeath()
     {
+        instance.StartCoroutine(instance.PlayerDeathSequence());
+    }
+
+    IEnumerator PlayerDeathSequence()
+    {
+        float fadeOutCompleteTime = Time.time + respawnTimer;
+
+        while (Time.time < fadeOutCompleteTime)
+        {
+            float timeRemaining = fadeOutCompleteTime - Time.time;
+
+            float percentageComplete = timeRemaining / respawnTimer;
+
+            Color fadeColor = FadeScreen.color;
+
+            fadeColor.a = Mathf.Lerp(1f, 0f, percentageComplete);
+
+            FadeScreen.color = fadeColor;
+            yield return null;
+        }
+
         MuteAllEmitters();
 
-        GlobalEventEmitter.FireGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
+        GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
+
+        playerTransform.position = currentlyActiveLevel.SpawnPoint.position;
+        playerTransform.rotation = currentlyActiveLevel.SpawnPoint.rotation;
+
+        EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
+
+        yield return new WaitForSeconds(3f);
+
+        float fadeBackCompleteTime = Time.time + respawnTimer;
+
+        while (Time.time < fadeBackCompleteTime)
+        {
+            float timeRemaining = fadeBackCompleteTime - Time.time;
+
+            float percentageComplete = timeRemaining / respawnTimer;
+
+            Color fadeColor = FadeScreen.color;
+
+            fadeColor.a = Mathf.Lerp(0f, 1f, percentageComplete);
+
+            FadeScreen.color = fadeColor;
+            yield return null;
+        }
+
+        playerEntityEmitter.isMuted = false;
+        playerEntityEmitter.EmitEvent(EntityEvents.Respawning);
+        UnmuteAllEmitters();
     }
 
     public static void FreezeGame(GlobalConstants.GameFreezeEvent freezeEvent)
@@ -211,12 +281,12 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static void ShakeScreen(float duration = 0.5f)
     {
-        cameraController.ShakeScreen(duration);
+        CameraController.ShakeScreen(duration);
     }
 
     public static void JoltScreen(Vector3 direction)
     {
-        cameraController.JoltScreen(direction);
+        CameraController.JoltScreen(direction);
     }
 
     public static void EnterMenu()
@@ -242,14 +312,14 @@ public class GameManager : SerializedMonoBehaviour {
             HUD.SetActive(false);
             MuteAllEmitters();
             Time.timeScale = 0f;
-            cameraController.ApplyPauseFilter();
+            CameraController.ApplyPauseFilter();
         }
         else
         {
             HUD.SetActive(true);
             UnmuteAllEmitters();
             Time.timeScale = 1f;
-            cameraController.RevertToOriginalProfile();
+            CameraController.RevertToOriginalProfile();
         }
     }
 
@@ -268,43 +338,43 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static void RegisterEmitter(EntityEmitter emitter)
     {
-        activeEmittersInScene.Add(emitter);
+        ActiveEmittersInScene.Add(emitter);
     }
 
     public static void DeregisterEmitter(EntityEmitter emitter)
     {
-        activeEmittersInScene.Remove(emitter);
+        ActiveEmittersInScene.Remove(emitter);
     }
 
     public static void MuteAllEmitters()
     {
-        for (int i = 0; i < activeEmittersInScene.Count; i++)
+        for (int i = 0; i < ActiveEmittersInScene.Count; i++)
         {
-            activeEmittersInScene[i].isMuted = true;
+            ActiveEmittersInScene[i].isMuted = true;
         }
     }
 
     public static void UnmuteAllEmitters()
     {
-        for (int i = 0; i < activeEmittersInScene.Count; i++)
+        for (int i = 0; i < ActiveEmittersInScene.Count; i++)
         {
-            activeEmittersInScene[i].isMuted = false;
+            ActiveEmittersInScene[i].isMuted = false;
         }
     }
 
     #endregion
 
-    #region manticore data retrieval
+    #region manticore-specific functionality
     public static GameObject GetPlayerObject()
     {
-        return player;
+        return Player;
     }
 
     public static Transform GetPlayerTransform()
     {
         if (playerTransform == null)
         {
-            playerTransform = player.transform;
+            playerTransform = Player.transform;
         }
         return playerTransform;
     }
@@ -313,7 +383,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerTransform == null)
         {
-            playerTransform = player.transform;
+            playerTransform = Player.transform;
         }
         return playerTransform.position;
     }
@@ -322,7 +392,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerHealthManager == null)
         {
-            playerHealthManager = player.GetComponent<MobileEntityHealthComponent>();
+            playerHealthManager = Player.GetComponent<MobileEntityHealthComponent>();
         }
 
         return playerHealthManager.InitialHealth();
@@ -332,7 +402,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerHealthManager == null)
         {
-            playerHealthManager = player.GetComponent<MobileEntityHealthComponent>();
+            playerHealthManager = Player.GetComponent<MobileEntityHealthComponent>();
         }
 
         return playerHealthManager.CurrentHealth();
@@ -348,9 +418,9 @@ public class GameManager : SerializedMonoBehaviour {
         float distanceFromObstacleToTarget = float.MaxValue;
         Transform nearestObstacle = agent;
 
-        for (int i = 0; i < terrain.childCount; i++)
+        for (int i = 0; i < Terrain.childCount; i++)
         {
-            Transform obstacle = terrain.GetChild(i);
+            Transform obstacle = Terrain.GetChild(i);
             float sqrDistanceToPosition = (obstacle.position - positionNearTarget).sqrMagnitude;
 
             if (sqrDistanceToPosition < distanceFromObstacleToTarget)
@@ -372,7 +442,7 @@ public class GameManager : SerializedMonoBehaviour {
         {
             return Vector3.zero;
         }
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         float distance;
         Vector3 relativeMousePosition;
         if (instance.playerPlane.Raycast(ray, out distance))
@@ -390,7 +460,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     public static Vector3 GetMousePositionInWorldSpace()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit, 1000))
         {
@@ -399,7 +469,7 @@ public class GameManager : SerializedMonoBehaviour {
         else
         {
             Debug.LogWarning("Mouse position not found.");
-            return mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            return MainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
     }
 
@@ -437,6 +507,11 @@ public class GameManager : SerializedMonoBehaviour {
 
     #region environment management 
 
+    public static void RegisterCurrentLevel(LevelManager currentLevel)
+    {
+        currentlyActiveLevel = currentLevel;
+    }
+
     [SerializeField]
     float roomTransitionTime;
     public static float RoomTransitionTime { get { return instance.roomTransitionTime; } }
@@ -449,7 +524,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     // TODO: Between this and the environment management section above, this class is beginning to carry a lot of data
     // for other classes that don't have access to inspector serialization. Should this data be moved to a specific class?
-    #region inventory management
+    #region animation curves for active abilities
 
     [SerializeField]
     AnimationCurve parrySwingCurve;

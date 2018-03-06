@@ -5,5 +5,5 @@ using UnityEngine;
 public class GlobalEventEmitter : MonoBehaviour {
 
     public delegate void GameStateEventDelegate(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation = "");
-    public static GameStateEventDelegate FireGameStateEvent;
+    public static GameStateEventDelegate OnGameStateEvent;
 }

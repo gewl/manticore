@@ -45,6 +45,7 @@ public class ManticoreInputComponent : EntityComponent {
 		entityEmitter.SubscribeToEvent(EntityEvents.Stun, Disconnect);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, Reconnect);
+        entityEmitter.SubscribeToEvent(EntityEvents.Respawning, Reconnect);
     }
 
     protected override void Unsubscribe()
@@ -55,6 +56,7 @@ public class ManticoreInputComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, Disconnect);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, Disconnect);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, Reconnect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, Reconnect);
     }
 
     #region Event listeners

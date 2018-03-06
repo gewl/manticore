@@ -37,7 +37,7 @@ public class MomentumData {
         {
             ProgressTowardNextMomentum -= MomentumRequiredForNextPoint;
             UnassignedAvailableMomentumPoints++;
-            GlobalEventEmitter.FireGameStateEvent(GlobalConstants.GameStateEvents.NewMomentumPoint);
+            GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.NewMomentumPoint);
         }
     }
 }

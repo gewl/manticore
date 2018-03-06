@@ -32,13 +32,13 @@ public class MomentumManager : MonoBehaviour {
     private void OnEnable()
     {
         InventoryController.OnInventoryUpdated += ClearMomentum;
-        GlobalEventEmitter.FireGameStateEvent += HandleEntityDied;
+        GlobalEventEmitter.OnGameStateEvent += HandleEntityDied;
     }
 
     private void OnDisable()
     {
         InventoryController.OnInventoryUpdated -= ClearMomentum;
-        GlobalEventEmitter.FireGameStateEvent -= HandleEntityDied;
+        GlobalEventEmitter.OnGameStateEvent -= HandleEntityDied;
     }
 
     #region momentum event handlers

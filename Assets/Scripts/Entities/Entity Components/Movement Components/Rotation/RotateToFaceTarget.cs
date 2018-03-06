@@ -23,6 +23,7 @@ public class RotateToFaceTarget : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.SetWaypoint, OnSetWaypoint);
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
+        entityEmitter.SubscribeToEvent(EntityEvents.Respawning, OnRespawn);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnRecovered);
 
         entityEmitter.SubscribeToEvent(EntityEvents.FreezeRotation, OnHurt);
@@ -35,6 +36,7 @@ public class RotateToFaceTarget : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.SetWaypoint, OnSetWaypoint);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnHurt);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, OnRespawn);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnRecovered);
 
@@ -50,6 +52,11 @@ public class RotateToFaceTarget : EntityComponent {
     void OnDead()
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void OnRespawn()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
     }
 
     void OnTargetUpdated()

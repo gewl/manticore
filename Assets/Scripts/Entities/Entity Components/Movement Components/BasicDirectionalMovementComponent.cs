@@ -34,12 +34,14 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     protected override void Subscribe()
     {
         entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.Dead, StopMovement);
 		entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
     }
 
     protected override void Unsubscribe()
     {
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, StopMovement);
 		entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
     }
 
@@ -47,6 +49,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (rampCount == 0 && groundedCount == 0)
         {
+            Debug.Log("Falling");
             ChangeVelocity(-Vector3.up, GameManager.GetEntityFallSpeed);
         }
         else
@@ -81,8 +84,14 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     {
         if (groundedCount > 0)
         {
-            ChangeVelocity(Vector3.zero, 0f);
+            StopMovement();
         }
+    }
+
+    void StopMovement()
+    {
+        ChangeVelocity(Vector3.zero, 0f);
+        entityInformation.SetAttribute(EntityAttributes.CurrentDirection, Vector3.zero);
     }
 
     void ChangeVelocity(Vector3 direction, float moveSpeed)

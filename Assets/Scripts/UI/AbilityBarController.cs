@@ -23,8 +23,19 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     [SerializeField]
     Sprite emptyAbilityBub;
-    [SerializeField]
-    EntityGearManagement manticoreGear;
+    EntityGearManagement _manticoreGear;
+    EntityGearManagement ManticoreGear
+    {
+        get
+        {
+            if (_manticoreGear == null)
+            {
+                _manticoreGear = GameManager.GetPlayerTransform().GetComponent<EntityGearManagement>();
+            }
+
+            return _manticoreGear;
+        }
+    }
 
     private void Awake()
     {
@@ -53,7 +64,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
 
-        manticoreGear.activeHardwareUpdated += UpdateAbilities;
+        ManticoreGear.activeHardwareUpdated += UpdateAbilities;
         MomentumManager.OnMomentumUpdated += UpdateMomentumPointButtons;
         MomentumManager.OnMomentumUpdated += UpdateAbilityMomentumCounters;
 
