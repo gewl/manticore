@@ -149,6 +149,22 @@ public class ManticoreInputComponent : EntityComponent {
             }
             gear.EquippedRenewable.UseRenewable();
         }
+        else if (Input.GetButtonDown("AssignMomentumPoint_Slot0"))
+        {
+            TryToAssignMomentumPoint(0);
+        }
+        else if (Input.GetButtonDown("AssignMomentumPoint_Slot1"))
+        {
+            TryToAssignMomentumPoint(1);
+        }
+        else if (Input.GetButtonDown("AssignMomentumPoint_Slot2"))
+        {
+            TryToAssignMomentumPoint(2);
+        }
+        else if (Input.GetButtonDown("AssignMomentumPoint_Slot3"))
+        {
+            TryToAssignMomentumPoint(3);
+        }
     }
 
     void UseGear(IHardware gear)
@@ -163,6 +179,15 @@ public class ManticoreInputComponent : EntityComponent {
     void StopGearUse(IHardware gear)
     {
         gear.UseActiveHardware();
+    }
+
+    void TryToAssignMomentumPoint(int abilityIndex)
+    {
+        HardwareType equippedHardwareType = InventoryController.GetEquippedActiveHardware()[abilityIndex];
+        if (equippedHardwareType != HardwareType.None)
+        {
+            MomentumManager.AssignMomentumPointToHardware(equippedHardwareType);
+        }
     }
 
     #endregion

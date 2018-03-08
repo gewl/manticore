@@ -42,7 +42,7 @@ public class GameManager : SerializedMonoBehaviour {
     [SerializeField]
     GameObject manticorePrefab;
     [SerializeField]
-    float respawnTimer;
+    float playerDeathFadeScreenTimer;
 
     [SerializeField]
     float entityFallSpeed = 30f;
@@ -223,13 +223,13 @@ public class GameManager : SerializedMonoBehaviour {
 
     IEnumerator PlayerDeathSequence()
     {
-        float fadeOutCompleteTime = Time.time + respawnTimer;
+        float fadeOutCompleteTime = Time.time + playerDeathFadeScreenTimer;
 
         while (Time.time < fadeOutCompleteTime)
         {
             float timeRemaining = fadeOutCompleteTime - Time.time;
 
-            float percentageComplete = timeRemaining / respawnTimer;
+            float percentageComplete = timeRemaining / playerDeathFadeScreenTimer;
 
             Color fadeColor = FadeScreen.color;
 
@@ -252,13 +252,14 @@ public class GameManager : SerializedMonoBehaviour {
 
         yield return new WaitForSeconds(3f);
 
-        float fadeBackCompleteTime = Time.time + (respawnTimer/2f);
+        float fadeBackTimer = playerDeathFadeScreenTimer / 2f;
+        float fadeBackCompleteTime = Time.time + fadeBackTimer;
 
         while (Time.time < fadeBackCompleteTime)
         {
             float timeRemaining = fadeBackCompleteTime - Time.time;
 
-            float percentageComplete = timeRemaining / respawnTimer;
+            float percentageComplete = timeRemaining / fadeBackTimer;
 
             Color fadeColor = FadeScreen.color;
 

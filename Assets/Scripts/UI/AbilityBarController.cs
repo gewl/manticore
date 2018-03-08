@@ -21,7 +21,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
     // visual feedback when these values change.
     int[] displayedMomentumValues;
 
-
     const string COOLDOWN_OVERLAY = "CooldownOverlay";
     const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
     const string ASSIGN_MOMENTUM_BUTTON = "AssignMomentumButton";
@@ -79,6 +78,8 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
+
+        defaultMomentumDisplayColor = abilityMomentumCounters[0].GetComponent<Image>().color;
 
         ManticoreGear.activeHardwareUpdated += UpdateAbilities;
         MomentumManager.OnMomentumUpdated += UpdateMomentumPointButtons;
@@ -203,7 +204,20 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     IEnumerator FlashAbilityMomentumCounter(Image momentumCounter, Color flashColor)
     {
-        yield return null;
+        momentumCounter.color = flashColor;
+
+        float timeToReset = Time.time + flashTime;
+
+        while (Time.time < timeToReset)
+        {
+            float percentageComplete = 1f - (timeToReset - Time.time) / flashTime;
+
+            momentumCounter.color = Color.Lerp(flashColor, defaultMomentumDisplayColor, percentageComplete);
+
+            yield return null;
+        }
+
+        momentumCounter.color = defaultMomentumDisplayColor;
     }
 
     void ToggleMomentumButtons(bool isEnabled)
@@ -219,5 +233,4 @@ public class AbilityBarController : SerializedMonoBehaviour {
         HardwareType equippedHardwareType = InventoryController.GetEquippedActiveHardware()[buttonIndex];
         MomentumManager.AssignMomentumPointToHardware(equippedHardwareType);
     }
-
 }

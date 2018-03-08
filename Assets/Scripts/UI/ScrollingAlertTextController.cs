@@ -25,9 +25,6 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     RectTransform rectTransform;
 
-    //Vector3 maximumPrimaryPosition, centerPrimaryPosition, minimumPrimaryPosition;
-    //Vector3 maximumSecondaryPosition, centerSecondaryPosition, minimumSecondaryPosition;
-
     Vector3 initialPosition, centerPosition, destinationPosition;
 
 	void Start () {
@@ -166,13 +163,13 @@ public class ScrollingAlertTextController : MonoBehaviour {
         switch (gameStateEvent)
         {
             case GlobalConstants.GameStateEvents.PlayerDied:
-                return "ya dead";
+                return "ya";
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "New Momentum Point Earned";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
                 return "New Hardware Discovered";
             case GlobalConstants.GameStateEvents.MomentumLost:
-                return "A Little Momentum Lost";
+                return "A Little Momentum Lost, No Big Deal";
             default:
                 return "";
         }
@@ -183,7 +180,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
         switch (gameStateEvent)
         {
             case GlobalConstants.GameStateEvents.PlayerDied:
-                return "by gil";
+                return "dead";
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "Spend It and Accelerate";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:

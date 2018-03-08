@@ -31,13 +31,13 @@ public class MomentumManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        InventoryController.OnInventoryUpdated += ClearMomentum;
+        InventoryController.OnInventoryUpdated += ResetMomentum;
         GlobalEventEmitter.OnGameStateEvent += HandleEntityDied;
     }
 
     private void OnDisable()
     {
-        InventoryController.OnInventoryUpdated -= ClearMomentum;
+        InventoryController.OnInventoryUpdated -= ResetMomentum;
         GlobalEventEmitter.OnGameStateEvent -= HandleEntityDied;
     }
 
@@ -76,7 +76,7 @@ public class MomentumManager : MonoBehaviour {
     {
         if (CurrentMomentumData.UnassignedAvailableMomentumPoints == 0)
         {
-            Debug.LogError("Attempting to assign momentum points; no momentum points to assign.");
+            Debug.Log("Attempting to assign momentum points; no momentum points to assign.");
             return;
         }
         if (!CurrentMomentumData.HardwareTypeToMomentumMap.ContainsKey(hardwareType))
@@ -93,6 +93,7 @@ public class MomentumManager : MonoBehaviour {
 
     public static void RemoveLastMomentumPoint()
     {
+        ClearProgressTowardNextMomentum();
         if (CurrentMomentumData.AssignedMomentumTracker.Count <= 0f)
         {
             Debug.Log("Trying to undo last momentum assignment with no momentum assigned.");
@@ -105,7 +106,13 @@ public class MomentumManager : MonoBehaviour {
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.MomentumLost);
     }
 
-    static void ClearMomentum(InventoryData inventory)
+    static void ClearProgressTowardNextMomentum()
+    {
+        CurrentMomentumData.ProgressTowardNextMomentum = 0;
+        OnMomentumUpdated(CurrentMomentumData);
+    }
+
+    static void ResetMomentum(InventoryData inventory)
     {
         _currentMomentumData = new MomentumData();
         OnMomentumUpdated(CurrentMomentumData);

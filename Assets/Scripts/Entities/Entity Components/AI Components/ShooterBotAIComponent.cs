@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Sirenix.Serialization;
 
 public class ShooterBotAIComponent : EntityComponent {
 
@@ -11,6 +11,7 @@ public class ShooterBotAIComponent : EntityComponent {
     bool isAggroed = false;
     bool isChasing = false;
 
+    [NonSerialized, OdinSerialize]
     public List<Transform> patrolNodes;
     List<Vector3> patrolPositions;
     int currentPatrolPositionIndex = 0;
