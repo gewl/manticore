@@ -242,14 +242,17 @@ public class GameManager : SerializedMonoBehaviour {
         MuteAllEmitters();
 
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
+        EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
+        playerEntityEmitter.isMuted = false;
+        playerEntityEmitter.EmitEvent(EntityEvents.Respawning);
+
+        UnmuteAllEmitters();
 
         playerTransform.position = currentlyActiveLevel.SpawnPoint.position;
 
-        EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
-
         yield return new WaitForSeconds(3f);
 
-        float fadeBackCompleteTime = Time.time + respawnTimer;
+        float fadeBackCompleteTime = Time.time + (respawnTimer/2f);
 
         while (Time.time < fadeBackCompleteTime)
         {
@@ -265,9 +268,7 @@ public class GameManager : SerializedMonoBehaviour {
             yield return null;
         }
 
-        playerEntityEmitter.isMuted = false;
-        playerEntityEmitter.EmitEvent(EntityEvents.Respawning);
-        UnmuteAllEmitters();
+        MomentumManager.RemoveLastMomentumPoint();
     }
 
     public static void FreezeGame(GlobalConstants.GameFreezeEvent freezeEvent)

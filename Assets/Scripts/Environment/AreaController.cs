@@ -40,7 +40,7 @@ public class AreaController : MonoBehaviour {
     bool isAreaFaded = false;
 
     int currentlyActiveFloor = -1;
-    int lastFloor = -1;
+    int lastActiveFloor = -1;
     [SerializeField]
     int numberOfFloors = -1;
 
@@ -163,7 +163,18 @@ public class AreaController : MonoBehaviour {
         {
             entitiesOnFloorTracker.Remove(entity);
 
-            if (floor == currentlyActiveFloor)
+            bool isEntityOnHigherFloor = false;
+
+            for (int i = floor; i <= numberOfFloors; i++)
+            {
+                if (floorsToEntitiesMap[i].ContainsKey(entity))
+                {
+                    isEntityOnHigherFloor = true;
+                    break;
+                }
+            }
+
+            if (floor == currentlyActiveFloor && isEntityOnHigherFloor)
             {
                 entity.GetComponent<EntityManagement>().SetEntityVisibility(false);
             }
@@ -174,7 +185,7 @@ public class AreaController : MonoBehaviour {
     {
         currentPlayerTriggerCount++;
 
-        lastFloor = currentlyActiveFloor;
+        lastActiveFloor = currentlyActiveFloor;
         currentlyActiveFloor = floor;
 
         if (currentPlayerTriggerCount == 1)
@@ -193,12 +204,12 @@ public class AreaController : MonoBehaviour {
         {
             ToggleAreaActive(false);
             currentlyActiveFloor = -1;
-            lastFloor = -1;
+            lastActiveFloor = -1;
         }
         else if (currentlyActiveFloor == floor)
         {
-            currentlyActiveFloor = lastFloor;
-            lastFloor = floor;
+            currentlyActiveFloor = lastActiveFloor;
+            lastActiveFloor = floor;
         }
 
         UpdateFloorVisibility();

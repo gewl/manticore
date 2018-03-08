@@ -118,6 +118,7 @@ public class MobileEntityHealthComponent : EntityComponent {
     void OnRespawn()
     {
         isDead = false;
+        IsInvulnerable = false;
         currentHealth = initialHealth;
 
         entityEmitter.EmitEvent(EntityEvents.HealthChanged);
@@ -418,6 +419,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         destinationPosition.y -= entityInformation.EntityCollider.bounds.size.y;
         float timeSunk = Time.time + timeToSinkOnDeath;
 
+        GameManager.HandlePlayerDeath();
         while (Time.time < timeSunk)
         {
             float sinkingCompletion = (timeSunk - Time.time) / timeToSinkOnDeath;
@@ -433,10 +435,6 @@ public class MobileEntityHealthComponent : EntityComponent {
         if (!isPlayer)
         {
             Destroy(gameObject);
-        }
-        else
-        {
-            GameManager.HandlePlayerDeath();
         }
         yield break;
     }

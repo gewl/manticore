@@ -91,7 +91,7 @@ public class MomentumManager : MonoBehaviour {
         OnMomentumUpdated(CurrentMomentumData);
     }
 
-    static void RemoveLastMomentumPoint()
+    public static void RemoveLastMomentumPoint()
     {
         if (CurrentMomentumData.AssignedMomentumTracker.Count <= 0f)
         {

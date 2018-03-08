@@ -29,6 +29,7 @@ public static class GlobalConstants {
         EntityDied,
         PlayerDied,
         NewMomentumPoint,
-        HardwareDiscovered
+        HardwareDiscovered,
+        MomentumLost
     }
 }
