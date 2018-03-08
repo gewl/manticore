@@ -419,7 +419,11 @@ public class MobileEntityHealthComponent : EntityComponent {
         destinationPosition.y -= entityInformation.EntityCollider.bounds.size.y;
         float timeSunk = Time.time + timeToSinkOnDeath;
 
-        GameManager.HandlePlayerDeath();
+        if (isPlayer)
+        {
+            GameManager.HandlePlayerDeath();
+        }
+
         while (Time.time < timeSunk)
         {
             float sinkingCompletion = (timeSunk - Time.time) / timeToSinkOnDeath;
@@ -430,7 +434,6 @@ public class MobileEntityHealthComponent : EntityComponent {
 
             yield return null;
         }
-
 
         if (!isPlayer)
         {

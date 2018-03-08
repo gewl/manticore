@@ -17,12 +17,26 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     Button[] assignMomentumButtons;
 
+    // Used for diffing, so counters can flash different colors & give a little more 
+    // visual feedback when these values change.
+    int[] displayedMomentumValues;
+
+
     const string COOLDOWN_OVERLAY = "CooldownOverlay";
     const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
     const string ASSIGN_MOMENTUM_BUTTON = "AssignMomentumButton";
 
     [SerializeField]
     Sprite emptyAbilityBub;
+
+    Color defaultMomentumDisplayColor;
+    [SerializeField]
+    Color momentumIncreasedFlashColor;
+    [SerializeField]
+    Color momentumDecreasedFlashColor;
+    [SerializeField]
+    float flashTime = 0.5f;
+
     EntityGearManagement _manticoreGear;
     EntityGearManagement ManticoreGear
     {
@@ -44,6 +58,8 @@ public class AbilityBarController : SerializedMonoBehaviour {
         abilityMomentumCounters = new GameObject[4];
         abilityMomentumCounterTextElements = new Text[4];
         assignMomentumButtons = new Button[4];
+
+        displayedMomentumValues = new int[4];
 
         for (int i = 0; i < abilityBubs.Length; i++)
         {
@@ -162,7 +178,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
     }
 
-    void UpdateAbilityMomentumCounters(MomentumData momentumData)
+    void UpdateAbilityMomentumCounters(MomentumData newMomentumData)
     {
         HardwareType[] allEquippedActiveHardware = InventoryController.GetEquippedActiveHardware();
         for (int i = 0; i < abilityMomentumCounters.Length; i++)
@@ -170,9 +186,24 @@ public class AbilityBarController : SerializedMonoBehaviour {
             HardwareType activeHardwareType = allEquippedActiveHardware[i];
             if (activeHardwareType != HardwareType.None)
             {
-                abilityMomentumCounterTextElements[i].text = MomentumManager.GetMomentumPointsByHardwareType(activeHardwareType).ToString();
+                int newMomentumValue = MomentumManager.GetMomentumPointsByHardwareType(activeHardwareType);
+
+                if (newMomentumValue != displayedMomentumValues[i])
+                {
+                    Color flashColor = newMomentumValue > displayedMomentumValues[i] ? momentumIncreasedFlashColor : momentumDecreasedFlashColor;
+                    abilityMomentumCounterTextElements[i].text = newMomentumValue.ToString();
+
+                    StartCoroutine(FlashAbilityMomentumCounter(abilityMomentumCounters[i].GetComponent<Image>(), flashColor));
+
+                    displayedMomentumValues[i] = newMomentumValue;
+                }
             }
-        } 
+        }
+    }
+
+    IEnumerator FlashAbilityMomentumCounter(Image momentumCounter, Color flashColor)
+    {
+        yield return null;
     }
 
     void ToggleMomentumButtons(bool isEnabled)

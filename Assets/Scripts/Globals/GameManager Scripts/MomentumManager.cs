@@ -102,6 +102,7 @@ public class MomentumManager : MonoBehaviour {
 
         CurrentMomentumData.HardwareTypeToMomentumMap[lastHardwareTypeIncremented]--;
         OnMomentumUpdated(CurrentMomentumData);
+        GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.MomentumLost);
     }
 
     static void ClearMomentum(InventoryData inventory)

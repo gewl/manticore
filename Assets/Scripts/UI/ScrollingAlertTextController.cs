@@ -25,8 +25,10 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     RectTransform rectTransform;
 
-    Vector3 maximumPrimaryPosition, centerPrimaryPosition, minimumPrimaryPosition;
-    Vector3 maximumSecondaryPosition, centerSecondaryPosition, minimumSecondaryPosition;
+    //Vector3 maximumPrimaryPosition, centerPrimaryPosition, minimumPrimaryPosition;
+    //Vector3 maximumSecondaryPosition, centerSecondaryPosition, minimumSecondaryPosition;
+
+    Vector3 initialPosition, centerPosition, destinationPosition;
 
 	void Start () {
         scrollCoroutineQueue = new CoroutineQueue(this);
@@ -36,16 +38,13 @@ public class ScrollingAlertTextController : MonoBehaviour {
         float minRightX = rectTransform.TransformPoint(rectTransform.rect.min).x;
         float centerX = rectTransform.TransformPoint(rectTransform.rect.center).x;
 
-        float primaryY = primaryText.transform.position.y;
-        float secondaryY = secondaryText.transform.position.y;
+        float topY = rectTransform.TransformPoint(rectTransform.rect.max).y;
+        float bottomY = rectTransform.TransformPoint(rectTransform.rect.min).y;
+        float centerY = rectTransform.TransformPoint(rectTransform.rect.center).y;
 
-        maximumPrimaryPosition = new Vector3(maxRightX, primaryY, 0f);
-        centerPrimaryPosition = new Vector3(centerX, primaryY, 0f);
-        minimumPrimaryPosition = new Vector3(minRightX, primaryY, 0f);
-
-        maximumSecondaryPosition = new Vector3(maxRightX, secondaryY, 0f);
-        centerSecondaryPosition = new Vector3(centerX, secondaryY, 0f);
-        minimumSecondaryPosition = new Vector3(minRightX, secondaryY, 0f);
+        initialPosition = new Vector3(maxRightX, bottomY, 0f);
+        centerPosition = new Vector3(centerX, centerY, 0f);
+        destinationPosition = new Vector3(minRightX, topY, 0f);
 
         primaryText.gameObject.SetActive(false);
         secondaryText.gameObject.SetActive(false);
@@ -87,19 +86,19 @@ public class ScrollingAlertTextController : MonoBehaviour {
 	
     IEnumerator ScrollPrimaryText(string primaryTextContents)
     {
-        primaryText.transform.position = maximumPrimaryPosition;
+        primaryText.transform.position = initialPosition;
         primaryText.gameObject.SetActive(true);
         primaryText.text = primaryTextContents;
 
         Vector3 initialPrimaryPosition = primaryText.transform.position;
-        Vector3 targetPrimaryPosition = centerPrimaryPosition;
+        Vector3 targetPrimaryPosition = centerPosition;
 
         yield return StartCoroutine(MovePrimaryText(initialPrimaryPosition, targetPrimaryPosition));
 
         yield return new WaitForSeconds(primaryTextHangTime);
 
         initialPrimaryPosition = primaryText.transform.position;
-        targetPrimaryPosition = minimumPrimaryPosition;
+        targetPrimaryPosition = destinationPosition;
 
         yield return StartCoroutine(MovePrimaryText(initialPrimaryPosition, targetPrimaryPosition));
 
@@ -125,20 +124,20 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     IEnumerator ScrollSecondaryText(string secondaryTextContents)
     {
-        secondaryText.transform.position = maximumSecondaryPosition;
+        secondaryText.transform.position = initialPosition;
         yield return new WaitForSeconds(secondaryTextDelay);
         secondaryText.gameObject.SetActive(true);
         secondaryText.text = secondaryTextContents;
 
         Vector3 initialSecondaryPosition = secondaryText.transform.position;
-        Vector3 targetSecondaryPosition = centerSecondaryPosition;
+        Vector3 targetSecondaryPosition = centerPosition;
 
         yield return StartCoroutine(MoveSecondaryText(initialSecondaryPosition, targetSecondaryPosition));
 
         yield return new WaitForSeconds(secondaryTextHangTime);
 
         initialSecondaryPosition = secondaryText.transform.position;
-        targetSecondaryPosition = minimumSecondaryPosition;
+        targetSecondaryPosition = destinationPosition;
 
         yield return StartCoroutine(MoveSecondaryText(initialSecondaryPosition, targetSecondaryPosition));
 

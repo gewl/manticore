@@ -34,7 +34,6 @@ public class AreaController : MonoBehaviour {
     // the possibility of it setting off multiple triggers on one floor
     // without being added to the list twice, etc.
     Dictionary<int, Dictionary<GameObject, int>> floorsToEntitiesMap; 
-    List<GameObject> entitiesToRemove;
 
     float currentPlayerTriggerCount;
     bool isAreaFaded = false;
@@ -49,7 +48,6 @@ public class AreaController : MonoBehaviour {
     void Awake()
     {
         fadableSectionRenderers = new List<MeshRenderer>();
-        entitiesToRemove = new List<GameObject>();
         floorGroups = new List<GameObject>();
 
         floorsToEntitiesMap = new Dictionary<int, Dictionary<GameObject, int>>();
