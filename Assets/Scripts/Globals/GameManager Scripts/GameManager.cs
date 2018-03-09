@@ -182,6 +182,21 @@ public class GameManager : SerializedMonoBehaviour {
             return _momentumManager;
         }
     }
+
+    const string BULLETS_PARENT_ID = "Bullets";
+    private static GameObject _bulletsParent;
+    public static GameObject BulletsParent
+    {
+        get
+        {
+            if (_bulletsParent == null)
+            {
+                _bulletsParent = GameObject.Find(BULLETS_PARENT_ID);
+            }
+
+            return _bulletsParent;
+        }
+    }
     #endregion
 
     #region Collectible management

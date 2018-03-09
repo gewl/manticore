@@ -9,23 +9,19 @@ public class LevelManager : MonoBehaviour {
     Transform spawnPoint;
     public Transform SpawnPoint { get { return spawnPoint; } }
 
-    [SerializeField]
-    GameObject enemiesPrefab;
-
     const string LEVEL_ENEMIES_ID = "Enemies";
 
     private void Awake()
     {
-        if (enemiesPrefab == null)
-        {
-            Debug.LogError("Enemies prefab not assigned.");
-        }
+        //if (enemiesPrefab == null)
+        //{
+        //    Debug.LogError("Enemies prefab not assigned.");
+        //}
     }
 
     private void OnEnable()
     {
         spawnPoint = transform.Find(SPAWN_POINT_ID);
-        ClearAndRespawnEnemies();
 
         GameManager.RegisterCurrentLevel(this);
 
@@ -41,20 +37,19 @@ public class LevelManager : MonoBehaviour {
     {
         if (gameStateEvent == GlobalConstants.GameStateEvents.PlayerDied)
         {
-            ClearAndRespawnEnemies();
         }
     }
 
-    void ClearAndRespawnEnemies()
-    {
-        Transform currentEnemies = transform.Find(LEVEL_ENEMIES_ID);
+    //void ClearAndRespawnEnemies()
+    //{
+    //    Transform currentEnemies = transform.Find(LEVEL_ENEMIES_ID);
 
-        if (currentEnemies != null)
-        {
-            Destroy(currentEnemies.gameObject);
-        }
+    //    if (currentEnemies != null)
+    //    {
+    //        Destroy(currentEnemies.gameObject);
+    //    }
 
-        GameObject newEnemies = Instantiate(enemiesPrefab);
-        newEnemies.name = LEVEL_ENEMIES_ID;
-    }
+    //    GameObject newEnemies = Instantiate(enemiesPrefab);
+    //    newEnemies.name = LEVEL_ENEMIES_ID;
+    //}
 }

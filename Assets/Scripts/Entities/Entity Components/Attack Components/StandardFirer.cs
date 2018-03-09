@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class StandardFirer : EntityComponent {
 
-    [SerializeField]
-    Transform bulletsParent;
     Transform firer;
     [SerializeField]
     Transform spawnPoint;
@@ -155,7 +153,7 @@ public class StandardFirer : EntityComponent {
         bulletController.target = currentTarget;
         bulletController.speed = BulletSpeed;
 
-        createdBullet.transform.parent = bulletsParent.transform;
+        createdBullet.transform.parent = GameManager.BulletsParent.transform;
     }
 
     Vector3 ApplyWarmUpNoiseToPoint(Vector3 aimPoint, float currentTime)
