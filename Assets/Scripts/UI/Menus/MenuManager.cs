@@ -8,8 +8,19 @@ public class MenuManager : MonoBehaviour {
 
     bool isInMenu = false;
 
-    [SerializeField]
-    InventoryMenuController inventoryMenuController;
+    InventoryMenuController _inventoryMenuController;
+    InventoryMenuController inventoryMenuController
+    {
+        get
+        {
+            if (_inventoryMenuController == null)
+            {
+                _inventoryMenuController = GetComponentInChildren<InventoryMenuController>(true);
+            }
+
+            return _inventoryMenuController;
+        }
+    }
     [SerializeField]
     TooltipController tooltip;
 

@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class TerminalController : MonoBehaviour, IInteractableObjectController {
 
-    [SerializeField]
-    MenuManager menuManager;
-
     public void RegisterInteraction()
     {
-        menuManager.ToggleInventoryMenu();
+        GameManager.MenuManager.ToggleInventoryMenu();
     }
 
 }

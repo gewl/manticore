@@ -121,6 +121,20 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    static MenuManager _menuManager;
+    public static MenuManager MenuManager
+    {
+        get
+        {
+            if (_menuManager == null)
+            {
+                _menuManager = GameObject.FindGameObjectWithTag("Menus").GetComponent<MenuManager>();
+            }
+
+            return _menuManager;
+        }
+    }
+
     static Image _fadeScreen;
     static Image FadeScreen
     {
