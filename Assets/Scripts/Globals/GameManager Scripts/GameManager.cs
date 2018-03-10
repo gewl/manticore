@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -54,7 +55,15 @@ public class GameManager : SerializedMonoBehaviour {
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
         collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
     }
 
@@ -254,6 +263,10 @@ public class GameManager : SerializedMonoBehaviour {
             yield return null;
         }
 
+        Color finalFadeColor = FadeScreen.color;
+        finalFadeColor.a = 1f;
+        FadeScreen.color = finalFadeColor;
+
         MuteAllEmitters();
 
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
@@ -269,6 +282,10 @@ public class GameManager : SerializedMonoBehaviour {
 
         float fadeBackTimer = playerDeathFadeScreenTimer / 2f;
         float fadeBackCompleteTime = Time.time + fadeBackTimer;
+
+        // TODO: move this to dedicated scene-change logic
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.NewSceneLoaded);
 
         while (Time.time < fadeBackCompleteTime)
         {

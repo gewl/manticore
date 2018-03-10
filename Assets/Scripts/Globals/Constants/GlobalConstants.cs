@@ -30,6 +30,7 @@ public static class GlobalConstants {
         PlayerDied,
         NewMomentumPoint,
         HardwareDiscovered,
-        MomentumLost
+        MomentumLost,
+        NewSceneLoaded
     }
 }

@@ -80,13 +80,43 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
 
         defaultMomentumDisplayColor = abilityMomentumCounters[0].GetComponent<Image>().color;
+    }
 
+    private void OnEnable()
+    {
+        SubscribeToEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeFromEvents();
+    }
+
+    void SubscribeToEvents()
+    {
         ManticoreGear.activeHardwareUpdated += UpdateAbilities;
         MomentumManager.OnMomentumUpdated += UpdateMomentumPointButtons;
         MomentumManager.OnMomentumUpdated += UpdateAbilityMomentumCounters;
+        GlobalEventEmitter.OnGameStateEvent += OnGlobalEvent;
 
         UpdateMomentumPointButtons(MomentumManager.CurrentMomentumData);
         UpdateAbilityMomentumCounters(MomentumManager.CurrentMomentumData);
+    }
+
+    void UnsubscribeFromEvents()
+    {
+        ManticoreGear.activeHardwareUpdated -= UpdateAbilities;
+        MomentumManager.OnMomentumUpdated -= UpdateMomentumPointButtons;
+        MomentumManager.OnMomentumUpdated -= UpdateAbilityMomentumCounters;
+        GlobalEventEmitter.OnGameStateEvent -= OnGlobalEvent;
+    }
+
+    void OnGlobalEvent(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
+    {
+        if (gameStateEvent == GlobalConstants.GameStateEvents.NewSceneLoaded)
+        {
+            SubscribeToEvents();
+        }
     }
 
     void UpdateParryCooldown(float percentageCooldownRemaining)

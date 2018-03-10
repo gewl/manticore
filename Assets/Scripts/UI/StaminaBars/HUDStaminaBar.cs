@@ -29,8 +29,18 @@ public class HUDStaminaBar : StaminaBar {
     private void Awake()
     {
         manticoreStaminaComponent = GameManager.GetPlayerTransform().GetComponent<EntityStaminaComponent>();
+    }
+
+    private void OnEnable()
+    {
         manticoreStaminaComponent.TotalStaminaUpdated += UpdateTotalStamina;
         manticoreStaminaComponent.CurrentStaminaUpdated += UpdateCurrentStamina;
+    }
+
+    private void OnDisable()
+    {
+        manticoreStaminaComponent.TotalStaminaUpdated -= UpdateTotalStamina;
+        manticoreStaminaComponent.CurrentStaminaUpdated -= UpdateCurrentStamina;
     }
 
     public override void UpdateTotalStamina(float newTotalStamina)

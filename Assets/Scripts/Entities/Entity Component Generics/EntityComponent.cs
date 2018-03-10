@@ -10,10 +10,62 @@ using Sirenix.OdinInspector;
 [RequireComponent(typeof(EntityModifierHandler))]
 public abstract class EntityComponent : SerializedMonoBehaviour {
 
-    protected EntityEmitter entityEmitter;
-    protected EntityManagement entityInformation;
-    protected EntityStatHandler entityStats;
-    protected EntityModifierHandler entityModifierHandler;
+    EntityEmitter _entityEmitter;
+    protected EntityEmitter entityEmitter
+    {
+        get
+        {
+            if (_entityEmitter == null)
+            {
+                _entityEmitter = GetComponent<EntityEmitter>();
+            }
+
+            return _entityEmitter;
+        }
+    }
+
+    private EntityManagement _entityInformation;
+    protected EntityManagement entityInformation
+    {
+        get
+        {
+            if (_entityInformation == null)
+            {
+                _entityInformation = GetComponent<EntityManagement>();
+            }
+
+            return _entityInformation;
+        }
+    }
+
+    private EntityStatHandler _entityStats;
+    protected EntityStatHandler entityStats
+    {
+        get
+        {
+            if (_entityStats == null)
+            {
+                _entityStats = GetComponent<EntityStatHandler>();
+            }
+
+            return _entityStats;
+        }
+
+    }
+
+    private EntityModifierHandler _entityModifierHandler;
+    protected EntityModifierHandler entityModifierHandler
+    {
+        get
+        {
+            if (_entityModifierHandler == null)
+            {
+                _entityModifierHandler = GetComponent<EntityModifierHandler>();
+            }
+
+            return _entityModifierHandler;
+        }
+    }
 
     protected virtual void OnEnable()
     {
@@ -27,10 +79,6 @@ public abstract class EntityComponent : SerializedMonoBehaviour {
 
     protected virtual void Awake()
     {
-        entityEmitter = GetComponent<EntityEmitter>();
-        entityInformation = GetComponent<EntityManagement>();
-        entityStats = GetComponent<EntityStatHandler>();
-        entityModifierHandler = GetComponent<EntityModifierHandler>();
     }
 
     /// <summary>

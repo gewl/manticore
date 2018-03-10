@@ -7,8 +7,20 @@ public class StaminaPreview : MonoBehaviour {
     Text staminaIndicatorReadout;
     [SerializeField]
     RectTransform staminaBarContainer;
-    [SerializeField]
-    EntityStaminaComponent manticoreStamina;
+
+    EntityStaminaComponent _manticoreStamina;
+    EntityStaminaComponent manticoreStamina
+    {
+        get
+        {
+            if (_manticoreStamina == null)
+            {
+                _manticoreStamina = GameManager.GetPlayerTransform().GetComponent<EntityStaminaComponent>();
+            }
+
+            return _manticoreStamina;
+        }
+    }
 
     RectTransform staminaBar;
     float startingStamina;

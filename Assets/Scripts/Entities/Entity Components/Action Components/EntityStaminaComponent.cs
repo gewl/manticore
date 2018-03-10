@@ -21,8 +21,6 @@ public class EntityStaminaComponent : EntityComponent {
 
     [SerializeField]
     float baseMaximumStamina = 200;
-    //[SerializeField]
-    //StaminaBar attachedStaminaBar;
     [SerializeField]
     float equipCost_activeHardware = 40;
     [SerializeField]
@@ -48,7 +46,10 @@ public class EntityStaminaComponent : EntityComponent {
     private void Start()
     {
         CalculateMaximumStamina(InventoryController.Inventory);
-        TotalStaminaUpdated(adjustedMaximumStamina);
+        if (TotalStaminaUpdated != null)
+        {
+            TotalStaminaUpdated(adjustedMaximumStamina);
+        }
     }
 
     protected override void OnEnable()
@@ -113,11 +114,10 @@ public class EntityStaminaComponent : EntityComponent {
 
         currentStamina -= amountToUse;
 
-        //if (attachedStaminaBar != false)
-        //{
-        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        //}
-        CurrentStaminaUpdated(currentStamina);
+        if (CurrentStaminaUpdated != null)
+        {
+            CurrentStaminaUpdated(currentStamina);
+        }
 
         CancelInvoke();
         InvokeRepeating("RecoverStamina", recoveryFreezeDuration, recoveryTickRate);
@@ -134,11 +134,10 @@ public class EntityStaminaComponent : EntityComponent {
             currentStamina = adjustedMaximumStamina;
         }
 
-        //if (attachedStaminaBar != falseBCC7FFFF)
-        //{
-        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        //}
-        CurrentStaminaUpdated(currentStamina);
+        if (CurrentStaminaUpdated != null)
+        {
+            CurrentStaminaUpdated(currentStamina);
+        }
     }
 
     #region callbacks
@@ -157,7 +156,10 @@ public class EntityStaminaComponent : EntityComponent {
         //{
         //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
         //}
-        CurrentStaminaUpdated(currentStamina);
+        if (CurrentStaminaUpdated != null)
+        {
+            CurrentStaminaUpdated(currentStamina);
+        }
     }
 
     #endregion

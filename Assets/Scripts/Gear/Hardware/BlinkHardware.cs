@@ -107,12 +107,18 @@ public class BlinkHardware : EntityComponent, IHardware
         {
             timeElapsed += Time.deltaTime;
             percentOfCooldownRemaining = 1 - (timeElapsed / blinkCooldown);
-            CooldownUpdater(percentOfCooldownRemaining);
+            if (CooldownUpdater != null)
+            {
+                CooldownUpdater(percentOfCooldownRemaining);
+            }
             yield return null;
         }
 
         percentOfCooldownRemaining = 0.0f;
-        CooldownUpdater(percentOfCooldownRemaining);
+        if (CooldownUpdater != null)
+        {
+            CooldownUpdater(percentOfCooldownRemaining);
+        }
         isOnCooldown = false;
     }
     #endregion
