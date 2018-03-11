@@ -80,14 +80,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
         }
 
         defaultMomentumDisplayColor = abilityMomentumCounters[0].GetComponent<Image>().color;
-    }
 
-    private void OnEnable()
-    {
         SubscribeToEvents();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         UnsubscribeFromEvents();
     }
@@ -115,7 +112,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
     {
         if (gameStateEvent == GlobalConstants.GameStateEvents.NewSceneLoaded)
         {
-            SubscribeToEvents();
         }
     }
 

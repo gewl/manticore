@@ -125,7 +125,10 @@ public class ShooterBotAIComponent : EntityComponent {
     void OnAggro()
     {
         isAggroed = true;
-        navMeshAgent.isStopped = true;
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
+        }
         entityEmitter.EmitEvent(EntityEvents.Stop);
     }
 

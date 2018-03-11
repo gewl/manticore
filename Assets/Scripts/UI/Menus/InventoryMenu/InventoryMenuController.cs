@@ -21,6 +21,11 @@ public class InventoryMenuController : MonoBehaviour {
         menuManager = GetComponentInParent<MenuManager>();
     }
 
+    private void OnDisable()
+    {
+        DeactivateTooltip();
+    }
+
     // TODO: Overload this for other gearTypes, or cast enum value to int,
     // then cast int back to whichever enum is being dragged?
     public void BeginDragging(Sprite image, HardwareType hardwareType, Type hardwareSubtype)

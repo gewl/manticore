@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour {
 
-    static MenuManager instance;
-
     bool isInMenu = false;
 
     InventoryMenuController _inventoryMenuController;
@@ -23,19 +21,6 @@ public class MenuManager : MonoBehaviour {
     }
     [SerializeField]
     TooltipController tooltip;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void ToggleInventoryMenu()
     {

@@ -11,6 +11,7 @@ TagManager:
   - EnemyBullet
   - HUD
   - Ramp
+  - Menus
   layers:
   - Default
   - TransparentFX

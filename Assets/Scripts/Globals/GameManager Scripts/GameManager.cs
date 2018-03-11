@@ -284,9 +284,6 @@ public class GameManager : SerializedMonoBehaviour {
         MuteAllEmitters();
 
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.PlayerDied);
-        EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
-        playerEntityEmitter.isMuted = false;
-        playerEntityEmitter.EmitEvent(EntityEvents.Respawning);
 
         UnmuteAllEmitters();
 
@@ -300,6 +297,10 @@ public class GameManager : SerializedMonoBehaviour {
         // TODO: move this to dedicated scene-change logic
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.NewSceneLoaded);
+
+        EntityEmitter playerEntityEmitter = Player.GetComponent<EntityEmitter>();
+        playerEntityEmitter.isMuted = false;
+        playerEntityEmitter.EmitEvent(EntityEvents.Respawning);
 
         while (Time.time < fadeBackCompleteTime)
         {
@@ -421,7 +422,7 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerTransform == null)
         {
-            playerTransform = Player.transform;
+            playerTransform = GetPlayerObject().transform;
         }
         return playerTransform;
     }
