@@ -4,7 +4,8 @@
     Parry,
     Blink,
     Nullify,
-    Riposte
+    Riposte,
+    Yank
 }
 
 public enum HardwareUseTypes
