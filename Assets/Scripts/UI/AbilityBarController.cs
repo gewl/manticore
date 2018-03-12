@@ -7,6 +7,8 @@ using Sirenix.OdinInspector;
 
 public class AbilityBarController : SerializedMonoBehaviour {
 
+    bool applicationQuitting = false;
+
     [SerializeField]
     RectTransform[] abilityBubs;
     Image[] abilityBubImages;
@@ -81,12 +83,21 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
         defaultMomentumDisplayColor = abilityMomentumCounters[0].GetComponent<Image>().color;
 
+    }
+
+    private void OnEnable()
+    {
         SubscribeToEvents();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        UnsubscribeFromEvents();
+            UnsubscribeFromEvents();
+    }
+
+    private void OnApplicationQuit()
+    {
+        applicationQuitting = true;
     }
 
     void SubscribeToEvents()

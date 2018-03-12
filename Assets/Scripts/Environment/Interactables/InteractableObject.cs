@@ -77,7 +77,14 @@ public class InteractableObject : MonoBehaviour {
             floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                objectController.RegisterInteraction();
+                if (objectController != null)
+                {
+                    objectController.RegisterInteraction();
+                }
+                else
+                {
+                    Debug.Log("This object doesn't have an IInteractableObjectController attached.");
+                }
             }
             yield return null;
         }

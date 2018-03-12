@@ -6,8 +6,22 @@ public class MenuManager : MonoBehaviour {
 
     bool isInMenu = false;
 
+    DialogueMenuController _dialogueMenuController;
+    DialogueMenuController DialogueMenu
+    {
+        get
+        {
+            if (_dialogueMenuController == null)
+            {
+                _dialogueMenuController = GetComponentInChildren<DialogueMenuController>(true);
+            }
+
+            return _dialogueMenuController;
+        }
+    }
+
     InventoryMenuController _inventoryMenuController;
-    InventoryMenuController inventoryMenuController
+    InventoryMenuController InventoryMenu
     {
         get
         {
@@ -22,10 +36,25 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     TooltipController tooltip;
 
+    public void ToggleDialogueMenu()
+    {
+        isInMenu = !isInMenu;
+
+        DialogueMenu.gameObject.SetActive(isInMenu);
+        if (isInMenu)
+        {
+            GameManager.EnterMenu();
+        }
+        else
+        {
+            GameManager.ExitMenu();
+        }
+    }
+
     public void ToggleInventoryMenu()
     {
         isInMenu = !isInMenu;
-        inventoryMenuController.gameObject.SetActive(isInMenu);
+        InventoryMenu.gameObject.SetActive(isInMenu);
 
         if (isInMenu)
         {

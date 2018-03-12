@@ -8,5 +8,4 @@ public class TerminalController : MonoBehaviour, IInteractableObjectController {
     {
         GameManager.MenuManager.ToggleInventoryMenu();
     }
-
 }
