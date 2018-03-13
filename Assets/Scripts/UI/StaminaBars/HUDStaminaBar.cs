@@ -22,13 +22,14 @@ public class HUDStaminaBar : StaminaBar {
 
     EntityStaminaComponent manticoreStaminaComponent;
     float totalStamina;
-    float barHeight = 10f;
+    float barHeight;
     float barWidth = 0f;
     bool isAdjustingDamageBar = false;
 
     private void Awake()
     {
         manticoreStaminaComponent = GameManager.GetPlayerTransform().GetComponent<EntityStaminaComponent>();
+        barHeight = staminaBar.rectTransform.sizeDelta.y;
     }
 
     private void OnEnable()
@@ -47,9 +48,9 @@ public class HUDStaminaBar : StaminaBar {
     {
         totalStamina = newTotalStamina;
 
-        barWidth = totalStamina * 2f;
+        barWidth = totalStamina;
 
-        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 8f, barHeight + 8f);
+        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 5.5f, barHeight + 3f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         staminaBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
@@ -58,7 +59,7 @@ public class HUDStaminaBar : StaminaBar {
 
     public override void UpdateCurrentStamina(float newCurrentStamina)
     {
-        float newBarWidth = newCurrentStamina * 2f;
+        float newBarWidth = newCurrentStamina;
 
         staminaBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
 
