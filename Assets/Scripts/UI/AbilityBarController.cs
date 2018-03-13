@@ -83,16 +83,12 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
         defaultMomentumDisplayColor = abilityMomentumCounters[0].GetComponent<Image>().color;
 
-    }
-
-    private void OnEnable()
-    {
         SubscribeToEvents();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-            UnsubscribeFromEvents();
+        UnsubscribeFromEvents();
     }
 
     private void OnApplicationQuit()
@@ -113,7 +109,10 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     void UnsubscribeFromEvents()
     {
-        ManticoreGear.activeHardwareUpdated -= UpdateAbilities;
+        if (!applicationQuitting)
+        {
+            ManticoreGear.activeHardwareUpdated -= UpdateAbilities;
+        }
         MomentumManager.OnMomentumUpdated -= UpdateMomentumPointButtons;
         MomentumManager.OnMomentumUpdated -= UpdateAbilityMomentumCounters;
         GlobalEventEmitter.OnGameStateEvent -= OnGlobalEvent;
