@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -6,6 +7,11 @@ using UnityEngine.EventSystems;
 public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 {
     DialogueMenuController dialogueMenu;
+
+    // These values track which dialogue bubble lead to this bubble, which
+    // DialogueMenuController will use to prevent patricide.
+    public int bubbleParentX;
+    public int bubbleParentY;
 
     Text dialogueBubbleText;
     TextGenerator generator;
@@ -34,10 +40,11 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     {
         dialogueBubbleText.text = textContents;
         HighlightClickableTerms();
+        
     }
 
     void HighlightClickableTerms()
-    {
+   { 
         string newDialogueBubbleText = dialogueBubbleText.text;
         for (int i = 0; i < clickableTerms.Count; i++)
         {
@@ -87,11 +94,12 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 
                 if (clickInBounds)
                 {
-                    Debug.Log("clicked word: " + clickableTerm);
+                    dialogueMenu.RegisterTermClick(this, clickableTerm);
                     return;
                 }
 
             }
         }
     }
+
 }
