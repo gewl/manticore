@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 {
+    DialogueMenuController dialogueMenu;
+
     Text dialogueBubbleText;
     TextGenerator generator;
     float xDisplacement;
@@ -21,10 +21,12 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
         xDisplacement = dialogueBubbleText.rectTransform.localPosition.x;
         generator = dialogueBubbleText.cachedTextGenerator;
 
+        dialogueMenu = GetComponentInParent<DialogueMenuController>();
+
         clickableTerms = new List<string>()
         {
             "minds",
-            "proportion"
+            "evil"
         };
     }
 
@@ -46,8 +48,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
                 continue;
             }
 
-            // Can't cache indices here because length/position will update as RTF color code is added.
-
+            // Can't cache indices here because length/position will update as color code is added.
             int startOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm) - 1;
 
             newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=red>");

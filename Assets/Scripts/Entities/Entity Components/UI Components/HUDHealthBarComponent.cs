@@ -43,7 +43,7 @@ public class HUDHealthBarComponent : EntityComponent {
 
         barHeight = healthBar.rectTransform.sizeDelta.y;
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 5.5f, barHeight + 3f);
+        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 6.5f, barHeight + 5f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         healthBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;

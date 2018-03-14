@@ -1,10 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DialogueMenuController : MonoBehaviour {
 
     MenuManager menuManager;
+
+    public enum BubbleSpawnDirections
+    {
+        Up,
+        Down,
+        Left,
+        Right 
+    }
 
     private void Awake()
     {
@@ -18,4 +24,9 @@ public class DialogueMenuController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void CloseDialogueMenu()
+    {
+        menuManager.ToggleDialogueMenu();
+    }
 }
