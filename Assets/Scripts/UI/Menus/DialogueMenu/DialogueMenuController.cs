@@ -26,13 +26,13 @@ public class DialogueMenuController : MonoBehaviour {
         dialogueBubbleMatrix = new DialogueBubbleController[3,3];
         DialogueBubbleController[] bubbleList = GetComponentsInChildren<DialogueBubbleController>(true);
 
-        for (int i = 0; i < 3; i++)
+        for (int yCoord = 0; yCoord < 3; yCoord++)
         {
-            int startingPoint = i * 3;
+            int startingPoint = yCoord * 3;
 
-            for (int j = 0; j < 3; j++)
+            for (int xCoord = 0; xCoord < 3; xCoord++)
             {
-                dialogueBubbleMatrix[i, j] = bubbleList[startingPoint + j];
+                dialogueBubbleMatrix[xCoord, yCoord] = bubbleList[startingPoint + xCoord];
             }
         }
     }
@@ -57,6 +57,7 @@ public class DialogueMenuController : MonoBehaviour {
             Debug.LogError("Error finding a space for new dialogue bubble.");
         }
 
+        dialogueBubbleMatrix[newBubbleXCoordinate, newBubbleYCoordinate].gameObject.SetActive(true);
     }
 
     void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate)
@@ -121,9 +122,8 @@ public class DialogueMenuController : MonoBehaviour {
 
     bool IsBubbleFree(int xCoord, int yCoord)
     {
-        if (IsPositionValid(xCoord, yCoord) && !dialogueBubbleMatrix[xCoord, yCoord].gameObject.activeSelf)
+        if (IsPositionValid(xCoord, yCoord) && !dialogueBubbleMatrix[xCoord, yCoord].gameObject.activeInHierarchy)
         {
-            Debug.Log("Found free bubble at " + xCoord + ", " + yCoord);
             return true;
         }
         else
@@ -139,7 +139,7 @@ public class DialogueMenuController : MonoBehaviour {
 
     bool IsPositionValid(int xCoord, int yCoord)
     {
-        if (xCoord > 0 && yCoord > 0 && xCoord < 3 && yCoord < 3)
+        if (xCoord >= 0 && yCoord >= 0 && xCoord < 3 && yCoord < 3)
         {
             return true;
         }
