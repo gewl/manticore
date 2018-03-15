@@ -12,6 +12,7 @@ public class DialogueMenuController : MonoBehaviour {
     JSONObject currentDialogueObject;
 
     DialogueBubbleController[,] dialogueBubbleMatrix;
+    List<DialogueBubbleController> oldestToYoungestBubbles;
 
     public enum BubbleExpandDirection
     {
@@ -30,6 +31,7 @@ public class DialogueMenuController : MonoBehaviour {
 
     private void OnEnable()
     {
+        oldestToYoungestBubbles = new List<DialogueBubbleController>();
         // Turn first bubble on and all others off.
         for (int y = 0; y < 3; y++)
         {
@@ -37,7 +39,9 @@ public class DialogueMenuController : MonoBehaviour {
             {
                 if (x == 0 && y == 0)
                 {
-                    dialogueBubbleMatrix[x, y].gameObject.SetActive(true);
+                    DialogueBubbleController dialogueBubble = dialogueBubbleMatrix[x, y];
+                    dialogueBubble.gameObject.SetActive(true);
+                    oldestToYoungestBubbles.Add(dialogueBubble);
                 }
                 else
                 {
@@ -104,7 +108,7 @@ public class DialogueMenuController : MonoBehaviour {
 
         ParseBubbleID(bubbleName, out bubbleXCoordinate, out bubbleYCoordinate);
 
-        FindOpenSpace(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate, out bubbleExpandDirection);
+        GetNewBubblePosition(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate, out bubbleExpandDirection);
 
         if (newBubbleXCoordinate == -1 || newBubbleYCoordinate == -1)
         {
@@ -123,10 +127,17 @@ public class DialogueMenuController : MonoBehaviour {
         {
             clickableTerms.Add(j.str);
         }
+
         activatingBubble.ActivateBubble(textContents, clickableTerms, bubbleExpandDirection);
+
+        if (oldestToYoungestBubbles.IndexOf(activatingBubble) > -1)
+        {
+            oldestToYoungestBubbles.Remove(activatingBubble);
+        }
+        oldestToYoungestBubbles.Add(activatingBubble);
     }
 
-    void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection)
+    void GetNewBubblePosition(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection)
     {
         int[] firstPosition = new int[2] {originalBubbleXCoordinate + 1, originalBubbleYCoordinate};
         int[] secondPosition = new int[2] {originalBubbleXCoordinate, originalBubbleYCoordinate + 1};
@@ -138,55 +149,87 @@ public class DialogueMenuController : MonoBehaviour {
         {
             newBubbleXCoordinate = originalBubbleXCoordinate + 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
-            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
         }
         else if (IsBubbleFree(secondPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate + 1;
-            bubbleExpandDirection = BubbleExpandDirection.DOWN;
         }
         else if (IsBubbleFree(thirdPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate - 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
-            bubbleExpandDirection = BubbleExpandDirection.LEFT;
         }
         else if (IsBubbleFree(fourthPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate - 1;
-            bubbleExpandDirection = BubbleExpandDirection.UP;
-        }
-        else if (IsPositionValid(firstPosition))
-        {
-            newBubbleXCoordinate = originalBubbleXCoordinate + 1;
-            newBubbleYCoordinate = originalBubbleYCoordinate;
-            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
-        }
-        else if (IsPositionValid(secondPosition))
-        {
-            newBubbleXCoordinate = originalBubbleXCoordinate;
-            newBubbleYCoordinate = originalBubbleYCoordinate + 1;
-            bubbleExpandDirection = BubbleExpandDirection.DOWN;
-        }
-        else if (IsPositionValid(thirdPosition))
-        {
-            newBubbleXCoordinate = originalBubbleXCoordinate - 1;
-            newBubbleYCoordinate = originalBubbleYCoordinate;
-            bubbleExpandDirection = BubbleExpandDirection.LEFT;
-        }
-        else if (IsPositionValid(fourthPosition))
-        {
-            newBubbleXCoordinate = originalBubbleXCoordinate;
-            newBubbleYCoordinate = originalBubbleYCoordinate - 1;
-            bubbleExpandDirection = BubbleExpandDirection.UP;
         }
         else
         {
+            // Even though the function directly underneath this declaration reassigns these values, they need to be
+            // explicitly assigned to in order for this method not to error (due to the 'out' parameters).
             newBubbleXCoordinate = -1;
             newBubbleYCoordinate = -1;
-            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
+            GetOldestProximalBubblePosition(out originalBubbleXCoordinate, out originalBubbleYCoordinate, firstPosition, secondPosition, thirdPosition, fourthPosition);
+        }
+
+        if (newBubbleXCoordinate == originalBubbleXCoordinate)
+        {
+            if (newBubbleYCoordinate > originalBubbleYCoordinate)
+            {
+                bubbleExpandDirection = BubbleExpandDirection.DOWN;
+            }
+            else
+            {
+                bubbleExpandDirection = BubbleExpandDirection.UP;
+            }
+        }
+        else
+        {
+            if (newBubbleXCoordinate > originalBubbleXCoordinate)
+            {
+                bubbleExpandDirection = BubbleExpandDirection.RIGHT;
+            }
+            else
+            {
+                bubbleExpandDirection = BubbleExpandDirection.LEFT;
+            }
+        }
+    }
+
+    void GetOldestProximalBubblePosition(out int newBubbleXCoordinate, out int newBubbleYCoordinate, int[] firstPosition, int[] secondPosition, int[] thirdPosition, int[] fourthPosition)
+    {
+        newBubbleXCoordinate = -1;
+        newBubbleYCoordinate = -1;
+        int[] bubbleAgeIndices = new int[4] { GetBubbleAgeIndex(firstPosition), GetBubbleAgeIndex(secondPosition), GetBubbleAgeIndex(thirdPosition), GetBubbleAgeIndex(fourthPosition) };
+        int oldestBubbleIndex = Mathf.Min(bubbleAgeIndices);
+
+        DialogueBubbleController oldestBubble = oldestToYoungestBubbles[oldestBubbleIndex];
+
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (dialogueBubbleMatrix[x, y] == oldestBubble)
+                {
+                    newBubbleXCoordinate = x;
+                    newBubbleYCoordinate = y;
+                    break;
+                }
+            }
+        }
+    }
+
+    int GetBubbleAgeIndex(int[] coordinates)
+    {
+        if (IsPositionValid(coordinates[0], coordinates[1]))
+        {
+            return oldestToYoungestBubbles.IndexOf(dialogueBubbleMatrix[coordinates[0], coordinates[1]]);
+        }
+        else
+        {
+            return oldestToYoungestBubbles.Count;
         }
     }
 

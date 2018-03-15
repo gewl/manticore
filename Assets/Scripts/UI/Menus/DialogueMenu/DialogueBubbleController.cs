@@ -44,6 +44,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     TextGenerator generator;
 
     List<string> _clickableTerms;
+    List<bool> termsClicked;
 
     const float baseTimeBetweenCharacters = 0.02f;
     const float timeBetweenCharactersVariance = 0.005f;
@@ -81,6 +82,11 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
         bubbleContents = text;
 
         _clickableTerms = clickableTerms.ToList<string>();
+        termsClicked = new List<bool>();
+        for (int i = 0; i < _clickableTerms.Count; i++)
+        {
+            termsClicked.Add(false);
+        }
 
         StartCoroutine(FillTextIn());
     }
@@ -140,12 +146,12 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             yield return new WaitForSecondsRealtime(timeUntilNextCharacter);
         }
 
-        HighlightClickableTerms();
+        UpdateClickableTermsHighlighting();
     }
 
-    void HighlightClickableTerms()
+    void UpdateClickableTermsHighlighting()
     { 
-        string newDialogueBubbleText = DialogueBubbleText.text;
+        string newDialogueBubbleText = bubbleContents;
         for (int i = 0; i < _clickableTerms.Count; i++)
         {
             string clickableTerm = _clickableTerms[i];
@@ -158,7 +164,14 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             // Can't cache indices here because length/position will update as color code is added.
             int startOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm);
 
-            newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=red>");
+            if (termsClicked[i])
+            {
+                newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=green>");
+            }
+            else
+            {
+                newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=red>");
+            }
 
             int endOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm) + clickableTerm.Length;
 
@@ -195,6 +208,8 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
                 if (clickInBounds)
                 {
                     dialogueMenu.RegisterTermClick(this, clickableTerm);
+                    termsClicked[i] = true;
+                    UpdateClickableTermsHighlighting();
                     return;
                 }
 

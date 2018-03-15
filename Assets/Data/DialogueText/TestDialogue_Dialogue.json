@@ -4,9 +4,34 @@
     "TEXT": "Rumbling? Grumbling? Who's talking?",
     "CLICKABLE_TERMS": ["Who's"]
   },
-  "Who's": 
-  {
-    "TEXT": "Hello, machine. I don't recognize you. Are you new? Or am I failing?",
-    "CLICKABLE_TERMS":  ["new", "failing"]
-  }
+    "Who's": 
+    {
+      "TEXT": "Hello, machine. I don't recognize you. Are you new? Or am I failing?",
+      "CLICKABLE_TERMS":  ["new", "failing"]
+    },
+      "new": 
+      {
+        "TEXT": "Is that so? You're pretty conversational for an Assemblage.",
+        "CLICKABLE_TERMS": ["Assemblage"]
+      },
+        "Assemblage": 
+        {
+          "TEXT": "Mostly just dumb metal. Some of them used to be a little sharper, but something inside got torqued bad. Some of them were built that way and have just been tottering around since.",
+          "CLICKABLE_TERMS": ["torqued bad", "built that way"]
+        },
+          "torqued bad": 
+          {
+            "TEXT": "Yeah. They took a hit, or shorted out, and lost something they had before. Most of them won't really respond to you, they'll just keep on doing whatever they want to do. Some can be aggressive, though. Keep an eye out.",
+            "CLICKABLE_TERMS": []
+          },
+          "built that way": {
+            "TEXT": "A lot of Assemblages build. Some of them build other machines. They're rusted-out hulks slapping metal together. How good do you think the product is gonna be? Others build buildings. That's what happened here. You think Bath always looked this way?",
+            "CLICKABLE_TERMS": ["Bath"]
+          },
+      "failing": 
+      {
+        "TEXT": "It wouldn't be the end of the world, you know. I wasn't made to last forever. Oxidization, planned obsolescence, wear, abuse, the accumulated force of a thousand little impacts. I've got it coming.",
+        "CLICKABLE_TERMS": ["the world", "accumulated force"]
+      }
+
 }
