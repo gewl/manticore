@@ -68,7 +68,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     {
         int textIndex = 0;
 
-        while (textIndex < bubbleContents.Length)
+        while (textIndex <= bubbleContents.Length)
         {
             dialogueBubbleText.text = bubbleContents.Substring(0, textIndex);
             textIndex++;
@@ -96,7 +96,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             }
 
             // Can't cache indices here because length/position will update as color code is added.
-            int startOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm) - 1;
+            int startOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm);
 
             newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=red>");
 

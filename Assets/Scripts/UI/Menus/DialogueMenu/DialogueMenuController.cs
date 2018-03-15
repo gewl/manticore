@@ -65,15 +65,14 @@ public class DialogueMenuController : MonoBehaviour {
         _conversationalPartnerID = conversationalPartnerID;
 
         currentDialogueObject = MasterSerializer.RetrieveDialogueObject(conversationalPartnerID);
-        string textContents = currentDialogueObject[ENTRY_NAME][TEXT_NAME].ToString();
+        string textContents = currentDialogueObject[ENTRY_NAME][TEXT_NAME].str;
 
         JSONObject clickableTermsObject = currentDialogueObject[ENTRY_NAME][CLICKABLE_TERMS_NAME];
         List<string> clickableTerms = new List<string>();
 
         foreach (JSONObject j in clickableTermsObject.list)
         {
-            clickableTerms.Add(j.ToString());
-            Debug.Log(j.ToString());
+            clickableTerms.Add(j.str);
         }
 
         dialogueBubbleMatrix[0, 0].UpdateBubbleContents(textContents, clickableTerms);
@@ -102,14 +101,14 @@ public class DialogueMenuController : MonoBehaviour {
         DialogueBubbleController activatingBubble = dialogueBubbleMatrix[newBubbleXCoordinate, newBubbleYCoordinate];
         activatingBubble.gameObject.SetActive(true);
 
-        string textContents = currentDialogueObject[clickedTerm][TEXT_NAME].ToString();
+        string textContents = currentDialogueObject[clickedTerm][TEXT_NAME].str;
 
         JSONObject clickableTermsObject = currentDialogueObject[clickedTerm][CLICKABLE_TERMS_NAME];
         List<string> clickableTerms = new List<string>();
 
         foreach (JSONObject j in clickableTermsObject.list)
         {
-            clickableTerms.Add(j.ToString());
+            clickableTerms.Add(j.str);
             Debug.Log(j.ToString());
         }
         activatingBubble.UpdateBubbleContents(textContents, clickableTerms);
