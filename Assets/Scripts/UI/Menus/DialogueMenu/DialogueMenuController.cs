@@ -171,7 +171,7 @@ public class DialogueMenuController : MonoBehaviour {
             // explicitly assigned to in order for this method not to error (due to the 'out' parameters).
             newBubbleXCoordinate = -1;
             newBubbleYCoordinate = -1;
-            GetOldestProximalBubblePosition(out originalBubbleXCoordinate, out originalBubbleYCoordinate, firstPosition, secondPosition, thirdPosition, fourthPosition);
+            GetOldestProximalBubblePosition(out newBubbleXCoordinate, out newBubbleYCoordinate, firstPosition, secondPosition, thirdPosition, fourthPosition);
         }
 
         if (newBubbleXCoordinate == originalBubbleXCoordinate)
