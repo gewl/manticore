@@ -68,12 +68,15 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
         StopAllCoroutines();
     }
 
-    public void ActivateBubble(string text, List<string> clickableTerms, DialogueMenuController.BubbleExpandDirection bubbleExpandDirection = DialogueMenuController.BubbleExpandDirection.RIGHT)
+    public void ActivateBubble(string text, List<string> clickableTerms, DialogueMenuController.BubbleExpandDirection bubbleExpandDirection = DialogueMenuController.BubbleExpandDirection.RIGHT, int _bubbleParentX = -1, int _bubbleParentY = -1)
     {
         StopAllCoroutines();
         StartCoroutine(ExpandBubble(bubbleExpandDirection));
 
         UpdateBubbleContents(text, clickableTerms);
+
+        bubbleParentX = _bubbleParentX;
+        bubbleParentY = _bubbleParentY;
     }
 
     void UpdateBubbleContents(string text, List<string> clickableTerms)

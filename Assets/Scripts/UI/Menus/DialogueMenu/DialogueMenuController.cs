@@ -105,10 +105,12 @@ public class DialogueMenuController : MonoBehaviour {
         int newBubbleXCoordinate = -1, newBubbleYCoordinate = -1;
         BubbleExpandDirection bubbleExpandDirection;
         string bubbleName = dialogueBubble.name;
+        int bubbleParentX = dialogueBubble.bubbleParentX;
+        int bubbleParentY = dialogueBubble.bubbleParentY;
 
         ParseBubbleID(bubbleName, out bubbleXCoordinate, out bubbleYCoordinate);
 
-        GetNewBubblePosition(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate, out bubbleExpandDirection);
+        GetNewBubblePosition(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate, out bubbleExpandDirection, bubbleParentX, bubbleParentY);
 
         if (newBubbleXCoordinate == -1 || newBubbleYCoordinate == -1)
         {
@@ -128,7 +130,7 @@ public class DialogueMenuController : MonoBehaviour {
             clickableTerms.Add(j.str);
         }
 
-        activatingBubble.ActivateBubble(textContents, clickableTerms, bubbleExpandDirection);
+        activatingBubble.ActivateBubble(textContents, clickableTerms, bubbleExpandDirection, bubbleXCoordinate, bubbleYCoordinate);
 
         if (oldestToYoungestBubbles.IndexOf(activatingBubble) > -1)
         {
@@ -137,7 +139,7 @@ public class DialogueMenuController : MonoBehaviour {
         oldestToYoungestBubbles.Add(activatingBubble);
     }
 
-    void GetNewBubblePosition(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection)
+    void GetNewBubblePosition(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection, int bubbleParentX, int bubbleParentY)
     {
         int[] firstPosition = new int[2] {originalBubbleXCoordinate + 1, originalBubbleYCoordinate};
         int[] secondPosition = new int[2] {originalBubbleXCoordinate, originalBubbleYCoordinate + 1};
@@ -171,7 +173,7 @@ public class DialogueMenuController : MonoBehaviour {
             // explicitly assigned to in order for this method not to error (due to the 'out' parameters).
             newBubbleXCoordinate = -1;
             newBubbleYCoordinate = -1;
-            GetOldestProximalBubblePosition(out newBubbleXCoordinate, out newBubbleYCoordinate, firstPosition, secondPosition, thirdPosition, fourthPosition);
+            GetOldestProximalBubblePosition(out newBubbleXCoordinate, out newBubbleYCoordinate, firstPosition, secondPosition, thirdPosition, fourthPosition, bubbleParentX, bubbleParentY);
         }
 
         if (newBubbleXCoordinate == originalBubbleXCoordinate)
@@ -198,11 +200,18 @@ public class DialogueMenuController : MonoBehaviour {
         }
     }
 
-    void GetOldestProximalBubblePosition(out int newBubbleXCoordinate, out int newBubbleYCoordinate, int[] firstPosition, int[] secondPosition, int[] thirdPosition, int[] fourthPosition)
+    void GetOldestProximalBubblePosition(out int newBubbleXCoordinate, out int newBubbleYCoordinate, int[] firstPosition, int[] secondPosition, int[] thirdPosition, int[] fourthPosition, int bubbleParentX, int bubbleParentY)
     {
         newBubbleXCoordinate = -1;
         newBubbleYCoordinate = -1;
-        int[] bubbleAgeIndices = new int[4] { GetBubbleAgeIndex(firstPosition), GetBubbleAgeIndex(secondPosition), GetBubbleAgeIndex(thirdPosition), GetBubbleAgeIndex(fourthPosition) };
+
+        // IF not parent AND position valid, returns age index, ELSE returns int.MaxValue.
+        int firstPositionDesirability = GetPositionDesirability(firstPosition, bubbleParentX, bubbleParentY);
+        int secondPositionDesirability = GetPositionDesirability(secondPosition, bubbleParentX, bubbleParentY);
+        int thirdPositionDesirability = GetPositionDesirability(thirdPosition, bubbleParentX, bubbleParentY);
+        int fourthPositionDesirability = GetPositionDesirability(fourthPosition, bubbleParentX, bubbleParentY);
+
+        int[] bubbleAgeIndices = new int[4] { firstPositionDesirability, secondPositionDesirability, thirdPositionDesirability, fourthPositionDesirability };
         int oldestBubbleIndex = Mathf.Min(bubbleAgeIndices);
 
         DialogueBubbleController oldestBubble = oldestToYoungestBubbles[oldestBubbleIndex];
@@ -221,6 +230,11 @@ public class DialogueMenuController : MonoBehaviour {
         }
     }
 
+    int GetPositionDesirability(int[] position, int bubbleParentX, int bubbleParentY)
+    {
+        return position[0] == bubbleParentX && position[1] == bubbleParentY ? int.MaxValue : GetBubbleAgeIndex(position);
+    }
+
     int GetBubbleAgeIndex(int[] coordinates)
     {
         if (IsPositionValid(coordinates[0], coordinates[1]))
@@ -229,7 +243,7 @@ public class DialogueMenuController : MonoBehaviour {
         }
         else
         {
-            return oldestToYoungestBubbles.Count;
+            return int.MaxValue;
         }
     }
 
