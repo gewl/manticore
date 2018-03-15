@@ -4,33 +4,25 @@ using System.Collections.Generic;
 public class DialogueMenuController : MonoBehaviour {
 
     MenuManager menuManager;
-    const string textContents = "The world is filled half with evil and half with good. We can tilt it forward so that more good runs into our minds, or back, so that more runs into this. But the quantities are the same, we change only their proportion here or there.";
-    List<string> clickableTerms;
+
+    const string ENTRY_NAME = "_entry";
+    const string TEXT_NAME = "TEXT";
+    const string CLICKABLE_TERMS_NAME = "CLICKABLE_TERMS";
+    string _conversationalPartnerID = "";
+    JSONObject currentDialogueObject;
 
     DialogueBubbleController[,] dialogueBubbleMatrix;
-
-    public enum BubbleSpawnDirections
-    {
-        Up,
-        Down,
-        Left,
-        Right 
-    }
 
     private void Awake()
     {
         menuManager = GetComponentInParent<MenuManager>();
 
         InitializeBubbleMatrix();
-        clickableTerms = new List<string>()
-        {
-            "minds",
-            "evil"
-        };
     }
 
     private void OnEnable()
     {
+        // Turn first bubble on and all others off.
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
@@ -45,8 +37,6 @@ public class DialogueMenuController : MonoBehaviour {
                 }
             }
         }
-
-        dialogueBubbleMatrix[0, 0].UpdateBubbleContents(textContents, clickableTerms);
     }
 
     void InitializeBubbleMatrix()
@@ -63,6 +53,30 @@ public class DialogueMenuController : MonoBehaviour {
                 dialogueBubbleMatrix[xCoord, yCoord] = bubbleList[startingPoint + xCoord];
             }
         }
+    }
+
+    public void RegisterConversationalPartner(string conversationalPartnerID)
+    {
+        if (conversationalPartnerID == "")
+        {
+            Debug.LogError("Conversational partner ID not provided");
+        }
+
+        _conversationalPartnerID = conversationalPartnerID;
+
+        currentDialogueObject = MasterSerializer.RetrieveDialogueObject(conversationalPartnerID);
+        string textContents = currentDialogueObject[ENTRY_NAME][TEXT_NAME].ToString();
+
+        JSONObject clickableTermsObject = currentDialogueObject[ENTRY_NAME][CLICKABLE_TERMS_NAME];
+        List<string> clickableTerms = new List<string>();
+
+        foreach (JSONObject j in clickableTermsObject.list)
+        {
+            clickableTerms.Add(j.ToString());
+            Debug.Log(j.ToString());
+        }
+
+        dialogueBubbleMatrix[0, 0].UpdateBubbleContents(textContents, clickableTerms);
     }
 
     public void CloseDialogueMenu()
@@ -87,17 +101,28 @@ public class DialogueMenuController : MonoBehaviour {
 
         DialogueBubbleController activatingBubble = dialogueBubbleMatrix[newBubbleXCoordinate, newBubbleYCoordinate];
         activatingBubble.gameObject.SetActive(true);
+
+        string textContents = currentDialogueObject[clickedTerm][TEXT_NAME].ToString();
+
+        JSONObject clickableTermsObject = currentDialogueObject[clickedTerm][CLICKABLE_TERMS_NAME];
+        List<string> clickableTerms = new List<string>();
+
+        foreach (JSONObject j in clickableTermsObject.list)
+        {
+            clickableTerms.Add(j.ToString());
+            Debug.Log(j.ToString());
+        }
         activatingBubble.UpdateBubbleContents(textContents, clickableTerms);
     }
 
     void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate)
     {
         int[] firstPosition = new int[2] {originalBubbleXCoordinate + 1, originalBubbleYCoordinate};
-        int[] secondPosition = new int[2]{originalBubbleXCoordinate, originalBubbleYCoordinate + 1};
-        int[] thirdPosition = new int[2]{originalBubbleXCoordinate - 1, originalBubbleYCoordinate};
-        int[] fourthPosition = new int[2]{originalBubbleXCoordinate, originalBubbleYCoordinate - 1};
+        int[] secondPosition = new int[2] {originalBubbleXCoordinate, originalBubbleYCoordinate + 1};
+        int[] thirdPosition = new int[2] {originalBubbleXCoordinate - 1, originalBubbleYCoordinate};
+        int[] fourthPosition = new int[2] {originalBubbleXCoordinate, originalBubbleYCoordinate - 1};
 
-        // Just doing this manually — iterating is a pain and I want to weight them so they check in a clockwise fashion.
+        // Just doing this manually — iterating is a pain and I want to check them clockwise so I can weight propagation directions.
         if (IsBubbleFree(firstPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate + 1;
@@ -178,7 +203,6 @@ public class DialogueMenuController : MonoBehaviour {
             return false;
         }
     }
-
 
     void ParseBubbleID(string bubbleName, out int bubbleXCoordinate, out int bubbleYCoordinate)
     {

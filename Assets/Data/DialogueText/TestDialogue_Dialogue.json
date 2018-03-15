@@ -1,0 +1,12 @@
+{
+  "_entry": 
+  {
+    "TEXT": "Rumbling? Grumbling? Who's talking?",
+    "CLICKABLE_TERMS": ["Who's"]
+  },
+  "Who's": 
+  {
+    "TEXT": "Hello, machine. I don't recognize you. Are you new? Or am I failing?",
+    "CLICKABLE_TERMS":  ["new", "failing"]
+  }
+}

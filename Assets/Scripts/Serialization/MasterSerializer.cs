@@ -12,6 +12,9 @@ public class MasterSerializer : MonoBehaviour {
 
     static string DATA_DIRECTORY_PATH { get { return Application.dataPath + "/Data"; } }
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
+    static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/DialogueText"; } }
+
+    static string DIALOGUE_OBJECT_SUFFIX = "_Dialogue";
 
     static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
 
@@ -28,6 +31,8 @@ public class MasterSerializer : MonoBehaviour {
 
     private void OnDisable()
     {
+        InventoryController.OnInventoryUpdated -= SaveInventoryData;
+        MomentumManager.OnMomentumUpdated -= SaveMomentumData;
     }
 
     #region Data serialization/retrieval
@@ -94,6 +99,7 @@ public class MasterSerializer : MonoBehaviour {
     }
     #endregion
 
+    #region Hardware Descriptions
     public static string GetGeneralHardwareDescription(HardwareType hardwareType)
     {
         if (!hardwareTypeToDescriptionsMap.ContainsKey(hardwareType))
@@ -136,5 +142,12 @@ public class MasterSerializer : MonoBehaviour {
         JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsObjectString);
         return hardwareDescriptionsObject;
     }
-        
+    #endregion        
+
+    public static JSONObject RetrieveDialogueObject(string conversationalPartnerID)
+    {
+        string dialogueObjectString = File.ReadAllText(DIALOGUE_OBJECT_DIRECTORY_PATH + "/" + conversationalPartnerID + DIALOGUE_OBJECT_SUFFIX + ".json");
+        JSONObject dialogueObject = new JSONObject(dialogueObjectString);
+        return dialogueObject;
+    }
 }

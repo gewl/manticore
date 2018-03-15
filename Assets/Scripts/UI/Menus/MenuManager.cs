@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     TooltipController tooltip;
 
-    public void ToggleDialogueMenu()
+    public void ToggleDialogueMenu(string conversationalPartnerID = "")
     {
         isInMenu = !isInMenu;
 
@@ -44,6 +44,7 @@ public class MenuManager : MonoBehaviour {
         if (isInMenu)
         {
             GameManager.EnterMenu();
+            DialogueMenu.RegisterConversationalPartner(conversationalPartnerID);
         }
         else
         {

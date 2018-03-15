@@ -6,6 +6,6 @@ public class ConversationalPartnerController : MonoBehaviour, IInteractableObjec
 
     public void RegisterInteraction()
     {
-        GameManager.MenuManager.ToggleDialogueMenu();
+        GameManager.MenuManager.ToggleDialogueMenu(gameObject.name);
     }
 }
