@@ -7,6 +7,19 @@ using UnityEngine.EventSystems;
 
 public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 {
+    Image _dialogueBubble;
+    Image DialogueBubble
+    {
+        get
+        {
+            if (_dialogueBubble == null)
+            {
+                _dialogueBubble = GetComponent<Image>();
+            }
+
+            return _dialogueBubble;
+        }
+    }
     DialogueMenuController dialogueMenu;
 
     // These values track which dialogue bubble lead to this bubble, which
@@ -16,7 +29,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 
     string bubbleContents;
     Text _dialogueBubbleText;
-    Text dialogueBubbleText
+    Text DialogueBubbleText
     {
         get
         {
@@ -35,17 +48,18 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     const float baseTimeBetweenCharacters = 0.02f;
     const float timeBetweenCharactersVariance = 0.005f;
 
+    const float timeToExpandBubble = 0.4f;
 
     private void Awake()
     {
-        generator = dialogueBubbleText.cachedTextGenerator;
+        generator = DialogueBubbleText.cachedTextGenerator;
 
         dialogueMenu = GetComponentInParent<DialogueMenuController>();
     }
 
     private void OnEnable()
     {
-        dialogueBubbleText.text = "";
+        DialogueBubbleText.text = "";
     }
 
     private void OnDisable()
@@ -53,15 +67,61 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
         StopAllCoroutines();
     }
 
-    public void UpdateBubbleContents(string text, List<string> clickableTerms)
+    public void ActivateBubble(string text, List<string> clickableTerms, DialogueMenuController.BubbleExpandDirection bubbleExpandDirection = DialogueMenuController.BubbleExpandDirection.RIGHT)
     {
         StopAllCoroutines();
-        dialogueBubbleText.text = "";
+        StartCoroutine(ExpandBubble(bubbleExpandDirection));
+
+        UpdateBubbleContents(text, clickableTerms);
+    }
+
+    void UpdateBubbleContents(string text, List<string> clickableTerms)
+    {
+        DialogueBubbleText.text = "";
         bubbleContents = text;
 
         _clickableTerms = clickableTerms.ToList<string>();
 
         StartCoroutine(FillTextIn());
+    }
+
+    IEnumerator ExpandBubble(DialogueMenuController.BubbleExpandDirection bubbleExpandDirection)
+    {
+        switch (bubbleExpandDirection)
+        {
+            case DialogueMenuController.BubbleExpandDirection.UP:
+                DialogueBubble.fillMethod = Image.FillMethod.Vertical;
+                DialogueBubble.fillOrigin = 0;
+                break;
+            case DialogueMenuController.BubbleExpandDirection.DOWN:
+                DialogueBubble.fillMethod = Image.FillMethod.Vertical;
+                DialogueBubble.fillOrigin = 1;
+                break;
+            case DialogueMenuController.BubbleExpandDirection.LEFT:
+                DialogueBubble.fillMethod = Image.FillMethod.Horizontal;
+                DialogueBubble.fillOrigin = 1;
+                break;
+            case DialogueMenuController.BubbleExpandDirection.RIGHT:
+                DialogueBubble.fillMethod = Image.FillMethod.Horizontal;
+                DialogueBubble.fillOrigin = 0;
+                break;
+        }
+
+        DialogueBubble.fillAmount = 0f;
+
+        float timeOfCompletion = Time.realtimeSinceStartup + timeToExpandBubble;
+
+        while (Time.realtimeSinceStartup < timeOfCompletion)
+        {
+            float percentageComplete = 1 - (timeOfCompletion - Time.realtimeSinceStartup) / timeToExpandBubble;
+
+            float curvedPercentage = GameManager.BelovedSwingCurve.Evaluate(percentageComplete);
+
+            DialogueBubble.fillAmount = curvedPercentage;
+            yield return null;
+        }
+
+        DialogueBubble.fillAmount = 1f;
     }
 
     IEnumerator FillTextIn()
@@ -70,7 +130,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 
         while (textIndex <= bubbleContents.Length)
         {
-            dialogueBubbleText.text = bubbleContents.Substring(0, textIndex);
+            DialogueBubbleText.text = bubbleContents.Substring(0, textIndex);
             textIndex++;
 
             float timingVariance = UnityEngine.Random.Range(-timeBetweenCharactersVariance, timeBetweenCharactersVariance);
@@ -85,7 +145,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 
     void HighlightClickableTerms()
     { 
-        string newDialogueBubbleText = dialogueBubbleText.text;
+        string newDialogueBubbleText = DialogueBubbleText.text;
         for (int i = 0; i < _clickableTerms.Count; i++)
         {
             string clickableTerm = _clickableTerms[i];
@@ -105,25 +165,25 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             newDialogueBubbleText = newDialogueBubbleText.Insert(endOfTermIndex, "</color>");
         }
 
-        dialogueBubbleText.text = newDialogueBubbleText;
+        DialogueBubbleText.text = newDialogueBubbleText;
     }   
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        generator = dialogueBubbleText.cachedTextGenerator;
-        Vector2 clickPosition = dialogueBubbleText.transform.worldToLocalMatrix.MultiplyPoint(eventData.position);
+        generator = DialogueBubbleText.cachedTextGenerator;
+        Vector2 clickPosition = DialogueBubbleText.transform.worldToLocalMatrix.MultiplyPoint(eventData.position);
 
         for (int i = 0; i < _clickableTerms.Count; i++)
         {
             string clickableTerm = _clickableTerms[i];
             if (string.IsNullOrEmpty(clickableTerm)) continue;
-            if (!dialogueBubbleText.text.Contains(clickableTerm))
+            if (!DialogueBubbleText.text.Contains(clickableTerm))
             {
                 Debug.Log("clickable term not in string");
                 continue;
             }
 
-            int termIndex = dialogueBubbleText.text.IndexOf(clickableTerm);
+            int termIndex = DialogueBubbleText.text.IndexOf(clickableTerm);
 
             for (int pos = termIndex; pos < termIndex + clickableTerm.Length; pos++)
             {

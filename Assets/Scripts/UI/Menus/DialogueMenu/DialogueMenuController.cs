@@ -13,6 +13,14 @@ public class DialogueMenuController : MonoBehaviour {
 
     DialogueBubbleController[,] dialogueBubbleMatrix;
 
+    public enum BubbleExpandDirection
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
     private void Awake()
     {
         menuManager = GetComponentInParent<MenuManager>();
@@ -62,9 +70,13 @@ public class DialogueMenuController : MonoBehaviour {
             Debug.LogError("Conversational partner ID not provided");
         }
 
-        _conversationalPartnerID = conversationalPartnerID;
+        if (_conversationalPartnerID != conversationalPartnerID)
+        {
+            _conversationalPartnerID = conversationalPartnerID;
 
-        currentDialogueObject = MasterSerializer.RetrieveDialogueObject(conversationalPartnerID);
+            currentDialogueObject = MasterSerializer.RetrieveDialogueObject(conversationalPartnerID);
+        }
+
         string textContents = currentDialogueObject[ENTRY_NAME][TEXT_NAME].str;
 
         JSONObject clickableTermsObject = currentDialogueObject[ENTRY_NAME][CLICKABLE_TERMS_NAME];
@@ -75,7 +87,7 @@ public class DialogueMenuController : MonoBehaviour {
             clickableTerms.Add(j.str);
         }
 
-        dialogueBubbleMatrix[0, 0].UpdateBubbleContents(textContents, clickableTerms);
+        dialogueBubbleMatrix[0, 0].ActivateBubble(textContents, clickableTerms);
     }
 
     public void CloseDialogueMenu()
@@ -87,11 +99,12 @@ public class DialogueMenuController : MonoBehaviour {
     {
         int bubbleXCoordinate = -1, bubbleYCoordinate = -1;
         int newBubbleXCoordinate = -1, newBubbleYCoordinate = -1;
+        BubbleExpandDirection bubbleExpandDirection;
         string bubbleName = dialogueBubble.name;
 
         ParseBubbleID(bubbleName, out bubbleXCoordinate, out bubbleYCoordinate);
 
-        FindOpenSpace(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate);
+        FindOpenSpace(bubbleXCoordinate, bubbleYCoordinate, out newBubbleXCoordinate, out newBubbleYCoordinate, out bubbleExpandDirection);
 
         if (newBubbleXCoordinate == -1 || newBubbleYCoordinate == -1)
         {
@@ -109,12 +122,11 @@ public class DialogueMenuController : MonoBehaviour {
         foreach (JSONObject j in clickableTermsObject.list)
         {
             clickableTerms.Add(j.str);
-            Debug.Log(j.ToString());
         }
-        activatingBubble.UpdateBubbleContents(textContents, clickableTerms);
+        activatingBubble.ActivateBubble(textContents, clickableTerms, bubbleExpandDirection);
     }
 
-    void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate)
+    void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection)
     {
         int[] firstPosition = new int[2] {originalBubbleXCoordinate + 1, originalBubbleYCoordinate};
         int[] secondPosition = new int[2] {originalBubbleXCoordinate, originalBubbleYCoordinate + 1};
@@ -126,46 +138,55 @@ public class DialogueMenuController : MonoBehaviour {
         {
             newBubbleXCoordinate = originalBubbleXCoordinate + 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
+            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
         }
         else if (IsBubbleFree(secondPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate + 1;
+            bubbleExpandDirection = BubbleExpandDirection.DOWN;
         }
         else if (IsBubbleFree(thirdPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate - 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
+            bubbleExpandDirection = BubbleExpandDirection.LEFT;
         }
         else if (IsBubbleFree(fourthPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate - 1;
+            bubbleExpandDirection = BubbleExpandDirection.UP;
         }
         else if (IsPositionValid(firstPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate + 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
+            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
         }
         else if (IsPositionValid(secondPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate + 1;
+            bubbleExpandDirection = BubbleExpandDirection.DOWN;
         }
         else if (IsPositionValid(thirdPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate - 1;
             newBubbleYCoordinate = originalBubbleYCoordinate;
+            bubbleExpandDirection = BubbleExpandDirection.LEFT;
         }
         else if (IsPositionValid(fourthPosition))
         {
             newBubbleXCoordinate = originalBubbleXCoordinate;
             newBubbleYCoordinate = originalBubbleYCoordinate - 1;
+            bubbleExpandDirection = BubbleExpandDirection.UP;
         }
         else
         {
             newBubbleXCoordinate = -1;
             newBubbleYCoordinate = -1;
+            bubbleExpandDirection = BubbleExpandDirection.RIGHT;
         }
     }
 
