@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class DialogueMenuController : MonoBehaviour {
 
     MenuManager menuManager;
+    const string textContents = "The world is filled half with evil and half with good. We can tilt it forward so that more good runs into our minds, or back, so that more runs into this. But the quantities are the same, we change only their proportion here or there.";
+    List<string> clickableTerms;
 
     DialogueBubbleController[,] dialogueBubbleMatrix;
 
@@ -19,6 +22,31 @@ public class DialogueMenuController : MonoBehaviour {
         menuManager = GetComponentInParent<MenuManager>();
 
         InitializeBubbleMatrix();
+        clickableTerms = new List<string>()
+        {
+            "minds",
+            "evil"
+        };
+    }
+
+    private void OnEnable()
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                if (x == 0 && y == 0)
+                {
+                    dialogueBubbleMatrix[x, y].gameObject.SetActive(true);
+                }
+                else
+                {
+                    dialogueBubbleMatrix[x, y].gameObject.SetActive(false);
+                }
+            }
+        }
+
+        dialogueBubbleMatrix[0, 0].UpdateBubbleContents(textContents, clickableTerms);
     }
 
     void InitializeBubbleMatrix()
@@ -57,7 +85,9 @@ public class DialogueMenuController : MonoBehaviour {
             Debug.LogError("Error finding a space for new dialogue bubble.");
         }
 
-        dialogueBubbleMatrix[newBubbleXCoordinate, newBubbleYCoordinate].gameObject.SetActive(true);
+        DialogueBubbleController activatingBubble = dialogueBubbleMatrix[newBubbleXCoordinate, newBubbleYCoordinate];
+        activatingBubble.gameObject.SetActive(true);
+        activatingBubble.UpdateBubbleContents(textContents, clickableTerms);
     }
 
     void FindOpenSpace(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate)

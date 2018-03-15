@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -13,42 +14,81 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     public int bubbleParentX;
     public int bubbleParentY;
 
-    Text dialogueBubbleText;
+    string bubbleContents;
+    Text _dialogueBubbleText;
+    Text dialogueBubbleText
+    {
+        get
+        {
+            if (_dialogueBubbleText == null)
+            {
+                _dialogueBubbleText = GetComponentInChildren<Text>(true);
+            }
+
+            return _dialogueBubbleText;
+        }
+    }
     TextGenerator generator;
-    float xDisplacement;
 
-    List<string> clickableTerms;
+    List<string> _clickableTerms;
 
-    const string textContents = "The world is filled half with evil and half with good. We can tilt it forward so that more good runs into our minds, or back, so that more runs into this. But the quantities are the same, we change only their proportion here or there.";
+    const float baseTimeBetweenCharacters = 0.02f;
+    const float timeBetweenCharactersVariance = 0.005f;
+
 
     private void Awake()
     {
-        dialogueBubbleText = GetComponentInChildren<Text>();
-        xDisplacement = dialogueBubbleText.rectTransform.localPosition.x;
         generator = dialogueBubbleText.cachedTextGenerator;
 
         dialogueMenu = GetComponentInParent<DialogueMenuController>();
-
-        clickableTerms = new List<string>()
-        {
-            "minds",
-            "evil"
-        };
     }
 
     private void OnEnable()
     {
-        dialogueBubbleText.text = textContents;
+        dialogueBubbleText.text = "";
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    public void UpdateBubbleContents(string text, List<string> clickableTerms)
+    {
+        StopAllCoroutines();
+        dialogueBubbleText.text = "";
+        bubbleContents = text;
+
+        _clickableTerms = clickableTerms.ToList<string>();
+
+        StartCoroutine(FillTextIn());
+    }
+
+    IEnumerator FillTextIn()
+    {
+        int textIndex = 0;
+
+        while (textIndex < bubbleContents.Length)
+        {
+            dialogueBubbleText.text = bubbleContents.Substring(0, textIndex);
+            textIndex++;
+
+            float timingVariance = UnityEngine.Random.Range(-timeBetweenCharactersVariance, timeBetweenCharactersVariance);
+
+            float timeUntilNextCharacter = baseTimeBetweenCharacters + timingVariance;
+
+            yield return new WaitForSecondsRealtime(timeUntilNextCharacter);
+        }
+
         HighlightClickableTerms();
-        
     }
 
     void HighlightClickableTerms()
-   { 
+    { 
         string newDialogueBubbleText = dialogueBubbleText.text;
-        for (int i = 0; i < clickableTerms.Count; i++)
+        for (int i = 0; i < _clickableTerms.Count; i++)
         {
-            string clickableTerm = clickableTerms[i];
+            string clickableTerm = _clickableTerms[i];
             if (!newDialogueBubbleText.Contains(clickableTerm))
             {
                 Debug.LogError("clickable term not in string: " + clickableTerm);
@@ -73,9 +113,9 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
         generator = dialogueBubbleText.cachedTextGenerator;
         Vector2 clickPosition = dialogueBubbleText.transform.worldToLocalMatrix.MultiplyPoint(eventData.position);
 
-        for (int i = 0; i < clickableTerms.Count; i++)
+        for (int i = 0; i < _clickableTerms.Count; i++)
         {
-            string clickableTerm = clickableTerms[i];
+            string clickableTerm = _clickableTerms[i];
             if (string.IsNullOrEmpty(clickableTerm)) continue;
             if (!dialogueBubbleText.text.Contains(clickableTerm))
             {
