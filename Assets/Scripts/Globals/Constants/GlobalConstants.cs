@@ -33,4 +33,10 @@ public static class GlobalConstants {
         MomentumLost,
         NewSceneLoaded
     }
+
+    public enum Menus
+    {
+        Dialogue,
+        Inventory
+    }
 }

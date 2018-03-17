@@ -5,6 +5,7 @@ using UnityEngine;
 public class MenuManager : MonoBehaviour {
 
     bool isInMenu = false;
+    GameObject currentlyActiveMenu;
 
     DialogueMenuController _dialogueMenuController;
     DialogueMenuController DialogueMenu
@@ -36,30 +37,63 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     TooltipController tooltip;
 
+    void EnterMenu(GameObject menu)
+    {
+        isInMenu = true;
+        GameManager.EnterMenu();
+        menu.SetActive(true);
+        currentlyActiveMenu = menu;
+    }
+
+    void LeaveMenu()
+    {
+        isInMenu = false;
+        currentlyActiveMenu.SetActive(false);
+        GameManager.ExitMenu();
+        currentlyActiveMenu = null;
+    }
+
     public void ToggleDialogueMenu(string conversationalPartnerID = "")
     {
-        isInMenu = !isInMenu;
-
-        DialogueMenu.gameObject.SetActive(isInMenu);
-        if (isInMenu)
+        if (!isInMenu)
         {
-            GameManager.EnterMenu();
+            EnterMenu(DialogueMenu.gameObject);
             DialogueMenu.RegisterConversationalPartner(conversationalPartnerID);
         }
         else
         {
-            GameManager.ExitMenu();
+            LeaveMenu();
+        }
+    }
+
+    public void TransitionToNonDialogueMenu(GlobalConstants.Menus newMenu)
+    {
+        DialogueMenu.gameObject.SetActive(false);
+        GameObject newMenuObject = DialogueMenu.gameObject;
+        switch (newMenu)
+        {
+            case GlobalConstants.Menus.Dialogue:
+                Debug.LogError("Trying to transition to Dialogue menu from Dialogue menu.");
+                break;
+            case GlobalConstants.Menus.Inventory:
+                newMenuObject = InventoryMenu.gameObject;
+                break;
+            default:
+                break;
+        }
+
+        if (newMenuObject != null)
+        {
+            newMenuObject.SetActive(true);
+            currentlyActiveMenu = newMenuObject;
         }
     }
 
     public void ToggleInventoryMenu()
     {
-        isInMenu = !isInMenu;
-        InventoryMenu.gameObject.SetActive(isInMenu);
-
-        if (isInMenu)
+        if (!isInMenu)
         {
-            GameManager.EnterMenu();
+            EnterMenu(InventoryMenu.gameObject);
         }
         else
         {

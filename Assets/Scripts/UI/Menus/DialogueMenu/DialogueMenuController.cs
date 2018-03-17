@@ -8,6 +8,12 @@ public class DialogueMenuController : MonoBehaviour {
     const string ENTRY_NAME = "_entry";
     const string TEXT_NAME = "TEXT";
     const string CLICKABLE_TERMS_NAME = "CLICKABLE_TERMS";
+
+    // Special-case terms
+    const string INVENTORY_TERM = "INSTALLATION";
+
+    List<string> specialCaseTerms;
+
     string _conversationalPartnerID = "";
     JSONObject currentDialogueObject;
 
@@ -27,6 +33,11 @@ public class DialogueMenuController : MonoBehaviour {
         menuManager = GetComponentInParent<MenuManager>();
 
         InitializeBubbleMatrix();
+
+        specialCaseTerms = new List<string>()
+        {
+            INVENTORY_TERM
+        };
     }
 
     private void OnEnable()
@@ -51,6 +62,12 @@ public class DialogueMenuController : MonoBehaviour {
         }
     }
 
+    public void CloseDialogueMenu()
+    {
+        menuManager.ToggleDialogueMenu();
+    }
+
+    #region bubble position management
     void InitializeBubbleMatrix()
     {
         dialogueBubbleMatrix = new DialogueBubbleController[3,3];
@@ -67,6 +84,21 @@ public class DialogueMenuController : MonoBehaviour {
         }
     }
 
+    void ParseBubbleID(string bubbleName, out int bubbleXCoordinate, out int bubbleYCoordinate)
+    {
+        string splitChar = "_";
+        int splitIndex = bubbleName.IndexOf(splitChar);
+
+        string bubbleID = bubbleName.Substring(splitIndex + 1);
+
+        string[] bubbleCoordinates = bubbleID.Split('-');
+
+        bubbleXCoordinate = int.Parse(bubbleCoordinates[0]);
+        bubbleYCoordinate = int.Parse(bubbleCoordinates[1]);
+    }
+    #endregion
+
+    #region Public functions for conversation (called by bubbles)
     public void RegisterConversationalPartner(string conversationalPartnerID)
     {
         if (conversationalPartnerID == "")
@@ -94,13 +126,13 @@ public class DialogueMenuController : MonoBehaviour {
         dialogueBubbleMatrix[0, 0].ActivateBubble(textContents, clickableTerms);
     }
 
-    public void CloseDialogueMenu()
-    {
-        menuManager.ToggleDialogueMenu();
-    }
-
     public void RegisterTermClick(DialogueBubbleController dialogueBubble, string clickedTerm)
     {
+        if (specialCaseTerms.Contains(clickedTerm))
+        {
+            DeferToSpecialCase(clickedTerm);
+            return;
+        }
         int bubbleXCoordinate = -1, bubbleYCoordinate = -1;
         int newBubbleXCoordinate = -1, newBubbleYCoordinate = -1;
         BubbleExpandDirection bubbleExpandDirection;
@@ -139,6 +171,20 @@ public class DialogueMenuController : MonoBehaviour {
         oldestToYoungestBubbles.Add(activatingBubble);
     }
 
+    void DeferToSpecialCase(string specialCaseTerm)
+    {
+        switch (specialCaseTerm)
+        {
+            case INVENTORY_TERM:
+                menuManager.TransitionToNonDialogueMenu(GlobalConstants.Menus.Inventory);
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+
+    #region new bubble spawning helper functions
     void GetNewBubblePosition(int originalBubbleXCoordinate, int originalBubbleYCoordinate, out int newBubbleXCoordinate, out int newBubbleYCoordinate, out BubbleExpandDirection bubbleExpandDirection, int bubbleParentX, int bubbleParentY)
     {
         int[] firstPosition = new int[2] {originalBubbleXCoordinate + 1, originalBubbleYCoordinate};
@@ -280,17 +326,5 @@ public class DialogueMenuController : MonoBehaviour {
             return false;
         }
     }
-
-    void ParseBubbleID(string bubbleName, out int bubbleXCoordinate, out int bubbleYCoordinate)
-    {
-        string splitChar = "_";
-        int splitIndex = bubbleName.IndexOf(splitChar);
-
-        string bubbleID = bubbleName.Substring(splitIndex + 1);
-
-        string[] bubbleCoordinates = bubbleID.Split('-');
-
-        bubbleXCoordinate = int.Parse(bubbleCoordinates[0]);
-        bubbleYCoordinate = int.Parse(bubbleCoordinates[1]);
-    }
+    #endregion
 }

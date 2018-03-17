@@ -7,8 +7,8 @@ public class FloatingDamageText : MonoBehaviour {
 
     [SerializeField]
     float timeToComplete = 1f;
-    float destinationYDisplacement = 100f;
-    float baseYDisplacement = 50f;
+    float destinationYDisplacement = 50f;
+    float baseYDisplacement = 5f;
 
     Camera mainCamera;
     public float DamageValue;
@@ -41,7 +41,7 @@ public class FloatingDamageText : MonoBehaviour {
         float timeElapsed = 0f;
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        Color originalColor = Color.red;
+        Color originalColor = new Color(1.0f, 0.5f, 0f);
         if (isHealing)
         {
             originalColor = Color.green;
