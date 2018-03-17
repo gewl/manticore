@@ -126,9 +126,14 @@ public class DialogueMenuController : MonoBehaviour {
         dialogueBubbleMatrix[0, 0].ActivateBubble(textContents, clickableTerms);
     }
 
+    public bool IsTermSpecial(string term)
+    {
+        return specialCaseTerms.Contains(term);
+    }
+
     public void RegisterTermClick(DialogueBubbleController dialogueBubble, string clickedTerm)
     {
-        if (specialCaseTerms.Contains(clickedTerm))
+        if (IsTermSpecial(clickedTerm))
         {
             DeferToSpecialCase(clickedTerm);
             return;

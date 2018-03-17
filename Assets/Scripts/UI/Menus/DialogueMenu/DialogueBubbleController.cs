@@ -167,7 +167,11 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             // Can't cache indices here because length/position will update as color code is added.
             int startOfTermIndex = newDialogueBubbleText.IndexOf(clickableTerm);
 
-            if (termsClicked[i])
+            if (dialogueMenu.IsTermSpecial(clickableTerm))
+            {
+                newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=blue>");
+            }
+            else if (termsClicked[i])
             {
                 newDialogueBubbleText = newDialogueBubbleText.Insert(startOfTermIndex, "<color=green>");
             }
