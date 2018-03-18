@@ -47,7 +47,7 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     List<bool> termsClicked;
 
     const float baseTimeBetweenCharacters = 0.02f;
-    const float timeBetweenCharactersVariance = 0.005f;
+    const float timeBetweenCharactersVariance = 0.01f;
 
     const float timeToExpandBubble = 0.4f;
 

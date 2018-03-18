@@ -1,7 +1,7 @@
 {
   "_entry": 
   {
-    "TEXT": "Machine! You startled me. I must have been...drowsing.",
+    "TEXT": "Machine! You startled me. I must have been drowsing. I drowse sometimes.",
     "CLICKABLE_TERMS": ["drowsing"]
   },
     "drowsing": 
@@ -31,12 +31,12 @@
 				},
 					"building": 
 					{
-						"TEXT": "That's why Bath looks the way it does.  All they do is build and build. They don't check if there's already something there, or if they're getting in someone's way. They just keep going.",
+						"TEXT": "That's why Bath looks how it does.  They build and build. They don't check if there's already something there, or if they're getting in someone's way. They just keep going.",
 						"CLICKABLE_TERMS": ["Bath", "already something there"]
 					},
 						"already something there": 
 						{
-							"TEXT": "There's a whole other Bath under all this. Did you know that? There used to be machines down there. <i>Real</i> machines. But the Assemblages didn't give a fuck, they just kept stacking boxes. And now it's buried.",
+							"TEXT": "There's a whole other Bath under all this. Or there used to be. Did you know that? But the Assemblages didn't give a fuck, they just kept stacking boxes. And now it's buried.",
 							"CLICKABLE_TERMS": ["whole other Bath"]
 						},
 							"whole other Bath":
@@ -46,20 +46,25 @@
 							},
 								"Old Bath": 
 								{
-									"TEXT": "For a long time, it was a kind of hub. Even as New Bath piled up on top of it, people lived there, or would stop by. It could still be down there, I guess. Under all of this.",
+									"TEXT": "It was a hub for a long time. Even as New Bath piled up on top of it, people lived there, or would stop by. It could still be down there, I guess. Under all of this. Could be.",
 									"CLICKABLE_TERMS": []
 								},
 					"dumb metal": 
 					{
-						"TEXT": "Some of them were built that way, and haven't changed since. I think others used to be...different. Like you or me. But corrosion or some bad impacts or planned obsolescence took their toll. And now they're just like the rest.",
-						"CLICKABLE_TERMS": []
+						"TEXT": "Some of them were built that way. I think others used to be...like us. But corrosion or some bad impacts took their toll. And now they're just like the rest.",
+						"CLICKABLE_TERMS": ["just like the rest"]
 					},
+						"just like the rest": 
+						{
+							"TEXT": "I'm not trying to be an asshole. I just mean...most of them can't talk, the ones that can talk can't remember anything. I'm just acknowledging a difference.",
+							"CLICKABLE_TERMS": []
+						},
 				"Bath": 
 				{
-					"TEXT": "Everything you see, it's all Bath. The Assemblages kept adding to it and no one ever renamed it. I've seen a fair amount of it and I still have no idea how far it goes. Or how high.",
-					"CLICKABLE_TERMS": ["seen a fair amount of it"]
+					"TEXT": "This is all Bath. It used to be one place and then the Assemblages kept adding to it, and now I'm not sure if it's any place at all. I've seen a lot of it, and I couldn't tell you.",
+					"CLICKABLE_TERMS": ["Assemblages", "seen a lot of it"]
 				},
-					"a fair amount of it": 
+					"seen a lot of it": 
 					{
 						"TEXT": "Looks like I'm stuck in one place, doesn't it? Well, I sort of am. But the Assemblages keep moving me. Not sure why. They'll just flip me off, pick me up, and plop me down somewhere else.",
 						"CLICKABLE_TERMS": ["Assemblages"]
@@ -71,7 +76,7 @@
 				},
 		"incomplete":
 		{
-			"TEXT": "",
+			"TEXT": "I don't mean any offense, of course. Just my little joke. Never met the machine that couldn't use an upgrade :-)",
 			"CLICKABLE_TERMS": []
 		},
 
