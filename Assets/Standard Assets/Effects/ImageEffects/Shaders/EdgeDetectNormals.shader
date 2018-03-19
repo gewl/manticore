@@ -69,7 +69,8 @@ Shader "Hidden/EdgeDetect" {
 		//if(len >= _Threshold)
 		//	original.rgb = 0;
 
-		return len * lerp(original, _BgColor, _BgFade);			
+		half4 val = len * lerp(original, -_BgColor, _BgFade);			
+		return clamp(val, 0.1, 1.0);
 	}	
 	
 	inline half CheckSame (half2 centerNormal, float centerDepth, half4 theSample)
