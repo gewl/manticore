@@ -93,6 +93,7 @@ public class RotateToFaceTarget : EntityComponent {
         }
         else
         {
+            // TODO: Change this to random swiveling, probably?
             lookPosition = nextWaypoint;
         }
         lookPosition.y = transform.position.y;

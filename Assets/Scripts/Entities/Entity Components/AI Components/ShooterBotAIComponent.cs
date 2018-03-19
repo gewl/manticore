@@ -9,23 +9,22 @@ public class ShooterBotAIComponent : EntityComponent {
     NavMeshAgent navMeshAgent;
 
     bool isAggroed = false;
-    bool isChasing = false;
 
     [NonSerialized, OdinSerialize]
     public List<Transform> patrolNodes;
     List<Vector3> patrolPositions;
     int currentPatrolPositionIndex = 0;
-    bool reachedNewPatrolPoint = false;
+    bool reachedDestination = false;
 
     [SerializeField]
     float minPatrolPause = 0.1f;
     [SerializeField]
     float maxPatrolPause = 0.5f;
 
-    //[SerializeField]
-    //float minCombatPause = 0.1f;
-    //[SerializeField]
-    //float maxCombatPause = 0.5f;
+    [SerializeField]
+    float minCombatPause = 0.1f;
+    [SerializeField]
+    float maxCombatPause = 0.5f;
 
     RangedEntityData _entityData;
     RangedEntityData EntityData
@@ -45,10 +44,6 @@ public class ShooterBotAIComponent : EntityComponent {
     float ArcOfFire { get { return EntityData.ArcOfFire; } }
     float AttackRange { get { return EntityData.AttackRange; } }
 
-    //[SerializeField]
-    //float combatMoveSpeedModifier = 1f;
-    //[SerializeField]
-    //float chaseMoveSpeedModifier = 1f;
     [SerializeField]
     float minimumMovementPause = 1.0f;
     [SerializeField]
@@ -170,12 +165,12 @@ public class ShooterBotAIComponent : EntityComponent {
     void UnaggroedUpdate()
     {
         float sqrDistanceToNextPatrolPosition = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
-        if (sqrDistanceToNextPatrolPosition <= 0.5f && !reachedNewPatrolPoint)
+        if (sqrDistanceToNextPatrolPosition <= 0.5f && !reachedDestination)
         {
             entityEmitter.EmitEvent(EntityEvents.Stop);
 
             float patrolPause = UnityEngine.Random.Range(minPatrolPause, maxPatrolPause);
-            reachedNewPatrolPoint = true;
+            reachedDestination = true;
             Invoke("UpdatePatrolPosition", patrolPause);
         }
     }
@@ -190,7 +185,7 @@ public class ShooterBotAIComponent : EntityComponent {
         }
 
         navMeshAgent.SetDestination(patrolPositions[currentPatrolPositionIndex]);
-        reachedNewPatrolPoint = false;
+        reachedDestination = false;
 
         entityEmitter.EmitEvent(EntityEvents.Move);
     }
@@ -213,29 +208,27 @@ public class ShooterBotAIComponent : EntityComponent {
             }
         }
 
-        Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
+        Vector3 currentDestination = navMeshAgent.destination;
 
-        if (!isChasing && !IsInRange(currentTarget))
+        float sqrDistanceToCurrentDestination = (currentDestination - transform.position).sqrMagnitude;
+
+        if (sqrDistanceToCurrentDestination < 0.5f && !reachedDestination)
         {
-            entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-            isChasing = true;
-            Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
-        }
-        else if (isChasing && IsInRange(currentTarget))
-        {
-            entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-            isChasing = false;
-            Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
+            reachedDestination = true;
+
+            entityEmitter.EmitEvent(EntityEvents.Stop);
+
+            float movementPause = UnityEngine.Random.Range(minCombatPause, maxCombatPause);
+            reachedDestination = true;
+            Invoke("UpdatePatrolPosition", movementPause);
         }
     }
 
     void OnWaypointReached()
     {
-        Debug.Log("Wayponit reached");
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-        isChasing = false;
 
-        Invoke("GenerateAndSetWaypoint", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
+        Invoke("GenerateCombatMovementPosition", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
     }
 
     #endregion
@@ -263,57 +256,15 @@ public class ShooterBotAIComponent : EntityComponent {
         }
     }
 
-    void GenerateAndSetWaypoint()
+    void GenerateCombatMovementPosition()
     {
         currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
 
-        //if (Mathf.Abs(currentTarget.position.y - transform.position.y) > 1f)
-        //{
-        //    Vector3 nextWaypoint = currentTarget.position;
-        //    nextWaypoint.y = transform.position.y;
-        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-        //    float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        //}
-        //else if (isChasing)
-        //{
-        //    Vector3 nextWaypoint = GenerateChaseMovementPosition();
-        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-        //    float adjustedMoveSpeed = baseMoveSpeed * chaseMoveSpeedModifier;
-        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        //}
-        //else
-        //{
-        //    Vector3 nextWaypoint = GenerateCombatMovementPosition();
-        //    float baseMoveSpeed = (float)entityInformation.GetAttribute(EntityAttributes.BaseMoveSpeed);
-        //    float adjustedMoveSpeed = baseMoveSpeed * combatMoveSpeedModifier;
-        //    entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
-        //    entityInformation.SetAttribute(EntityAttributes.CurrentMoveSpeed, adjustedMoveSpeed);
-        //}
 
         Vector3 nextWaypoint = new Vector3(UnityEngine.Random.Range(-10f, 10f), 0f, UnityEngine.Random.Range(-10f, 10f));
         entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
 
         entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
-    }
-
-    Vector3 GenerateCombatMovementPosition()
-    {
-        return transform.position;
-    }
-
-    Vector3 GenerateChaseMovementPosition()
-    {
-        currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
-        Vector3 toTarget = currentTarget.position - transform.position;
-        Vector3 clampedFromTarget = Vector3.ClampMagnitude((transform.position - currentTarget.position), AttackRange * 2 / 3);
-
-        Vector3 chaseWaypoint = toTarget + clampedFromTarget;
-        chaseWaypoint.y = transform.position.y;
-
-        return chaseWaypoint;
     }
 
     bool IsInRange(Transform target)
