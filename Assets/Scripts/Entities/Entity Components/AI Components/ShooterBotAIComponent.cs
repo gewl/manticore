@@ -9,6 +9,8 @@ public class ShooterBotAIComponent : EntityComponent {
     NavMeshAgent navMeshAgent;
 
     bool isAggroed = false;
+    LayerMask allButTerrainMask;
+    Bounds entityBounds;
 
     [NonSerialized, OdinSerialize]
     public List<Transform> patrolNodes;
@@ -20,11 +22,21 @@ public class ShooterBotAIComponent : EntityComponent {
     float minPatrolPause = 0.1f;
     [SerializeField]
     float maxPatrolPause = 0.5f;
+    [SerializeField]
+    float unaggroedMovementModifier = 0.5f;
 
     [SerializeField]
     float minCombatPause = 0.1f;
     [SerializeField]
     float maxCombatPause = 0.5f;
+    [SerializeField]
+    float basePercentageOfRangeFromTarget = 0.66f;
+    [SerializeField]
+    float percentageOfRangeMovementVariance = 0.25f;
+    [SerializeField]
+    float rotationAroundTargetMinimumVariance = 60f;
+    [SerializeField]
+    float rotationAroundTargetMaximumVariance = 120f;
 
     RangedEntityData _entityData;
     RangedEntityData EntityData
@@ -66,7 +78,9 @@ public class ShooterBotAIComponent : EntityComponent {
     {
         base.Awake();
 
+        allButTerrainMask = 1 << LayerMask.NameToLayer("Terrain");
         navMeshAgent = GetComponent<NavMeshAgent>();
+        entityBounds = GetComponent<Collider>().bounds;
 
         patrolPositions = new List<Vector3>
         {
@@ -96,6 +110,7 @@ public class ShooterBotAIComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, Disconnect);
+
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
         if (isAggroed)
         {
@@ -119,12 +134,10 @@ public class ShooterBotAIComponent : EntityComponent {
     #region Reused subscription bundles
     void OnAggro()
     {
+        CancelInvoke();
         isAggroed = true;
-        if (navMeshAgent != null)
-        {
-            navMeshAgent.isStopped = true;
-        }
-        entityEmitter.EmitEvent(EntityEvents.Stop);
+        reachedDestination = false;
+        navMeshAgent.destination = transform.position;
     }
 
     void OnDeaggro()
@@ -151,7 +164,6 @@ public class ShooterBotAIComponent : EntityComponent {
 
     void OnUpdate()
     {
-        navMeshAgent.speed = entityStats.GetMoveSpeed();
         if (isAggroed)
         {
             AggroedUpdate();
@@ -187,6 +199,7 @@ public class ShooterBotAIComponent : EntityComponent {
         navMeshAgent.SetDestination(patrolPositions[currentPatrolPositionIndex]);
         reachedDestination = false;
 
+        navMeshAgent.speed = EntityData.BaseMoveSpeed * unaggroedMovementModifier;
         entityEmitter.EmitEvent(EntityEvents.Move);
     }
 
@@ -212,23 +225,14 @@ public class ShooterBotAIComponent : EntityComponent {
 
         float sqrDistanceToCurrentDestination = (currentDestination - transform.position).sqrMagnitude;
 
-        if (sqrDistanceToCurrentDestination < 0.5f && !reachedDestination)
+        if (sqrDistanceToCurrentDestination < 2f && !reachedDestination)
         {
-            reachedDestination = true;
-
             entityEmitter.EmitEvent(EntityEvents.Stop);
 
             float movementPause = UnityEngine.Random.Range(minCombatPause, maxCombatPause);
             reachedDestination = true;
-            Invoke("UpdatePatrolPosition", movementPause);
+            Invoke("GenerateCombatMovementPosition", movementPause);
         }
-    }
-
-    void OnWaypointReached()
-    {
-        entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
-
-        Invoke("GenerateCombatMovementPosition", UnityEngine.Random.Range(minimumMovementPause, maximumMovementPause));
     }
 
     #endregion
@@ -260,11 +264,39 @@ public class ShooterBotAIComponent : EntityComponent {
     {
         currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
 
+        Vector3 targetToSelf = transform.position - currentTarget.position;
 
-        Vector3 nextWaypoint = new Vector3(UnityEngine.Random.Range(-10f, 10f), 0f, UnityEngine.Random.Range(-10f, 10f));
-        entityInformation.SetAttribute(EntityAttributes.NextWaypoint, nextWaypoint);
+        float positionDistanceModifier = UnityEngine.Random.Range(-percentageOfRangeMovementVariance, percentageOfRangeMovementVariance);
 
-        entityEmitter.EmitEvent(EntityEvents.SetWaypoint);
+        Vector3 baseTargetPosition = targetToSelf.normalized * (AttackRange * (basePercentageOfRangeFromTarget + positionDistanceModifier));
+
+        float rotationAroundTargetModifier = UnityEngine.Random.Range(rotationAroundTargetMinimumVariance, rotationAroundTargetMaximumVariance);
+        rotationAroundTargetModifier = UnityEngine.Random.value > 0.5f ? rotationAroundTargetModifier : -rotationAroundTargetModifier;
+
+        Vector3 rotatedTargetPosition = VectorUtilities.RotatePointAroundPivot(baseTargetPosition, currentTarget.position, rotationAroundTargetModifier);
+
+        navMeshAgent.SetDestination(AdjustPositionForUninterruptedLoS(currentTarget.position, rotatedTargetPosition));
+        navMeshAgent.speed = EntityData.BaseMoveSpeed;
+        entityEmitter.EmitEvent(EntityEvents.Move);
+
+        reachedDestination = false;
+    }
+
+    Vector3 AdjustPositionForUninterruptedLoS(Vector3 currentTargetPosition, Vector3 desiredDestination)
+    {
+        RaycastHit hitInfo;
+        if (!Physics.Linecast(currentTargetPosition, desiredDestination, out hitInfo, allButTerrainMask, QueryTriggerInteraction.Ignore))
+        {
+            return desiredDestination;
+        }
+        else
+        {
+            Vector3 hitPoint = hitInfo.point;
+            Vector3 targetToHit = hitPoint - currentTargetPosition;
+            float distanceFromTargetAdjustedForBounds = hitInfo.distance - (entityBounds.extents.x * 2f);
+
+            return currentTargetPosition + (targetToHit.normalized * distanceFromTargetAdjustedForBounds);
+        }
     }
 
     bool IsInRange(Transform target)

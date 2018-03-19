@@ -135,7 +135,7 @@ public class StandardFirer : EntityComponent {
         targetPosition += averageVelocity;
 
         float baseNoiseAdjustment = Random.Range(-AimNoiseInDegrees, AimNoiseInDegrees);
-        targetPosition = RotatePointAroundPivot(targetPosition, transform.position, baseNoiseAdjustment);
+        targetPosition = VectorUtilities.RotatePointAroundPivot(targetPosition, transform.position, baseNoiseAdjustment);
 
         float currentTime = Time.time;
         if (currentTime < timeWarmedUp)
@@ -170,15 +170,7 @@ public class StandardFirer : EntityComponent {
             degreesOfNoiseToApply *= -1;
         }
 
-        return RotatePointAroundPivot(aimPoint, transform.position, degreesOfNoiseToApply);
+        return VectorUtilities.RotatePointAroundPivot(aimPoint, transform.position, degreesOfNoiseToApply);
     }
 
-    Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float degreesToRotate)
-    {
-        Quaternion rotationAngles = Quaternion.Euler(0.0f, degreesToRotate, 0.0f);
-
-        Vector3 direction = point - pivot;
-        direction = rotationAngles * direction;
-        return direction + pivot;
-    }
 }

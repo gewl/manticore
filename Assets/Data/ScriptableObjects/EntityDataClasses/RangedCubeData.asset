@@ -15,7 +15,7 @@ MonoBehaviour:
   Health: 40
   BaseDamage: 50
   MomentumValue: 6
-  BaseMoveSpeed: 5
+  BaseMoveSpeed: 10
   AggroRange: 15
   Allegiance: 1
   isPlayer: 0
