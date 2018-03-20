@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BlinkHardware : EntityComponent, IHardware
 {
-    HardwareType type = HardwareType.Blink;
-    public HardwareType Type { get { return type; } }
+    HardwareType _type = HardwareType.Blink;
+    public HardwareType Type { get { return _type; } }
 
-    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
-    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+    HardwareUseType hardwareUseType = HardwareUseType.Instant;
+    public HardwareUseType HardwareUseType { get { return hardwareUseType; } }
 
     BlinkHardwareData subtypeData;
     public void AssignSubtypeData(HardwareData hardwareData)
@@ -16,7 +16,7 @@ public class BlinkHardware : EntityComponent, IHardware
         subtypeData = hardwareData as BlinkHardwareData;
     }
 
-    int BlinkMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(HardwareType.Blink); } }
+    int BlinkMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
     float BlinkRange { get { return subtypeData.GetBlinkRange(BlinkMomentum); } }
 	public float TimeToCompleteBlink { get { return subtypeData.GetTimeToCompleteBlink(BlinkMomentum); } }
     public int StaminaCost { get { return subtypeData.GetStaminaCost(BlinkMomentum); } }
@@ -44,7 +44,8 @@ public class BlinkHardware : EntityComponent, IHardware
     // State management
     bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown && canBlink; } }
-    float blinkCooldown = 1.0f;
+
+    float BlinkCooldown { get { return subtypeData.GetCooldown(BlinkMomentum); } }
     float percentOfCooldownRemaining = 1.0f;
     public CooldownDelegate CooldownUpdater { get; set; }
 
@@ -101,12 +102,11 @@ public class BlinkHardware : EntityComponent, IHardware
 
     IEnumerator GoOnCooldown()
     {
-        float timeElapsed = 0.0f;
+        float timeOffCooldown = Time.time + BlinkCooldown;
 
-        while (timeElapsed < blinkCooldown)
+        while (Time.time < timeOffCooldown)
         {
-            timeElapsed += Time.deltaTime;
-            percentOfCooldownRemaining = 1 - (timeElapsed / blinkCooldown);
+            percentOfCooldownRemaining = 1 - (timeOffCooldown - Time.time) / BlinkCooldown;
             if (CooldownUpdater != null)
             {
                 CooldownUpdater(percentOfCooldownRemaining);

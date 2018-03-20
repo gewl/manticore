@@ -7,7 +7,7 @@
     Fracture
 }
 
-public enum HardwareUseTypes
+public enum HardwareUseType
 {
     Instant,
     Charge,

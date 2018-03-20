@@ -127,6 +127,7 @@ public class BulletController : MonoBehaviour {
         }
     }
 
+    #region Parrying
     // If no target position or strength supplied, just reverse direction.
     public void Parry(Transform newFirer)
     {
@@ -168,6 +169,11 @@ public class BulletController : MonoBehaviour {
 		trailRenderer.material = friendlyBulletMaterial;
         UpdateSize();
 	}
+    #endregion
+
+    #region Fracturing
+
+    #endregion
 
     IEnumerator AccelerateBullet(Vector3 direction)
     {
@@ -224,7 +230,6 @@ public class BulletController : MonoBehaviour {
             meshRenderer.material.SetFloat("_TimeElapsed", timeElapsed);
             yield return null;
         }
-        Debug.Log("destroying");
 
         Destroy(gameObject);
         yield break;

@@ -13,7 +13,7 @@ public interface IHardware
     CooldownDelegate CooldownUpdater { get; set; }
 
     HardwareType Type { get; }
-    HardwareUseTypes HardwareUseType { get; }
+    HardwareUseType HardwareUseType { get; }
 
     void AssignSubtypeData(HardwareData hardwareData);
     void UseActiveHardware();

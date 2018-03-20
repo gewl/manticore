@@ -124,7 +124,7 @@ public class ManticoreInputComponent : EntityComponent {
                 return;
             }
             UseGear(gear_slot2);
-            if (gear_slot2.HardwareUseType != HardwareUseTypes.Instant)
+            if (gear_slot2.HardwareUseType != HardwareUseType.Instant)
             {
                 StartCoroutine("PeriodicalStaminaTick_Slot2");
             }
@@ -136,7 +136,7 @@ public class ManticoreInputComponent : EntityComponent {
                 return;
             }
             UseGear(gear_slot3);
-            if (gear_slot3.HardwareUseType != HardwareUseTypes.Instant)
+            if (gear_slot3.HardwareUseType != HardwareUseType.Instant)
             {
                 StartCoroutine("PeriodicalStaminaTick_Slot3");
             }

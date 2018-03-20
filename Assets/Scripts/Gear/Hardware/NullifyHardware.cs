@@ -10,8 +10,8 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
     public bool IsInUse { get { return false; } }
 
-    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
-    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+    HardwareUseType hardwareUseType = HardwareUseType.Instant;
+    public HardwareUseType HardwareUseType { get { return hardwareUseType; } }
 
     NullifyHardwareData subtypeData;
     public void AssignSubtypeData(HardwareData hardwareData)
@@ -199,7 +199,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
     IEnumerator ApplyPassiveHardware_Fracture(IHardware activeHardware, GameObject fracturedBullet)
     {
-
+        yield break;
     }
      
     IEnumerator ApplyPassiveHardware_Riposte(IHardware activeHardware, GameObject target)

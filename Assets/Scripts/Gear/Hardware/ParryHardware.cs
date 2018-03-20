@@ -9,8 +9,8 @@ public class ParryHardware : EntityComponent, IHardware {
 
     public bool IsInUse { get { return false; } }
 
-    HardwareUseTypes hardwareUseType = HardwareUseTypes.Instant;
-    public HardwareUseTypes HardwareUseType { get { return hardwareUseType; } }
+    HardwareUseType hardwareUseType = HardwareUseType.Instant;
+    public HardwareUseType HardwareUseType { get { return hardwareUseType; } }
 
     ParryHardwareData subtypeData;
     public void AssignSubtypeData(HardwareData hardwareData)

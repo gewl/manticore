@@ -199,7 +199,6 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
             if (string.IsNullOrEmpty(clickableTerm)) continue;
             if (!DialogueBubbleText.text.Contains(clickableTerm))
             {
-                Debug.Log("clickable term not in string");
                 continue;
             }
 
