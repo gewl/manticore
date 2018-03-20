@@ -41,8 +41,8 @@ public class InventoryController {
                 return typeof(StandardIssueBlinkHardwareData);
             case HardwareType.Nullify:
                 return typeof(StandardIssueNullifyHardwareData);
-            case HardwareType.Riposte:
-                return typeof(StandardIssueRiposteHardwareData);
+            case HardwareType.Fracture:
+                return typeof(StandardIssueFractureHardwareData);
             default:
                 Debug.LogError("Attempted to retrieve subtype for invalid HardwareType: " + hardwareType);
                 return null;

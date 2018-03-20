@@ -156,8 +156,8 @@ public class EntityGearManagement : MonoBehaviour {
                 return typeof(BlinkHardware);
             case HardwareType.Nullify:
                 return typeof(NullifyHardware);
-            case HardwareType.Riposte:
-                return typeof(RiposteHardware);
+            case HardwareType.Fracture:
+                return typeof(FractureHardware);
             default:
                 return null;
         }

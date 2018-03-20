@@ -77,7 +77,6 @@ public class AnimatorStateChangeComponent : EntityComponent {
 
     void OnUnstun()
     {
-        Debug.Log("unstunning");
         if (animator.GetBool(IS_STUNNED))
         {
             animator.SetBool(IS_STUNNED, false);

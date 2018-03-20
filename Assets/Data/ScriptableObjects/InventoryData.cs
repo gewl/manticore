@@ -39,7 +39,7 @@ public class InventoryData {
 
         ObtainHardwareType(HardwareType.Parry);
         ObtainHardwareType(HardwareType.Blink);
-        ObtainHardwareType(HardwareType.Riposte);
+        ObtainHardwareType(HardwareType.Fracture);
         ObtainHardwareType(HardwareType.Nullify);
 
         EquippedActiveHardware = new HardwareType[4]

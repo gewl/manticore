@@ -156,8 +156,8 @@ public class NullifyHardware : MonoBehaviour, IHardware {
             case HardwareType.Nullify:
                 Debug.LogError("Trying to apply Nullify passive effect to Nullify active hardware.");
                 break;
-            case HardwareType.Riposte:
-                StartCoroutine(ApplyPassiveHardware_Riposte(activeHardware, subject));
+            case HardwareType.Fracture:
+                StartCoroutine(ApplyPassiveHardware_Fracture(activeHardware, subject));
                 break;
             default:
                 break;
@@ -197,6 +197,11 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         yield return null;
     }
 
+    IEnumerator ApplyPassiveHardware_Fracture(IHardware activeHardware, GameObject fracturedBullet)
+    {
+
+    }
+     
     IEnumerator ApplyPassiveHardware_Riposte(IHardware activeHardware, GameObject target)
     {
         Vector3 targetRotationEuler = target.transform.rotation.eulerAngles;
