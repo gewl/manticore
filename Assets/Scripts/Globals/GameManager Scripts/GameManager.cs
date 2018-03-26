@@ -337,6 +337,11 @@ public class GameManager : SerializedMonoBehaviour {
         CameraController.JoltScreen(direction);
     }
 
+    public static void JoltScreen(Vector3 direction, float magnitude)
+    {
+        CameraController.JoltScreen(direction, magnitude);
+    }
+
     public static void EnterMenu()
     {
         TogglePause();
@@ -527,6 +532,10 @@ public class GameManager : SerializedMonoBehaviour {
     [SerializeField]
     AnimationCurve belovedSwingCurve;
     public static AnimationCurve BelovedSwingCurve { get { return instance.belovedSwingCurve; } }
+
+    [SerializeField]
+    AnimationCurve easeOutCurve;
+    public static AnimationCurve EaseOutCurve { get { return instance.easeOutCurve; } }
 
     [SerializeField]
     AbilityBarController abilityBar;

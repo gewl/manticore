@@ -22,8 +22,7 @@ public class CameraController : MonoBehaviour {
     [SerializeField]
     Transform followEntity;
 
-    [SerializeField]
-    float joltMagnitude = 1.0f;
+    float defaultJoltMagnitude = 0.4f;
     [SerializeField]
     float shakeMagnitude = 1.0f;
 
@@ -94,7 +93,7 @@ public class CameraController : MonoBehaviour {
     }
 
     // JoltScreen is for a sudden, directional movement.
-    public void JoltScreen(Vector3 direction)
+    public void JoltScreen(Vector3 direction, float joltMagnitude = 0.4f)
     {
         transform.position += (direction.normalized * joltMagnitude);
     }

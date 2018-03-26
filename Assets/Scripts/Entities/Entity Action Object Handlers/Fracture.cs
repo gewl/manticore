@@ -2,20 +2,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fracture : MonoBehaviour {
-
+public class Fracture : MonoBehaviour
+{
+    FractureHardware fractureHardware;
     LayerMask enemyBulletLayer;
+    Rigidbody rigidbody;
+
+    float timeToStop = 0.2f;
+    float timeToDestroy = 0.22f;
+
+    float timeElapsed = 0.0f;
+    float destroyTime;
+    bool hasStopped = false;
+
+    Vector3 initialDirection;
+    float initialSpeed;
 
     private void Awake()
     {
         enemyBulletLayer = LayerMask.NameToLayer("EnemyBullet");
+        rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (other.gameObject.layer == enemyBulletLayer)
-        {
+        initialDirection = rigidbody.velocity.normalized;
+        initialSpeed = rigidbody.velocity.magnitude;
+        destroyTime = Time.time + timeToDestroy;
+    }
 
-        }        
+    private void Update()
+    {
+        timeElapsed += Time.deltaTime;
+
+        if (timeElapsed < timeToStop)
+        {
+            float percentageToStop = (timeElapsed / timeToStop);
+
+            float updatedSpeed = initialSpeed * GameManager.EaseOutCurve.Evaluate(percentageToStop);
+            rigidbody.velocity = initialDirection * updatedSpeed;
+        }
+        else if (!hasStopped)
+        {
+            hasStopped = true;
+            rigidbody.velocity = Vector3.zero;
+        }
+
+        if (Time.time >= destroyTime)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void PassReferenceToHardware(FractureHardware _fractureHardware)
+    {
+        fractureHardware = _fractureHardware;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject collisionGameObject = collision.gameObject;
+        if (collisionGameObject.layer == enemyBulletLayer)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Vector3 impactNormal = contact.normal * -1;
+            Vector3 impactPoint = contact.point;
+        }
     }
 }

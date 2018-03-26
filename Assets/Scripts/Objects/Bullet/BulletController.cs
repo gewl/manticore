@@ -35,6 +35,7 @@ public class BulletController : MonoBehaviour {
     public const string ENEMY_BULLET = "EnemyBullet";
     public const string FRIENDLY_BULLET = "FriendlyBullet";
     public const string NULLIFIER_LAYER = "Nullifier";
+    public const string FRACTURE_LAYER = "Fracture";
 
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
@@ -54,6 +55,15 @@ public class BulletController : MonoBehaviour {
         StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
 	}
+
+    public void InitializeValues(float _strength, Vector3 _targetPosition, Transform _firer, Transform _target, float _speed)
+    {
+        strength = _strength;
+        targetPosition = _targetPosition;
+        firer = _firer;
+        target = _target;
+        speed = _speed;
+    }
 
     void FixedUpdate()
     {
@@ -108,6 +118,11 @@ public class BulletController : MonoBehaviour {
 
     protected virtual void Impact(Vector3 point, Vector3 normal, GameObject collisionObject, int collisionObjectLayer)
     {
+        if (collisionObjectLayer == LayerMask.NameToLayer(FRACTURE_LAYER))
+        {
+            return;
+        }
+
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
             Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
@@ -169,10 +184,6 @@ public class BulletController : MonoBehaviour {
 		trailRenderer.material = friendlyBulletMaterial;
         UpdateSize();
 	}
-    #endregion
-
-    #region Fracturing
-
     #endregion
 
     IEnumerator AccelerateBullet(Vector3 direction)

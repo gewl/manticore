@@ -3,6 +3,6 @@
   "GeneralPassiveDescription": "general Nullify passive debug description",
   "Parry":  "Parry active, Nullify passive debug desc",
   "Blink": "Blink active, Nullify passive debug desc",
-  "Riposte":  "Riposte active, Nullify active debug description",
+  "Fracture":  "fracture active, Nullify active debug description",
   "Nullify":  "Nullify active debug desc",
 }

@@ -17,6 +17,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
     int FractureMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
     public int StaminaCost { get { return subtypeData.GetStaminaCost(FractureMomentum); } }
+    int NumberOfProjectiles { get { return subtypeData.GetNumberOfBullets(FractureMomentum); } }
 
     bool isInUse = false;
     public bool IsInUse { get { return isInUse; } }
@@ -27,6 +28,21 @@ public class FractureHardware : MonoBehaviour, IHardware {
     public bool IsOnCooldown { get { return isOnCooldown; } }
 
     public CooldownDelegate CooldownUpdater { get; set; }
+
+    const string FRACTURE_PROJECTILE_PATH = "Prefabs/Abilities/FractureProjectile";
+    GameObject _fractureProjectile;
+    GameObject FractureProjectile
+    {
+        get
+        {
+            if (_fractureProjectile == null)
+            {
+                _fractureProjectile = (GameObject)Resources.Load(FRACTURE_PROJECTILE_PATH);
+            }
+
+            return _fractureProjectile;
+        }
+    }
 
     IEnumerator GoOnCooldown()
     {
@@ -51,6 +67,21 @@ public class FractureHardware : MonoBehaviour, IHardware {
     }
 
     public void UseActiveHardware()
+    {
+        StartCoroutine(FireFractureProjectile());
+    }
+
+    IEnumerator FireFractureProjectile()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Vector3 instantiationPosition = transform.position + (transform.forward);
+        GameObject newFractureProjectile = GameObject.Instantiate(FractureProjectile, instantiationPosition, transform.rotation);
+        newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 20.0f;
+
+        GameManager.JoltScreen(-transform.forward, 0.8f);
+    }
+
+    public void FractureBullet()
     {
 
     }

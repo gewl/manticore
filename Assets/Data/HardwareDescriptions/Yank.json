@@ -3,7 +3,7 @@
   "GeneralPassiveDescription": "general yank passive debug description",
   "Parry":  "Parry active, yank passive debug desc",
   "Blink": "Blink active, yank passive debug desc",
-  "Riposte":  "riposte active, yank passive debug desc",
+  "Fracture":  "fracture active, yank passive debug desc",
   "Nullify":  "nullify active, yank passive debug desc",
   "Yank":  "yank active debug desc",
 }

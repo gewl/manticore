@@ -26,4 +26,20 @@ public abstract class FractureHardwareData : HardwareData {
     {
         return BaseFragmentationSpeedModifier + (FragmentationSpeedModifierMomentumIncrease * currentMomentum);
     }
+
+    protected abstract int BaseNumberOfBullets { get; }
+    protected abstract int NumberOfBulletsMomentumIncrease { get; }
+
+    public virtual int GetNumberOfBullets(int currentMomentum)
+    {
+        return BaseNumberOfBullets + (NumberOfBulletsMomentumIncrease * currentMomentum);
+    }
+
+    protected abstract float BaseArcOfFire { get; }
+    protected abstract float ArcOfFireMomentumModifier { get; }
+
+    public virtual float GetArcOfFire(int currentMomentum)
+    {
+        return BaseArcOfFire + (ArcOfFireMomentumModifier * currentMomentum);
+    }
 }

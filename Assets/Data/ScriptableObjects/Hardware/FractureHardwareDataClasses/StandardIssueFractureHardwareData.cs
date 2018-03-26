@@ -39,7 +39,7 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
     {
         get
         {
-            return 30f;
+            return 20f;
         }
     }
 
@@ -80,6 +80,38 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
         get
         {
             return 1f;
+        }
+    }
+
+    protected override int BaseNumberOfBullets
+    {
+        get
+        {
+            return 4;
+        }
+    }
+
+    protected override int NumberOfBulletsMomentumIncrease
+    {
+        get
+        {
+            return 1;
+        }
+    }
+
+    protected override float BaseArcOfFire
+    {
+        get
+        {
+            return 30f;
+        }
+    }
+
+    protected override float ArcOfFireMomentumModifier
+    {
+        get
+        {
+            return 0f;
         }
     }
 }
