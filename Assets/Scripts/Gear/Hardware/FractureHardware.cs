@@ -9,6 +9,8 @@ public class FractureHardware : MonoBehaviour, IHardware {
     HardwareUseType useType = HardwareUseType.Instant;
     public HardwareUseType HardwareUseType { get { return useType; } }
 
+    EntityGearManagement gear;
+
     FractureHardwareData subtypeData;
     public void AssignSubtypeData(HardwareData hardwareData)
     {
@@ -45,6 +47,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
             return _fractureProjectile;
         }
+    }
+
+    void Awake()
+    {
+        gear = GetComponent<EntityGearManagement>();
     }
 
     IEnumerator GoOnCooldown()
@@ -99,6 +106,8 @@ public class FractureHardware : MonoBehaviour, IHardware {
             Vector3 updatedDirection = VectorUtilities.RotatePointAroundPivot(impactNormal + impactPoint, impactPoint, angleAdjustment);
             newBullet.GetComponent<BulletController>().InitializeValues(FractureBulletDamage, updatedDirection, transform, null, ProjectileSpeed);
             newBullet.GetComponent<BulletController>().SetFriendly();
+
+            gear.ApplyPassiveHardware(typeof(FractureHardware), newBullet);
 
             projectilesSpawned++;
         }

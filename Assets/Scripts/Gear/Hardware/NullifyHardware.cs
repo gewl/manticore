@@ -31,7 +31,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     float TotalTimeToComplete { get { return TimeToExpandActiveEffect + TimeToLinger; } }
 
     // Passive hardware (Parry) values
-    float BulletNullifyRadius { get { return NullifyRadius / 2f; } }
+    float BulletNullifyRadius { get { return 2f; } }
     float TimeToExpandParryPassiveEffect { get { return TimeToExpandActiveEffect / 3f; } }
     // Passive hardware (Riposte) values
     float TimeToExpandRipostePassiveEffect { get { return TimeToExpandActiveEffect * 2f; } }
@@ -199,6 +199,23 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
     IEnumerator ApplyPassiveHardware_Fracture(IHardware activeHardware, GameObject fracturedBullet)
     {
+        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, fracturedBullet.transform.position, Quaternion.identity, fracturedBullet.transform);
+
+        Vector3 originalSize = spawnedNullification.transform.localScale;
+        Vector3 targetSize = new Vector3(BulletNullifyRadius, 1f, BulletNullifyRadius);
+
+        float timeElapsed = 0.0f;
+        while (timeElapsed < TimeToExpandParryPassiveEffect)
+        {
+            timeElapsed += Time.deltaTime;
+
+            float percentageComplete = timeElapsed / TimeToExpandParryPassiveEffect;
+            float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
+
+            spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
+            yield return null;
+        }
+
         yield break;
     }
      
