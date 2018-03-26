@@ -16,8 +16,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
     }
 
     int FractureMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
+    float FractureBulletDamage { get { return subtypeData.GetDamageDealt(FractureMomentum); } }
     public int StaminaCost { get { return subtypeData.GetStaminaCost(FractureMomentum); } }
     int NumberOfProjectiles { get { return subtypeData.GetNumberOfBullets(FractureMomentum); } }
+    float ArcOfFire { get { return subtypeData.GetArcOfFire(FractureMomentum); } }
+    float ProjectileSpeed { get { return subtypeData.GetFragmentationSpeed(FractureMomentum); } }
 
     bool isInUse = false;
     public bool IsInUse { get { return isInUse; } }
@@ -77,13 +80,28 @@ public class FractureHardware : MonoBehaviour, IHardware {
         Vector3 instantiationPosition = transform.position + (transform.forward);
         GameObject newFractureProjectile = GameObject.Instantiate(FractureProjectile, instantiationPosition, transform.rotation);
         newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 20.0f;
+        newFractureProjectile.GetComponent<Fracture>().PassReferenceToHardware(this);
 
         GameManager.JoltScreen(-transform.forward, 0.8f);
     }
 
-    public void FractureBullet()
+    public void FractureBullet(Vector3 impactPoint, Vector3 impactNormal)
     {
+        int numberOfProjectiles = NumberOfProjectiles;
 
+        int projectilesSpawned = 0;
+
+        while (projectilesSpawned < numberOfProjectiles)
+        {
+            GameObject newBullet = Instantiate(GameManager.BulletPrefab, impactPoint, Quaternion.identity, GameManager.BulletsParent.transform);
+
+            float angleAdjustment = Random.Range(-ArcOfFire, ArcOfFire);
+            Vector3 updatedDirection = VectorUtilities.RotatePointAroundPivot(impactNormal + impactPoint, impactPoint, angleAdjustment);
+            newBullet.GetComponent<BulletController>().InitializeValues(FractureBulletDamage, updatedDirection, transform, null, ProjectileSpeed);
+            newBullet.GetComponent<BulletController>().SetFriendly();
+
+            projectilesSpawned++;
+        }
     }
 
     public void ApplyPassiveHardware(HardwareType hardwareType, IHardware hardware, GameObject subject)

@@ -51,19 +51,19 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
         }
     }
 
-    protected override float BaseFragmentationSpeedModifier
+    protected override float BaseFragmentationSpeed
     {
         get
         {
-            return 2f;
+            return 30f;
         }
     }
 
-    protected override float FragmentationSpeedModifierMomentumIncrease
+    protected override float FragmentationSpeedMomentumIncrease
     {
         get
         {
-            return 0.2f; 
+            return 2f; 
         }
     }
 
@@ -103,7 +103,7 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
     {
         get
         {
-            return 30f;
+            return 10f;
         }
     }
 
@@ -111,7 +111,7 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
     {
         get
         {
-            return 0f;
+            return -2f;
         }
     }
 }

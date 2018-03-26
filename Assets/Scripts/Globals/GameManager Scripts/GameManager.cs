@@ -220,6 +220,21 @@ public class GameManager : SerializedMonoBehaviour {
             return _bulletsParent;
         }
     }
+
+    const string BULLET_PREFAB_PATH = "Prefabs/Objects/Bullet";
+    private static GameObject _bulletPrefab;
+    public static GameObject BulletPrefab
+    {
+        get
+        {
+            if (_bulletPrefab == null)
+            {
+                _bulletPrefab = (GameObject)Resources.Load(BULLET_PREFAB_PATH);
+            }
+
+            return _bulletPrefab;
+        }
+    }
     #endregion
 
     #region Collectible management

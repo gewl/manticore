@@ -54,19 +54,17 @@ public class Fracture : MonoBehaviour
         }
     }
 
-    void PassReferenceToHardware(FractureHardware _fractureHardware)
+    public void PassReferenceToHardware(FractureHardware _fractureHardware)
     {
         fractureHardware = _fractureHardware;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject collisionGameObject = collision.gameObject;
-        if (collisionGameObject.layer == enemyBulletLayer)
-        {
-            ContactPoint contact = collision.contacts[0];
-            Vector3 impactNormal = contact.normal * -1;
-            Vector3 impactPoint = contact.point;
-        }
+        ContactPoint contact = collision.contacts[0];
+        Vector3 impactNormal = contact.normal * -1f;
+        Vector3 impactPoint = contact.point;
+
+        fractureHardware.FractureBullet(impactPoint, impactNormal);
     }
 }

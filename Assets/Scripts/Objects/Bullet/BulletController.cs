@@ -18,9 +18,45 @@ public class BulletController : MonoBehaviour {
     [SerializeField]
     float initialSpeedModifier = 0.5f;
 
-    MeshRenderer meshRenderer;
-    TrailRenderer trailRenderer;
-    Rigidbody bulletRigidbody;
+    MeshRenderer _meshRenderer;
+    MeshRenderer MeshRenderer
+    {
+        get
+        {
+            if (_meshRenderer == null)
+            {
+                _meshRenderer = GetComponent<MeshRenderer>();
+            }
+
+            return _meshRenderer;
+        }
+    }
+    TrailRenderer _trailRenderer;
+    TrailRenderer TrailRenderer
+    {
+        get
+        {
+            if (_trailRenderer == null)
+            {
+                _trailRenderer = GetComponent<TrailRenderer>();
+            }
+
+            return _trailRenderer;
+        }
+    }
+    Rigidbody _bulletRigidbody;
+    Rigidbody BulletRigidbody
+    {
+        get
+        {
+            if (_bulletRigidbody == null)
+            {
+                _bulletRigidbody = GetComponent<Rigidbody>();
+            }
+
+            return _bulletRigidbody;
+        }
+    }
 
     public float speed = 5f;
     public float strength;
@@ -46,11 +82,8 @@ public class BulletController : MonoBehaviour {
     [SerializeField]
     Transform particlesParent;
 
-	void Start () {
-        bulletRigidbody = GetComponent<Rigidbody>();
-        meshRenderer = GetComponent<MeshRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>();
-
+    void Start ()
+    {
         Vector3 direction = (targetPosition - transform.position).normalized;
         StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
@@ -60,8 +93,17 @@ public class BulletController : MonoBehaviour {
     {
         strength = _strength;
         targetPosition = _targetPosition;
+
+        if (_target != null)
+        {
+            target = _target;
+        }
+        else
+        {
+            target = firer;
+        }
+
         firer = _firer;
-        target = _target;
         speed = _speed;
     }
 
@@ -69,7 +111,7 @@ public class BulletController : MonoBehaviour {
     {
         if (IsHoming)
         {
-            Vector3 normalizedVelocity = bulletRigidbody.velocity.normalized;
+            Vector3 normalizedVelocity = BulletRigidbody.velocity.normalized;
             Vector3 toTarget = (target.position - transform.position);
             Vector3 toTargetNormalized = toTarget.normalized;
 
@@ -77,7 +119,7 @@ public class BulletController : MonoBehaviour {
 
             Vector3 averageOfVectors = (10f * normalizedVelocity + toTargetNormalized) / 11f;
 
-            bulletRigidbody.velocity = averageOfVectors * speed;
+            BulletRigidbody.velocity = averageOfVectors * speed;
 
             if (angleToTarget >= 85f)
             {
@@ -85,7 +127,7 @@ public class BulletController : MonoBehaviour {
             }
         }
 
-        if (!isFrozen && bulletRigidbody.velocity.sqrMagnitude < 50f)
+        if (!isFrozen && BulletRigidbody.velocity.sqrMagnitude < 50f)
         {
             if (gameObject.CompareTag(FRIENDLY_BULLET))
             {
@@ -120,6 +162,7 @@ public class BulletController : MonoBehaviour {
     {
         if (collisionObjectLayer == LayerMask.NameToLayer(FRACTURE_LAYER))
         {
+            Destroy(gameObject);
             return;
         }
 
@@ -163,25 +206,22 @@ public class BulletController : MonoBehaviour {
     
     public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength, float speedModifier = 2f)
     {
-        GameManager.JoltScreen(bulletRigidbody.velocity);
+        GameManager.JoltScreen(BulletRigidbody.velocity);
         StopAllCoroutines();
         
         strength = newStrength;
         target = firer;
         firer = newFirer;
+        SetFriendly();
         if (targetPosition == Vector3.zero)
         {
             targetPosition = target.position; 
         }
-        gameObject.layer = 12;
-        gameObject.tag = FRIENDLY_BULLET;
         speed *= speedModifier;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
-        bulletRigidbody.velocity = direction * speed;
+        BulletRigidbody.velocity = direction * speed;
 
-        meshRenderer.material = friendlyBulletMaterial;
-		trailRenderer.material = friendlyBulletMaterial;
         UpdateSize();
 	}
     #endregion
@@ -190,7 +230,7 @@ public class BulletController : MonoBehaviour {
     {
         float timeElapsed = 0.0f;
 
-        bulletRigidbody.velocity = direction * speed * initialSpeedModifier;
+        BulletRigidbody.velocity = direction * speed * initialSpeedModifier;
         while (timeElapsed < timeToFullSpeed)
         {
             timeElapsed += Time.deltaTime;
@@ -199,10 +239,19 @@ public class BulletController : MonoBehaviour {
 
             float fractionOfTotalSpeed = Mathf.Lerp(initialSpeedModifier, 1.0f, curvePoint);
 
-            bulletRigidbody.velocity = direction * speed * fractionOfTotalSpeed;
+            BulletRigidbody.velocity = direction * speed * fractionOfTotalSpeed;
             yield return null;
         }
-        bulletRigidbody.velocity = direction * speed;
+        BulletRigidbody.velocity = direction * speed;
+    }
+
+    public void SetFriendly()
+    {
+        gameObject.layer = 12;
+        gameObject.tag = FRIENDLY_BULLET;
+
+        MeshRenderer.material = friendlyBulletMaterial;
+		TrailRenderer.material = friendlyBulletMaterial;
     }
 
     void UpdateSize()
@@ -223,12 +272,12 @@ public class BulletController : MonoBehaviour {
     IEnumerator DissolveBullet()
     {
         isFrozen = true;
-        Color materialColor = meshRenderer.material.color;
+        Color materialColor = MeshRenderer.material.color;
 
-        bulletRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        BulletRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Collider>().enabled = false;
 
-        meshRenderer.material = new Material(dissolveBulletMaterial)
+        MeshRenderer.material = new Material(dissolveBulletMaterial)
         {
             color = materialColor
         };
@@ -238,7 +287,7 @@ public class BulletController : MonoBehaviour {
         while (timeElapsed < timeToDestroyDissolvingBullet)
         {
             timeElapsed += Time.deltaTime;
-            meshRenderer.material.SetFloat("_TimeElapsed", timeElapsed);
+            MeshRenderer.material.SetFloat("_TimeElapsed", timeElapsed);
             yield return null;
         }
 
