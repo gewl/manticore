@@ -31,8 +31,8 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     float TotalTimeToComplete { get { return TimeToExpandActiveEffect + TimeToLinger; } }
 
     // Passive hardware (Parry) values
-    float BulletNullifyRadius { get { return 2f; } }
-    float TimeToExpandParryPassiveEffect { get { return TimeToExpandActiveEffect / 3f; } }
+    float BulletNullifyRadius { get { return 3f; } }
+    float TimeToExpandParryPassiveEffect { get { return 0.1f; } }
     // Passive hardware (Riposte) values
     float TimeToExpandRipostePassiveEffect { get { return TimeToExpandActiveEffect * 2f; } }
     float hangTimeOnCompletion = 0.2f;

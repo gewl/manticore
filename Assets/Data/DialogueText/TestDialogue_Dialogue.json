@@ -1,8 +1,8 @@
 {
   "_entry": 
   {
-    "TEXT": "Machine! You startled me. I must have been drowsing. I drowse sometimes.",
-    "CLICKABLE_TERMS": ["drowsing"]
+    "TEXT": "Machine! You startled me. I must have been drowsing. I drowse sometimes. INSTALLATION",
+    "CLICKABLE_TERMS": ["drowsing", "INSTALLATION"]
   },
     "drowsing": 
     {

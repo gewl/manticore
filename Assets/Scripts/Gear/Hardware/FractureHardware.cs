@@ -86,7 +86,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
         yield return new WaitForSeconds(0.1f);
         Vector3 instantiationPosition = transform.position + (transform.forward);
         GameObject newFractureProjectile = GameObject.Instantiate(FractureProjectile, instantiationPosition, transform.rotation);
-        newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 20.0f;
+        newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 30.0f;
         newFractureProjectile.GetComponent<Fracture>().PassReferenceToHardware(this);
 
         GameManager.JoltScreen(-transform.forward, 0.8f);

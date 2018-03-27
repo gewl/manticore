@@ -73,6 +73,8 @@ public class BulletController : MonoBehaviour {
     public const string NULLIFIER_LAYER = "Nullifier";
     public const string FRACTURE_LAYER = "Fracture";
 
+    LayerMask FriendlyBulletLayer, EnemyBulletLayer, NullifyLayer;
+
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
     [SerializeField]
@@ -81,6 +83,13 @@ public class BulletController : MonoBehaviour {
     GameObject friendlyBulletCollisionParticles;
     [SerializeField]
     Transform particlesParent;
+
+    private void Awake()
+    {
+        FriendlyBulletLayer = LayerMask.NameToLayer(FRIENDLY_BULLET);
+        EnemyBulletLayer = LayerMask.NameToLayer(ENEMY_BULLET);
+        NullifyLayer = LayerMask.NameToLayer(NULLIFIER_LAYER);
+    }
 
     void Start ()
     {
@@ -169,7 +178,7 @@ public class BulletController : MonoBehaviour {
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
             Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
-            if (collisionObjectLayer != 9) {
+            if (collisionObjectLayer != FriendlyBulletLayer && collisionObjectLayer != EnemyBulletLayer && collisionObjectLayer != NullifyLayer) {
                 Destroy(gameObject);
             }
         }

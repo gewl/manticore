@@ -8,8 +8,8 @@ public class Fracture : MonoBehaviour
     LayerMask enemyBulletLayer;
     Rigidbody rigidbody;
 
-    float timeToStop = 0.2f;
-    float timeToDestroy = 0.22f;
+    float timeToStop = 0.5f;
+    float timeToDestroy = 0.51f;
 
     float timeElapsed = 0.0f;
     float destroyTime;
