@@ -15,6 +15,8 @@ public class Fracture : MonoBehaviour
     float destroyTime;
     bool hasStopped = false;
 
+    int NumberOfProjectiles { get { return fractureHardware.ActiveNumberOfProjectiles; } }
+
     Vector3 initialDirection;
     float initialSpeed;
 

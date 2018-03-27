@@ -16,14 +16,16 @@ public class BlinkHardware : EntityComponent, IHardware
         subtypeData = hardwareData as BlinkHardwareData;
     }
 
+    [SerializeField]
+    Modifier blinkStunModifier;
+
     int BlinkMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
     float BlinkRange { get { return subtypeData.GetBlinkRange(BlinkMomentum); } }
 	public float TimeToCompleteBlink { get { return subtypeData.GetTimeToCompleteBlink(BlinkMomentum); } }
     public int StaminaCost { get { return subtypeData.GetStaminaCost(BlinkMomentum); } }
 
     public bool IsInUse { get { return false; } }
-    public bool DoesBlinkDamage = false;
-    public float BlinkDamage = 0f;
+    public bool DoesBlinkStun = false;
 
     int entityLayermask;
 
@@ -170,16 +172,16 @@ public class BlinkHardware : EntityComponent, IHardware
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
 
-        if (DoesBlinkDamage)
+        if (DoesBlinkStun)
         {
-            DoesBlinkDamage = false;
+            DoesBlinkStun = false;
 
-            ApplyBlinkDamage(origin, destination);
+            ApplyBlinkStun(origin, destination);
         }
 		yield break;
     }
 
-    void ApplyBlinkDamage(Vector3 blinkOrigin, Vector3 blinkDestination)
+    void ApplyBlinkStun(Vector3 blinkOrigin, Vector3 blinkDestination)
     {
         Vector3 toDestination = blinkDestination - blinkOrigin;
         RaycastHit[] hits = Physics.RaycastAll(blinkOrigin, toDestination, toDestination.magnitude, entityLayermask);
@@ -187,9 +189,12 @@ public class BlinkHardware : EntityComponent, IHardware
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject entity = hits[i].collider.gameObject;
-            // TODO: Make this work for other health components.
-            MobileEntityHealthComponent entityHealthComponent = entity.GetComponent<MobileEntityHealthComponent>();
-            entityHealthComponent.ReceiveDamageDirectly(transform, BlinkDamage);
+            EntityModifierHandler entityModifierHandler = entity.GetComponent<EntityModifierHandler>();
+
+            if (entityModifierHandler != null)
+            {
+                entityModifierHandler.RegisterModifier(blinkStunModifier);
+            }
         }
 
     }

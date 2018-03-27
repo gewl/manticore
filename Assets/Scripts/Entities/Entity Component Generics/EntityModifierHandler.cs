@@ -130,7 +130,6 @@ public class EntityModifierHandler : EntityComponent {
             case ModifierType.Movement:
                 break;
             case ModifierType.Stun:
-                Destroy(modifierToDeregister);
                 activeStunModifier = null;
                 entityEmitter.SetUnstunned();
                 break;

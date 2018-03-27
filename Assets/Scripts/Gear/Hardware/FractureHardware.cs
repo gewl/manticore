@@ -18,11 +18,16 @@ public class FractureHardware : MonoBehaviour, IHardware {
     }
 
     int FractureMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
-    float FractureBulletDamage { get { return subtypeData.GetDamageDealt(FractureMomentum); } }
+    float ActiveProjectileDamage { get { return subtypeData.GetDamageDealt(FractureMomentum); } }
     public int StaminaCost { get { return subtypeData.GetStaminaCost(FractureMomentum); } }
-    int NumberOfProjectiles { get { return subtypeData.GetNumberOfBullets(FractureMomentum); } }
-    float ArcOfFire { get { return subtypeData.GetArcOfFire(FractureMomentum); } }
-    float ProjectileSpeed { get { return subtypeData.GetFragmentationSpeed(FractureMomentum); } }
+    public int ActiveNumberOfProjectiles { get { return subtypeData.GetNumberOfBullets(FractureMomentum); } }
+    float ActiveArcOfFire { get { return subtypeData.GetArcOfFire(FractureMomentum); } }
+    float ActiveProjectileSpeed { get { return subtypeData.GetFragmentationSpeed(FractureMomentum); } }
+
+    int PassiveNumberOfProjectiles = 2;
+    float PassiveProjectileDamage = 10f;
+    float PassiveArcOfFire = 40f;
+    float PassiveProjectileSpeed = 20.0f;
 
     bool isInUse = false;
     public bool IsInUse { get { return isInUse; } }
@@ -92,9 +97,12 @@ public class FractureHardware : MonoBehaviour, IHardware {
         GameManager.JoltScreen(-transform.forward, 0.8f);
     }
 
-    public void FractureBullet(Vector3 impactPoint, Vector3 impactNormal)
+    public void FractureBullet(Vector3 impactPoint, Vector3 impactNormal, bool isActiveHardware = true)
     {
-        int numberOfProjectiles = NumberOfProjectiles;
+        int numberOfProjectiles = isActiveHardware ? ActiveNumberOfProjectiles : PassiveNumberOfProjectiles;
+        float arcOfFire = isActiveHardware ? ActiveArcOfFire : PassiveArcOfFire;
+        float projectileDamage = isActiveHardware ? ActiveProjectileDamage : PassiveProjectileDamage;
+        float projectileSpeed = isActiveHardware ? ActiveProjectileSpeed : PassiveProjectileSpeed;
 
         int projectilesSpawned = 0;
 
@@ -102,9 +110,9 @@ public class FractureHardware : MonoBehaviour, IHardware {
         {
             GameObject newBullet = Instantiate(GameManager.BulletPrefab, impactPoint, Quaternion.identity, GameManager.BulletsParent.transform);
 
-            float angleAdjustment = Random.Range(-ArcOfFire, ArcOfFire);
+            float angleAdjustment = Random.Range(-arcOfFire, arcOfFire);
             Vector3 updatedDirection = VectorUtilities.RotatePointAroundPivot(impactNormal + impactPoint, impactPoint, angleAdjustment);
-            newBullet.GetComponent<BulletController>().InitializeValues(FractureBulletDamage, updatedDirection, transform, null, ProjectileSpeed);
+            newBullet.GetComponent<BulletController>().InitializeValues(projectileDamage, updatedDirection, transform, null, projectileSpeed);
             newBullet.GetComponent<BulletController>().SetFriendly();
 
             gear.ApplyPassiveHardware(typeof(FractureHardware), newBullet);
@@ -113,7 +121,36 @@ public class FractureHardware : MonoBehaviour, IHardware {
         }
     }
 
-    public void ApplyPassiveHardware(HardwareType hardwareType, IHardware hardware, GameObject subject)
+    public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware hardware, GameObject subject)
+    {
+        switch (activeHardwareType)
+        {
+            case HardwareType.Parry:
+                break;
+            case HardwareType.Blink:
+                ApplyPassiveHardware_Blink(hardware as BlinkHardware);
+                break;
+            case HardwareType.Nullify:
+                break;
+            case HardwareType.Fracture:
+                Debug.LogError("Trying to apply Fracture pasive effect to Fracture active hardware.");
+                break;
+            default:
+                break;
+        }
+    }
+
+    void ApplyPassiveHardware_Parry()
+    {
+
+    }
+
+    void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware)
+    {
+        blinkHardware.DoesBlinkStun = true;
+    }
+    
+    void ApplyPassiveHardware_Nullify()
     {
 
     }
