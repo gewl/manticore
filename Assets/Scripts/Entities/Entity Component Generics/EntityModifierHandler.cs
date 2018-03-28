@@ -122,6 +122,7 @@ public class EntityModifierHandler : EntityComponent {
                 activeDamageDealtModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.DamageReceived:
+                Destroy(modifierToDeregister);
                 activeDamageReceivedModifiers.Remove(modifierToDeregister as ValueModifier);
                 break;
             case ModifierType.Mark:

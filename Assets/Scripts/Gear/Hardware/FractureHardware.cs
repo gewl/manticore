@@ -131,6 +131,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Blink(hardware as BlinkHardware);
                 break;
             case HardwareType.Nullify:
+                ApplyPassiveHardware_Nullify(subject);
                 break;
             case HardwareType.Fracture:
                 Debug.LogError("Trying to apply Fracture pasive effect to Fracture active hardware.");
@@ -150,8 +151,8 @@ public class FractureHardware : MonoBehaviour, IHardware {
         blinkHardware.DoesBlinkStun = true;
     }
     
-    void ApplyPassiveHardware_Nullify()
+    void ApplyPassiveHardware_Nullify(GameObject nullificationField)
     {
-
+        nullificationField.GetComponent<Nullify>().IsFracturing = true;
     }
 }

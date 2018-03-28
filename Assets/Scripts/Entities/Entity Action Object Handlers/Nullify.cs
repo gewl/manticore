@@ -9,7 +9,7 @@ public class Nullify : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (IsReflecting)
+        if (IsFracturing)
         {
             BulletController bullet = other.GetComponent<BulletController>();
 
