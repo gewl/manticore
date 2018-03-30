@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: ManticoreData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 10
+  Health: 110
   BaseDamage: 50
   MomentumValue: -1
   BaseMoveSpeed: 20

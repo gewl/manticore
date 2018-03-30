@@ -7,6 +7,7 @@ public class RotateToFaceTarget : EntityComponent {
 
     [SerializeField]
     float rotationStrength = 3f;
+    Transform headObject;
     Transform currentTarget;
     Vector3 nextWaypoint;
 
@@ -14,6 +15,7 @@ public class RotateToFaceTarget : EntityComponent {
     {
         base.Awake();
         nextWaypoint = Vector3.forward;
+        headObject = transform.Find("Firer");
     }
 
     protected override void Subscribe()
@@ -96,9 +98,9 @@ public class RotateToFaceTarget : EntityComponent {
             // TODO: Change this to random swiveling, probably?
             lookPosition = nextWaypoint;
         }
-        lookPosition.y = transform.position.y;
+        lookPosition.y = headObject.transform.position.y;
         Quaternion targetRotation = Quaternion.LookRotation(lookPosition - transform.position);
         float str = Mathf.Min(rotationStrength * Time.deltaTime, 1);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+        headObject.transform.rotation = Quaternion.Lerp(headObject.transform.rotation, targetRotation, str);
     }
 }

@@ -1,77 +1,186 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using Sirenix.Serialization;
 
-public class TurretCombatAIComponent : EntityComponent
-{
+public class TurretCombatAIComponent : EntityComponent {
 
     bool isAggroed = false;
-    bool isFunctioning = false;
-    [SerializeField]
-    float fireCooldown;
-    [SerializeField]
-    float arcOfFire;
-    [SerializeField]
-    float attackRange;
+    LayerMask allButTerrainMask;
+    Bounds entityBounds;
 
-    float currentFireCooldown;
+    [SerializeField]
+    float basePercentageOfRangeFromTarget = 0.66f;
+    [SerializeField]
+    float percentageOfRangeMovementVariance = 0.25f;
+    [SerializeField]
+    float rotationAroundTargetMinimumVariance = 60f;
+    [SerializeField]
+    float rotationAroundTargetMaximumVariance = 120f;
+
+    RangedEntityData _entityData;
+    RangedEntityData EntityData
+    {
+        get
+        {
+            if (_entityData == null)
+            {
+                _entityData = entityInformation.Data as RangedEntityData;
+            }
+
+            return _entityData;
+        }
+    }
+
+    float FireCooldown { get { return EntityData.AttackCooldown; } }
+    float ArcOfFire { get { return EntityData.ArcOfFire; } }
+    float AttackRange { get { return EntityData.AttackRange; } }
+
+    float timeElapsedSinceLastFire;
+    Transform currentTarget;
+
+    [SerializeField]
+    AnimationCurve gunHeatCurve;
+
+    const string FIRER_ID = "Firer";
+    [SerializeField]
+    Transform headBone;
+    Transform firer;
+    Renderer firerRenderer;
+    Color firerOriginalSkin;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        allButTerrainMask = 1 << LayerMask.NameToLayer("Terrain");
+        entityBounds = GetComponent<Collider>().bounds;
+
+        firer = transform.FindChildByRecursive(FIRER_ID);
+        if (firer == null)
+        {
+            Debug.LogError("Firer not found in " + gameObject.name);
+        }
+        firerRenderer = firer.GetComponent<Renderer>();
+        firerOriginalSkin = firerRenderer.material.color;
+    }
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, BeginFunctioning);
+        entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnAggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Unstun, Reconnect);
+
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stun, Disconnect);
+
+        entityEmitter.SubscribeToEvent(EntityEvents.Dead, Disconnect);
         if (isAggroed)
         {
-            BeginFunctioning();
+            OnAggro();
         }
-        currentFireCooldown = 0f;
+        timeElapsedSinceLastFire = 0f;
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, BeginFunctioning);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, BeginFunctioning);
-        if (isAggroed)
-        {
-            StopFunctioning();
-        }
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnAggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, Reconnect);
+
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, Disconnect);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, Disconnect);
     }
+
+    #region Reused subscription bundles
+    void OnAggro()
+    {
+        CancelInvoke();
+        isAggroed = true;
+    }
+
+    void OnDeaggro()
+    {
+        isAggroed = false;
+    }
+
+    void Reconnect()
+    {
+        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    void Disconnect()
+    {
+        CancelInvoke();
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
+    }
+
+    #endregion
 
     #region EntityEvent handlers
 
     void OnUpdate()
     {
-        if (currentFireCooldown > 0f)
+        if (isAggroed)
         {
-            currentFireCooldown -= Time.deltaTime;
+            AggroedUpdate();
         }
         else
         {
-            TryToFirePrimary();
+            UnaggroedUpdate();
         }
     }
 
-    void OnDeaggro()
+    void UnaggroedUpdate()
     {
-        StopFunctioning();
-        isAggroed = false;
+    }
+
+    void AggroedUpdate()
+    {
+        if (timeElapsedSinceLastFire < FireCooldown)
+        {
+            timeElapsedSinceLastFire += Time.deltaTime;
+
+            float percentageComplete = timeElapsedSinceLastFire / FireCooldown;
+            firerRenderer.material.color = Color.Lerp(firerOriginalSkin, Color.red, gunHeatCurve.Evaluate(percentageComplete));
+        }
+        else
+        {
+            if (CanFirePrimary())
+            {
+                timeElapsedSinceLastFire = 0f;
+                firerRenderer.material.color = firerOriginalSkin;
+            }
+        }
+
     }
 
     #endregion
 
     #region discrete functions to offload event listeners
 
-    void TryToFirePrimary()
+    bool CanFirePrimary()
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
         float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
+        float firerFacingAngle = headBone.localRotation.eulerAngles.y - 180f;
 
-        if (Mathf.Abs(angleToTarget) <= arcOfFire && IsInRange(currentTarget))
+        float angleBetweenFirerAndTarget = (angleToTarget - Mathf.Abs(firerFacingAngle));
+
+        if (Mathf.Abs(angleBetweenFirerAndTarget) <= ArcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
-            currentFireCooldown = fireCooldown;
+            timeElapsedSinceLastFire = FireCooldown;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -80,7 +189,7 @@ public class TurretCombatAIComponent : EntityComponent
     {
         float squaredDistanceToTarget = (target.position - transform.position).sqrMagnitude;
 
-        if (squaredDistanceToTarget >= attackRange * attackRange)
+        if (squaredDistanceToTarget >= AttackRange * AttackRange)
         {
             return false;
         }
@@ -92,33 +201,4 @@ public class TurretCombatAIComponent : EntityComponent
 
     #endregion
 
-    #region Reused subscription bundles
-    void BeginFunctioning()
-    {
-        if (!isAggroed)
-        {
-            isAggroed = true;
-        }
-        if (!isFunctioning)
-        {
-            isFunctioning = true;
-            entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate);
-            entityEmitter.SubscribeToEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.SubscribeToEvent(EntityEvents.Stun, StopFunctioning);
-            entityEmitter.SubscribeToEvent(EntityEvents.Dead, StopFunctioning);
-        }
-    }
-
-    void StopFunctioning()
-    {
-        if (isFunctioning)
-        {
-            isFunctioning = false;
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Deaggro, OnDeaggro);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, StopFunctioning);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, StopFunctioning);
-        }
-    }
-    #endregion
 }
