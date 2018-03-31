@@ -106,7 +106,6 @@ public class StandardFirer : EntityComponent {
 
     void FireProjectile(Transform currentTarget)
     {
-        Debug.Log("Shootigm");
         if (currentTarget != target)
         {
             target = currentTarget;

@@ -174,6 +174,10 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         float timeElapsed = 0.0f;
         while (timeElapsed < TimeToExpandParryPassiveEffect)
         {
+            if (spawnedNullification == null)
+            {
+                yield break;
+            }
             timeElapsed += Time.deltaTime;
 
             float percentageComplete = timeElapsed / TimeToExpandParryPassiveEffect;

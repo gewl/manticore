@@ -1,8 +1,8 @@
 {
-  "BaseDescription": "Base Nullify debug description",
-  "GeneralPassiveDescription": "general Nullify passive debug description",
-  "Parry":  "Parry active, Nullify passive debug desc",
-  "Blink": "Blink active, Nullify passive debug desc",
-  "Fracture":  "fracture active, Nullify active debug description",
-  "Nullify":  "Nullify active debug desc",
+  "BaseDescription": "A technology perfected by the Functionalists. A blast of kinetic force, perfectly tuned, can kill momentum and create an inviolable wall.",
+  "GeneralPassiveDescription": "Nullification can also be conveyed onto individual objects, surrounding them with silent, impassable fields.",
+  "Parry":  "A slight adjustment to the swing of the pipe, and returned projectiles will void any others that they come in contact with.",
+  "Blink": "A little twist of the body as you come out of blink, and the space nearby will deaden and protect.",
+  "Fracture":  "Even as bullets come apart, they can be given a reassuring constancy, and will stop other bullets in their paths.",
+  "Nullify":  "By exerting energy outward, one can create a momentary aura of safety and security.",
 }
