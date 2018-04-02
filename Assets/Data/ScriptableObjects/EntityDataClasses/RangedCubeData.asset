@@ -14,7 +14,7 @@ MonoBehaviour:
   ID: Entity
   Health: 40
   BaseDamage: 50
-  MomentumValue: 6
+  MomentumValue: 10
   BaseMoveSpeed: 10
   AggroRange: 15
   Allegiance: 1
