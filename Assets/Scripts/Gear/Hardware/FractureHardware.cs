@@ -115,7 +115,10 @@ public class FractureHardware : MonoBehaviour, IHardware {
             newBullet.GetComponent<BulletController>().InitializeValues(projectileDamage, updatedDirection, transform, null, projectileSpeed);
             newBullet.GetComponent<BulletController>().SetFriendly();
 
-            gear.ApplyPassiveHardware(typeof(FractureHardware), newBullet);
+            if (isActiveHardware)
+            {
+                gear.ApplyPassiveHardware(typeof(FractureHardware), newBullet);
+            }
 
             projectilesSpawned++;
         }
@@ -126,6 +129,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
         switch (activeHardwareType)
         {
             case HardwareType.Parry:
+                ApplyPassiveHardware_Parry(subject);
                 break;
             case HardwareType.Blink:
                 ApplyPassiveHardware_Blink(hardware as BlinkHardware);
@@ -141,9 +145,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
         }
     }
 
-    void ApplyPassiveHardware_Parry()
+    void ApplyPassiveHardware_Parry(GameObject bullet)
     {
-
+        Vector3 bulletPosition = bullet.transform.position;
+        Vector3 bulletToMouse = GameManager.GetMousePositionOnPlayerPlane() - bulletPosition;
+        FractureBullet(bulletPosition, bulletToMouse, false);
     }
 
     void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware)

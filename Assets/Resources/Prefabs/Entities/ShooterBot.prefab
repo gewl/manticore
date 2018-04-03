@@ -1139,7 +1139,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  spawnPoint: {fileID: 4227379715494846}
+  spawnPoint: {fileID: 4437365483775690}
   timeToWarmUp: 5
   maximumWarmUpNoiseModifier: 10
 --- !u!114 &114404710303768548
@@ -1266,7 +1266,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  headBone: {fileID: 4227379715494846}
+  headBone: {fileID: 4261336795401708}
 --- !u!114 &114628979189188308
 MonoBehaviour:
   m_ObjectHideFlags: 1
