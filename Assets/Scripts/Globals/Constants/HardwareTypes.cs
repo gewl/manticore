@@ -4,7 +4,8 @@
     Parry,
     Blink,
     Nullify,
-    Fracture
+    Fracture,
+    Yank
 }
 
 public enum HardwareUseType

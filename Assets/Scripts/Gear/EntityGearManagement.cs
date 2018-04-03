@@ -158,6 +158,8 @@ public class EntityGearManagement : MonoBehaviour {
                 return typeof(NullifyHardware);
             case HardwareType.Fracture:
                 return typeof(FractureHardware);
+            case HardwareType.Yank:
+                return typeof(YankHardware);
             default:
                 return null;
         }
