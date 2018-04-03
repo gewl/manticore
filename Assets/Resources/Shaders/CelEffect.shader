@@ -130,6 +130,7 @@ Shader "Unlit/CelEffect"
 				ENDCG
 		}
 
+	
 			// Outline pass
 		Pass
 		{

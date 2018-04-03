@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour {
 
     PostProcessingProfile currentProfile;
     PostProcessingBehaviour postProcessingBehaviour;
- 
+
     [SerializeField]
     PostProcessingProfile pauseProfile;
     [SerializeField]

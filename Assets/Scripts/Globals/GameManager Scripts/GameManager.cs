@@ -556,25 +556,6 @@ public class GameManager : SerializedMonoBehaviour {
     AbilityBarController abilityBar;
     public AbilityBarController AbilityBar { get { return abilityBar; } }
 
-    [SerializeField]
-    GameObject gearRangeArrow;
-    GearRangeIndicator gearRangeIndicator;
-
-    public static GearRangeIndicator ActivateAndGetGearRangeIndicator()
-    {
-        if (instance.gearRangeIndicator == null) 
-        {
-            instance.gearRangeIndicator = instance.gearRangeArrow.GetComponent<GearRangeIndicator>();
-        }
-        instance.gearRangeArrow.SetActive(true);
-
-        return instance.gearRangeIndicator;
-    }        
-
-    public static void DeactivateGearRangeIndicator()
-    {
-        instance.gearRangeArrow.SetActive(false);
-    }
     #endregion
 
     #region environment management 
