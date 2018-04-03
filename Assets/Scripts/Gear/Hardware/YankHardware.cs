@@ -30,6 +30,21 @@ public class YankHardware : MonoBehaviour, IHardware {
     float percentOfCooldownRemaining = 0.0f;
     public CooldownDelegate CooldownUpdater { get; set; }
 
+    const string YANK_PROJECTILE_PATH = "Prefabs/Abilities/YankProjectile";
+    GameObject _yankProjectile;
+    GameObject YankProjectile
+    {
+        get
+        {
+            if (_yankProjectile == null)
+            {
+                _yankProjectile = (GameObject)Resources.Load(YANK_PROJECTILE_PATH);
+            }
+
+            return _yankProjectile;
+        }
+    }
+
     private void OnEnable()
     {
         gear = GetComponent<EntityGearManagement>();
