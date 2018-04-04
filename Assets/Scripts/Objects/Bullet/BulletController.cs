@@ -70,10 +70,8 @@ public class BulletController : MonoBehaviour {
 
     public const string ENEMY_BULLET = "EnemyBullet";
     public const string FRIENDLY_BULLET = "FriendlyBullet";
-    public const string NULLIFIER_LAYER = "Nullifier";
-    public const string FRACTURE_LAYER = "Fracture";
 
-    LayerMask FriendlyBulletLayer, EnemyBulletLayer, NullifyLayer;
+    LayerMask FriendlyBulletLayer, EnemyBulletLayer;
 
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
@@ -88,7 +86,6 @@ public class BulletController : MonoBehaviour {
     {
         FriendlyBulletLayer = LayerMask.NameToLayer(FRIENDLY_BULLET);
         EnemyBulletLayer = LayerMask.NameToLayer(ENEMY_BULLET);
-        NullifyLayer = LayerMask.NameToLayer(NULLIFIER_LAYER);
     }
 
     void Start ()
@@ -144,6 +141,7 @@ public class BulletController : MonoBehaviour {
             }
             else
             {
+                Debug.Log("destroying because of low speed");
                 Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, particlesParent);
             }
             Destroy(gameObject);
@@ -169,29 +167,25 @@ public class BulletController : MonoBehaviour {
 
     protected virtual void Impact(Vector3 point, Vector3 normal, GameObject collisionObject, int collisionObjectLayer)
     {
-        if (collisionObjectLayer == LayerMask.NameToLayer(FRACTURE_LAYER))
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         if (gameObject.CompareTag(FRIENDLY_BULLET))
         {
             Instantiate(friendlyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
-            if (collisionObjectLayer != FriendlyBulletLayer && collisionObjectLayer != EnemyBulletLayer && collisionObjectLayer != NullifyLayer) {
+            if (collisionObjectLayer != FriendlyBulletLayer && collisionObjectLayer != EnemyBulletLayer) {
                 Destroy(gameObject);
             }
-        }
-        else if (collisionObjectLayer == LayerMask.NameToLayer(NULLIFIER_LAYER))
-        {
-            Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
-            StartCoroutine(DissolveBullet());
         }
         else
         {
             Instantiate(enemyBulletCollisionParticles, point, Quaternion.Euler(normal), particlesParent);
             Destroy(gameObject);
         }
+    }
+
+    public void Dissolve()
+    {
+        Vector3 currentVelocity = BulletRigidbody.velocity;
+        Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.Euler(-currentVelocity), particlesParent);
+        StartCoroutine(DissolveBullet());
     }
 
     #region Parrying
@@ -256,7 +250,7 @@ public class BulletController : MonoBehaviour {
 
     public void SetFriendly()
     {
-        gameObject.layer = 12;
+        gameObject.layer = FriendlyBulletLayer;
         gameObject.tag = FRIENDLY_BULLET;
 
         MeshRenderer.material = friendlyBulletMaterial;

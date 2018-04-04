@@ -27,15 +27,15 @@ TagManager:
   - Entity
   - FriendlyBullet
   - Player
-  - Nullifier
+  - Ability
   - DeadEntity
   - PlayerCollectible
   - EnvironmentTrigger
   - ObstacleAvoidanceTrigger
   - EntityTrigger
-  - Fracture
   - InteractableTrigger
   - IgnoreAll
+  - 
   - 
   - 
   - 

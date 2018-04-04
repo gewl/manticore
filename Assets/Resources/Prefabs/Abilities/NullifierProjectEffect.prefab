@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33333148209535968}
   - component: {fileID: 23435104150441878}
   - component: {fileID: 114308201532403910}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: NullifierProjectEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,4 +94,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2140f0200ed2454c84fbd20f57ed36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsReflecting: 0
+  IsFracturing: 0

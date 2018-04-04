@@ -218,13 +218,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94c9efb0839d342978e83b0297f9d2f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBulletMaterial: {fileID: 2100000, guid: 1e16b68d9dc404111bd2b0e07f680526, type: 2}
   friendlyBulletMaterial: {fileID: 2100000, guid: 246823b02ae8d7d449dcd47616963e2f,
     type: 2}
   dissolveBulletMaterial: {fileID: 2100000, guid: abf28aa594e4e174c978bea953255082,
     type: 2}
   defaultStrength: 50
   timeToDestroyDissolvingBullet: 15
+  timeToFullSpeed: 0.3
+  initialSpeedModifier: 0.5
   speed: 50
   strength: 50
   firer: {fileID: 0}
@@ -234,13 +235,11 @@ MonoBehaviour:
   triggerDestroyLayers:
   - serializedVersion: 2
     m_Bits: 2048
-  - serializedVersion: 2
-    m_Bits: 1048576
   enemyBulletCollisionParticles: {fileID: 1940228520169818, guid: 378107c854737224c9c76029e1589afc,
     type: 2}
   friendlyBulletCollisionParticles: {fileID: 1175951107517830, guid: 98ff1fd7e0cc04b4ea0a6a081431cc2e,
     type: 2}
-  effectParent: {fileID: 0}
+  particlesParent: {fileID: 0}
 --- !u!120 &120437426340101018
 LineRenderer:
   m_ObjectHideFlags: 1

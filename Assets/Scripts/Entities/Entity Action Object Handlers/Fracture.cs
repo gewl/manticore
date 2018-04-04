@@ -68,5 +68,7 @@ public class Fracture : MonoBehaviour
         Vector3 impactPoint = contact.point;
 
         fractureHardware.FractureBullet(impactPoint, impactNormal);
+
+        Destroy(collision.gameObject);
     }
 }

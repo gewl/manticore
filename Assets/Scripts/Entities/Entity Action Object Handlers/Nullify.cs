@@ -9,15 +9,24 @@ public class Nullify : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        BulletController bullet = other.GetComponent<BulletController>();
+        if (bullet == null)
+        {
+            return;
+        }
+
         if (IsFracturing)
         {
-            BulletController bullet = other.GetComponent<BulletController>();
-
-            if (bullet != null && bullet.CompareTag(BulletController.ENEMY_BULLET))
+            if (bullet.CompareTag(BulletController.ENEMY_BULLET))
             {
                 bullet.Parry(transform.parent, bullet.strength * handicap, handicap);
             }
-        } 
+        }
+        else 
+        {
+            bullet.Dissolve();
+        }
+        
     }
 
 }
