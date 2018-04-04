@@ -19,12 +19,20 @@ public abstract class FractureHardwareData : HardwareData {
         return BaseRange + (RangeMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float BaseFragmentationSpeed { get; }
-    protected abstract float FragmentationSpeedMomentumIncrease { get; }
+    protected abstract float BaseTravelTime { get; }
+    protected abstract float TravelTimeMomentumModifier { get; }
 
-    public virtual float GetFragmentationSpeed(int currentMomentum)
+    public virtual float GetTravelTime(int currentMomentum)
     {
-        return BaseFragmentationSpeed + (FragmentationSpeedMomentumIncrease * currentMomentum);
+        return BaseTravelTime - (TravelTimeMomentumModifier * currentMomentum);
+    }
+
+    protected abstract float BaseLingerTime { get; }
+    protected abstract float LingerTimeMomentumModifier { get; }
+
+    public virtual float GetLingerTime(int currentMomentum)
+    {
+        return BaseLingerTime + (LingerTimeMomentumModifier * currentMomentum);
     }
 
     protected abstract int BaseNumberOfBullets { get; }

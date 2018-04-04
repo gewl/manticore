@@ -22,7 +22,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
     public int StaminaCost { get { return subtypeData.GetStaminaCost(FractureMomentum); } }
     public int ActiveNumberOfProjectiles { get { return subtypeData.GetNumberOfBullets(FractureMomentum); } }
     float ActiveArcOfFire { get { return subtypeData.GetArcOfFire(FractureMomentum); } }
-    float ActiveProjectileSpeed { get { return subtypeData.GetFragmentationSpeed(FractureMomentum); } }
+
+    float ActiveProjectileSpeed { get { return 30f; } }
+
+    float TravelTime { get { return subtypeData.GetTravelTime(FractureMomentum); } }
+    float LingerTime { get { return subtypeData.GetLingerTime(FractureMomentum); } }
 
     int PassiveNumberOfProjectiles = 2;
     float PassiveProjectileDamage = 10f;
@@ -92,7 +96,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
         Vector3 instantiationPosition = transform.position + (transform.forward);
         GameObject newFractureProjectile = GameObject.Instantiate(FractureProjectile, instantiationPosition, transform.rotation);
         newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 30.0f;
-        newFractureProjectile.GetComponent<Fracture>().PassReferenceToHardware(this);
+
+        Fracture fractureController = newFractureProjectile.GetComponent<Fracture>();
+        fractureController.PassReferenceToHardware(this);
+        fractureController.TimeToStop = TravelTime;
+        fractureController.TimeToDestroy = TravelTime + LingerTime;
 
         GameManager.JoltScreen(-transform.forward, 0.8f);
     }

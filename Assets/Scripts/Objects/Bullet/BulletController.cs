@@ -229,6 +229,14 @@ public class BulletController : MonoBehaviour {
 	}
     #endregion
 
+    public void Attach(Transform newParent)
+    {
+        isFrozen = true;
+        SetFriendly();
+        BulletRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        transform.parent = newParent;
+    }
+
     IEnumerator AccelerateBullet(Vector3 direction)
     {
         float timeElapsed = 0.0f;

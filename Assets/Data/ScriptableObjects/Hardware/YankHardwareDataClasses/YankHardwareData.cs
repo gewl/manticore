@@ -18,11 +18,12 @@ public abstract class YankHardwareData : HardwareData {
         return baseRange + (rangeMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float baseSpeed { get; }
-    protected abstract float speedMomentumIncrement { get; }
+    protected abstract float baseTravelTime { get; }
+    protected abstract float travelTimeMomentumIncrement { get; }
 
-    public virtual float GetSpeed(int currentMomentum)
+    public virtual float GetTravelTime(int currentMomentum)
     {
-        return baseSpeed + (speedMomentumIncrement * currentMomentum);
+        return baseTravelTime + (travelTimeMomentumIncrement * currentMomentum);
     }
+
 }

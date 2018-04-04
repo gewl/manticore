@@ -24,6 +24,7 @@ public class YankHardware : MonoBehaviour, IHardware {
 
     public int StaminaCost { get { return subtypeData.GetStaminaCost(YankMomentum); } }
     float YankCooldown { get { return subtypeData.GetCooldown(YankMomentum); } }
+    float TravelTime { get { return subtypeData.GetTravelTime(YankMomentum); } }
 
     private bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
