@@ -5,9 +5,17 @@ using UnityEngine;
 public class Yank : MonoBehaviour {
 
     Rigidbody yankRigidbody;
+    YankHardware yankHardware;
+
+    public float TravelTime;
 
     const string TERRAIN_LAYER_ID = "Terrain";
     LayerMask terrainLayer;
+
+    public void PassReferenceToHardware(YankHardware _yankHardware)
+    {
+        yankHardware = _yankHardware;
+    }
 
     void Awake()
     {
