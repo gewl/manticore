@@ -62,8 +62,9 @@ public class YankHardware : MonoBehaviour, IHardware {
     IEnumerator FireYankProjectile()
     {
         yield return new WaitForSeconds(0.1f);
+        StartCoroutine(GoOnCooldown());
         Vector3 instantiationPosition = transform.position + (transform.forward);
-        GameObject newYankProjectile = GameObject.Instantiate(YankProjectile, instantiationPosition, transform.rotation);
+        GameObject newYankProjectile = Instantiate(YankProjectile, instantiationPosition, transform.rotation);
 
         Yank yankController = newYankProjectile.GetComponent<Yank>();
         yankController.PassReferenceToHardware(this);
@@ -100,7 +101,33 @@ public class YankHardware : MonoBehaviour, IHardware {
 
     public void ApplyPassiveHardware(HardwareType activeHardwareType, IHardware activeHardware, GameObject subject)
     {
+        switch (activeHardwareType)
+        {
+            case HardwareType.None:
+                Debug.LogError("Attempting to apply Yank passive effect to empty hardware.");
+                break;
+            case HardwareType.Parry:
+                ApplyPassiveHardware_Parry(subject);
+                break;
+            case HardwareType.Blink:
+                break;
+            case HardwareType.Nullify:
+                break;
+            case HardwareType.Fracture:
+                break;
+            case HardwareType.Yank:
+                Debug.LogError("Trying to apply Yank passive effect to Yank active effect.");
+                break;
+            default:
+                break;
+        }
+    }
 
+    void ApplyPassiveHardware_Parry(GameObject bullet)
+    {
+        BulletController bulletController = bullet.GetComponent<BulletController>();
+        bulletController.SetHoming();
+        bulletController.strength /= 2f;
     }
 
     #endregion
