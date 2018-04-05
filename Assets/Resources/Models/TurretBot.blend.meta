@@ -31,6 +31,7 @@ ModelImporter:
     400022: Turret
     2100000: unnamed
     2100002: None__TurretSkin
+    2100004: Material
     2300000: //RootNode
     2300002: Cylinder
     2300004: Cylinder_001
