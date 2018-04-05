@@ -23,7 +23,7 @@ public class StandardIssueFractureHardwareData : FractureHardwareData {
     {
         get
         {
-            return 4f;
+            return 6f;
         }
     }
 

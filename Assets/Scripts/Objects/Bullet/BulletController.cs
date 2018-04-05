@@ -141,7 +141,6 @@ public class BulletController : MonoBehaviour {
             }
             else
             {
-                Debug.Log("destroying because of low speed");
                 Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, particlesParent);
             }
             Destroy(gameObject);
@@ -229,12 +228,17 @@ public class BulletController : MonoBehaviour {
 	}
     #endregion
 
-    public void Attach(Transform newParent)
+    public void Attach(Transform newParent, bool shouldDeactivate = true)
     {
         isFrozen = true;
         SetFriendly();
         BulletRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         transform.parent = newParent;
+
+        if (shouldDeactivate)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
     }
 
     IEnumerator AccelerateBullet(Vector3 direction)

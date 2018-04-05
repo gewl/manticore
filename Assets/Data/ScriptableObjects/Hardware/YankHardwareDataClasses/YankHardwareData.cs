@@ -2,28 +2,28 @@
 
 [Serializable]
 public abstract class YankHardwareData : HardwareData {
-    protected abstract float baseDamageDealt { get; }
-    protected abstract float damageDealtMomentumIncrement { get; }
+    protected abstract float BaseDamageDealt { get; }
+    protected abstract float DamageDealtMomentumIncrement { get; }
 
     public virtual float GetDamageDealt(int currentMomentum)
     {
-        return baseDamageDealt + (damageDealtMomentumIncrement * currentMomentum);
+        return BaseDamageDealt + (DamageDealtMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float baseRange { get; }
-    protected abstract float rangeMomentumIncrement { get; }
+    protected abstract float BaseRange { get; }
+    protected abstract float RangeMomentumIncrement { get; }
 
     public virtual float GetRange(int currentMomentum)
     {
-        return baseRange + (rangeMomentumIncrement * currentMomentum);
+        return BaseRange + (RangeMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float baseTravelTime { get; }
-    protected abstract float travelTimeMomentumIncrement { get; }
+    protected abstract float BaseTravelTime { get; }
+    protected abstract float TravelTimeMomentumIncrement { get; }
 
     public virtual float GetTravelTime(int currentMomentum)
     {
-        return baseTravelTime + (travelTimeMomentumIncrement * currentMomentum);
+        return BaseTravelTime + (TravelTimeMomentumIncrement * currentMomentum);
     }
 
 }

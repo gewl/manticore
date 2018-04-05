@@ -21,7 +21,9 @@ GameObject:
   - component: {fileID: 4753455730819294}
   - component: {fileID: 33806373936282282}
   - component: {fileID: 23453458339236022}
-  m_Layer: 0
+  - component: {fileID: 65931472622533124}
+  - component: {fileID: 114132757019163428}
+  m_Layer: 14
   m_Name: YankProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,8 +36,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1420290983951184}
-  m_LocalRotation: {x: 0.7071069, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 7.3462, y: 4.7, z: -15.53}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.3462, y: 4.7, z: -13.55}
   m_LocalScale: {x: 1.4344716, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,3 +84,62 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1420290983951184}
   m_Mesh: {fileID: 4300002, guid: b3e2d4bb738b19c43b40ed67d35b3696, type: 3}
+--- !u!65 &65931472622533124
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1420290983951184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.899346, y: 3, z: 3.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114132757019163428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1420290983951184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b164c53fba4f6a5469e19b08751ca0d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travelCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.003414154
+      inSlope: 3.005499
+      outSlope: 3.005499
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0.16022554
+      outSlope: 0.16022554
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  returnCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.08722031
+      outSlope: 0.08722031
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 2.8782725
+      outSlope: 2.8782725
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0

@@ -41,6 +41,7 @@ public class InventoryData {
         ObtainHardwareType(HardwareType.Blink);
         ObtainHardwareType(HardwareType.Fracture);
         ObtainHardwareType(HardwareType.Nullify);
+        ObtainHardwareType(HardwareType.Yank);
 
         EquippedActiveHardware = new HardwareType[4]
         {

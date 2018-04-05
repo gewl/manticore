@@ -24,7 +24,8 @@ public class YankHardware : MonoBehaviour, IHardware {
 
     public int StaminaCost { get { return subtypeData.GetStaminaCost(YankMomentum); } }
     float YankCooldown { get { return subtypeData.GetCooldown(YankMomentum); } }
-    float TravelTime { get { return subtypeData.GetTravelTime(YankMomentum); } }
+    public float TravelTime { get { return subtypeData.GetTravelTime(YankMomentum); } }
+    public float Range { get { return subtypeData.GetRange(YankMomentum); } }
 
     private bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
@@ -63,11 +64,9 @@ public class YankHardware : MonoBehaviour, IHardware {
         yield return new WaitForSeconds(0.1f);
         Vector3 instantiationPosition = transform.position + (transform.forward);
         GameObject newYankProjectile = GameObject.Instantiate(YankProjectile, instantiationPosition, transform.rotation);
-        newYankProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 30.0f;
 
         Yank yankController = newYankProjectile.GetComponent<Yank>();
         yankController.PassReferenceToHardware(this);
-        yankController.TravelTime = TravelTime;
 
         GameManager.JoltScreen(-transform.forward, 0.4f);
     }

@@ -43,6 +43,8 @@ public class InventoryController {
                 return typeof(StandardIssueNullifyHardwareData);
             case HardwareType.Fracture:
                 return typeof(StandardIssueFractureHardwareData);
+            case HardwareType.Yank:
+                return typeof(StandardIssueYankHardwareData);
             default:
                 Debug.LogError("Attempted to retrieve subtype for invalid HardwareType: " + hardwareType);
                 return null;
