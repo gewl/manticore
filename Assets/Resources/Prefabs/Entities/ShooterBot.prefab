@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 114203462516703078}
   m_Layer: 11
   m_Name: ShooterBot
-  m_TagString: EnemyBox
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -674,7 +674,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1730745917110018}
   m_LocalRotation: {x: 0.0010531999, y: -0.961372, z: -0.0014370121, w: 0.2752466}
-  m_LocalPosition: {x: 24.67, y: 3.38, z: 45.96}
+  m_LocalPosition: {x: 4, y: 6.2, z: -3.9}
   m_LocalScale: {x: 0.99999964, y: 1, z: 0.99999964}
   m_Children:
   - {fileID: 4051761802701652}
@@ -1164,7 +1164,7 @@ MonoBehaviour:
     SerializationNodes: []
   isSmoothing: 1
   velocitiesToCache: 5
-  headBone: {fileID: 0}
+  headBone: {fileID: 4261336795401708}
   currentTarget: {fileID: 0}
 --- !u!114 &114436602651081334
 MonoBehaviour:

@@ -74,14 +74,15 @@ public class Yank : MonoBehaviour {
         }
         else 
         {
+            Vector3 playerPosition = GameManager.GetPlayerPosition();
             if (timeElapsed >= returnTime)
             {
-                Destroy(gameObject);
+                Vector3 fireDirection = playerPosition - destinationPosition;
+                FireAndDestroy(fireDirection);
             }
             float percentageToDestination = timeElapsed / returnTime;
             float curvedPercentage = returnCurve.Evaluate(percentageToDestination);
 
-            Vector3 playerPosition = GameManager.GetPlayerPosition();
             Vector3 averagePlayerPosition = GetAveragePlayerPosition();
             UpdateCachedPositions(playerPosition);
             transform.position = Vector3.Lerp(destinationPosition, averagePlayerPosition, curvedPercentage);
@@ -94,6 +95,7 @@ public class Yank : MonoBehaviour {
         }
     }
 
+    #region Projectile travel management
     void UpdateCachedPositions(Vector3 newPosition)
     {
         cachedPlayerPositions[currentPlayerPositionIndex] = newPosition;
@@ -115,6 +117,20 @@ public class Yank : MonoBehaviour {
         }
 
         return averagePosition / cachedPlayerPositions.Length;
+    }
+    #endregion
+
+    void FireAndDestroy(Vector3 fireDirection)
+    {
+        BulletController[] bulletChildren = transform.GetComponentsInChildren<BulletController>();
+
+        for (int i = 0; i < bulletChildren.Length; i++)
+        {
+            bulletChildren[i].Launch(fireDirection);
+            bulletChildren[i].SetHoming();
+        }
+
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

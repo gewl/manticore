@@ -6,12 +6,13 @@ TagManager:
   tags:
   - BouncyWall
   - DamageZone
-  - EnemyBox
   - FriendlyBullet
   - EnemyBullet
   - HUD
   - Ramp
   - Menus
+  - Enemy
+  - EnemyBox
   layers:
   - Default
   - TransparentFX

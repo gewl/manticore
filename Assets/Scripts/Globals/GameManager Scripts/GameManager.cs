@@ -430,6 +430,54 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    public static GameObject FindNearestEnemy(Vector3 position)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float distance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float currentDistance = (enemy.transform.position - position).sqrMagnitude;
+
+            if (currentDistance < distance)
+            {
+                closestEnemy = enemy;
+                distance = currentDistance;
+            }
+        }
+
+        return closestEnemy;
+    }
+
+    public static GameObject FindNearestEnemyInFront(Vector3 position, Vector3 facing)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float distance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            Vector3 vectorToTarget = enemy.transform.position - position;
+
+            float currentDistance = vectorToTarget.sqrMagnitude;
+            float angleToTarget = Vector3.Angle(facing, vectorToTarget);
+
+            if (Mathf.Abs(angleToTarget) > 75f)
+            {
+                continue;
+            }
+
+            if (currentDistance < distance)
+            {
+                closestEnemy = enemy;
+                distance = currentDistance;
+            }
+        }
+
+        return closestEnemy;
+    }
+
     #endregion
 
     #region manticore-specific functionality

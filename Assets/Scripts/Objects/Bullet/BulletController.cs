@@ -65,7 +65,29 @@ public class BulletController : MonoBehaviour {
     public Transform target;
     public Vector3 targetPosition;
 
-    public bool IsHoming = false;
+    bool isHoming = false;
+
+    public void SetHoming()
+    {
+        isHoming = true;
+        if (gameObject.CompareTag(FRIENDLY_BULLET))
+        {
+            GameObject targetObject = GameManager.FindNearestEnemyInFront(transform.position, transform.forward);
+
+            if (targetObject == null)
+            {
+                isHoming = false;
+                return;
+            }
+            
+            target = targetObject.transform;
+        }
+        else
+        {
+            target = GameManager.GetPlayerTransform();
+        }
+    }
+
     bool isFrozen = false;
 
     public const string ENEMY_BULLET = "EnemyBullet";
@@ -82,14 +104,11 @@ public class BulletController : MonoBehaviour {
     [SerializeField]
     Transform particlesParent;
 
-    private void Awake()
+    void Start ()
     {
         FriendlyBulletLayer = LayerMask.NameToLayer(FRIENDLY_BULLET);
         EnemyBulletLayer = LayerMask.NameToLayer(ENEMY_BULLET);
-    }
 
-    void Start ()
-    {
         Vector3 direction = (targetPosition - transform.position).normalized;
         StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
@@ -115,7 +134,7 @@ public class BulletController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (IsHoming)
+        if (isHoming)
         {
             Vector3 normalizedVelocity = BulletRigidbody.velocity.normalized;
             Vector3 toTarget = (target.position - transform.position);
@@ -129,7 +148,7 @@ public class BulletController : MonoBehaviour {
 
             if (angleToTarget >= 85f)
             {
-                IsHoming = false;
+                isHoming = false;
             }
         }
 
@@ -144,6 +163,11 @@ public class BulletController : MonoBehaviour {
                 Instantiate(enemyBulletCollisionParticles, transform.position, Quaternion.identity, particlesParent);
             }
             Destroy(gameObject);
+        }
+
+        if (BulletRigidbody.velocity != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(BulletRigidbody.velocity);
         }
     }
 
@@ -239,6 +263,19 @@ public class BulletController : MonoBehaviour {
         {
             GetComponent<Collider>().enabled = false;
         }
+    }
+
+    public void Launch(Vector3 direction)
+    {
+        isFrozen = false;
+        BulletRigidbody.constraints = RigidbodyConstraints.None;
+
+        transform.parent = GameManager.BulletsParent.transform;
+
+        GetComponent<Collider>().enabled = true;
+
+        BulletRigidbody.velocity = direction.normalized * speed;
+        transform.rotation = Quaternion.LookRotation(BulletRigidbody.velocity);
     }
 
     IEnumerator AccelerateBullet(Vector3 direction)
