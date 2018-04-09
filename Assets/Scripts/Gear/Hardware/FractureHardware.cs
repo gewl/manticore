@@ -120,8 +120,10 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
             float angleAdjustment = Random.Range(-arcOfFire, arcOfFire);
             Vector3 updatedDirection = VectorUtilities.RotatePointAroundPivot(impactNormal + impactPoint, impactPoint, angleAdjustment);
-            newBullet.GetComponent<BulletController>().InitializeValues(projectileDamage, updatedDirection, transform, null, projectileSpeed);
-            newBullet.GetComponent<BulletController>().SetFriendly();
+
+            BulletController bulletController = newBullet.GetComponent<BulletController>();
+            bulletController.InitializeValues(projectileDamage, updatedDirection, transform, null, projectileSpeed);
+            bulletController.SetFriendly();
 
             if (isActiveHardware)
             {

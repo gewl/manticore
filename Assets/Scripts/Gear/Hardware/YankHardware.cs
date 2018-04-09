@@ -110,6 +110,7 @@ public class YankHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Parry(subject);
                 break;
             case HardwareType.Blink:
+                ApplyPassiveHardware_Blink(activeHardware as BlinkHardware);
                 break;
             case HardwareType.Nullify:
                 break;
@@ -128,6 +129,21 @@ public class YankHardware : MonoBehaviour, IHardware {
         BulletController bulletController = bullet.GetComponent<BulletController>();
         bulletController.SetHoming();
         bulletController.strength /= 2f;
+    }
+
+    void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware)
+    {
+        blinkHardware.PutInReturnState();
+    }
+
+    void ApplyPassiveHardware_Nullify()
+    {
+
+    }
+
+    void ApplyPassiveHardware_Fracture()
+    {
+
     }
 
     #endregion

@@ -14,7 +14,7 @@ public class StandardIssueBlinkHardwareData : BlinkHardwareData {
 
     protected override float baseCooldown
     {
-        get { return 1.0f; }
+        get { return 2.0f; }
     }
     protected override float cooldownMomentumIncrement
     {

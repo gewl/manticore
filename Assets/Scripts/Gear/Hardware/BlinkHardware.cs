@@ -18,6 +18,9 @@ public class BlinkHardware : EntityComponent, IHardware
 
     [SerializeField]
     Modifier blinkStunModifier;
+    [SerializeField]
+    GameObject blinkReturnIndicator;
+    GameObject instantiatedBlinkReturnIndicator;
 
     int BlinkMomentum { get { return MomentumManager.GetMomentumPointsByHardwareType(_type); } }
     float BlinkRange { get { return subtypeData.GetBlinkRange(BlinkMomentum); } }
@@ -25,7 +28,11 @@ public class BlinkHardware : EntityComponent, IHardware
     public int StaminaCost { get { return subtypeData.GetStaminaCost(BlinkMomentum); } }
 
     public bool IsInUse { get { return false; } }
+
     public bool DoesBlinkStun = false;
+    bool isInReturnState = false;
+    bool isReturnStateQueued = false;
+    Vector3 returnPoint;
 
     int entityLayermask;
 
@@ -104,7 +111,12 @@ public class BlinkHardware : EntityComponent, IHardware
 
     IEnumerator GoOnCooldown()
     {
+        if (isReturnStateQueued)
+        {
+            yield break;
+        }
         float timeOffCooldown = Time.time + BlinkCooldown;
+        isOnCooldown = true;
 
         while (Time.time < timeOffCooldown)
         {
@@ -127,8 +139,11 @@ public class BlinkHardware : EntityComponent, IHardware
 
     IEnumerator FireBlink()
     {
-        gear.ApplyPassiveHardware(typeof(BlinkHardware), gameObject);
-        isOnCooldown = true;
+        if (!isInReturnState)
+        {
+            gear.ApplyPassiveHardware(typeof(BlinkHardware), gameObject);
+        }
+        StartCoroutine(GoOnCooldown());
         // Entering blink state
         inputComponent.LockActions(true);
         inputComponent.LockMovement(true);
@@ -150,7 +165,17 @@ public class BlinkHardware : EntityComponent, IHardware
             currentDirection = transform.forward;
         }
 
-        Vector3 destination = GetBlinkDestination(origin, currentDirection);
+        Vector3 destination;
+        if (isInReturnState)
+        {
+            destination = returnPoint;
+            isInReturnState = false;
+            Destroy(instantiatedBlinkReturnIndicator);
+        }
+        else
+        {
+            destination = GetBlinkDestination(origin, currentDirection);
+        }
 
 		float step = 0f;
         float rate = 1 / TimeToCompleteBlink;
@@ -167,7 +192,6 @@ public class BlinkHardware : EntityComponent, IHardware
         // Exiting blink state
         entityMeshRenderer.material = originalSkin;
         trailRenderer.enabled = false;
-        StartCoroutine(GoOnCooldown());
 
         inputComponent.LockActions(false);
         inputComponent.LockMovement(false);
@@ -177,6 +201,12 @@ public class BlinkHardware : EntityComponent, IHardware
             DoesBlinkStun = false;
 
             ApplyBlinkStun(origin, destination);
+        }
+
+        if (isReturnStateQueued)
+        {
+            isInReturnState = true;
+            isReturnStateQueued = false;
         }
 		yield break;
     }
@@ -196,7 +226,35 @@ public class BlinkHardware : EntityComponent, IHardware
                 entityModifierHandler.RegisterModifier(blinkStunModifier);
             }
         }
+    }
 
+    public void PutInReturnState()
+    {
+        isReturnStateQueued = true;
+        returnPoint = transform.position;
+
+        Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
+        instantiatedBlinkReturnIndicator = Instantiate(blinkReturnIndicator, transform.position, particleRotation);
+        ParticleSystem[] indicatorParticles = instantiatedBlinkReturnIndicator.GetComponentsInChildren<ParticleSystem>();
+
+        for (int i = 0; i < indicatorParticles.Length; i++)
+        {
+            ParticleSystem.MainModule main = indicatorParticles[i].main;
+            main.startLifetime = BlinkCooldown;
+        }
+
+        StopCoroutine(GoOnCooldown());
+        isOnCooldown = false;
+
+        StartCoroutine(ReturnStateCooldown());
+    }
+
+    IEnumerator ReturnStateCooldown()
+    {
+        yield return new WaitForSeconds(BlinkCooldown);
+
+        isReturnStateQueued = false;
+        isInReturnState = false;
     }
 
     Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)
