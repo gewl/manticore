@@ -113,6 +113,7 @@ public class YankHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Blink(activeHardware as BlinkHardware);
                 break;
             case HardwareType.Nullify:
+                ApplyPassiveHardware_Nullify(subject);
                 break;
             case HardwareType.Fracture:
                 break;
@@ -136,9 +137,9 @@ public class YankHardware : MonoBehaviour, IHardware {
         blinkHardware.PutInReturnState();
     }
 
-    void ApplyPassiveHardware_Nullify()
+    void ApplyPassiveHardware_Nullify(GameObject nullifyEffect)
     {
-
+        nullifyEffect.GetComponent<Nullify>().SetTravelAndReturn();
     }
 
     void ApplyPassiveHardware_Fracture()

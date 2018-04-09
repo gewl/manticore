@@ -86,6 +86,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false, bool isActiveHardware = true)
     {
         GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, transform.position, Quaternion.identity);
+        spawnedNullification.GetComponent<Nullify>().TimeToComplete = TotalTimeToComplete;
         if (isActiveHardware)
         {
             gear.ApplyPassiveHardware(typeof(NullifyHardware), spawnedNullification);
@@ -102,7 +103,6 @@ public class NullifyHardware : MonoBehaviour, IHardware {
             float percentageComplete = timeElapsed / TimeToExpandActiveEffect;
             float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
 
-            spawnedNullification.transform.position = transform.position;
             spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
             yield return null;
         }
