@@ -66,6 +66,8 @@ public class YankHardware : MonoBehaviour, IHardware {
         Vector3 instantiationPosition = transform.position + (transform.forward);
         GameObject newYankProjectile = Instantiate(YankProjectile, instantiationPosition, transform.rotation);
 
+        gear.ApplyPassiveHardware(typeof(YankHardware), newYankProjectile);
+
         Yank yankController = newYankProjectile.GetComponent<Yank>();
         yankController.PassReferenceToHardware(this);
 
@@ -130,7 +132,7 @@ public class YankHardware : MonoBehaviour, IHardware {
     {
         BulletController bulletController = bullet.GetComponent<BulletController>();
         bulletController.SetHoming();
-        bulletController.strength /= 2f;
+        bulletController.SetStrength(bulletController.Strength / 2f);
     }
 
     void ApplyPassiveHardware_Blink(BlinkHardware blinkHardware)
@@ -147,7 +149,7 @@ public class YankHardware : MonoBehaviour, IHardware {
     {
         BulletController bulletController = bulletFragment.GetComponent<BulletController>();
         bulletController.SetHoming();
-        bulletController.strength /= 2f;
+        bulletController.SetStrength(bulletController.Strength / 2f);
     }
 
     #endregion

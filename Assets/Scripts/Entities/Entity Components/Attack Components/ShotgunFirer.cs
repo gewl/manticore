@@ -64,7 +64,7 @@ public class ShotgunFirer : EntityComponent
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
         Transform createdBullet = Object.Instantiate(projectile, firer.position, rotation);
         BulletController bulletController = createdBullet.GetComponent<BulletController>();
-        bulletController.strength = projectileStrength;
+        bulletController.SetStrength(projectileStrength);
         bulletController.targetPosition = relativePos;
         bulletController.firer = transform;
         bulletController.target = currentTarget;

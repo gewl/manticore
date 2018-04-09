@@ -58,8 +58,13 @@ public class BulletController : MonoBehaviour {
         }
     }
 
-    public float speed = 5f;
-    public float strength;
+    public float speed = 25f;
+    public float Strength { get; private set; }
+    public void SetStrength(float newStrength)
+    {
+        Strength = newStrength;
+        UpdateSize();
+    }
 
     public Transform firer;
     public Transform target;
@@ -128,16 +133,9 @@ public class BulletController : MonoBehaviour {
     [SerializeField]
     Transform particlesParent;
 
-    void Start ()
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        StartCoroutine(AccelerateBullet(direction));
-        UpdateSize();
-	}
-
     public void InitializeValues(float _strength, Vector3 _targetPosition, Transform _firer, Transform _target, float _speed)
     {
-        strength = _strength;
+        Strength = _strength;
         targetPosition = _targetPosition;
 
         if (_target != null)
@@ -151,6 +149,10 @@ public class BulletController : MonoBehaviour {
 
         firer = _firer;
         speed = _speed;
+
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        StartCoroutine(AccelerateBullet(direction));
+        UpdateSize();
     }
 
     void FixedUpdate()
@@ -236,7 +238,7 @@ public class BulletController : MonoBehaviour {
     // If no target position or strength supplied, just reverse direction.
     public void Parry(Transform newFirer)
     {
-        Parry(newFirer, firer.position, strength);
+        Parry(newFirer, firer.position, Strength);
     }
 
     // If no target position supplied, apply new strength in reverse direction.
@@ -248,7 +250,7 @@ public class BulletController : MonoBehaviour {
     // If no new strength supplied, maintain current strength.
     public void Parry(Transform newFirer, Vector3 targetPosition)
     {
-        Parry(newFirer, targetPosition, strength);
+        Parry(newFirer, targetPosition, Strength);
     }
     
     public void Parry(Transform newFirer, Vector3 targetPosition, float newStrength, float speedModifier = 2f)
@@ -256,7 +258,7 @@ public class BulletController : MonoBehaviour {
         GameManager.JoltScreen(BulletRigidbody.velocity);
         StopAllCoroutines();
         
-        strength = newStrength;
+        Strength = newStrength;
         target = firer;
         firer = newFirer;
         SetFriendly();
@@ -329,13 +331,13 @@ public class BulletController : MonoBehaviour {
 
     void UpdateSize()
     {
-        if (strength == 0f)
+        if (Strength == 0f)
         {
-            strength = defaultStrength;
+            Strength = defaultStrength;
         }
         else
         {
-            float proportionToDefault = strength / defaultStrength;
+            float proportionToDefault = Strength / defaultStrength;
             float strengthScale = Mathf.Atan(proportionToDefault * Mathf.PI / 2);
             strengthScale = Mathf.Pow(strengthScale, 2f);
             transform.localScale *= strengthScale;

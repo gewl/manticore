@@ -150,6 +150,9 @@ public class FractureHardware : MonoBehaviour, IHardware {
             case HardwareType.Fracture:
                 Debug.LogError("Trying to apply Fracture pasive effect to Fracture active hardware.");
                 break;
+            case HardwareType.Yank:
+                ApplyPassiveHardware_Yank(subject);
+                break;
             default:
                 break;
         }
@@ -170,5 +173,10 @@ public class FractureHardware : MonoBehaviour, IHardware {
     void ApplyPassiveHardware_Nullify(GameObject nullificationField)
     {
         nullificationField.GetComponent<Nullify>().IsFracturing = true;
+    }
+
+    void ApplyPassiveHardware_Yank(GameObject yankProjectile)
+    {
+        yankProjectile.GetComponent<Yank>().IsFracturing = true;
     }
 }

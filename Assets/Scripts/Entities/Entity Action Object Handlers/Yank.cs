@@ -19,6 +19,11 @@ public class Yank : MonoBehaviour {
     Vector3[] cachedPlayerPositions;
     int currentPlayerPositionIndex = 0;
 
+    // Passive hardware values.
+    public bool IsFracturing = false;
+    float fractureBulletFactor = 0.75f;
+    float fractureArcRange = 30f;
+
     public void PassReferenceToHardware(YankHardware _yankHardware)
     {
         yankHardware = _yankHardware;
@@ -78,7 +83,15 @@ public class Yank : MonoBehaviour {
             if (timeElapsed >= returnTime)
             {
                 Vector3 fireDirection = playerPosition - destinationPosition;
-                FireAndDestroy(fireDirection);
+
+                if (IsFracturing)
+                {
+                    FireAndDestroy_Fracture(fireDirection);
+                }
+                else
+                {
+                    FireAndDestroy_Default(fireDirection);
+                }
             }
             float percentageToDestination = timeElapsed / returnTime;
             float curvedPercentage = returnCurve.Evaluate(percentageToDestination);
@@ -120,7 +133,7 @@ public class Yank : MonoBehaviour {
     }
     #endregion
 
-    void FireAndDestroy(Vector3 fireDirection)
+    void FireAndDestroy_Default(Vector3 fireDirection)
     {
         BulletController[] bulletChildren = transform.GetComponentsInChildren<BulletController>();
 
@@ -128,6 +141,36 @@ public class Yank : MonoBehaviour {
         {
             bulletChildren[i].Launch(fireDirection);
             bulletChildren[i].SetHoming();
+        }
+
+        Destroy(gameObject);
+    }
+    
+    void FireAndDestroy_Fracture(Vector3 fireDirection)
+    {
+        GameObject[] children = new GameObject[transform.childCount];
+
+        for (int i = 0; i < children.Length; i++)
+        {
+            children[i] = transform.GetChild(i).gameObject;
+        }
+
+        for (int i = 0; i < children.Length; i++)
+        {
+            Instantiate(children[i], transform);
+        }
+
+        BulletController[] bulletChildren = transform.GetComponentsInChildren<BulletController>();
+
+        for (int i = 0; i < bulletChildren.Length; i++)
+        {
+            BulletController bulletChild = bulletChildren[i];
+
+            float arcNoise = Random.Range(-fractureArcRange, fractureArcRange);
+            Vector3 newDirection = VectorUtilities.RotatePointAroundPivot(fireDirection, Vector3.zero, arcNoise);
+
+            bulletChild.Launch(newDirection);
+            bulletChild.SetStrength(bulletChild.Strength * fractureBulletFactor);
         }
 
         Destroy(gameObject);

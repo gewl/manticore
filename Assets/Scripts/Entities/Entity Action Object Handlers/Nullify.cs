@@ -33,7 +33,7 @@ public class Nullify : MonoBehaviour {
         {
             if (bullet.CompareTag(BulletController.ENEMY_BULLET))
             {
-                bullet.Parry(transform.parent, bullet.strength * handicap, handicap);
+                bullet.Parry(transform.parent, bullet.Strength * handicap, handicap);
             }
         }
         else 

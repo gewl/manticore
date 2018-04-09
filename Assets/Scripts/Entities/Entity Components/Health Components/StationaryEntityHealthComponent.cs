@@ -117,7 +117,7 @@ public class StationaryEntityHealthComponent : EntityComponent
         if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable)
         {
             BulletController bullet = projectile.transform.GetComponent<BulletController>();
-            float damage = bullet.strength;
+            float damage = bullet.Strength;
             currentHealth -= damage;
 
             Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);

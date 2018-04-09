@@ -178,7 +178,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         {
             // Get & deal damage.
             BulletController bullet = projectile.transform.GetComponent<BulletController>();
-            float damage = bullet.strength;
+            float damage = bullet.Strength;
             TakeDamage(damage);
 
             if (currentHealth > 0)
