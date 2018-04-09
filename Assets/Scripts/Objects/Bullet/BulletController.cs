@@ -93,7 +93,31 @@ public class BulletController : MonoBehaviour {
     public const string ENEMY_BULLET = "EnemyBullet";
     public const string FRIENDLY_BULLET = "FriendlyBullet";
 
-    LayerMask FriendlyBulletLayer, EnemyBulletLayer;
+    LayerMask _friendlyBulletLayer, _enemyBulletLayer;
+    LayerMask FriendlyBulletLayer
+    {
+        get
+        {
+            if (_friendlyBulletLayer == 0)
+            {
+                _friendlyBulletLayer = LayerMask.NameToLayer(FRIENDLY_BULLET);
+            }
+
+            return _friendlyBulletLayer;
+        }
+    }
+    LayerMask EnemyBulletLayer
+    {
+        get
+        {
+            if (_enemyBulletLayer == 0)
+            {
+                _enemyBulletLayer = LayerMask.NameToLayer(ENEMY_BULLET);
+            }
+
+            return _enemyBulletLayer;
+        }
+    }
 
     [SerializeField]
     List<LayerMask> triggerDestroyLayers;
@@ -106,9 +130,6 @@ public class BulletController : MonoBehaviour {
 
     void Start ()
     {
-        FriendlyBulletLayer = LayerMask.NameToLayer(FRIENDLY_BULLET);
-        EnemyBulletLayer = LayerMask.NameToLayer(ENEMY_BULLET);
-
         Vector3 direction = (targetPosition - transform.position).normalized;
         StartCoroutine(AccelerateBullet(direction));
         UpdateSize();

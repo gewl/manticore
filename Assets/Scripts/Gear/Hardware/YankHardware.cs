@@ -116,6 +116,7 @@ public class YankHardware : MonoBehaviour, IHardware {
                 ApplyPassiveHardware_Nullify(subject);
                 break;
             case HardwareType.Fracture:
+                ApplyPassiveHardware_Fracture(subject);
                 break;
             case HardwareType.Yank:
                 Debug.LogError("Trying to apply Yank passive effect to Yank active effect.");
@@ -142,9 +143,11 @@ public class YankHardware : MonoBehaviour, IHardware {
         nullifyEffect.GetComponent<Nullify>().SetTravelAndReturn();
     }
 
-    void ApplyPassiveHardware_Fracture()
+    void ApplyPassiveHardware_Fracture(GameObject bulletFragment)
     {
-
+        BulletController bulletController = bulletFragment.GetComponent<BulletController>();
+        bulletController.SetHoming();
+        bulletController.strength /= 2f;
     }
 
     #endregion
