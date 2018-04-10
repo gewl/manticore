@@ -1,80 +1,91 @@
-﻿using System;
+﻿
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
-public class StationaryEntityHealthComponent : EntityComponent
-{
+public class StationaryEntityHealthComponent : EntityComponent {
 
-    [SerializeField]
-    float currentHealth;
-    [SerializeField]
-    float recoveryTime;
-    [SerializeField]
-    float timeToDie;
-    [SerializeField]
-    Material damagedSkin;
+    EntityData entityData { get { return entityInformation.Data; } }
+
+    float initialHealth { get { return entityData.Health; } }
+    GlobalConstants.EntityAllegiance entityAllegiance { get { return entityInformation.Data.Allegiance; } }
+
+    float recoveryTime = 0.6f;
+    float invulnLag = 0.1f;
+    float invulnTime = 2f;
+    float timeToDie = 1.0f;
+    float timeToSinkOnDeath = 3f;
     [SerializeField]
     Material deadSkin;
     [SerializeField]
-    Material flashSkin;
+    Material damageFlashMaterial;
     [SerializeField]
-    Material darkFlashSkin;
+    Material deathFlashMaterial;
 
     [SerializeField]
-    Transform floatingDamageText;
-    [SerializeField]
-    Transform hud;
+    Transform floatingDamageTextPrefab;
     [SerializeField]
     GameObject unitHealthBarPrefab;
 
     GameObject unitHealthBarObject;
     UnitHealthBar unitHealthBar;
 
-    MeshRenderer meshRenderer;
+    Renderer[] renderers;
+    int renderersCount;
+    Material[] defaultMaterials;
     Camera mainCamera;
 
-    float currentRecoveryTimer;
-    float currentDeathTimer;
-    Material originalSkin;
-    bool isEnabled = false;
+    const string PLAYER_LAYER = "Player";
+    const string DEAD_ENTITY = "DeadEntity";
+    const string IGNORE_ALL = "IgnoreAll";
 
-    enum Allegiance { Friendly, Enemy }
-    [SerializeField]
-    Allegiance entityAllegiance = Allegiance.Enemy;
-    bool isInvulnerable = false;
-    float initialHealth;
+    float currentHealth = -1;
+    [HideInInspector]
+    public bool IsInvulnerable = false;
+    bool isDead = false;
 
     #region accessors
     public float CurrentHealth()
     {
+        if (currentHealth == -1)
+        {
+            currentHealth = initialHealth;
+        }
         return currentHealth;
     }
 
     public float InitialHealth()
     {
-        if (initialHealth == 0)
-        {
-            initialHealth = currentHealth;
-        }
         return initialHealth;
     }
     #endregion
 
+    protected override void Awake()
+    {
+        base.Awake();
+        renderers = GetComponentsInChildren<Renderer>();
+        renderersCount = renderers.Length;
+        defaultMaterials = new Material[renderersCount];
+
+        for (int i = 0; i < renderersCount; i++)
+        {
+            defaultMaterials[i] = renderers[i].material;
+        }
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        isEnabled = true;
-        initialHealth = currentHealth;
         mainCamera = Camera.main;
+        currentHealth = initialHealth;
 
+        // Instantiate attached health bar, assign values, then hide.
         if (unitHealthBar == null)
         {
             Vector3 healthBarPosition = mainCamera.WorldToScreenPoint(transform.position);
             healthBarPosition.x -= 30f;
             healthBarPosition.y -= 30f;
-            Transform unitHealthBarParent = hud.Find("Unit Health Bars");
+            Transform unitHealthBarParent = GameManager.HUD.transform.Find("Unit Health Bars");
             unitHealthBarObject = Instantiate(unitHealthBarPrefab, healthBarPosition, Quaternion.identity, unitHealthBarParent);
             unitHealthBar = unitHealthBarObject.GetComponent<UnitHealthBar>();
             unitHealthBar.attachedUnit = transform;
@@ -84,201 +95,267 @@ public class StationaryEntityHealthComponent : EntityComponent
         unitHealthBarObject.SetActive(false);
     }
 
-    protected override void Subscribe()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
+    protected override void Subscribe() {
+        entityEmitter.SubscribeToEvent(EntityEvents.Respawning, OnRespawn);
+	}
 
-        entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
-        entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
+    protected override void Unsubscribe() {
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, OnRespawn);
+	}
+
+    void OnRespawn()
+    {
+        isDead = false;
+        IsInvulnerable = false;
+        currentHealth = initialHealth;
+
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
+
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = defaultMaterials[i];
+        }           
+
+        unitHealthBar.enabled = true;
+
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        entityInformation.EntityRigidbody.useGravity = false;
+        entityInformation.EntityRigidbody.isKinematic = false;
+
+        gameObject.layer = LayerMask.NameToLayer(PLAYER_LAYER);
     }
 
-    protected override void Unsubscribe()
+    void LowerHealthAmount(float amountToLower)
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
+        currentHealth -= amountToLower;
     }
 
-    void OnInvulnerable()
+    void RaiseHealthAmount(float amountToRaise)
     {
-        isInvulnerable = true;
-    }
+        currentHealth += amountToRaise;
 
-    void OnVulnerable()
-    {
-        isInvulnerable = false;
+        if (currentHealth > initialHealth)
+        {
+            currentHealth = initialHealth;
+        }
+
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
     }
 
     public void OnCollisionEnter(Collision projectile)
     {
-        if (!isEnabled)
+        if (DoesBulletDamage(projectile.gameObject) && !IsInvulnerable) 
         {
-            return;
-        }
-        if (DoesBulletDamage(projectile.gameObject) && !isInvulnerable)
-        {
+            // Get & deal damage.
             BulletController bullet = projectile.transform.GetComponent<BulletController>();
             float damage = bullet.Strength;
-            currentHealth -= damage;
+            TakeDamage(damage);
 
-            Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
-            damageTextPosition.y += 15f;
-            Transform instantiatedDamageText = Instantiate(floatingDamageText, damageTextPosition, Quaternion.identity, hud);
-            instantiatedDamageText.GetComponent<FloatingDamageText>().DamageValue = damage;
-
-            // Expose & update attached health bar.
-            unitHealthBarObject.SetActive(true);
-            unitHealthBar.UpdateHealth(currentHealth);
-
-            isInvulnerable = true;
             if (currentHealth > 0)
             {
-                Damage(projectile);
+                RespondToDamage();
             }
             else
             {
-                Die(projectile);
+                RespondToDeath();
             }
+		}
+    }
+
+    public void ReceiveDamageDirectly(Transform damagingEntity, float damage)
+    {
+        if (IsInvulnerable)
+        {
+            return;
         }
+        TakeDamage(damage);
+
+        if (currentHealth > 0)
+        {
+            RespondToDamage();
+        }
+        else
+        {
+            RespondToDeath();
+        }
+    }
+
+    public void GetHealed(float healing)
+    {
+        RaiseHealthAmount(healing);
+
+        // Trigger floating damage text.
+        Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
+        damageTextPosition.y += 15f;
+        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        FloatingDamageText floatingDamageText = instantiatedDamageText.GetComponent<FloatingDamageText>();
+        floatingDamageText.isHealing = true;
+        floatingDamageText.DamageValue = healing;
+        floatingDamageText.attachedTransform = transform;
+
+        // Expose & update attached health bar.
+        unitHealthBarObject.SetActive(true);
+        unitHealthBar.UpdateHealth(currentHealth);
+    }
+    
+    void TakeDamage(float damage)
+    {
+        if (IsInvulnerable)
+        {
+            return;
+        }
+        damage *= entityStats.GetDamageReceivedModifier();
+        LowerHealthAmount(damage);
+
+        // Trigger floating damage text.
+        Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
+        damageTextPosition.y += 15f;
+        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        FloatingDamageText floatingDamageText = instantiatedDamageText.GetComponent<FloatingDamageText>();
+        floatingDamageText.DamageValue = damage;
+        floatingDamageText.attachedTransform = transform;
+
+        // Expose & update attached health bar.
+        unitHealthBarObject.SetActive(true);
+        unitHealthBar.UpdateHealth(currentHealth);
+
+        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
+    }
+
+    // Used to slightly delay invulnerability so blasts go through.
+    void SetInvulnerable()
+    {
+        CancelInvoke();
+        IsInvulnerable = true;
+
+        Invoke("SetVulnerable", invulnTime);
+    }
+
+    void SetVulnerable()
+    {
+        IsInvulnerable = false;
     }
 
     bool DoesBulletDamage(GameObject bullet)
     {
-        if (entityAllegiance == Allegiance.Enemy)
+        if (entityAllegiance == GlobalConstants.EntityAllegiance.Enemy)
         {
             return bullet.CompareTag("FriendlyBullet");
         }
-        else if (entityAllegiance == Allegiance.Friendly)
+        else if (entityAllegiance == GlobalConstants.EntityAllegiance.Friendly)
         {
             return bullet.CompareTag("EnemyBullet");
         }
         else
         {
-            return false;
+            return false; 
         }
     }
 
-    void Damage(Collision damagingProjectileCollision)
+    void RespondToDamage()
     {
+        GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityInjured);
         // Announce hurt; subscribe to handle timer, lerping material, etc.
-        entityEmitter.EmitEvent(EntityEvents.Stun);
+        entityEmitter.EmitEvent(EntityEvents.Hurt);
 
-        // Initialize timer from set values
-        currentRecoveryTimer = recoveryTime;
-
-        meshRenderer.material = flashSkin;
-        // Store original skin for lerping
-        originalSkin = meshRenderer.material;
-
-        StartCoroutine("DamagedProcess");
-    }
-
-    void Die(Collision killingProjectileCollision)
-    {
-        entityEmitter.EmitEvent(EntityEvents.Dead);
-
-        // Initialize timer from set values
-        currentDeathTimer = timeToDie;
-
-        meshRenderer.material = darkFlashSkin;
-        // Store original skin for lerping
-        originalSkin = meshRenderer.material;
-
-        StartCoroutine("DyingProcess");
-
-    }
-
-    IEnumerator DamagedProcess()
-    {
-        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
-        while (true)
+        for (int i = 0; i < renderersCount; i++)
         {
-            if (currentRecoveryTimer > 0f)
-            {
-                float skinTransitionCompletion = (recoveryTime - currentRecoveryTimer) / recoveryTime;
-                meshRenderer.material.Lerp(originalSkin, damagedSkin, skinTransitionCompletion);
-
-                currentRecoveryTimer -= Time.deltaTime;
-                yield return new WaitForFixedUpdate();
-            }
-            else
-            {
-                meshRenderer.material = damagedSkin;
-                entityEmitter.EmitEvent(EntityEvents.Unstun);
-                isInvulnerable = false;
-                yield break;
-            }
-        }
-    }
-
-    IEnumerator DyingProcess()
-    {
-        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
-        while (true)
-        {
-            if (currentDeathTimer > 0f)
-            {
-                float skinTransitionCompletion = (timeToDie - currentDeathTimer) / timeToDie;
-                skinTransitionCompletion = Mathf.Sqrt(skinTransitionCompletion);
-                meshRenderer.material.Lerp(originalSkin, deadSkin, skinTransitionCompletion);
-
-                currentDeathTimer -= Time.deltaTime;
-                yield return new WaitForFixedUpdate();
-            }
-            else
-            {
-                meshRenderer.material = deadSkin;
-                entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.None;
-                entityInformation.EntityRigidbody.detectCollisions = false;
-                entityInformation.EntityRigidbody.drag = 10f;
-                entityInformation.EntityRigidbody.freezeRotation = true;
-                entityInformation.EntityRigidbody.AddForce(new Vector3(0f, -100, 0f), ForceMode.Impulse);
-                if (transform.position.y <= -4f)
-                {
-                    UnityEngine.Object.Destroy(gameObject);
-                }
-                yield return null;
-            }
+            renderers[i].material = damageFlashMaterial;
         }
 
+        StartCoroutine("HandleDamage");
     }
 
-    IEnumerator Flash()
+    void RespondToDeath()
     {
-        bool hasFlashed = false;
-        Material originalMaterial = meshRenderer.material;
-        while (true)
+        isDead = true;
+        GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityDead);
+		entityEmitter.EmitEvent(EntityEvents.Dead);
+
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        if (agent != false)
         {
-            if (!hasFlashed)
-            {
-                meshRenderer.material = flashSkin;
-                hasFlashed = true;
-                yield return new WaitForSeconds(0.02f);
-            }
-            else
-            {
-                meshRenderer.material = originalMaterial;
-                yield break;
-            }
+            agent.enabled = false;
         }
+
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = deathFlashMaterial;
+
+        }
+
+        StartCoroutine("HandleDeath");
+
     }
 
-    IEnumerator DarkFlash()
+    IEnumerator HandleDamage()
     {
-        bool hasFlashed = false;
-        Material originalMaterial = meshRenderer.material;
-        while (true)
+        float recoveredTime = Time.time + recoveryTime;
+
+        while (Time.time < recoveredTime)
         {
-            if (!hasFlashed)
-            {
-                meshRenderer.material = darkFlashSkin;
-                hasFlashed = true;
-                yield return new WaitForSeconds(0.05f);
-            }
-            else
-            {
-                meshRenderer.material = originalMaterial;
-                yield break;
-            }
+            yield return null;
         }
+
+        if (!isDead)
+        {
+            // Once entity has recovered, disable physics and resume action.
+            for (int i = 0; i < renderersCount; i++)
+            {
+                renderers[i].material = defaultMaterials[i];
+            }
+            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        }
+
+        yield break;
     }
+
+    IEnumerator HandleDeath()
+    {
+        float deathTransitionCompletionTime = Time.time + timeToDie;
+
+        while (Time.time < deathTransitionCompletionTime)
+        {
+            float skinTransitionCompletion = (deathTransitionCompletionTime - Time.time) / timeToDie;
+            skinTransitionCompletion = 1 - skinTransitionCompletion;
+            for (int i = 0; i < renderersCount; i++)
+            {
+                renderers[i].material.Lerp(deathFlashMaterial, deadSkin, skinTransitionCompletion);
+            }
+            yield return null;
+        }
+
+           
+        unitHealthBar.enabled = false;
+        for (int i = 0; i < renderersCount; i++)
+        {
+            renderers[i].material = deadSkin;
+        }
+        entityEmitter.isMuted = true;
+
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        entityInformation.EntityRigidbody.isKinematic = true;
+        entityInformation.EntityRigidbody.useGravity = false;
+
+        gameObject.layer = LayerMask.NameToLayer(IGNORE_ALL);
+
+        Vector3 startingPosition = transform.position;
+        Vector3 destinationPosition = startingPosition;
+        destinationPosition.y -= entityInformation.EntityCollider.bounds.size.y;
+        float timeSunk = Time.time + timeToSinkOnDeath;
+
+        while (Time.time < timeSunk)
+        {
+            float sinkingCompletion = (timeSunk - Time.time) / timeToSinkOnDeath;
+            sinkingCompletion = 1 - sinkingCompletion;
+
+            Vector3 newPosition = Vector3.Lerp(startingPosition, destinationPosition, sinkingCompletion);
+            transform.position = newPosition;
+
+            yield return null;
+        }
+
+        yield break;
+    }
+    
 }
