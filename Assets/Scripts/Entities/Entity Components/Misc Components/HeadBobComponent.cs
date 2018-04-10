@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class HeadBobComponent : EntityComponent {
 
+    [SerializeField]
     Transform head;
-
-    protected override void Awake()
-    {
-        head = transform.Find("Firer");
-    }
 
     protected override void Subscribe()
     {
