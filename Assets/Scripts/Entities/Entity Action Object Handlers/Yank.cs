@@ -23,7 +23,7 @@ public class Yank : MonoBehaviour {
 
     public bool IsFracturing = false;
     float fractureBulletFactor = 0.75f;
-    float fractureArcRange = 30f;
+    float arcRange = 30f;
 
     bool IsNullifying = false;
     NullifyHardware nullifyHardware;
@@ -154,8 +154,9 @@ public class Yank : MonoBehaviour {
 
         for (int i = 0; i < bulletChildren.Length; i++)
         {
-            bulletChildren[i].Launch(fireDirection);
-            bulletChildren[i].SetHoming();
+            BulletController bulletChild = bulletChildren[i];
+            bulletChild.SetHoming();
+            ApplyArcNoiseAndLaunch(bulletChild, fireDirection);
         }
 
         Destroy(gameObject);
@@ -181,11 +182,8 @@ public class Yank : MonoBehaviour {
         {
             BulletController bulletChild = bulletChildren[i];
 
-            float arcNoise = Random.Range(-fractureArcRange, fractureArcRange);
-            Vector3 newDirection = VectorUtilities.RotatePointAroundPivot(fireDirection, Vector3.zero, arcNoise);
-
-            bulletChild.Launch(newDirection);
             bulletChild.SetStrength(bulletChild.Strength * fractureBulletFactor);
+            ApplyArcNoiseAndLaunch(bulletChild, fireDirection);
         }
 
         Destroy(gameObject);
@@ -198,11 +196,20 @@ public class Yank : MonoBehaviour {
         for (int i = 0; i < bulletChildren.Length; i++)
         {
             BulletController bulletChild = bulletChildren[i];
-            bulletChild.Launch(fireDirection);
             nullifyHardware.SpawnBulletNullification(bulletChild.gameObject);
+
+            ApplyArcNoiseAndLaunch(bulletChild, fireDirection);
         }
 
         Destroy(gameObject);
+    }
+
+    void ApplyArcNoiseAndLaunch(BulletController bullet, Vector3 fireDirection)
+    {
+        float arcNoise = Random.Range(-arcRange, arcRange);
+        Vector3 newDirection = VectorUtilities.RotatePointAroundPivot(fireDirection, Vector3.zero, arcNoise);
+
+        bullet.Launch(newDirection);
     }
 
     private void OnTriggerEnter(Collider other)

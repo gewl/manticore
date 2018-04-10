@@ -10,7 +10,9 @@ public class MobileEntityHealthComponent : EntityComponent {
     GlobalConstants.EntityAllegiance entityAllegiance { get { return entityInformation.Data.Allegiance; } }
     bool isPlayer { get { return entityInformation.Data.isPlayer; } }
 
-    float recoveryTime = 0.3f;
+    float recoveryTime = 0.6f;
+    float invulnLag = 0.1f;
+    float invulnTime = 2f;
     float timeToDie = 1.0f;
     float timeToSinkOnDeath = 3f;
     [SerializeField]
@@ -94,27 +96,13 @@ public class MobileEntityHealthComponent : EntityComponent {
     }
 
     protected override void Subscribe() {
-        entityEmitter.SubscribeToEvent(EntityEvents.Invulnerable, OnInvulnerable);
-        entityEmitter.SubscribeToEvent(EntityEvents.Vulnerable, OnVulnerable);
         entityEmitter.SubscribeToEvent(EntityEvents.Respawning, OnRespawn);
 	}
 
     protected override void Unsubscribe() {
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Invulnerable, OnInvulnerable);
-		entityEmitter.UnsubscribeFromEvent(EntityEvents.Vulnerable, OnVulnerable);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, OnRespawn);
 	}
 
-    void OnInvulnerable()
-    {
-        IsInvulnerable = true; 
-    }
-
-    void OnVulnerable()
-    {
-        IsInvulnerable = false; 
-    }
-    
     void OnRespawn()
     {
         isDead = false;
@@ -194,6 +182,10 @@ public class MobileEntityHealthComponent : EntityComponent {
 
     public void ReceiveDamageDirectly(Transform damagingEntity, float damage)
     {
+        if (IsInvulnerable)
+        {
+            return;
+        }
         TakeDamage(damage);
 
         if (currentHealth > 0)
@@ -226,6 +218,10 @@ public class MobileEntityHealthComponent : EntityComponent {
     
     void TakeDamage(float damage)
     {
+        if (IsInvulnerable)
+        {
+            return;
+        }
         damage *= entityStats.GetDamageReceivedModifier();
         LowerHealthAmount(damage);
 
@@ -244,7 +240,7 @@ public class MobileEntityHealthComponent : EntityComponent {
         // Player becomes invulnerable on damage
         if (isPlayer)
         {
-            Invoke("SetInvulnerable", recoveryTime - 0.1f);
+            Invoke("SetInvulnerable", invulnLag);
             GameManager.ShakeScreen();
         }
         entityEmitter.EmitEvent(EntityEvents.HealthChanged);
@@ -255,6 +251,13 @@ public class MobileEntityHealthComponent : EntityComponent {
     {
         CancelInvoke();
         IsInvulnerable = true;
+
+        Invoke("SetVulnerable", invulnTime);
+    }
+
+    void SetVulnerable()
+    {
+        IsInvulnerable = false;
     }
 
     bool DoesBulletDamage(GameObject bullet)
@@ -374,12 +377,6 @@ public class MobileEntityHealthComponent : EntityComponent {
                 renderers[i].material = defaultMaterials[i];
             }
             entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-
-            // Revert invulnerable-on-damage
-            if (isPlayer)
-            {
-                IsInvulnerable = false;
-            }
         }
 
         yield break;
