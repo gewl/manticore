@@ -19,10 +19,21 @@ public class Yank : MonoBehaviour {
     Vector3[] cachedPlayerPositions;
     int currentPlayerPositionIndex = 0;
 
-    // Passive hardware values.
+    #region Passive hardware values.
+
     public bool IsFracturing = false;
     float fractureBulletFactor = 0.75f;
     float fractureArcRange = 30f;
+
+    bool IsNullifying = false;
+    NullifyHardware nullifyHardware;
+    public void SetNullifying(NullifyHardware _nullifyHardware)
+    {
+        IsNullifying = true;
+        nullifyHardware = _nullifyHardware;
+    }
+
+    #endregion
 
     public void PassReferenceToHardware(YankHardware _yankHardware)
     {
@@ -87,6 +98,10 @@ public class Yank : MonoBehaviour {
                 if (IsFracturing)
                 {
                     FireAndDestroy_Fracture(fireDirection);
+                }
+                else if (IsNullifying)
+                {
+                    FireAndDestroy_Nullify(fireDirection);
                 }
                 else
                 {
@@ -171,6 +186,20 @@ public class Yank : MonoBehaviour {
 
             bulletChild.Launch(newDirection);
             bulletChild.SetStrength(bulletChild.Strength * fractureBulletFactor);
+        }
+
+        Destroy(gameObject);
+    }
+
+    void FireAndDestroy_Nullify(Vector3 fireDirection)
+    {
+        BulletController[] bulletChildren = transform.GetComponentsInChildren<BulletController>();
+
+        for (int i = 0; i < bulletChildren.Length; i++)
+        {
+            BulletController bulletChild = bulletChildren[i];
+            bulletChild.Launch(fireDirection);
+            nullifyHardware.SpawnBulletNullification(bulletChild.gameObject);
         }
 
         Destroy(gameObject);

@@ -148,7 +148,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         switch (activeHardwareType)
         {
             case HardwareType.Parry:
-                StartCoroutine(ApplyPassiveHardware_Parry(subject));
+                StartCoroutine(ApplyNullifyToBullet(subject));
                 break;
             case HardwareType.Blink:
                 StartCoroutine(ApplyPassiveHardware_Blink(activeHardware, subject));
@@ -157,14 +157,17 @@ public class NullifyHardware : MonoBehaviour, IHardware {
                 Debug.LogError("Trying to apply Nullify passive effect to Nullify active hardware.");
                 break;
             case HardwareType.Fracture:
-                StartCoroutine(ApplyPassiveHardware_Fracture(activeHardware, subject));
+                StartCoroutine(ApplyNullifyToBullet(subject));
+                break;
+            case HardwareType.Yank:
+                ApplyPassiveHardware_Yank(subject);
                 break;
             default:
                 break;
         }
     }
 
-    IEnumerator ApplyPassiveHardware_Parry(GameObject bullet)
+    IEnumerator ApplyNullifyToBullet(GameObject bullet)
     {
         GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, bullet.transform.position, Quaternion.identity, bullet.transform);
 
@@ -201,56 +204,14 @@ public class NullifyHardware : MonoBehaviour, IHardware {
         yield return null;
     }
 
-    IEnumerator ApplyPassiveHardware_Fracture(IHardware activeHardware, GameObject fracturedBullet)
+    void ApplyPassiveHardware_Yank(GameObject yankProjectile)
     {
-        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, fracturedBullet.transform.position, Quaternion.identity, fracturedBullet.transform);
-
-        Vector3 originalSize = spawnedNullification.transform.localScale;
-        Vector3 targetSize = new Vector3(BulletNullifyRadius, 1f, BulletNullifyRadius);
-
-        float timeElapsed = 0.0f;
-        while (timeElapsed < TimeToExpandParryPassiveEffect)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float percentageComplete = timeElapsed / TimeToExpandParryPassiveEffect;
-            float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
-
-            spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
-            yield return null;
-        }
-
-        yield break;
+        yankProjectile.GetComponent<Yank>().SetNullifying(this);
     }
-     
-    IEnumerator ApplyPassiveHardware_Riposte(IHardware activeHardware, GameObject target)
+
+    public void SpawnBulletNullification(GameObject bullet)
     {
-        Vector3 targetRotationEuler = target.transform.rotation.eulerAngles;
-        Vector3 projectedRotationEuler = targetRotationEuler;
-        projectedRotationEuler.y += 90f;
-        GameObject spawnedNullification = Instantiate(NullifyProjectEffect, target.transform.position, Quaternion.Euler(projectedRotationEuler));
-
-        Vector3 originalSize = spawnedNullification.transform.localScale;
-        Vector3 targetSize = new Vector3(10f, originalSize.y, 2f);
-
-        float timeElapsed = 0.0f;
-        while (timeElapsed < TimeToExpandRipostePassiveEffect)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float percentageComplete = timeElapsed / TimeToExpandRipostePassiveEffect;
-            float curveEval = GameManager.NullifyEffectCurve.Evaluate(percentageComplete);
-
-            spawnedNullification.transform.localScale = Vector3.Lerp(originalSize, targetSize, curveEval);
-            spawnedNullification.transform.position = target.transform.position;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(hangTimeOnCompletion);
-
-        Destroy(spawnedNullification);
-
-        yield break;
+        StartCoroutine(ApplyNullifyToBullet(bullet));
     }
 
     #endregion
