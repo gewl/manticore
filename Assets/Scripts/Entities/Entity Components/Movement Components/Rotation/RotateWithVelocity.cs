@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RotateWithVelocity : EntityComponent {
 
-    Rigidbody entityRigidbody;
-    [SerializeField]
+    NavMeshAgent navMeshAgent;
     bool isSmoothing = true;
     [SerializeField]
     int velocitiesToCache = 5;
@@ -16,7 +16,7 @@ public class RotateWithVelocity : EntityComponent {
     protected override void Awake()
     {
         base.Awake();
-        entityRigidbody = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         cachedVelocities = new Vector3[velocitiesToCache];
 
         for (int i = 0; i < cachedVelocities.Length; i++)
@@ -37,21 +37,21 @@ public class RotateWithVelocity : EntityComponent {
 
     void OnFixedUpdate()
     {
-        if (entityRigidbody.velocity.sqrMagnitude >= 0.1f)
+        if (navMeshAgent.velocity.sqrMagnitude >= 0.1f)
         {
             if (isSmoothing)
             {
-                transform.rotation = Quaternion.LookRotation(smoothVelocity(entityRigidbody.velocity));
+                transform.rotation = Quaternion.LookRotation(SmoothVelocity(navMeshAgent.velocity));
             }
             else
             {
-                Quaternion nextRotation = Quaternion.LookRotation(entityRigidbody.velocity);
+                Quaternion nextRotation = Quaternion.LookRotation(navMeshAgent.velocity);
                 transform.rotation = nextRotation;
             }
         }
     }
 
-    Vector3 smoothVelocity(Vector3 mostRecentVelocity)
+    Vector3 SmoothVelocity(Vector3 mostRecentVelocity)
     {
         cachedVelocities[nextUpdateSlot++] = mostRecentVelocity;
 
