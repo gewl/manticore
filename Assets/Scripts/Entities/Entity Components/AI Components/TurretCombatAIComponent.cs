@@ -167,10 +167,9 @@ public class TurretCombatAIComponent : EntityComponent {
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
-        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-        float firerFacingAngle = headBone.localRotation.eulerAngles.y - 180f;
+        Vector3 headFacingDirection = headBone.forward;
 
-        float angleBetweenFirerAndTarget = (angleToTarget - Mathf.Abs(firerFacingAngle));
+        float angleBetweenFirerAndTarget = Vector3.Angle(directionToTarget, headFacingDirection);
 
         if (Mathf.Abs(angleBetweenFirerAndTarget) <= ArcOfFire && IsInRange(currentTarget))
         {

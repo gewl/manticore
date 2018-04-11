@@ -148,6 +148,9 @@ public class BulletController : MonoBehaviour {
         }
 
         firer = _firer;
+
+        Physics.IgnoreCollision(GetComponent<Collider>(), firer.GetComponent<Collider>());
+
         speed = _speed;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
@@ -258,10 +261,11 @@ public class BulletController : MonoBehaviour {
         GameManager.JoltScreen(BulletRigidbody.velocity);
         StopAllCoroutines();
         
+        SetFriendly();
+
         Strength = newStrength;
         target = firer;
         firer = newFirer;
-        SetFriendly();
         if (targetPosition == Vector3.zero)
         {
             targetPosition = target.position; 
@@ -322,6 +326,8 @@ public class BulletController : MonoBehaviour {
 
     public void SetFriendly()
     {
+        Physics.IgnoreCollision(GetComponent<Collider>(), firer.GetComponent<Collider>(), false);
+
         gameObject.layer = FriendlyBulletLayer;
         gameObject.tag = FRIENDLY_BULLET;
 
