@@ -69,9 +69,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
             RaycastHit hit;
             if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y * 2f, allButTerrainMask, QueryTriggerInteraction.Ignore))
             {
-                Vector3 newPosition = hit.point;
-                newPosition.y += entityBounds.extents.y;
-                transform.position = newPosition;
+                transform.position = hit.point;
                 return;
             }
         }
