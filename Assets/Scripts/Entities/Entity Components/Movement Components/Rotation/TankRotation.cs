@@ -144,37 +144,39 @@ public class TankRotation : EntityComponent {
             return;
         }
 
-        float angleToTarget = 0f;
-        Vector3 currentForward = transform.forward;
-        angleToTarget = AngleSigned(currentForward, currentTarget.position - transform.position, Vector3.up);
+        headBone.transform.LookAt(currentTarget);
 
-        angleToTarget += 180f;
+        //float angleToTarget = 0f;
+        //Vector3 currentForward = transform.forward;
+        //angleToTarget = AngleSigned(currentForward, currentTarget.position - transform.position, Vector3.up);
 
-        Vector3 currentRotation = transform.rotation.eulerAngles;
+        //angleToTarget += 180f;
 
-        float str = Mathf.Min(RotationStrength * Time.deltaTime, 1f);
+        //Vector3 currentRotation = transform.rotation.eulerAngles;
 
-        // Without this, the head's rotation always takes "the long way around" when the
-        // target passes behind the entity containing this component.
-        if (Mathf.Abs(lastCachedHeadAngle - angleToTarget) > 180f)
-        {
-            if (lastCachedHeadAngle > 180f)
-            {
-                lastCachedHeadAngle -= 360f;
-            } 
-            else
-            {
-                angleToTarget -= 360f;
-            }
-        }
+        //float str = Mathf.Min(RotationStrength * Time.deltaTime, 1f);
 
-        float updatedZAngle = Mathf.Lerp(lastCachedHeadAngle, angleToTarget, str);
+        //// Without this, the head's rotation always takes "the long way around" when the
+        //// target passes behind the entity containing this component.
+        //if (Mathf.Abs(lastCachedHeadAngle - angleToTarget) > 180f)
+        //{
+        //    if (lastCachedHeadAngle > 180f)
+        //    {
+        //        lastCachedHeadAngle -= 360f;
+        //    } 
+        //    else
+        //    {
+        //        angleToTarget -= 360f;
+        //    }
+        //}
 
-        lastCachedHeadAngle = updatedZAngle;
+        //float updatedZAngle = Mathf.Lerp(lastCachedHeadAngle, angleToTarget, str);
 
-        // TODO: Hardcoded values here to deal w/ weirdness across Unity/Blender axis systems;
-        // could see this causing problems w/ different coordinate paradigms in the future.
-        headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedZAngle + 90f);
+        //lastCachedHeadAngle = updatedZAngle;
+
+        //// TODO: Hardcoded values here to deal w/ weirdness across Unity/Blender axis systems;
+        //// could see this causing problems w/ different coordinate paradigms in the future.
+        //headBone.rotation = Quaternion.Euler(currentRotation.x - 90f, currentRotation.y - 90f, updatedZAngle + 90f);
     }
 
     // TODO: Put this in math lib
