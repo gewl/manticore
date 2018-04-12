@@ -19,6 +19,16 @@ ModelImporter:
     100022: Torso
     100024: UpperArm_L
     100026: UpperArm_R
+    100028: Calf_L
+    100030: Calf_R
+    100032: Foot_L
+    100034: Foot_R
+    100036: Hoof_L
+    100038: Hoof_R
+    100040: Pelvis
+    100042: Root
+    100044: UpperLeg_L
+    100046: UpperLeg_R
     400000: //RootNode
     400002: Cylinder
     400004: Cylinder_001
@@ -33,6 +43,16 @@ ModelImporter:
     400022: Torso
     400024: UpperArm_L
     400026: UpperArm_R
+    400028: Calf_L
+    400030: Calf_R
+    400032: Foot_L
+    400034: Foot_R
+    400036: Hoof_L
+    400038: Hoof_R
+    400040: Pelvis
+    400042: Root
+    400044: UpperLeg_L
+    400046: UpperLeg_R
     2100000: unnamed
     2300000: //RootNode
     2300002: Cylinder
