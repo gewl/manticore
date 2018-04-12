@@ -29,6 +29,13 @@ ModelImporter:
     100042: Root
     100044: Bone
     100046: Bone_001
+    100048: Beak_0
+    100050: Beak_1
+    100052: Beak_2
+    100054: Beak_3
+    100056: Beak_4
+    100058: Armature_001
+    100060: Beak_5
     400000: //RootNode
     400002: Arm_1_L
     400004: Arm_1_R
@@ -53,6 +60,13 @@ ModelImporter:
     400042: Root
     400044: Bone
     400046: Bone_001
+    400048: Beak_0
+    400050: Beak_1
+    400052: Beak_2
+    400054: Beak_3
+    400056: Beak_4
+    400058: Armature_001
+    400060: Beak_5
     2100000: unnamed
     2100002: Material
     2100004: Material__ShooterBot_DefaultTex
