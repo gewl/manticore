@@ -34,6 +34,12 @@ ModelImporter:
     100052: Root
     100054: ShooterBot
     100056: //RootNode
+    100058: Beak.0
+    100060: Beak.1
+    100062: Beak.2
+    100064: Beak.3
+    100066: Beak.4
+    100068: Beak.4_end
     400000: Arm_1.L
     400002: Arm_1.R
     400004: Arm_2.L
@@ -63,6 +69,12 @@ ModelImporter:
     400052: Root
     400054: ShooterBot
     400056: //RootNode
+    400058: Beak.0
+    400060: Beak.1
+    400062: Beak.2
+    400064: Beak.3
+    400066: Beak.4
+    400068: Beak.4_end
     2100000: Material
     2300000: Firer
     2300002: Head
