@@ -69,21 +69,19 @@ public class StandardFirer : EntityComponent {
 
     protected override void Subscribe()
     {
-        entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.SubscribeToEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.TargetUpdated, OnTargetUpdated);
     }
 
     #region EntityEvent handlers
 
-    void OnPrimaryFire()
+    public void FireProjectile()
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         FireProjectile(currentTarget);
