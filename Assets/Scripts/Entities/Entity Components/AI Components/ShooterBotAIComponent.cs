@@ -231,7 +231,7 @@ public class ShooterBotAIComponent : EntityComponent {
 
             float movementPause = UnityEngine.Random.Range(minCombatPause, maxCombatPause);
             reachedDestination = true;
-            Invoke("GenerateCombatMovementPosition", movementPause);
+            //Invoke("GenerateCombatMovementPosition", movementPause);
         }
     }
 
@@ -243,12 +243,9 @@ public class ShooterBotAIComponent : EntityComponent {
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
         Vector3 directionToTarget = currentTarget.position - transform.position;
-        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-        float firerFacingAngle = headBone.localRotation.eulerAngles.y - 180f;
+        float angleToTarget = Vector3.Angle(headBone.forward, directionToTarget);
 
-        float angleBetweenFirerAndTarget = (angleToTarget - Mathf.Abs(firerFacingAngle));
-
-        if (Mathf.Abs(angleBetweenFirerAndTarget) <= ArcOfFire && IsInRange(currentTarget))
+        if (Mathf.Abs(angleToTarget) <= ArcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
             timeElapsedSinceLastFire = FireCooldown;
