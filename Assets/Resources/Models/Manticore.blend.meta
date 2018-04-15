@@ -48,6 +48,7 @@ ModelImporter:
     7400000: Default Take
     7400002: 0_IdleCycle
     7400004: 0_ManticoreIdleCycle
+    7400006: 1_ManticoreRunCycle
     9500000: //RootNode
     13700000: Manticore
   externalObjects: {}
