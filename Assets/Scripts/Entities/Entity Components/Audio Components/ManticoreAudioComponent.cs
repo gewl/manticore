@@ -36,6 +36,12 @@ public class ManticoreAudioComponent : EntityComponent
     public void PlayGearSound(HardwareType gear)
     {
         AudioClip gearClip = activeHardwareSounds[gear];
+
+        if (gearClip == null)
+        {
+            return;
+        }
+
         audioSource.clip = gearClip;
         audioSource.Play();
     }

@@ -45,7 +45,8 @@ public class BlinkHardware : EntityComponent, IHardware
     [SerializeField]
     LayerMask terrainLayerMask;
 
-	MeshRenderer entityMeshRenderer;
+    [SerializeField]
+	SkinnedMeshRenderer entityMeshRenderer;
     TrailRenderer trailRenderer;
     ManticoreInputComponent inputComponent;
     EntityGearManagement gear;
@@ -75,7 +76,6 @@ public class BlinkHardware : EntityComponent, IHardware
 
     override protected void Subscribe()
     {
-        entityMeshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
 
         entityEmitter.SubscribeToEvent(EntityEvents.Available, Unlock);

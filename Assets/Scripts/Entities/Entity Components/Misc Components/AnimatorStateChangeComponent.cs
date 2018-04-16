@@ -49,7 +49,11 @@ public class AnimatorStateChangeComponent : EntityComponent {
         if (AnimatorContainsParameter(IS_MOVING) && !animator.GetBool(IS_MOVING))
         {
             animator.SetBool(IS_MOVING, true);
-            entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+
+            if (agent != null)
+            {
+                entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+            }
         }   
     }
 
@@ -58,7 +62,11 @@ public class AnimatorStateChangeComponent : EntityComponent {
         if (AnimatorContainsParameter(IS_MOVING) && animator.GetBool(IS_MOVING))
         {
             animator.SetBool(IS_MOVING, false);
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+
+            if (agent != null)
+            {
+                entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+            }
         }   
     }
 
