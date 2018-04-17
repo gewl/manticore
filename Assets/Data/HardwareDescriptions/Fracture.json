@@ -1,9 +1,9 @@
 {
   "BaseDescription": "A brutish, powerful technique invented by the Humeys. Effective, but a little...overt.",
   "GeneralPassiveDescription": "general riposte passive debug description",
-  "Parry":  "Parry active, riposte passive debug desc",
+  "Parry": "Parry active, riposte passive debug desc",
   "Blink": "Blink active, riposte passive debug desc",
-  "Fracture":  "Fracture active debug description",
-  "Nullify":  "Nullify active, riposte passive debug desc",
-  "Yank":  "Yank active, fracture passive debug desc"
+  "Fracture": "Fracture active debug description",
+  "Nullify": "Nullify active, riposte passive debug desc",
+  "Yank": "Yank active, fracture passive debug desc"
 }

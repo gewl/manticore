@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour {
         }
     }
     [SerializeField]
-    TooltipController tooltip;
+    InformationTextController informationText;
 
     void EnterMenu(GameObject menu)
     {
@@ -101,15 +101,13 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    public void ActivateTooltip(string header, string body)
+    public void PopulateInformationText(string header, string body)
     {
-        tooltip.gameObject.SetActive(true);
-
-        tooltip.UpdateText(header, body);
+        informationText.UpdateText(header, body);
     }
 
-    public void DeactivateTooltip()
+    public void DepopulateInformationText()
     {
-        tooltip.gameObject.SetActive(false);
+        informationText.ClearText();
     }
 }

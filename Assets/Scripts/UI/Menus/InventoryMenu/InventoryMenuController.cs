@@ -30,7 +30,7 @@ public class InventoryMenuController : MonoBehaviour {
     // then cast int back to whichever enum is being dragged?
     public void BeginDragging(Sprite image, HardwareType hardwareType, Type hardwareSubtype)
     {
-        menuManager.DeactivateTooltip();
+        menuManager.DepopulateInformationText();
 
         draggingHardwareType = hardwareType;
         draggingHardwareSubtype = hardwareSubtype;
@@ -60,12 +60,12 @@ public class InventoryMenuController : MonoBehaviour {
     public void HardwareInventoryMenu_PointerEnter(HardwareType hardwareType)
     {
         string hardwareDescription = MasterSerializer.GetGeneralHardwareDescription(hardwareType);
-        menuManager.ActivateTooltip(hardwareType.ToString(), hardwareDescription);
+        menuManager.PopulateInformationText(hardwareType.ToString(), hardwareDescription);
     }
 
     public void DeactivateTooltip()
     {
-        menuManager.DeactivateTooltip();
+        menuManager.DepopulateInformationText();
     }
 
     public void GenerateActiveHardwareTooltip(int activeHardwareSlot)
@@ -81,7 +81,7 @@ public class InventoryMenuController : MonoBehaviour {
         }
 
         string hardwareDescription = MasterSerializer.GetSpecificHardwareDescription(hardwareType, hardwareType);
-        menuManager.ActivateTooltip(hardwareType.ToString(), hardwareDescription);
+        menuManager.PopulateInformationText(hardwareType.ToString(), hardwareDescription);
     }
 
     public void GeneratePassiveHardwareTooltip(int passiveHardwareSlot)
@@ -95,7 +95,7 @@ public class InventoryMenuController : MonoBehaviour {
         }
 
         string hardwareDescription = MasterSerializer.GetSpecificHardwareDescription(hardwareType, activeHardwareType);
-        menuManager.ActivateTooltip(hardwareType.ToString(), hardwareDescription);
+        menuManager.PopulateInformationText(hardwareType.ToString(), hardwareDescription);
     }
 
     public void EquipDraggedActiveHardware(int slot)
