@@ -99,6 +99,10 @@ public class HardwareInventoryMenuController : MonoBehaviour {
     {
         return (data) =>
         {
+            if (InventoryController.Inventory.EquippedActiveHardware.Contains(hardwareType) || InventoryController.Inventory.EquippedPassiveHardware.Contains(hardwareType))
+            {
+                return;
+            }
             inventoryMenuController.BeginDragging(image, hardwareType, hardwareSubtype);
         };
     }
@@ -109,7 +113,7 @@ public class HardwareInventoryMenuController : MonoBehaviour {
         {
             inventoryMenuController.EndDrag();
         };
-    }
+}
 
     UnityAction<BaseEventData> GenerateInventoryButtonListener_PointerEnter(HardwareType hardwareType)
     {
@@ -136,12 +140,10 @@ public class HardwareInventoryMenuController : MonoBehaviour {
             if (inventory.EquippedActiveHardware.Contains(hardwareType) || inventory.EquippedPassiveHardware.Contains(hardwareType))
             {
                 hardwareInventoryImages[i].color = Color.grey;
-                hardwareInventoryEventTriggers[i].enabled = false;
             }
             else
             {
                 hardwareInventoryImages[i].color = Color.white;
-                hardwareInventoryEventTriggers[i].enabled = true;
             }
         }
     }

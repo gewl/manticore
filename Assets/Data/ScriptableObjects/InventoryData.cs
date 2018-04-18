@@ -37,11 +37,23 @@ public class InventoryData {
             }
         }
 
+        foreach (var value in Enum.GetValues(typeof(RenewableTypes)))
+        {
+            RenewableTypes renewableType = (RenewableTypes)value;
+            if (renewableType != RenewableTypes.None)
+            {
+                ObtainedRenewables[renewableType] = false;
+            }
+        }
+
         ObtainHardwareType(HardwareType.Parry);
         ObtainHardwareType(HardwareType.Blink);
         ObtainHardwareType(HardwareType.Fracture);
         ObtainHardwareType(HardwareType.Nullify);
         ObtainHardwareType(HardwareType.Yank);
+
+        ObtainRenewableType(RenewableTypes.NoetherFrictionConverter);
+        ObtainRenewableType(RenewableTypes.GravesandeImpulseAdapter);
 
         EquippedActiveHardware = new HardwareType[4]
         {

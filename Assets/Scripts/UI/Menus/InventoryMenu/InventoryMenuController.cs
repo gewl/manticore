@@ -4,14 +4,21 @@ using UnityEngine.UI;
 
 public class InventoryMenuController : MonoBehaviour {
 
-    public delegate void MenuEventListener(HardwareType hardwareType);
-    public MenuEventListener OnDraggingElement;
-    public MenuEventListener OnStopDraggingElement;
+    public delegate void HardwareMenuEventListener(HardwareType hardwareType);
+    public HardwareMenuEventListener OnDraggingHardware;
+    public HardwareMenuEventListener OnStopDraggingHardware;
+
+    public delegate void RenewableMenuEventListener(RenewableTypes renewableType);
+    public RenewableMenuEventListener OnDraggingRenewable;
+    public RenewableMenuEventListener OnStopDraggingRenewable;
 
     MenuManager menuManager;
 
+    GearTypes currentDraggingType;
     HardwareType draggingHardwareType;
     Type draggingHardwareSubtype;
+
+    RenewableTypes draggingRenewableType;
 
     [SerializeField]
     Image draggingImage;
@@ -32,6 +39,7 @@ public class InventoryMenuController : MonoBehaviour {
     {
         menuManager.DepopulateInformationText();
 
+        currentDraggingType = GearTypes.Hardware;
         draggingHardwareType = hardwareType;
         draggingHardwareSubtype = hardwareSubtype;
 
@@ -39,28 +47,68 @@ public class InventoryMenuController : MonoBehaviour {
         draggingImage.preserveAspect = true;
         draggingImage.gameObject.SetActive(true);
 
-        OnDraggingElement(draggingHardwareType);
+        OnDraggingHardware(draggingHardwareType);
+    }
+
+    public void BeginDragging(Sprite image, RenewableTypes renewableType)
+    {
+        menuManager.DepopulateInformationText();
+
+        currentDraggingType = GearTypes.Renewable;
+        draggingRenewableType = renewableType;
+
+        draggingImage.sprite = image;
+        draggingImage.preserveAspect = true;
+        draggingImage.gameObject.SetActive(true);
+
+        OnDraggingHardware(draggingHardwareType);
     }
 
     public void EndDrag()
     {
-        // TODO: This will need to be fixed to work with other draggable inventory items.
-        if (draggingHardwareType == HardwareType.None)
+        if (currentDraggingType == GearTypes.Hardware)
         {
-            return;
+            if (draggingHardwareType == HardwareType.None)
+            {
+                return;
+            }
+
+            draggingImage.gameObject.SetActive(false);
+            if (OnStopDraggingHardware != null)
+            {
+                OnStopDraggingHardware(draggingHardwareType);
+            }
+
+            draggingHardwareType = HardwareType.None;
+            draggingHardwareSubtype = null;
         }
+        else if (currentDraggingType == GearTypes.Renewable)
+        {
+            if (draggingRenewableType == RenewableTypes.None)
+            {
+                return;
+            }
 
-        draggingImage.gameObject.SetActive(false);
-        OnStopDraggingElement(draggingHardwareType);
+            draggingImage.gameObject.SetActive(false);
+            if (OnStopDraggingRenewable != null)
+            {
+                OnStopDraggingRenewable(draggingRenewableType);
+            }
 
-        draggingHardwareType = HardwareType.None;
-        draggingHardwareSubtype = null;
+            draggingRenewableType = RenewableTypes.None;
+        }
     }
 
     public void HardwareInventoryMenu_PointerEnter(HardwareType hardwareType)
     {
         string hardwareDescription = MasterSerializer.GetGeneralHardwareDescription(hardwareType);
         menuManager.PopulateInformationText(hardwareType.ToString(), hardwareDescription);
+    }
+
+    public void RenewableInventoryMenu_PointerEnter(RenewableTypes renewableType)
+    {
+        string renewableDescription = MasterSerializer.GetRenewableDescription(renewableType);
+        menuManager.PopulateInformationText(renewableType.ToString(), renewableDescription);
     }
 
     public void DeactivateTooltip()
@@ -100,7 +148,7 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void EquipDraggedActiveHardware(int slot)
     {
-        if (draggingHardwareType == HardwareType.None)
+        if (currentDraggingType != GearTypes.Hardware || draggingHardwareType == HardwareType.None)
         {
             return;
         }
@@ -110,11 +158,22 @@ public class InventoryMenuController : MonoBehaviour {
 
     public void EquipDraggedPassiveHardware(int slot)
     {
-        if (draggingHardwareType == HardwareType.None)
+        if (currentDraggingType != GearTypes.Hardware || draggingHardwareType == HardwareType.None)
         {
             return;
         }
         InventoryController.EquipPassiveHardware(slot, draggingHardwareType);
+        EndDrag();
+    }
+
+    public void EquipDraggedRenewable()
+    {
+        if (currentDraggingType != GearTypes.Renewable || draggingRenewableType == RenewableTypes.None)
+        {
+            return;
+        }
+
+        InventoryController.EquipRenewable(draggingRenewableType);
         EndDrag();
     }
 }

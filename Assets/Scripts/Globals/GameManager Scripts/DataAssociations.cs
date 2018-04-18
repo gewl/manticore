@@ -15,9 +15,17 @@ public class DataAssociations : SerializedMonoBehaviour {
 
     [OdinSerialize]
     Dictionary<HardwareType, Sprite> hardwareTypeToBubImageMap;
+    [OdinSerialize]
+    Dictionary<RenewableTypes, Sprite> renewableTypeToBubImageMap;
+
     public static Sprite GetHardwareTypeBubImage(HardwareType hardwareType)
     {
         return instance.hardwareTypeToBubImageMap[hardwareType];
+    }
+
+    public static Sprite GetRenewableTypeBubImage(RenewableTypes renewableType)
+    {
+        return instance.renewableTypeToBubImageMap[renewableType];
     }
 
 }

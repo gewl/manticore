@@ -61,6 +61,17 @@ public class InventoryController {
     {
         return Inventory.ObtainedHardware[hardwareType];
     }
+        
+    public static void DiscoverRenewable(RenewableTypes renewableType)
+    {
+        Inventory.ObtainRenewableType(renewableType);
+        OnInventoryUpdated(Inventory);
+    }
+
+    public static bool HasDiscoveredRenewable(RenewableTypes renewableType)
+    {
+        return Inventory.ObtainedRenewables[renewableType];
+    }
 
     public static HardwareType[] GetEquippedActiveHardware()
     {
@@ -107,6 +118,11 @@ public class InventoryController {
         Inventory.EquippedPassiveHardware[slot] = HardwareType.None;
 
         OnInventoryUpdated(Inventory);
+    }
+
+    public static void EquipRenewable(RenewableTypes renewable)
+    {
+        Inventory.EquippedRenewable = renewable;
     }
 
     #endregion

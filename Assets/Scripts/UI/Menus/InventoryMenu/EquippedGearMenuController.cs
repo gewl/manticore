@@ -50,15 +50,15 @@ public class EquippedGearMenuController : MonoBehaviour {
         UpdateEquippedGear(InventoryController.Inventory);
 
         InventoryController.OnInventoryUpdated += UpdateEquippedGear;
-        inventoryMenuController.OnDraggingElement += FlagInvalidDropBubs;
-        inventoryMenuController.OnStopDraggingElement += UnflagInvalidDropBubs;
+        inventoryMenuController.OnDraggingHardware += FlagInvalidDropBubs;
+        inventoryMenuController.OnStopDraggingHardware += UnflagInvalidDropBubs;
     }
 
     private void OnDisable()
     {
         InventoryController.OnInventoryUpdated -= UpdateEquippedGear;
-        inventoryMenuController.OnDraggingElement -= FlagInvalidDropBubs;
-        inventoryMenuController.OnStopDraggingElement -= UnflagInvalidDropBubs;
+        inventoryMenuController.OnDraggingHardware -= FlagInvalidDropBubs;
+        inventoryMenuController.OnStopDraggingHardware -= UnflagInvalidDropBubs;
     }
 
     void FlagInvalidDropBubs(HardwareType hardwareType)
@@ -180,10 +180,7 @@ public class EquippedGearMenuController : MonoBehaviour {
     {
         return (data) =>
         {
-            //if (isActiveHardware == lastTooltipWasActive && slot == lastTooltipSlot)
-            //{
-                inventoryMenuController.DeactivateTooltip();
-            //}
+            inventoryMenuController.DeactivateTooltip();
         };
     }
 

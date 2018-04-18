@@ -12,15 +12,18 @@ public class MasterSerializer : MonoBehaviour {
 
     static string DATA_DIRECTORY_PATH { get { return Application.dataPath + "/Data"; } }
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
+    static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/RenewableDescriptions"; } }
     static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/DialogueText"; } }
 
     static string DIALOGUE_OBJECT_SUFFIX = "_Dialogue";
 
     static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
+    static Dictionary<RenewableTypes, JSONObject> renewableTypeToDescriptionsMap;
 
     private void Awake()
     {
         hardwareTypeToDescriptionsMap = new Dictionary<HardwareType, JSONObject>();
+        renewableTypeToDescriptionsMap = new Dictionary<RenewableTypes, JSONObject>();
     }
 
     private void OnEnable()
@@ -136,11 +139,36 @@ public class MasterSerializer : MonoBehaviour {
         return hardwareDescription;
     }
 
+    public static string GetRenewableDescription(RenewableTypes renewableType)
+    {
+        if (!renewableTypeToDescriptionsMap.ContainsKey(renewableType))
+        {
+            renewableTypeToDescriptionsMap[renewableType] = RetrieveDescriptionsObject(renewableType);
+        }
+        JSONObject renewableDescriptionObject = renewableTypeToDescriptionsMap[renewableType];
+        string renewableDescription = renewableDescriptionObject["Body"].str;
+
+        if (renewableDescription == null)
+        {
+            renewableDescription = "Renewable description not found";
+            Debug.LogError(renewableDescription);
+        }
+
+        return renewableDescription;
+    }
+
     static JSONObject RetrieveDescriptionsObject(HardwareType hardwareType)
     {
         string hardwareDescriptionsObjectString = File.ReadAllText(HARDWARE_DESCRIPTIONS_DIRECTORY_PATH + "/" + hardwareType.ToString() + ".json");
         JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsObjectString);
         return hardwareDescriptionsObject;
+    }
+
+    static JSONObject RetrieveDescriptionsObject(RenewableTypes renewableType)
+    {
+        string renewableDescriptionObjectString = File.ReadAllText(RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH + "/" + renewableType.ToString() + ".json");
+        JSONObject renewableDescriptionObject = new JSONObject(renewableDescriptionObjectString);
+        return renewableDescriptionObject;
     }
     #endregion        
 
