@@ -31,6 +31,9 @@ public class EntityGearManagement : MonoBehaviour {
     public delegate void PassActiveHardware(ref IHardware[] activeHardware);
     public PassActiveHardware activeHardwareUpdated;
 
+    public delegate void PassActiveRenewable(ref IRenewable activeRenewable);
+    public PassActiveRenewable activeRenewableUpdated;
+
     private void Awake()
     {
         InitializeGear();
@@ -141,6 +144,7 @@ public class EntityGearManagement : MonoBehaviour {
         if (inventory.EquippedRenewable != RenewableTypes.None)
         {
             GenerateRenewable(inventory.EquippedRenewable);
+            activeRenewableUpdated(ref equippedRenewable);
         }
     }
 

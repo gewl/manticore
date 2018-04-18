@@ -82,7 +82,6 @@ public class EquippedRenewableController : MonoBehaviour {
     {
         return (data) =>
         {
-            Debug.Log("pointer entered renewable");
             inventoryMenuController.RenewableInventoryMenu_PointerEnter(InventoryController.Inventory.EquippedRenewable);
         };
     }
