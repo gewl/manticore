@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.PostProcessing;
+using UnityEngine.Rendering.PostProcessing;
 
 public class CameraController : MonoBehaviour {
 
-    PostProcessingProfile currentProfile;
-    PostProcessingBehaviour postProcessingBehaviour;
-
+    PostProcessProfile defaultProfile;
     [SerializeField]
-    PostProcessingProfile pauseProfile;
+    PostProcessProfile pauseProfile;
+
+    PostProcessVolume sceneVolume;
+    const string SCENE_VOLUME_TAG = "ScenePostProcessingVolume";
+
     [SerializeField]
     float yDistance = 21f;
     [SerializeField]
@@ -32,12 +34,14 @@ public class CameraController : MonoBehaviour {
 
     void Start()
     {
-        postProcessingBehaviour = GetComponent<PostProcessingBehaviour>();
         mainCamera = Camera.main;
         if (followEntity == null)
         {
             followEntity = GameManager.GetPlayerTransform();
         }
+
+        sceneVolume = GameObject.FindGameObjectWithTag(SCENE_VOLUME_TAG).GetComponent<PostProcessVolume>();
+        defaultProfile = sceneVolume.profile;
     }
 
     void Update()
@@ -69,14 +73,12 @@ public class CameraController : MonoBehaviour {
 
     public void ApplyPauseFilter()
     {
-        currentProfile = postProcessingBehaviour.profile;
-
-        postProcessingBehaviour.profile = pauseProfile;
+        sceneVolume.profile = pauseProfile;
     }
 
     public void RevertToOriginalProfile()
     {
-        postProcessingBehaviour.profile = currentProfile;
+        sceneVolume.profile = defaultProfile;
     }
 
     // ShakeScreen is for aimless juddering.
