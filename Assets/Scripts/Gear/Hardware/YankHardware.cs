@@ -30,7 +30,8 @@ public class YankHardware : MonoBehaviour, IHardware {
     private bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
     float percentOfCooldownRemaining = 0.0f;
-    public CooldownDelegate CooldownUpdater { get; set; }
+    public CooldownDelegate CooldownPercentUpdater { get; set; }
+    public CooldownDelegate CooldownDurationUpdater { get; set; }
 
     const string YANK_PROJECTILE_PATH = "Prefabs/Abilities/YankProjectile";
     GameObject _yankProjectile;
@@ -63,7 +64,7 @@ public class YankHardware : MonoBehaviour, IHardware {
     {
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(GoOnCooldown());
-        Vector3 instantiationPosition = transform.position + (transform.forward);
+        Vector3 instantiationPosition = transform.position + transform.forward + (transform.up * 2f);
         GameObject newYankProjectile = Instantiate(YankProjectile, instantiationPosition, transform.rotation);
 
         gear.ApplyPassiveHardware(typeof(YankHardware), newYankProjectile);
@@ -76,24 +77,34 @@ public class YankHardware : MonoBehaviour, IHardware {
 
     IEnumerator GoOnCooldown()
     {
-        float timeElapsed = 0.0f;
-        isOnCooldown = true;
+        float timeOffCooldown = Time.time + YankCooldown;
 
-        while (timeElapsed < YankCooldown)
+        while (Time.time < timeOffCooldown)
         {
-            timeElapsed += Time.deltaTime;
-            percentOfCooldownRemaining = 1 - (timeElapsed / YankCooldown);
-            if (CooldownUpdater != null)
+            float cooldownRemaining = timeOffCooldown - Time.time;
+            percentOfCooldownRemaining = 1 - cooldownRemaining / YankCooldown;
+
+            if (CooldownDurationUpdater != null)
             {
-                CooldownUpdater(percentOfCooldownRemaining);
+                CooldownDurationUpdater(cooldownRemaining);
+            }
+
+            if (CooldownPercentUpdater != null)
+            {
+                CooldownPercentUpdater(percentOfCooldownRemaining);
             }
             yield return null;
         }
 
         percentOfCooldownRemaining = 0.0f;
-        if (CooldownUpdater != null)
+        if (CooldownDurationUpdater != null)
         {
-            CooldownUpdater(percentOfCooldownRemaining);
+            CooldownDurationUpdater(percentOfCooldownRemaining);
+        }
+
+        if (CooldownPercentUpdater != null)
+        {
+            CooldownPercentUpdater(percentOfCooldownRemaining);
         }
         isOnCooldown = false;
     }

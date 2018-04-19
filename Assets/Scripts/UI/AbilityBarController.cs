@@ -13,6 +13,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
     RectTransform[] abilityBubs;
     Image[] abilityBubImages;
     Image[] cooldownOverlays;
+    Text[] cooldownTexts;
 
     GameObject[] abilityMomentumCounters;
     Text[] abilityMomentumCounterTextElements;
@@ -24,6 +25,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
     int[] displayedMomentumValues;
 
     const string COOLDOWN_OVERLAY = "CooldownOverlay";
+    const string COOLDOWN_TEXT = "CooldownText";
     const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
     const string ASSIGN_MOMENTUM_BUTTON = "AssignMomentumButton";
 
@@ -56,6 +58,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
     {
         abilityBubImages = new Image[4];
         cooldownOverlays = new Image[4];
+        cooldownTexts = new Text[4];
         abilityMomentumCounters = new GameObject[4];
         abilityMomentumCounterTextElements = new Text[4];
         assignMomentumButtons = new Button[4];
@@ -69,6 +72,10 @@ public class AbilityBarController : SerializedMonoBehaviour {
             Image cooldownOverlay = abilityBub.Find(COOLDOWN_OVERLAY).GetComponent<Image>();
             cooldownOverlays[i] = cooldownOverlay;
             cooldownOverlay.enabled = false;
+
+            Text cooldownText = abilityBub.Find(COOLDOWN_TEXT).GetComponent<Text>();
+            cooldownTexts[i] = cooldownText;
+            cooldownText.enabled = false;
 
             GameObject abilityMomentumCounter = abilityBub.Find(ABILITY_MOMENTUM_COUNTER).gameObject;
             abilityMomentumCounters[i] = abilityMomentumCounter;
@@ -136,11 +143,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
         {
             cooldownOverlays[0].enabled = true;
         }
-        Vector3 newScale = new Vector3(1f, percentageCooldownRemaining, 1f);
+        Vector3 newScale = new Vector3(1f, 1f - percentageCooldownRemaining, 1f);
         cooldownOverlays[0].rectTransform.localScale = newScale;
     }
 
-    CooldownDelegate GenerateCooldownUpdater(int abilityIndex)
+    CooldownDelegate GenerateCooldownPercentUpdater(int abilityIndex)
     {
         return (percentageCooldownRemaining) =>
         {
@@ -153,8 +160,28 @@ public class AbilityBarController : SerializedMonoBehaviour {
             {
                 cooldownOverlays[abilityIndex].enabled = true;
             }
-            Vector3 newScale = new Vector3(1f, percentageCooldownRemaining, 1f);
+            Vector3 newScale = new Vector3(1f, 1f - percentageCooldownRemaining, 1f);
             cooldownOverlays[abilityIndex].rectTransform.localScale = newScale;
+        };
+    }
+
+    CooldownDelegate GenerateCooldownDurationUpdater(int abilityIndex)
+    {
+        return (durationCooldownRemaining) =>
+        {
+            Text cooldownText = cooldownTexts[abilityIndex];
+            if (durationCooldownRemaining == 0.0f)
+            {
+                cooldownText.enabled = false;
+                return;
+            }
+
+            if (cooldownText.enabled == false)
+            {
+                cooldownText.enabled = true;
+            }
+            float readoutNumber = (float)Math.Round((double)durationCooldownRemaining, 1);
+            cooldownText.text = readoutNumber.ToString();
         };
     }
 
@@ -184,8 +211,11 @@ public class AbilityBarController : SerializedMonoBehaviour {
                 abilityBubImages[i].sprite = activeHardwareBubSprite;
                 abilityMomentumCounters[i].SetActive(true);
 
-                activeHardware.CooldownUpdater = null;
-                activeHardware.CooldownUpdater += GenerateCooldownUpdater(i);
+                activeHardware.CooldownPercentUpdater = null;
+                activeHardware.CooldownPercentUpdater += GenerateCooldownPercentUpdater(i);
+
+                activeHardware.CooldownDurationUpdater = null;
+                activeHardware.CooldownDurationUpdater += GenerateCooldownDurationUpdater(i);
             }
         }
     }

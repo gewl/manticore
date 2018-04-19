@@ -57,7 +57,8 @@ public class BlinkHardware : EntityComponent, IHardware
 
     float BlinkCooldown { get { return subtypeData.GetCooldown(BlinkMomentum); } }
     float percentOfCooldownRemaining = 1.0f;
-    public CooldownDelegate CooldownUpdater { get; set; }
+    public CooldownDelegate CooldownPercentUpdater { get; set; }
+    public CooldownDelegate CooldownDurationUpdater { get; set; }
 
     bool canBlink = true;
 
@@ -120,18 +121,29 @@ public class BlinkHardware : EntityComponent, IHardware
 
         while (Time.time < timeOffCooldown)
         {
-            percentOfCooldownRemaining = 1 - (timeOffCooldown - Time.time) / BlinkCooldown;
-            if (CooldownUpdater != null)
+            float cooldownRemaining = timeOffCooldown - Time.time;
+            percentOfCooldownRemaining = 1 - cooldownRemaining / BlinkCooldown;
+
+            if (CooldownDurationUpdater != null)
             {
-                CooldownUpdater(percentOfCooldownRemaining);
+                CooldownDurationUpdater(cooldownRemaining);
+            }
+
+            if (CooldownPercentUpdater != null)
+            {
+                CooldownPercentUpdater(percentOfCooldownRemaining);
             }
             yield return null;
         }
 
         percentOfCooldownRemaining = 0.0f;
-        if (CooldownUpdater != null)
+        if (CooldownDurationUpdater != null)
         {
-            CooldownUpdater(percentOfCooldownRemaining);
+            CooldownDurationUpdater(percentOfCooldownRemaining);
+        }
+        if (CooldownPercentUpdater != null)
+        {
+            CooldownPercentUpdater(percentOfCooldownRemaining);
         }
         isOnCooldown = false;
     }

@@ -24,7 +24,7 @@ public abstract class FractureHardwareData : HardwareData {
 
     public virtual float GetTravelTime(int currentMomentum)
     {
-        return BaseTravelTime - (TravelTimeMomentumModifier * currentMomentum);
+        return BaseTravelTime + (TravelTimeMomentumModifier * currentMomentum);
     }
 
     protected abstract float BaseLingerTime { get; }

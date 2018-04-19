@@ -7,8 +7,8 @@ public class Fracture : MonoBehaviour
     FractureHardware fractureHardware;
     Rigidbody fractureRigidbody;
 
-    public float TimeToStop;
-    public float TimeToDestroy;
+    public float TimeToStop = 10f;
+    public float TimeToDestroy = 10f;
 
     float timeElapsed = 0.0f;
     bool hasStopped = false;
@@ -71,6 +71,7 @@ public class Fracture : MonoBehaviour
     {
         if (collision.gameObject.layer == terrainLayer)
         {
+            Debug.Log("hit terrain");
             Stop();
             return;
         }

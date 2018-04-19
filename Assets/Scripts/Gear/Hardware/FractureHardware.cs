@@ -38,10 +38,11 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
     bool isOnCooldown = false;
     float FractureCooldown { get { return subtypeData.GetCooldown(FractureMomentum); } }
-    float percentageOfCooldownRemaining = 0.0f;
+    float percentOfCooldownRemaining = 0.0f;
     public bool IsOnCooldown { get { return isOnCooldown; } }
 
-    public CooldownDelegate CooldownUpdater { get; set; }
+    public CooldownDelegate CooldownPercentUpdater { get; set; }
+    public CooldownDelegate CooldownDurationUpdater { get; set; }
 
     const string FRACTURE_PROJECTILE_PATH = "Prefabs/Abilities/FractureProjectile";
     GameObject _fractureProjectile;
@@ -69,18 +70,30 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
         while (Time.time < timeOffCooldown)
         {
-            percentageOfCooldownRemaining = 1 - (timeOffCooldown - Time.time) / FractureCooldown;
-            if (CooldownUpdater != null)
+            float cooldownRemaining = timeOffCooldown - Time.time;
+            percentOfCooldownRemaining = 1 - cooldownRemaining / FractureCooldown;
+
+            if (CooldownDurationUpdater != null)
             {
-                CooldownUpdater(percentageOfCooldownRemaining);
+                CooldownDurationUpdater(cooldownRemaining);
+            }
+
+            if (CooldownPercentUpdater != null)
+            {
+                CooldownPercentUpdater(percentOfCooldownRemaining);
             }
             yield return null;
         }
 
-        percentageOfCooldownRemaining = 0.0f;
-        if (CooldownUpdater != null)
+        percentOfCooldownRemaining = 0.0f;
+        if (CooldownDurationUpdater != null)
         {
-            CooldownUpdater(percentageOfCooldownRemaining);
+            CooldownDurationUpdater(percentOfCooldownRemaining);
+        }
+
+        if (CooldownPercentUpdater != null)
+        {
+            CooldownPercentUpdater(percentOfCooldownRemaining);
         }
         isOnCooldown = false;
     }
@@ -93,7 +106,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
     IEnumerator FireFractureProjectile()
     {
         yield return new WaitForSeconds(0.1f);
-        Vector3 instantiationPosition = transform.position + (transform.forward);
+        Vector3 instantiationPosition = transform.position + transform.forward + (transform.up * 2f);
         GameObject newFractureProjectile = GameObject.Instantiate(FractureProjectile, instantiationPosition, transform.rotation);
         newFractureProjectile.GetComponent<Rigidbody>().velocity = transform.forward * 30.0f;
 

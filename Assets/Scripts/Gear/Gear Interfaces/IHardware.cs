@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void CooldownDelegate(float percentageCooldownRemaining);
+public delegate void CooldownDelegate(float cooldownRemaining);
 
 public interface IHardware
 {
@@ -10,7 +10,8 @@ public interface IHardware
 
     bool IsInUse { get; }
     bool IsOnCooldown { get; }
-    CooldownDelegate CooldownUpdater { get; set; }
+    CooldownDelegate CooldownPercentUpdater { get; set; }
+    CooldownDelegate CooldownDurationUpdater { get; set; }
 
     HardwareType Type { get; }
     HardwareUseType HardwareUseType { get; }
