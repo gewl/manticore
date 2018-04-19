@@ -116,6 +116,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
         fractureController.TimeToDestroy = TravelTime + LingerTime;
 
         GameManager.JoltScreen(-transform.forward, 0.8f);
+        StartCoroutine(GoOnCooldown());
     }
 
     public void FractureBullet(Vector3 impactPoint, Vector3 impactNormal, bool isActiveHardware = true)
