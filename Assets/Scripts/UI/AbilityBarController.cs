@@ -160,8 +160,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
             {
                 cooldownOverlays[abilityIndex].enabled = true;
             }
-            Vector3 newScale = new Vector3(1f, 1f - percentageCooldownRemaining, 1f);
-            cooldownOverlays[abilityIndex].rectTransform.localScale = newScale;
+            cooldownOverlays[abilityIndex].fillAmount = 1f - percentageCooldownRemaining;
         };
     }
 
