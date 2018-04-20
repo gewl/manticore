@@ -192,6 +192,8 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     {
         generator = DialogueBubbleText.cachedTextGenerator;
         Vector2 clickPosition = DialogueBubbleText.transform.worldToLocalMatrix.MultiplyPoint(eventData.position);
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(DialogueBubbleText.rectTransform, eventData.position, Camera.main, out localPoint);
 
         for (int i = 0; i < _clickableTerms.Count; i++)
         {

@@ -90,7 +90,7 @@ public class Yank : MonoBehaviour {
         }
         else 
         {
-            Vector3 playerPosition = GameManager.GetPlayerPosition();
+            Vector3 playerPosition = GameManager.GetPlayerPosition() + (GameManager.GetPlayerTransform().up * 2f);
             if (timeElapsed >= returnTime)
             {
                 Vector3 fireDirection = playerPosition - destinationPosition;

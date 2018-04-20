@@ -5,6 +5,8 @@ public class DialogueMenuController : MonoBehaviour {
 
     MenuManager menuManager;
 
+    const int dialogueBubbleMatrixWidth = 4;
+
     const string ENTRY_NAME = "_entry";
     const string TEXT_NAME = "TEXT";
     const string CLICKABLE_TERMS_NAME = "CLICKABLE_TERMS";
@@ -44,9 +46,9 @@ public class DialogueMenuController : MonoBehaviour {
     {
         oldestToYoungestBubbles = new List<DialogueBubbleController>();
         // Turn first bubble on and all others off.
-        for (int y = 0; y < 3; y++)
+        for (int y = 0; y < dialogueBubbleMatrixWidth; y++)
         {
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < dialogueBubbleMatrixWidth; x++)
             {
                 if (x == 0 && y == 0)
                 {
@@ -70,14 +72,14 @@ public class DialogueMenuController : MonoBehaviour {
     #region bubble position management
     void InitializeBubbleMatrix()
     {
-        dialogueBubbleMatrix = new DialogueBubbleController[3,3];
+        dialogueBubbleMatrix = new DialogueBubbleController[dialogueBubbleMatrixWidth, dialogueBubbleMatrixWidth];
         DialogueBubbleController[] bubbleList = GetComponentsInChildren<DialogueBubbleController>(true);
 
-        for (int yCoord = 0; yCoord < 3; yCoord++)
+        for (int yCoord = 0; yCoord < dialogueBubbleMatrixWidth; yCoord++)
         {
-            int startingPoint = yCoord * 3;
+            int startingPoint = yCoord * dialogueBubbleMatrixWidth;
 
-            for (int xCoord = 0; xCoord < 3; xCoord++)
+            for (int xCoord = 0; xCoord < dialogueBubbleMatrixWidth; xCoord++)
             {
                 dialogueBubbleMatrix[xCoord, yCoord] = bubbleList[startingPoint + xCoord];
             }
@@ -267,9 +269,9 @@ public class DialogueMenuController : MonoBehaviour {
 
         DialogueBubbleController oldestBubble = oldestToYoungestBubbles[oldestBubbleIndex];
 
-        for (int y = 0; y < 3; y++)
+        for (int y = 0; y < dialogueBubbleMatrixWidth; y++)
         {
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < dialogueBubbleMatrixWidth; x++)
             {
                 if (dialogueBubbleMatrix[x, y] == oldestBubble)
                 {
@@ -322,7 +324,7 @@ public class DialogueMenuController : MonoBehaviour {
 
     bool IsPositionValid(int xCoord, int yCoord)
     {
-        if (xCoord >= 0 && yCoord >= 0 && xCoord < 3 && yCoord < 3)
+        if (xCoord >= 0 && yCoord >= 0 && xCoord < dialogueBubbleMatrixWidth && yCoord < dialogueBubbleMatrixWidth)
         {
             return true;
         }

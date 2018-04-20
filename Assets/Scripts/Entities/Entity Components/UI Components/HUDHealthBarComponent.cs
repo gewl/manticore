@@ -35,7 +35,7 @@ public class HUDHealthBarComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.HealthChanged, OnHealthChanged);
         
         totalHealth = GameManager.GetPlayerInitialHealth();
-        barWidth = totalHealth;
+        barWidth = totalHealth * 2f;
 
         healthBarBackground = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
         damageBar = healthBarContainer.transform.GetChild(1).GetComponent<Image>();
@@ -43,7 +43,7 @@ public class HUDHealthBarComponent : EntityComponent {
 
         barHeight = healthBar.rectTransform.sizeDelta.y;
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 6.5f, barHeight + 5f);
+        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 11f, barHeight + 10f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         healthBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;

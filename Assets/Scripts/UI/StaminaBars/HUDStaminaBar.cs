@@ -50,7 +50,7 @@ public class HUDStaminaBar : StaminaBar {
 
         barWidth = totalStamina;
 
-        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 5.5f, barHeight + 4f);
+        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 11f, barHeight + 10f);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
         staminaBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;

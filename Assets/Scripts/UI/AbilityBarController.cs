@@ -9,6 +9,8 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     bool applicationQuitting = false;
 
+    const string MOMENTUM_COUNTER_PATH = "Sprites/MomentumCounters/MomentumCounter_";
+
     [SerializeField]
     RectTransform[] abilityBubs;
     Image[] abilityBubImages;
@@ -16,7 +18,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
     Text[] cooldownTexts;
 
     GameObject[] abilityMomentumCounters;
-    Text[] abilityMomentumCounterTextElements;
 
     Button[] assignMomentumButtons;
 
@@ -60,7 +61,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
         cooldownOverlays = new Image[4];
         cooldownTexts = new Text[4];
         abilityMomentumCounters = new GameObject[4];
-        abilityMomentumCounterTextElements = new Text[4];
         assignMomentumButtons = new Button[4];
 
         displayedMomentumValues = new int[4];
@@ -79,8 +79,6 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
             GameObject abilityMomentumCounter = abilityBub.Find(ABILITY_MOMENTUM_COUNTER).gameObject;
             abilityMomentumCounters[i] = abilityMomentumCounter;
-            Text abilityMomentumCounterText = abilityMomentumCounter.GetComponentInChildren<Text>();
-            abilityMomentumCounterTextElements[i] = abilityMomentumCounterText;
 
             Button assignMomentumButton = abilityBub.Find(ASSIGN_MOMENTUM_BUTTON).GetComponent<Button>();
             assignMomentumButtons[i] = assignMomentumButton;
@@ -257,9 +255,12 @@ public class AbilityBarController : SerializedMonoBehaviour {
                 if (newMomentumValue != displayedMomentumValues[i])
                 {
                     Color flashColor = newMomentumValue > displayedMomentumValues[i] ? momentumIncreasedFlashColor : momentumDecreasedFlashColor;
-                    abilityMomentumCounterTextElements[i].text = newMomentumValue.ToString();
 
-                    StartCoroutine(FlashAbilityMomentumCounter(abilityMomentumCounters[i].GetComponent<Image>(), flashColor));
+                    Image momentumCounterImage = abilityMomentumCounters[i].GetComponent<Image>();
+                    Sprite counterSprite = Resources.Load<Sprite>(MOMENTUM_COUNTER_PATH + newMomentumValue.ToString());
+                    momentumCounterImage.sprite = counterSprite;
+
+                    StartCoroutine(FlashAbilityMomentumCounter(momentumCounterImage, flashColor));
 
                     displayedMomentumValues[i] = newMomentumValue;
                 }
