@@ -9,7 +9,6 @@ public class HUDHealthBarComponent : EntityComponent {
     [SerializeField]
     Image healthBarContainer;
 
-    Image healthBarBackground;
     Image healthBar;
     Image damageBar;
 
@@ -28,24 +27,25 @@ public class HUDHealthBarComponent : EntityComponent {
     float totalHealth;
     float barHeight;
     float barWidth = 0f;
+    float barContainerHeight;
     bool isAdjustingDamageBar = false;
 
     protected override void Subscribe()
     {
+        barContainerHeight = healthBarContainer.rectTransform.rect.height;
+
         entityEmitter.SubscribeToEvent(EntityEvents.HealthChanged, OnHealthChanged);
         
         totalHealth = GameManager.GetPlayerInitialHealth();
-        barWidth = totalHealth * 2f;
+        barWidth = totalHealth * 4f;
 
-        healthBarBackground = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
-        damageBar = healthBarContainer.transform.GetChild(1).GetComponent<Image>();
-        healthBar = healthBarContainer.transform.GetChild(2).GetComponent<Image>();
+        damageBar = healthBarContainer.transform.GetChild(0).GetComponent<Image>();
+        healthBar = healthBarContainer.transform.GetChild(1).GetComponent<Image>();
 
         barHeight = healthBar.rectTransform.sizeDelta.y;
 
-        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 11f, barHeight + 10f);
+        healthBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 30f, barContainerHeight);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
-        healthBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
         healthBar.rectTransform.sizeDelta = startingBarSize;
     }

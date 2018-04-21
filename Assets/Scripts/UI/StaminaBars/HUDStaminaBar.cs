@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class HUDStaminaBar : StaminaBar {
 
-    [SerializeField]
     Image staminaBarContainer;
-    [SerializeField]
-    Image staminaBarBackground;
     [SerializeField]
     Image staminaBar;
 
@@ -24,12 +21,16 @@ public class HUDStaminaBar : StaminaBar {
     float totalStamina;
     float barHeight;
     float barWidth = 0f;
+    float barContainerHeight;
     bool isAdjustingDamageBar = false;
 
     private void Awake()
     {
+        staminaBarContainer = GetComponent<Image>();
         manticoreStaminaComponent = GameManager.GetPlayerTransform().GetComponent<EntityStaminaComponent>();
         barHeight = staminaBar.rectTransform.sizeDelta.y;
+
+        barContainerHeight = staminaBarContainer.rectTransform.rect.height;
     }
 
     private void OnEnable()
@@ -48,11 +49,10 @@ public class HUDStaminaBar : StaminaBar {
     {
         totalStamina = newTotalStamina;
 
-        barWidth = totalStamina;
+        barWidth = totalStamina * 2f;
 
-        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 11f, barHeight + 10f);
+        staminaBarContainer.rectTransform.sizeDelta = new Vector2(barWidth + 30f, barContainerHeight);
         Vector2 startingBarSize = new Vector2(barWidth, barHeight);
-        staminaBarBackground.rectTransform.sizeDelta = startingBarSize;
         damageBar.rectTransform.sizeDelta = startingBarSize;
         staminaBar.rectTransform.sizeDelta = startingBarSize;
     }
