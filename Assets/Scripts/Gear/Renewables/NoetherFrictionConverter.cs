@@ -19,7 +19,8 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
 
     float percentOfCooldownRemaining = 0.0f;
     float percentOfDurationRemaining = 0.0f;
-    public CooldownDelegate CooldownUpdater { get; set; }
+    public CooldownDelegate CooldownPercentUpdater { get; set; }
+    public CooldownDelegate CooldownDurationUpdater { get; set; }
     public DurationDelegate DurationUpdater { get; set; }
 
     protected override void Subscribe()
@@ -53,10 +54,11 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
         {
             cooldownRemaining -= Time.deltaTime;
 
-            if (CooldownUpdater != null)
+            if (CooldownPercentUpdater != null)
             {
                 float percentOfCooldownRemaining = cooldownRemaining / cooldown;
-                CooldownUpdater(percentOfCooldownRemaining);
+                CooldownPercentUpdater(percentOfCooldownRemaining);
+                CooldownDurationUpdater(cooldownRemaining);
             }
         }
         if (isActive && durationRemaining > 0.0f)

@@ -1,14 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ActiveRenewableController : MonoBehaviour {
 
     const string COOLDOWN_OVERLAY = "CooldownOverlay";
+    const string COOLDOWN_TEXT = "CooldownText";
+    const string IN_USE_OVERLAY = "InUseOverlay";
 
     Image renewableBubImage;
     Image cooldownOverlay;
+    Image inUseOverlay;
+
+    Text cooldownText;
 
     EntityGearManagement _manticoreGear;
     EntityGearManagement ManticoreGear
@@ -31,6 +35,12 @@ public class ActiveRenewableController : MonoBehaviour {
         ManticoreGear.activeRenewableUpdated += UpdateRenewable;
         cooldownOverlay = transform.Find(COOLDOWN_OVERLAY).GetComponent<Image>();
         cooldownOverlay.fillAmount = 0.0f;
+
+        cooldownText = transform.Find(COOLDOWN_TEXT).GetComponent<Text>();
+        cooldownText.enabled = false;
+
+        inUseOverlay = transform.Find(IN_USE_OVERLAY).GetComponent<Image>();
+        inUseOverlay.enabled = false;
     }
 
     private void OnDestroy()
@@ -45,15 +55,59 @@ public class ActiveRenewableController : MonoBehaviour {
 
         renewableBubImage.sprite = activeHardwareBubSprite;
 
-        activeRenewable.CooldownUpdater = null;
-        activeRenewable.CooldownUpdater += GenerateCooldownUpdater();
+        activeRenewable.DurationUpdater = null;
+        activeRenewable.DurationUpdater += GeneratePercentDurationUpdater();
+
+        activeRenewable.CooldownPercentUpdater = null;
+        activeRenewable.CooldownPercentUpdater += GenerateCooldownPercentUpdater();
+
+        activeRenewable.CooldownDurationUpdater = null;
+        activeRenewable.CooldownDurationUpdater += GenerateCooldownDurationUpdater();
     }
 
-    CooldownDelegate GenerateCooldownUpdater()
+    DurationDelegate GeneratePercentDurationUpdater()
+    {
+        return (percentOfDurationRemaining) =>
+        {
+            if (percentOfDurationRemaining == 0.0f)
+            {
+                inUseOverlay.enabled = false;
+                return;
+            }
+
+            if (inUseOverlay.enabled == false)
+            {
+                inUseOverlay.enabled = true;
+            }
+
+            inUseOverlay.rectTransform.sizeDelta = new Vector2(renewableBubImage.rectTransform.sizeDelta.x, renewableBubImage.rectTransform.sizeDelta.y * percentOfDurationRemaining);
+        };
+    }
+
+    CooldownDelegate GenerateCooldownPercentUpdater()
     {
         return (percentOfCooldownRemaining) =>
         {
             cooldownOverlay.fillAmount = percentOfCooldownRemaining;
+        };
+    }
+
+    CooldownDelegate GenerateCooldownDurationUpdater()
+    {
+        return (durationOfCooldownRemaining) =>
+        {
+            if (durationOfCooldownRemaining == 0.0f)
+            {
+                cooldownText.enabled = false;
+                return;
+            }
+
+            if (cooldownText.enabled == false)
+            {
+                cooldownText.enabled = true;
+            }
+            float readoutNumber = (float)Math.Round((double)durationOfCooldownRemaining, 1);
+            cooldownText.text = readoutNumber.ToString();
         };
     }
 }

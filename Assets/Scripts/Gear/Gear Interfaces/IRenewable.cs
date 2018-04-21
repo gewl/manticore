@@ -4,7 +4,8 @@ public interface IRenewable
 {
     RenewableTypes Type { get; }
 
-    CooldownDelegate CooldownUpdater { get; set; }
+    CooldownDelegate CooldownPercentUpdater { get; set; }
+    CooldownDelegate CooldownDurationUpdater { get; set; }
     DurationDelegate DurationUpdater { get; set; }
 
     void UseRenewable();
