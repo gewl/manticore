@@ -93,6 +93,13 @@ public class EntityStaminaComponent : EntityComponent {
         {
             TotalStaminaUpdated(adjustedMaximumStamina);
         }
+
+        currentStamina = adjustedMaximumStamina;
+
+        if (CurrentStaminaUpdated != null)
+        {
+            CurrentStaminaUpdated(currentStamina);
+        }
     }
 
     #endregion
@@ -152,10 +159,6 @@ public class EntityStaminaComponent : EntityComponent {
             CancelInvoke();
         }
 
-        //if (attachedStaminaBar != false)
-        //{
-        //    attachedStaminaBar.UpdateCurrentStamina(currentStamina);
-        //}
         if (CurrentStaminaUpdated != null)
         {
             CurrentStaminaUpdated(currentStamina);

@@ -59,7 +59,7 @@ public class HUDStaminaBar : StaminaBar {
 
     public override void UpdateCurrentStamina(float newCurrentStamina)
     {
-        float newBarWidth = newCurrentStamina;
+        float newBarWidth = newCurrentStamina * 2f;
 
         staminaBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
 
