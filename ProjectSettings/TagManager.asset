@@ -13,6 +13,7 @@ TagManager:
   - Menus
   - Enemy
   - EnemyBox
+  - ScenePostProcessingVolume
   layers:
   - Default
   - TransparentFX
@@ -37,8 +38,8 @@ TagManager:
   - InteractableTrigger
   - IgnoreAll
   - HUD
-  - 
-  - 
+  - EnvironmentPostProcessing
+  - HUDPostProcessing
   - 
   - 
   - 

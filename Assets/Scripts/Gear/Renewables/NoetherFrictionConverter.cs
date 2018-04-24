@@ -17,8 +17,6 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
     float cooldownRemaining = 0.0f;
     float durationRemaining = 0.0f;
 
-    float percentOfCooldownRemaining = 0.0f;
-    float percentOfDurationRemaining = 0.0f;
     public CooldownDelegate CooldownPercentUpdater { get; set; }
     public CooldownDelegate CooldownDurationUpdater { get; set; }
     public DurationDelegate DurationUpdater { get; set; }
