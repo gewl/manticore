@@ -28,7 +28,7 @@ public class BasicAggroComponent : EntityComponent {
     {
         // This has to happen somewhere, and bundling it into EntityData is a little too prescriptive
         // about what sorts of entities will be composed in this system.
-        // This makes the (reasonable) assumption that an entity with the aggro component can be 'aggroed'
+        // This makes the assumption that an entity with the aggro component can be 'aggroed'
         // from its initial state; still, it's a little bizarre.
         entityInformation.SetAttribute(EntityAttributes.IsAggroed, false);
 
