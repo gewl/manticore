@@ -70,8 +70,7 @@ public class GameManager : SerializedMonoBehaviour {
     void Update()
     {
         // Update plane at player's y-position for raycasting mouseclicks
-        // Adjusting upwards slightly because player origin at feet.
-        playerPlane = new Plane(Vector3.up, GetPlayerPosition() + (playerTransform.up * 2f));
+        playerPlane = new Plane(Vector3.up, GetPlayerPosition());
 
         if (CurrentGameState == GameStates.InPlay && Input.GetButtonDown("Pause"))
         {
