@@ -8,6 +8,8 @@ public class ActiveRenewableController : MonoBehaviour {
     const string COOLDOWN_TEXT = "CooldownText";
     const string IN_USE_OVERLAY = "InUseOverlay";
 
+    bool isApplicationQuitting = false;
+
     Image renewableBubImage;
     Image cooldownOverlay;
     Image inUseOverlay;
@@ -43,9 +45,17 @@ public class ActiveRenewableController : MonoBehaviour {
         inUseOverlay.enabled = false;
     }
 
+    private void OnApplicationQuit()
+    {
+        isApplicationQuitting = true;
+    }
+
     private void OnDestroy()
     {
-        ManticoreGear.activeRenewableUpdated -= UpdateRenewable;
+        if (!isApplicationQuitting)
+        {
+            ManticoreGear.activeRenewableUpdated -= UpdateRenewable;
+        }
     }
 
     void UpdateRenewable(ref IRenewable activeRenewable)
