@@ -154,6 +154,7 @@ public class BulletController : MonoBehaviour {
         speed = _speed;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 adjustedVelocity = direction * speed;
         StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
     }
@@ -204,6 +205,11 @@ public class BulletController : MonoBehaviour {
         int collisionObjectLayer = collision.gameObject.layer;
 
         Impact(collisionPoint, normal, collision.gameObject, collisionObjectLayer);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("collision stay");
     }
 
     void OnTriggerEnter(Collider other)

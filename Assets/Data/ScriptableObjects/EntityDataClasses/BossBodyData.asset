@@ -21,8 +21,8 @@ MonoBehaviour:
   isPlayer: 0
   ArcOfFire: 25
   AttackRange: 30
-  AttackCooldown: 0.6
-  BulletSpeed: 20
+  AttackCooldown: 1.2
+  BulletSpeed: 30
   AimNoiseInDegrees: 2
   Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
   NumberOfProjectiles: 1

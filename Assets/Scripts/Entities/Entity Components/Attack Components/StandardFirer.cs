@@ -5,8 +5,19 @@ using UnityEngine;
 public class StandardFirer : EntityComponent {
 
     Transform firer;
-    [SerializeField]
-    Transform spawnPoint;
+    Transform _spawnPoint;
+    Transform SpawnPoint
+    {
+        get
+        {
+            if (_spawnPoint == null)
+            {
+                _spawnPoint = transform.FindChildByRecursive("BulletSpawn");
+            }
+
+            return _spawnPoint;
+        }
+    }
 
     RangedEntityData _standardFirerData;
     RangedEntityData StandardFirerData
@@ -51,9 +62,9 @@ public class StandardFirer : EntityComponent {
         base.Awake();
         firer = transform.FindChildByRecursive("Firer");
 
-        if (spawnPoint == null)
+        if (SpawnPoint == null)
         {
-            spawnPoint = firer.transform;
+            _spawnPoint = firer.transform;
         }
     }
 
@@ -108,7 +119,7 @@ public class StandardFirer : EntityComponent {
             target = currentTarget;
             targetRigidbody = target.GetComponent<Rigidbody>();
         }
-        Vector3 targetPosition = currentTarget.position;
+        Vector3 targetPosition = currentTarget.GetComponent<Collider>().bounds.center;
 
         // Lead bullet logic
         float timeToImpact = targetPosition.sqrMagnitude / (BulletSpeed * BulletSpeed);
@@ -139,14 +150,11 @@ public class StandardFirer : EntityComponent {
         {
             targetPosition = ApplyWarmUpNoiseToPoint(targetPosition, currentTime);
         }
-        targetPosition.y = 0f;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.up);
-        Transform createdBullet = Instantiate(Projectile, spawnPoint.position, rotation);
+        Transform createdBullet = Instantiate(Projectile, SpawnPoint.position, rotation, GameManager.BulletsParent.transform);
         BulletController bulletController = createdBullet.GetComponent<BulletController>();
         bulletController.InitializeValues(ProjectileStrength, targetPosition, transform, currentTarget, BulletSpeed);
-
-        createdBullet.transform.parent = GameManager.BulletsParent.transform;
     }
 
     Vector3 ApplyWarmUpNoiseToPoint(Vector3 aimPoint, float currentTime)

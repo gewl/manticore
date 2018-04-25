@@ -14,7 +14,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
     const string IS_MOVING = "isMoving";
     const string IS_DEAD = "isDead";
     const string IS_STUNNED = "isStunned";
-    const string IS_FIRING = "firePrimary";
+    const string FIRE_PRIMARY = "firePrimary";
 
     protected override void Awake()
     {
@@ -96,9 +96,9 @@ public class AnimatorStateChangeComponent : EntityComponent {
 
     void OnPrimaryFire()
     {
-        if (AnimatorContainsParameter(IS_FIRING))
+        if (AnimatorContainsParameter(FIRE_PRIMARY))
         {
-            animator.SetTrigger(IS_FIRING);
+            animator.SetTrigger(FIRE_PRIMARY);
         }
 
     }

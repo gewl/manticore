@@ -248,7 +248,6 @@ public class ShooterBotAIComponent : EntityComponent {
         if (Mathf.Abs(angleToTarget) <= ArcOfFire && IsInRange(currentTarget))
         {
             entityEmitter.EmitEvent(EntityEvents.PrimaryFire);
-            timeElapsedSinceLastFire = FireCooldown;
             return true;
         }
         else
