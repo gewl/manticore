@@ -271,12 +271,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
         GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityDead);
 		entityEmitter.EmitEvent(EntityEvents.Dead);
 
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        if (agent != false)
-        {
-            agent.enabled = false;
-        }
-
         for (int i = 0; i < renderersCount; i++)
         {
             renderers[i].material = deathFlashMaterial;
@@ -303,7 +297,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
             {
                 renderers[i].material = defaultMaterials[i];
             }
-            entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         }
 
         yield break;
