@@ -21,7 +21,7 @@ public class BossHeadSegmentSorter : EntityComponent {
     {
         List<Transform> bodySegments = segmentManager.GetGroup();
         Transform dyingSegment = bodySegments[index];
-        Joint dyingJoint = dyingSegment.GetComponent<ConfigurableJoint>();
+        ConfigurableJoint dyingJoint = dyingSegment.GetComponent<ConfigurableJoint>();
         dyingJoint.connectedBody = null;
 
         if (index == bodySegments.Count - 1)
@@ -40,27 +40,48 @@ public class BossHeadSegmentSorter : EntityComponent {
         }
         entityEmitter.EmitEvent(EntityEvents.Stop);
 
-        Transform newParent = transform;
+        Transform newConnectedBody = transform;
         if (index > 0)
         {
-            newParent = bodySegments[index - 1];
+            newConnectedBody = bodySegments[index - 1];
         }
 
         Transform replacingSegment = bodySegments[index + 1];
-        ConfigurableJoint replacingJoint = replacingSegment.GetComponent<ConfigurableJoint>();
-        replacingJoint.connectedBody = null;
-        replacingJoint.connectedAnchor = dyingJoint.connectedAnchor;
 
         bodySegments.RemoveAt(index);
+
+        Vector3 lastSegmentPosition = dyingSegment.position;
+        Rigidbody nextConnectedBody = newConnectedBody.GetComponent<Rigidbody>();
+        Vector3 lastAnchor = dyingJoint.connectedAnchor;    
         for (int i = 0; i < bodySegments.Count; i++)
         {
-            bodySegments[i].name = BOSS_BODY_PREFIX + i;
-        }
+            Transform bodySegment = bodySegments[i];
+            bodySegment.name = BOSS_BODY_PREFIX + i;
 
-        StartCoroutine(SlideSegmentIntoPlace(replacingSegment, dyingSegment.position, newParent, replacingJoint));
+            if (i >= index)
+            {
+                ConfigurableJoint segmentJoint = bodySegment.GetComponent<ConfigurableJoint>();
+                segmentJoint.connectedBody = null;
+                Vector3 newAnchor = lastAnchor;
+                lastAnchor = segmentJoint.connectedAnchor;
+                segmentJoint.connectedAnchor = newAnchor;
+
+                if (i == bodySegments.Count - 1)
+                {
+                    StartCoroutine(SlideSegmentIntoPlace(bodySegment, lastSegmentPosition, nextConnectedBody, segmentJoint, true));
+                }
+                else
+                {
+                    StartCoroutine(SlideSegmentIntoPlace(bodySegment, lastSegmentPosition, nextConnectedBody, segmentJoint));
+                }
+
+                lastSegmentPosition = bodySegment.position;
+                nextConnectedBody = bodySegment.GetComponent<Rigidbody>();
+            }
+        }
     }
 
-    IEnumerator SlideSegmentIntoPlace(Transform replacingSegment, Vector3 newPosition, Transform newParent, ConfigurableJoint joint)
+    IEnumerator SlideSegmentIntoPlace(Transform replacingSegment, Vector3 newPosition, Rigidbody newConnectedBody, ConfigurableJoint segmentJoint, bool isLast = false)
     {
         float timeElapsed = 0.0f;
         Vector3 originalPosition = replacingSegment.position;
@@ -78,12 +99,15 @@ public class BossHeadSegmentSorter : EntityComponent {
             yield return null;
         }
 
-        joint.connectedBody = newParent.GetComponent<Rigidbody>();
+        segmentJoint.connectedBody = newConnectedBody;
 
-        foreach (Transform bodySegment in segmentManager.GetGroup())
+        if (isLast)
         {
-            bodySegment.GetComponent<Collider>().enabled = true;
+            foreach (Transform bodySegment in segmentManager.GetGroup())
+            {
+                bodySegment.GetComponent<Collider>().enabled = true;
+            }
+            entityEmitter.EmitEvent(EntityEvents.Move);
         }
-        entityEmitter.EmitEvent(EntityEvents.Move);
     }
 }

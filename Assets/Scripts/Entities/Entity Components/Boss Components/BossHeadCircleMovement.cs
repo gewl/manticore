@@ -8,6 +8,8 @@ public class BossHeadCircleMovement : EntityComponent {
     [SerializeField]
     GameObject bossWaypointsParent;
 
+    bool wasInterrupted = false;
+
     Transform[] waypoints;
     int nextWaypointPointer = 0;
 
@@ -46,6 +48,7 @@ public class BossHeadCircleMovement : EntityComponent {
     void OnStop()
     {
         StopAllCoroutines();
+        wasInterrupted = true;
     }
 
     void Move()
@@ -57,10 +60,17 @@ public class BossHeadCircleMovement : EntityComponent {
     {
         yield return new WaitForSeconds(lingerTime);
 
-        nextWaypointPointer += 2;
-        if (nextWaypointPointer >= waypoints.Length)
+        if (!wasInterrupted)
         {
-            nextWaypointPointer = 0;
+            nextWaypointPointer += 2;
+            if (nextWaypointPointer >= waypoints.Length)
+            {
+                nextWaypointPointer = 0;
+            }
+        }
+        else
+        {
+            wasInterrupted = false;
         }
 
         Vector3 nextNodePosition = waypoints[nextWaypointPointer].position + patrolPointOffset;
