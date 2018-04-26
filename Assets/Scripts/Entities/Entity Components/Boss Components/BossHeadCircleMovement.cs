@@ -30,16 +30,25 @@ public class BossHeadCircleMovement : EntityComponent {
         }
         patrolPointOffset = transform.position - waypoints[0].position;
 
-        entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        entityEmitter.SubscribeToEvent(EntityEvents.WaypointReached, Move);
+        entityEmitter.SubscribeToEvent(EntityEvents.Stop, OnStop);
+        entityEmitter.SubscribeToEvent(EntityEvents.Move, Move);
         entityEmitter.EmitEvent(EntityEvents.WaypointReached);
     }
 
     protected override void Unsubscribe()
     {
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, OnWaypointReached);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Stop, OnStop);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.Move, Move);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.WaypointReached, Move);
     }
 
-    void OnWaypointReached()
+    void OnStop()
+    {
+        StopAllCoroutines();
+    }
+
+    void Move()
     {
         StartCoroutine(WaitThenTravelToNextNode());
     }

@@ -23,4 +23,9 @@ public class GroupReferenceComponent : SerializedMonoBehaviour {
 
         return groupMembers[index];
     }
+
+    public void UpdateGroup(List<Transform> newGroup)
+    {
+        groupMembers = newGroup;
+    }
 }

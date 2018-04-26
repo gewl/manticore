@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: BossBodyData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 60
+  Health: 50
   BaseDamage: 30
   MomentumValue: 10
   BaseMoveSpeed: 0

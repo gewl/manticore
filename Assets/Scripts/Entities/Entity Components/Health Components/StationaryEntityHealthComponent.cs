@@ -305,6 +305,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
     IEnumerator HandleDeath()
     {
         float deathTransitionCompletionTime = Time.time + timeToDie;
+        GetComponent<Collider>().enabled = false;
 
         while (Time.time < deathTransitionCompletionTime)
         {
@@ -346,6 +347,8 @@ public class StationaryEntityHealthComponent : EntityComponent {
 
             yield return null;
         }
+
+        Destroy(gameObject);
 
         yield break;
     }
