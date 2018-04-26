@@ -58,7 +58,7 @@ public class HUDHealthBarComponent : EntityComponent {
     void OnHealthChanged()
     {
         float currentHealth = GameManager.GetPlayerCurrentHealth();
-        float newBarWidth = currentHealth * 2f;
+        float newBarWidth = currentHealth * 4f;
 
         healthBar.rectTransform.sizeDelta = new Vector2(newBarWidth, barHeight);
         float percentageOfHealthRemaining = currentHealth / totalHealth;

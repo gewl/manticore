@@ -9,7 +9,7 @@ public class NoetherFrictionConverter : EntityComponent, IRenewable {
     MobileEntityHealthComponent healthComponent;
     bool isActive = false;
 
-    float healAmount = 20.0f;
+    float healAmount = 50.0f;
     float cooldown = 8.0f;
     float duration = 4f;
     float cooldownCutFraction = 0.75f;
