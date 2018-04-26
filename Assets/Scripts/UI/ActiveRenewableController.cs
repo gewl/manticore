@@ -106,7 +106,7 @@ public class ActiveRenewableController : MonoBehaviour {
     {
         return (durationOfCooldownRemaining) =>
         {
-            if (durationOfCooldownRemaining == 0.0f)
+            if (durationOfCooldownRemaining <= 0.1f)
             {
                 cooldownText.enabled = false;
                 return;

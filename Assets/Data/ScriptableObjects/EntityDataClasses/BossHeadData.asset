@@ -16,7 +16,7 @@ MonoBehaviour:
   BaseDamage: 40
   MomentumValue: 20
   BaseMoveSpeed: 0
-  AggroRange: 15
+  AggroRange: 40
   Allegiance: 1
   isPlayer: 0
   ArcOfFire: 25

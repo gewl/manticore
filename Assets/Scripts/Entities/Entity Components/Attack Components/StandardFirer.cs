@@ -38,7 +38,7 @@ public class StandardFirer : EntityComponent {
     float AimNoiseInDegrees { get { return StandardFirerData.AimNoiseInDegrees; } }
     Transform Projectile { get { return StandardFirerData.Projectile; } }
 
-    List<Vector3> cachedTargetVelocities;
+    Vector3[] cachedTargetVelocities;
 
     int maximumVelocitiesToCache = 5;
     int currentVelocityCacheIndex = 0;
@@ -71,10 +71,10 @@ public class StandardFirer : EntityComponent {
     protected override void OnEnable()
     {
         base.OnEnable();
-        cachedTargetVelocities = new List<Vector3>();
+        cachedTargetVelocities = new Vector3[maximumVelocitiesToCache];
         for (int i = 0; i < maximumVelocitiesToCache; i++)
         {
-            cachedTargetVelocities.Add(Vector3.zero);
+            cachedTargetVelocities[i] = Vector3.zero;
         }
     }
 
@@ -106,7 +106,10 @@ public class StandardFirer : EntityComponent {
 
     void OnTargetUpdated()
     {
-        cachedTargetVelocities.Clear();
+        for (int i = 0; i < maximumVelocitiesToCache; i++)
+        {
+            cachedTargetVelocities[i] = Vector3.zero;
+        }
         currentVelocityCacheIndex = 0;
     }
 
@@ -119,13 +122,23 @@ public class StandardFirer : EntityComponent {
             target = currentTarget;
             targetRigidbody = target.GetComponent<Rigidbody>();
         }
+
+        if (currentTarget.name != "Manticore")
+        {
+            Debug.Log(currentTarget.name);
+        }
+
+        if (currentTarget.position != GameManager.GetPlayerPosition())
+        {
+            Debug.Log(currentTarget.position);
+        }
         Vector3 targetPosition = currentTarget.GetComponent<Collider>().bounds.center;
 
         // Lead bullet logic
         float timeToImpact = targetPosition.sqrMagnitude / (BulletSpeed * BulletSpeed);
         Vector3 currentTargetVelocity = targetRigidbody.velocity;
 
-        cachedTargetVelocities.Add(currentTargetVelocity);
+        cachedTargetVelocities[currentVelocityCacheIndex] = currentTargetVelocity;
         currentVelocityCacheIndex++;
         if (currentVelocityCacheIndex >= maximumVelocitiesToCache)
         {
@@ -133,7 +146,7 @@ public class StandardFirer : EntityComponent {
         }
 
         Vector3 cumulativeVelocity = Vector3.zero;
-        for (int i = 0; i < cachedTargetVelocities.Count; i++)
+        for (int i = 0; i < maximumVelocitiesToCache; i++)
         {
             cumulativeVelocity += cachedTargetVelocities[i];
         }

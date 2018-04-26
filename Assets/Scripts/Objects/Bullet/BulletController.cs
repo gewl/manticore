@@ -155,7 +155,8 @@ public class BulletController : MonoBehaviour {
 
         Vector3 direction = (targetPosition - transform.position).normalized;
         Vector3 adjustedVelocity = direction * speed;
-        StartCoroutine(AccelerateBullet(direction));
+        BulletRigidbody.velocity = adjustedVelocity;
+        //StartCoroutine(AccelerateBullet(direction));
         UpdateSize();
     }
 

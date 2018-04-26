@@ -13,15 +13,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: Entity
   Health: 100
-  BaseDamage: 40
-  MomentumValue: 20
+  BaseDamage: 30
+  MomentumValue: 10
   BaseMoveSpeed: 0
-  AggroRange: 40
+  AggroRange: 0
   Allegiance: 1
   isPlayer: 0
   ArcOfFire: 25
   AttackRange: 30
-  AttackCooldown: 1.2
+  AttackCooldown: 0.3
   BulletSpeed: 30
   AimNoiseInDegrees: 2
   Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
