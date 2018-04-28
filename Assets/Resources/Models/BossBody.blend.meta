@@ -13,6 +13,20 @@ ModelImporter:
     100010: Root
     100012: Sphere
     100014: Mesh
+    100016: Foot_B_L
+    100018: Foot_B_R
+    100020: Foot_F_L
+    100022: Foot_F_R
+    100024: Head
+    100026: LowerLeg_B_L
+    100028: LowerLeg_B_R
+    100030: LowerLeg_F_L
+    100032: LowerLeg_F_R
+    100034: UpperLeg_B_L
+    100036: UpperLeg_B_R
+    100038: UpperLeg_F_L
+    100040: UpperLeg_F_R
+    100042: Firer
     400000: Armature
     400002: BeakBottom
     400004: BeakTop
@@ -21,11 +35,26 @@ ModelImporter:
     400010: Root
     400012: Sphere
     400014: Mesh
+    400016: Foot_B_L
+    400018: Foot_B_R
+    400020: Foot_F_L
+    400022: Foot_F_R
+    400024: Head
+    400026: LowerLeg_B_L
+    400028: LowerLeg_B_R
+    400030: LowerLeg_F_L
+    400032: LowerLeg_F_R
+    400034: UpperLeg_B_L
+    400036: UpperLeg_B_R
+    400038: UpperLeg_F_L
+    400040: UpperLeg_F_R
+    400042: Firer
     2100000: unnamed
     4300000: Sphere
     4300002: Mesh
     7400000: Default Take
     7400002: BossBody_FireBullet
+    7400004: BossBody_ForwardWalk
     9500000: //RootNode
     13700000: Sphere
     13700002: Mesh
@@ -55,23 +84,107 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Default Take
+      takeName: Default Take
+      firstFrame: -1
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BossBody_FireBullet
+      takeName: BossBody_FireBullet
+      firstFrame: -1
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: BossBody_ForwardWalk
+      takeName: BossBody_ForwardWalk
+      firstFrame: -1
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 1
+    weldVertices: 0
     preserveHierarchy: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -97,7 +210,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: Root
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0

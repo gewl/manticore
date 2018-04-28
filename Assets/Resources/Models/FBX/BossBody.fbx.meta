@@ -15,6 +15,28 @@ ModelImporter:
     100014: Root
     100016: Sphere
     100018: Mesh
+    100020: Foot.B.L
+    100022: Foot.B.L_end
+    100024: Foot.B.R
+    100026: Foot.B.R_end
+    100028: Foot.F.L
+    100030: Foot.F.L_end
+    100032: Foot.F.R
+    100034: Foot.F.R_end
+    100036: Head
+    100038: LowerLeg.B.L
+    100040: LowerLeg.B.L_end
+    100042: LowerLeg.B.R
+    100044: LowerLeg.B.R_end
+    100046: LowerLeg.F.L
+    100048: LowerLeg.F.L_end
+    100050: LowerLeg.F.R
+    100052: LowerLeg.F.R_end
+    100054: UpperLeg.B.L
+    100056: UpperLeg.B.R
+    100058: UpperLeg.F.L
+    100060: UpperLeg.F.R
+    100062: Firer
     400000: Armature
     400002: BeakBottom
     400004: BeakBottom_end
@@ -25,6 +47,28 @@ ModelImporter:
     400014: Root
     400016: Sphere
     400018: Mesh
+    400020: Foot.B.L
+    400022: Foot.B.L_end
+    400024: Foot.B.R
+    400026: Foot.B.R_end
+    400028: Foot.F.L
+    400030: Foot.F.L_end
+    400032: Foot.F.R
+    400034: Foot.F.R_end
+    400036: Head
+    400038: LowerLeg.B.L
+    400040: LowerLeg.B.L_end
+    400042: LowerLeg.B.R
+    400044: LowerLeg.B.R_end
+    400046: LowerLeg.F.L
+    400048: LowerLeg.F.L_end
+    400050: LowerLeg.F.R
+    400052: LowerLeg.F.R_end
+    400054: UpperLeg.B.L
+    400056: UpperLeg.B.R
+    400058: UpperLeg.F.L
+    400060: UpperLeg.F.R
+    400062: Firer
     2100000: No Name
     2300000: Mesh
     3300000: Mesh
@@ -43,7 +87,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleCurves: 0
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -72,14 +116,14 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000

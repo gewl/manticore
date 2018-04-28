@@ -73,6 +73,7 @@ public class RotateHeadToTarget : EntityComponent {
     {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.LateUpdate, CalculateHeadRotation);
     }
+
     void CalculateHeadRotation()
     {
         if (currentTarget == null)

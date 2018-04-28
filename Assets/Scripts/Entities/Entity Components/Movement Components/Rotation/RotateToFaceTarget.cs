@@ -27,7 +27,7 @@ public class RotateToFaceTarget : EntityComponent {
     {
         base.Awake();
         nextWaypoint = Vector3.forward;
-        headObject = transform.Find("Firer");
+        headObject = transform.FindChildByRecursive("Firer");
 
         if (headObject == null)
         {
@@ -87,6 +87,7 @@ public class RotateToFaceTarget : EntityComponent {
 
     void Rotate()
     {
+        Debug.Log(headObject.name);
         Vector3 lookPosition;
         if (currentTarget != null)
         {
