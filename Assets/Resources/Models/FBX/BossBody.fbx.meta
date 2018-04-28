@@ -37,6 +37,7 @@ ModelImporter:
     100058: UpperLeg.F.L
     100060: UpperLeg.F.R
     100062: Firer
+    100064: BossBody
     400000: Armature
     400002: BeakBottom
     400004: BeakBottom_end
@@ -69,17 +70,21 @@ ModelImporter:
     400058: UpperLeg.F.L
     400060: UpperLeg.F.R
     400062: Firer
+    400064: BossBody
     2100000: No Name
+    2100002: Material
     2300000: Mesh
     3300000: Mesh
     4300000: Sphere
     4300002: Mesh
+    4300004: BossBody
     7400000: Armature|BossBody_FireBullet
     7400002: Armature|BossBody_ForwardWalk
     7400004: Armature|BossBody_Idle
     9500000: //RootNode
     13700000: Sphere
     13700002: Mesh
+    13700004: BossBody
   externalObjects: {}
   materials:
     importMaterials: 1
