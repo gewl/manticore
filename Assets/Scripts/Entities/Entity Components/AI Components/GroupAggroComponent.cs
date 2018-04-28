@@ -31,7 +31,10 @@ public class GroupAggroComponent : EntityComponent {
         {
             Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
             entity.GetComponent<EntityManagement>().SetAttribute(EntityAttributes.CurrentTarget, currentTarget);
-            entity.GetComponent<EntityEmitter>().EmitEvent(EntityEvents.Aggro);
+            EntityEmitter emitter = entity.GetComponent<EntityEmitter>();
+            emitter.EmitEvent(EntityEvents.Aggro);
+            emitter.EmitEvent(EntityEvents.TargetUpdated);
+
             yield return new WaitForSeconds(aggroDelay);
         }
     }
