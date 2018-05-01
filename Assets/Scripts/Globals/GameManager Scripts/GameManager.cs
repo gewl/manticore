@@ -602,7 +602,11 @@ public class GameManager : SerializedMonoBehaviour {
 
     [SerializeField]
     AbilityBarController abilityBar;
-    public AbilityBarController AbilityBar { get { return abilityBar; } }
+    public static AbilityBarController AbilityBar { get { return instance.abilityBar; } }
+
+    [SerializeField]
+    DamageFlashController damageFlash;
+    public static DamageFlashController DamageFlash { get { return instance.damageFlash; } }
 
     #endregion
 

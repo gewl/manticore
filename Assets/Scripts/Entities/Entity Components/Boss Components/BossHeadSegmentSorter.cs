@@ -50,6 +50,12 @@ public class BossHeadSegmentSorter : EntityComponent {
 
         bodySegments.RemoveAt(index);
 
+        if (bodySegments.Count <= 0)
+        {
+            Debug.Log("All segments destroyed.");
+            return;
+        }
+
         Vector3 lastSegmentPosition = dyingSegment.position;
         Rigidbody nextConnectedBody = newConnectedBody.GetComponent<Rigidbody>();
         Vector3 lastAnchor = dyingJoint.connectedAnchor;    

@@ -131,6 +131,7 @@ public class MobileEntityHealthComponent : EntityComponent {
 
         if (isPlayer)
         {
+            GameManager.DamageFlash.FlashDamage();
             float healthPercentage = currentHealth / initialHealth;
             if (!GameManager.IsPlayerLowHealth && healthPercentage <= 0.2f)
             {
