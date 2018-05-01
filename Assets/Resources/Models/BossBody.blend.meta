@@ -28,6 +28,7 @@ ModelImporter:
     100040: UpperLeg_F_R
     100042: Firer
     100044: BossBody
+    100046: Neck
     400000: Armature
     400002: BeakBottom
     400004: BeakTop
@@ -51,6 +52,7 @@ ModelImporter:
     400040: UpperLeg_F_R
     400042: Firer
     400044: BossBody
+    400046: Neck
     2100000: unnamed
     2100002: None__BossBodyUV
     2100004: Material__BossBodyUV
