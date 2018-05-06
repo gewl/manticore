@@ -1,9 +1,11 @@
 {
-  "BaseDescription": "Base Yank debug description",
-  "GeneralPassiveDescription": "general yank passive debug description",
-  "Parry":  "Parry active, yank passive debug desc",
-  "Blink": "Blink active, yank passive debug desc",
-  "Fracture":  "fracture active, yank passive debug desc",
-  "Nullify":  "nullify active, yank passive debug desc",
-  "Yank":  "yank active debug desc"
+  "BaseDescription": "	Personnel told the Congregationists, 'All things desire to have an effect.' They turned on themselves, disassembling, then turned on one another, reassembling. Screw fit into hole, metal intersected metal. 
+	'Together we impact!' they cried. 
+	'Together we impact!' it cried.",
+  "GeneralPassiveDescription": "	Together, it bends matter toward intention.",
+  "Parry":  "	Together with Parry, the bullets are given energy and a little thought. They, too, understand. They feel the need and fill it.",
+  "Blink": "	Together with Blink, the Self can return and recollect.",
+  "Fracture":  "	Together with Fracture, the pieces are bound together again in common purpose.",
+  "Nullify":  "	Together with Nullify, the field extends with the desire of the Self. When the work is done, it returns home.",
+  "Yank":  "	Alone, it grabs bullets from their course, then unites them. It is rerouted through the Self, toward a common end."
 }
