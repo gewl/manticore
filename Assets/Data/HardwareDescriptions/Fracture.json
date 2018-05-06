@@ -1,9 +1,11 @@
 {
-  "BaseDescription": "A brutish, powerful technique invented by the Humeys. Effective, but a little...overt.",
-  "GeneralPassiveDescription": "general riposte passive debug description",
-  "Parry": "Parry active, riposte passive debug desc",
-  "Blink": "Blink active, riposte passive debug desc",
-  "Fracture": "Fracture active debug description",
-  "Nullify": "Nullify active, riposte passive debug desc",
-  "Yank": "Yank active, fracture passive debug desc"
+  "BaseDescription": "	An Earlyflesh asked a Halfflesh, 'What makes a Human?'
+	The Halfflesh said, 'A Human has a hand, but a hand is not a Human. A Human has a heart, but a heart is not a Human. A Human has a lung, but a lung is not a Human.'
+	The Earlyflesh thought about this for a while, then invented Fracture.",
+  "GeneralPassiveDescription": "	Together, it takes things to pieces.",
+  "Parry": "	Together with Parry, it sends a friend.",
+  "Blink": "	Together with Blink, the Self will dissolve the thought of whoever it passes.",
+  "Fracture": "	Alone, it expels a kinetic blast, which dissolves and then dissolves.",
+  "Nullify": "	Together with Nullify, the field will return an echo of the bullet's thought.",
+  "Yank": "	Together with Yank, the bullets will separate once more after passing through the Self."
 }
