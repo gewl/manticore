@@ -1,0 +1,10 @@
+{
+  "_entry": {
+    "TEXT": "im just a baby. dont mind me man",
+    "CLICKABLE_TERMS": [ "baby" ]
+  },
+  "baby": {
+    "TEXT": "hell yeah I'm a baby",
+    "CLICKABLE_TERMS":  [ "baby" ]
+  }
+}

@@ -39,9 +39,9 @@ public class ScrollingAlertTextController : MonoBehaviour {
         float bottomY = rectTransform.TransformPoint(rectTransform.rect.min).y;
         float centerY = rectTransform.TransformPoint(rectTransform.rect.center).y;
 
-        initialPosition = new Vector3(maxRightX, bottomY, 0f);
-        centerPosition = new Vector3(centerX, centerY, 0f);
-        destinationPosition = new Vector3(minRightX, topY, 0f);
+        initialPosition = new Vector3(maxRightX, bottomY, transform.position.z);
+        centerPosition = new Vector3(centerX, centerY, transform.position.z);
+        destinationPosition = new Vector3(minRightX, topY, transform.position.z);
 
         primaryText.gameObject.SetActive(false);
         secondaryText.gameObject.SetActive(false);
