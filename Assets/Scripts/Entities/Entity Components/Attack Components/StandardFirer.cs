@@ -180,7 +180,8 @@ public class StandardFirer : EntityComponent {
         float timeToWarmedUp = timeWarmedUp - currentTime;
         float percentageOfNoiseToApply = timeToWarmedUp / timeToWarmUp;
 
-        float degreesOfNoiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * AimNoiseInDegrees;
+        float maxDegreesOfNoiseToApply = (percentageOfNoiseToApply * maximumWarmUpNoiseModifier) * AimNoiseInDegrees;
+        float degreesOfNoiseToApply = Random.Range(-maxDegreesOfNoiseToApply, maxDegreesOfNoiseToApply);
 
         float coinFlipForSign = Random.value;
 
