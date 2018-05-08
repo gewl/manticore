@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 64a6d03b0eeb72a48bcfe23559e23a4d
+timeCreated: 1525729123
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Arm_1.L
+    100002: Arm_1.R
+    100004: Arm_2.L
+    100006: Arm_2.R
+    100008: Arm_3.L
+    100010: Arm_3.R
+    100012: Arm_4.L
+    100014: Arm_4.L_end
+    100016: Arm_4.R
+    100018: Arm_4.R_end
+    100020: Armature
+    100022: Beak.0
+    100024: Beak.0_end
+    100026: Beak.1
+    100028: Beak.1_end
+    100030: Beak.2
+    100032: Beak.2_end
+    100034: Beak.3
+    100036: Beak.3_end
+    100038: Beak.4
+    100040: Beak.4_end
+    100042: Body
+    100044: Firer
+    100046: FootBone_Left
+    100048: FootBone_Left_end
+    100050: FootBone_Right
+    100052: FootBone_Right_end
+    100054: Head
+    100056: Head 1
+    100058: LegBone_LowerLeft
+    100060: LegBone_LowerLeft_end
+    100062: LegBone_LowerRight
+    100064: LegBone_LowerRight_end
+    100066: LegBone_UpperLeft
+    100068: LegBone_UpperRight
+    100070: Root
+    100072: ShooterBot
+    100074: //RootNode
+    100076: ShotgunBot
+    400000: Arm_1.L
+    400002: Arm_1.R
+    400004: Arm_2.L
+    400006: Arm_2.R
+    400008: Arm_3.L
+    400010: Arm_3.R
+    400012: Arm_4.L
+    400014: Arm_4.L_end
+    400016: Arm_4.R
+    400018: Arm_4.R_end
+    400020: Armature
+    400022: Beak.0
+    400024: Beak.0_end
+    400026: Beak.1
+    400028: Beak.1_end
+    400030: Beak.2
+    400032: Beak.2_end
+    400034: Beak.3
+    400036: Beak.3_end
+    400038: Beak.4
+    400040: Beak.4_end
+    400042: Body
+    400044: Firer
+    400046: FootBone_Left
+    400048: FootBone_Left_end
+    400050: FootBone_Right
+    400052: FootBone_Right_end
+    400054: Head
+    400056: Head 1
+    400058: LegBone_LowerLeft
+    400060: LegBone_LowerLeft_end
+    400062: LegBone_LowerRight
+    400064: LegBone_LowerRight_end
+    400066: LegBone_UpperLeft
+    400068: LegBone_UpperRight
+    400070: Root
+    400072: ShooterBot
+    400074: //RootNode
+    400076: ShotgunBot
+    2100000: Material
+    4300000: ShooterBot
+    4300002: Head
+    4300004: Firer
+    4300006: ShotgunBot
+    7400000: Armature|0.IdleCycle
+    7400002: Armature|1.WalkCycle
+    7400004: Armature|2.FullRunCycle
+    7400006: Armature|3.BeakFire
+    9500000: //RootNode
+    13700000: Firer
+    13700002: Head
+    13700004: ShooterBot
+    13700006: ShotgunBot
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

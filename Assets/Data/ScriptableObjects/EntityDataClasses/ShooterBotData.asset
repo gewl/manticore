@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Name: ShooterBotData
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 40
-  BaseDamage: 50
-  MomentumValue: 10
-  BaseMoveSpeed: 10
+  Health: 70
+  BaseDamage: 20
+  MomentumValue: 15
+  BaseMoveSpeed: 12
   AggroRange: 15
   Allegiance: 1
   isPlayer: 0
-  ArcOfFire: 25
-  AttackRange: 30
+  ArcOfFire: 30
+  AttackRange: 20
   AttackCooldown: 0.6
-  BulletSpeed: 25
-  AimNoiseInDegrees: 2
+  BulletSpeed: 20
+  AimNoiseInDegrees: 10
   Projectile: {fileID: 4748067459592758, guid: 6da50b93aad3f194aa929d169a2ceeab, type: 2}
-  NumberOfProjectiles: 1
+  NumberOfProjectiles: 5
   RotationStrength: 3

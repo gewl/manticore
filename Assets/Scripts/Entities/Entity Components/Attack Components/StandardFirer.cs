@@ -36,6 +36,7 @@ public class StandardFirer : EntityComponent {
     float ProjectileStrength { get { return StandardFirerData.BaseDamage * entityStats.GetDamageDealtModifier(); } }
     float BulletSpeed { get { return StandardFirerData.BulletSpeed; } }
     float AimNoiseInDegrees { get { return StandardFirerData.AimNoiseInDegrees; } }
+    int NumberOfProjectiles { get { return StandardFirerData.NumberOfProjectiles; } }
     Transform Projectile { get { return StandardFirerData.Projectile; } }
 
     Vector3[] cachedTargetVelocities;
@@ -95,7 +96,11 @@ public class StandardFirer : EntityComponent {
     public void FireProjectile()
     {
         Transform currentTarget = (Transform)entityInformation.GetAttribute(EntityAttributes.CurrentTarget);
-        FireProjectile(currentTarget);
+
+        for (int i = 0; i < NumberOfProjectiles; i++)
+        {
+            FireProjectile(currentTarget);
+        }
     }
 
     void OnAggro()
