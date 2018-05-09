@@ -7,8 +7,20 @@ public class StatefulObject : SerializedMonoBehaviour {
     [SerializeField]
     Vector3 destinationPosition;
 
+    [SerializeField]
+    string stateBoolTag;
+
     bool hasMoved = false;
     float timeToMove = 1.0f;
+
+    private void Awake()
+    {
+        if (MasterSerializer.GetSceneState(stateBoolTag))
+        {
+            hasMoved = true;
+            StartCoroutine(ChangePosition());
+        }
+    }
 
     public void Move()
     {

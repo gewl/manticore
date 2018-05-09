@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MasterSerializer : MonoBehaviour {
     static string SAVE_DIRECTORY_PATH { get { return Application.dataPath + "/Saves"; } }
@@ -14,11 +15,32 @@ public class MasterSerializer : MonoBehaviour {
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
     static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/RenewableDescriptions"; } }
     static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/DialogueText"; } }
+    static string LEVEL_STATE_OBJECT_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/LevelStates"; } }
 
     static string DIALOGUE_OBJECT_SUFFIX = "_Dialogue";
+    static string LEVEL_STATE_OBJECT_SUFFIX = "_State";
 
     static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
     static Dictionary<RenewableTypes, JSONObject> renewableTypeToDescriptionsMap;
+
+    static string _activeSceneName;
+    static JSONObject _activeSceneObject;
+
+    static JSONObject ActiveSceneObject
+    {
+        get
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            if (_activeSceneObject == null || _activeSceneName != currentSceneName)
+            {
+                string stateFileName = currentSceneName + "_State";
+                string sceneObjectString = File.ReadAllText(LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + stateFileName + ".json");
+                _activeSceneObject = new JSONObject(sceneObjectString);
+            }
+
+            return _activeSceneObject;
+        }
+    }
 
     private void Awake()
     {
@@ -170,12 +192,29 @@ public class MasterSerializer : MonoBehaviour {
         JSONObject renewableDescriptionObject = new JSONObject(renewableDescriptionObjectString);
         return renewableDescriptionObject;
     }
-    #endregion        
+    #endregion
 
+    #region Dialogue
     public static JSONObject RetrieveDialogueObject(string conversationalPartnerID)
     {
         string dialogueObjectString = File.ReadAllText(DIALOGUE_OBJECT_DIRECTORY_PATH + "/" + conversationalPartnerID + DIALOGUE_OBJECT_SUFFIX + ".json");
         JSONObject dialogueObject = new JSONObject(dialogueObjectString);
         return dialogueObject;
     }
+    #endregion
+
+    #region Level states
+
+    public static bool GetSceneState(string StateTag)
+    {
+        if (!ActiveSceneObject.HasField(StateTag))
+        {
+            Debug.LogError("State tag not found in scene state object: " + StateTag);
+            return false;
+        }
+        bool tagState = ActiveSceneObject[StateTag].b;
+        return tagState;
+    }
+
+    #endregion
 }
