@@ -23,6 +23,11 @@ public class MasterSerializer : MonoBehaviour {
     static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
     static Dictionary<RenewableTypes, JSONObject> renewableTypeToDescriptionsMap;
 
+    static string GetSceneStateFilePath()
+    {
+        return LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + SceneManager.GetActiveScene().name + "_State.json";
+    }
+
     static string _activeSceneName;
     static JSONObject _activeSceneObject;
 
@@ -33,13 +38,20 @@ public class MasterSerializer : MonoBehaviour {
             string currentSceneName = SceneManager.GetActiveScene().name;
             if (_activeSceneObject == null || _activeSceneName != currentSceneName)
             {
-                string stateFileName = currentSceneName + "_State";
-                string sceneObjectString = File.ReadAllText(LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + stateFileName + ".json");
+                string sceneObjectString = File.ReadAllText(GetSceneStateFilePath());
+                _activeSceneName = currentSceneName;
                 _activeSceneObject = new JSONObject(sceneObjectString);
             }
 
             return _activeSceneObject;
         }
+    }
+
+    static void WriteActiveSceneObject()
+    {
+        string stateObjectString = ActiveSceneObject.ToString(true);
+
+        File.WriteAllText(GetSceneStateFilePath(), stateObjectString);
     }
 
     private void Awake()
@@ -214,6 +226,18 @@ public class MasterSerializer : MonoBehaviour {
         }
         bool tagState = ActiveSceneObject[StateTag].b;
         return tagState;
+    }
+
+    public static void FlagSceneState(string StateTag)
+    {
+        if (!ActiveSceneObject.HasField(StateTag))
+        {
+            Debug.LogError("State tag not found in scene state object: " + StateTag);
+            return;
+        }
+        ActiveSceneObject.SetField(StateTag, true);
+
+        WriteActiveSceneObject();
     }
 
     #endregion

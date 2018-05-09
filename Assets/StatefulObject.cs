@@ -30,7 +30,7 @@ public class StatefulObject : SerializedMonoBehaviour {
         }
 
         hasMoved = true;
-        Debug.Log("starting coroutine");
+        MasterSerializer.FlagSceneState(stateBoolTag);
         StartCoroutine(ChangePosition());
     }
 
