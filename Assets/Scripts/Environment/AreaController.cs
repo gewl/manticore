@@ -7,15 +7,11 @@ public class AreaController : MonoBehaviour {
 
     private const string FLOOR_PREFIX = "Floor";
 
+    Material areaMaterial;
+
     [Header("Area Sections")]
     [SerializeField]
-    List<GameObject> sectionsToFadeWhenAreaActive;
-    [SerializeField]
     GameObject interior;
-    [SerializeField]
-    List<GameObject> sectionsToFadeWhenAreaFaded;
-    [SerializeField]
-    List<GameObject> sectionsToHideWhenAreaFaded;
 
     [Header("Config")]
     [SerializeField]
@@ -29,6 +25,13 @@ public class AreaController : MonoBehaviour {
 
     List<MeshRenderer> sectionsToFadeRenderers;
     List<MeshRenderer> fadableSectionRenderers;
+
+    Vector4 baseXZPlanePosition;
+    const string xzPlaneTag = "_Plane1Position";
+    [SerializeField]
+    float revealedXZPlaneHeight;
+    [SerializeField]
+    float hiddenXZPlaneHeight;
 
     // This tracks number of times an entity has been registered on a given floor, to handle
     // the possibility of it setting off multiple triggers on one floor
@@ -47,15 +50,13 @@ public class AreaController : MonoBehaviour {
 
     void Awake()
     {
+        areaMaterial = GetComponent<Renderer>().material;
+        baseXZPlanePosition = areaMaterial.GetVector(xzPlaneTag);
+
         fadableSectionRenderers = new List<MeshRenderer>();
         floorGroups = new List<GameObject>();
 
         floorsToEntitiesMap = new Dictionary<int, Dictionary<GameObject, int>>();
-
-        for (int i = 0; i < sectionsToFadeWhenAreaActive.Count; i++)
-        {
-            fadableSectionRenderers.Add(sectionsToFadeWhenAreaActive[i].GetComponent<MeshRenderer>());
-        }
 
         // TODO: Remove
         if (numberOfFloors < 0)
@@ -72,57 +73,62 @@ public class AreaController : MonoBehaviour {
         }
     }
 
-    void InitializeSectionsToFadeRenderers()
+    void InitializeClippingPlanes()
     {
-        sectionsToFadeRenderers = new List<MeshRenderer>();
+        areaMaterial.SetVector("_Plane1Normal", Vector4.zero);
+        areaMaterial.SetVector("_Plane1Position", Vector4.zero);
 
-        for (int i = 0; i < sectionsToFadeWhenAreaFaded.Count; i++)
-        {
-            MeshRenderer sectionRenderer = sectionsToFadeWhenAreaFaded[i].GetComponent<MeshRenderer>();
+        areaMaterial.SetVector("_Plane2Normal", Vector4.zero);
+        areaMaterial.SetVector("_Plane2Position", Vector4.zero);
 
-            sectionsToFadeRenderers.Add(sectionRenderer);
-        }
+        areaMaterial.SetVector("_Plane3Normal", Vector4.zero);
+        areaMaterial.SetVector("_Plane3Position", Vector4.zero);
     }
 
     void ToggleAreaActive(bool isActive)
     {
         if (isActive)
         {
-            FadeSections();
-
-            for (int i = 0; i < areasToFadeWhenActive.Count; i++)
-            {
-                areasToFadeWhenActive[i].ToggleAreaFaded(true);
-            }
+            StartCoroutine(ToggleStructureVisibility(true));
         }
-        else
-        {
-            ShowSections();
-
-            for (int i = 0; i < areasToFadeWhenActive.Count; i++)
-            {
-                areasToFadeWhenActive[i].ToggleAreaFaded(false);
-            }
+        else { 
+            StartCoroutine(ToggleStructureVisibility(false));
         }
     }
 
-    void ToggleAreaFaded(bool isFading)
+    IEnumerator ToggleStructureVisibility(bool isVisible)
     {
-        isAreaFaded = isFading;
-        if (sectionsToFadeRenderers == null)
+        float transitionTime = GameManager.RoomTransitionTime;
+
+        float timeElapsed = 0.0f;
+
+        Vector4 initialPosition = baseXZPlanePosition;
+        Vector4 destinationPosition = baseXZPlanePosition;
+
+        if (isVisible)
         {
-            InitializeSectionsToFadeRenderers();
+            initialPosition.y = hiddenXZPlaneHeight;
+            destinationPosition.y = revealedXZPlaneHeight;
+        } 
+        else
+        {
+            initialPosition.y = revealedXZPlaneHeight;
+            destinationPosition.y = hiddenXZPlaneHeight;
         }
 
-        for (int i = 0; i < sectionsToFadeWhenAreaFaded.Count; i++)
+        while (timeElapsed < transitionTime) 
         {
-            StartCoroutine(FadeObject(sectionsToFadeRenderers[i], isFading));
+            float percentageComplete = timeElapsed / transitionTime;
+            float curvedPercentageCompletion = GameManager.RoomTransitionCurve.Evaluate(percentageComplete);
+
+            Vector4 newPlanePosition = Vector4.Lerp(initialPosition, destinationPosition, curvedPercentageCompletion);
+            areaMaterial.SetVector(xzPlaneTag, newPlanePosition);
+
+            timeElapsed += Time.deltaTime;
+            yield return null;
         }
 
-        for (int i = 0; i < sectionsToHideWhenAreaFaded.Count; i++)
-        {
-            sectionsToHideWhenAreaFaded[i].SetActive(!isFading);
-        }
+        areaMaterial.SetVector(xzPlaneTag, destinationPosition);
     }
 
     #region Entity entrance/exit handling
@@ -265,67 +271,6 @@ public class AreaController : MonoBehaviour {
             }
         }
     }
-
-    void FadeSections()
-    {
-        float roomTransitionTime = GameManager.RoomTransitionTime;
-        AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < fadableSectionRenderers.Count; i++)
-        {
-            StartCoroutine(FadeObject(fadableSectionRenderers[i], true));
-        }
-    }
-
-    void ShowSections()
-    {
-        float roomTransitionTime = GameManager.RoomTransitionTime;
-        AnimationCurve roomTransitionCurve = GameManager.RoomTransitionCurve;
-        for (int i = 0; i < fadableSectionRenderers.Count; i++)
-        {
-            StartCoroutine(FadeObject(fadableSectionRenderers[i], false));
-        }
-    }
     #endregion
-
-    IEnumerator FadeObject(MeshRenderer renderer, bool isFading, bool fadeCompletely = false)
-    {
-        Color originalColor = renderer.material.color;
-        Color finalColor = originalColor;
-
-        if (!isFading)
-        {
-            finalColor.a = 1f;
-        }
-        else if (isAreaFaded)
-        {
-            finalColor.a = areaFadedFadeValue;
-        }
-        else
-        {
-            if (fadeCompletely)
-            {
-                finalColor.a = 0f;
-            }
-            else
-            {
-                finalColor.a = playerInAreaFadeValue;
-            }
-        }
-
-        float transitionTime = GameManager.RoomTransitionTime;
-        AnimationCurve transitionCurve = GameManager.RoomTransitionCurve;
-
-        float timeElapsed = 0.0f;
-
-        while (timeElapsed < transitionTime)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float percentageComplete = timeElapsed / transitionTime;
-
-            renderer.material.color = Color.Lerp(originalColor, finalColor, transitionCurve.Evaluate(percentageComplete));
-            yield return null;
-        }
-    }
 
 }
