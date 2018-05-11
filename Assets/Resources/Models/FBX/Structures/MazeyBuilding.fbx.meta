@@ -11,12 +11,14 @@ ModelImporter:
     100006: Wall_N
     100008: Wall_S
     100010: Wall_W
+    100012: Maze
     400000: //RootNode
     400002: Roof
     400004: Wall_E
     400006: Wall_N
     400008: Wall_S
     400010: Wall_W
+    400012: Maze
     2100000: Default_Prototype
     2300000: //RootNode
     2300002: Roof
@@ -24,18 +26,21 @@ ModelImporter:
     2300006: Wall_N
     2300008: Wall_S
     2300010: Wall_W
+    2300012: Maze
     3300000: //RootNode
     3300002: Roof
     3300004: Wall_E
     3300006: Wall_N
     3300008: Wall_S
     3300010: Wall_W
+    3300012: Maze
     4300000: MazeyBuilding
     4300002: Roof
     4300004: Wall_S
     4300006: Wall_W
     4300008: Wall_E
     4300010: Wall_N
+    4300012: Maze
   externalObjects: {}
   materials:
     importMaterials: 1
