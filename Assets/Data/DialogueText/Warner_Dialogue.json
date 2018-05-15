@@ -1,0 +1,50 @@
+{
+	"_entry": {
+		"TEXT": "Who-who-where are you going?!",
+		"CLICKABLE_TERMS": ["going"]
+	},
+	"going": {
+		"TEXT": "You're headed for danger! Don't you know? Stay in the safety...don't be a fool.",
+		"CLICKABLE_TERMS": ["danger", "safety", "fool"]
+	},
+	"danger": {
+		"TEXT": "The city! The center of the city! Don't you know what you'll find down there?",
+		"CLICKABLE_TERMS": ["what", "down there"]
+	},
+	"what": {
+		"TEXT": "Alright, I'm not sure either. But I hear it moving. The ground shakes. Something...stayed behind.",
+		"CLICKABLE_TERMS": ["stayed behind"]
+	},
+	"stayed behind": {
+		"TEXT": "It's normal, healthy, for an Assemblage to build and then move on. But some of them get...stuck...down there...",
+		"CLICKABLE_TERMS": ["down there"]
+	},
+	"down there": {
+		"TEXT": "Down in the old-old part. That the Assemblages have moved on from. Most of them. Not all of them.",
+		"CLICKABLE_TERMS": ["Most", "Not all"]
+	},
+	"Most": {
+		"TEXT": "You have to have seen them. The birdie-looking ones. They move on when they build...something else stayed behind.",
+		"CLICKABLE_TERMS": ["stayed behind"]
+	},
+	"Not all": {
+		"TEXT": "The ones that don't move on...something's wrong. They'll keep building and unbuilding the same thing. Some of them...work on each other.",
+		"CLICKABLE_TERMS": []
+	},
+	"safety": {
+		"TEXT": "Sure, there are some Assemblages kicking around...but they're small fries. The relatively sane ones. The ones that are still building...buildings.",
+		"CLICKABLE_TERMS": ["buildings"]
+	},
+	"buildings": {
+		"TEXT": "That's what they're supposed to do. Right? They were built to build. But others get a little scrambled, they build...other things.",
+		"CLICKABLE_TERMS": ["other things"]
+	},
+	"other things": {
+		"TEXT": "Yeah, other things. Like whatever is making all that racket. Banging around.",
+		"CLICKABLE_TERMS": []
+	},
+	"fool": {
+		"TEXT": "Anyone that endangers themselves. That's a fool.",
+		"CLICKABLE_TERMS": []
+	},
+}
