@@ -6,12 +6,18 @@ ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Elevator
     400000: //RootNode
+    400002: Elevator
     2100000: Default_Prototype__GridBox_Default_png
     2100002: Default_Prototype
     2300000: //RootNode
+    2300002: Elevator
     3300000: //RootNode
+    3300002: Elevator
     4300000: pb-MergedObject-43092
+    4300002: Building
+    4300004: Elevator
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

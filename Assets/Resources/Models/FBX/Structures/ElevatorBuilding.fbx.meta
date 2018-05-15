@@ -6,11 +6,25 @@ ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: pb-MergedObject-43092
+    100004: Building
+    100006: Elevator
     400000: //RootNode
+    400002: pb-MergedObject-43092
+    400004: Building
+    400006: Elevator
     2100000: Default_Prototype
     2300000: //RootNode
+    2300002: pb-MergedObject-43092
+    2300004: Building
+    2300006: Elevator
     3300000: //RootNode
+    3300002: pb-MergedObject-43092
+    3300004: Building
+    3300006: Elevator
     4300000: pb-MergedObject-43092
+    4300002: Building
+    4300004: Elevator
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -44,17 +58,17 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
+    preserveHierarchy: 1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
