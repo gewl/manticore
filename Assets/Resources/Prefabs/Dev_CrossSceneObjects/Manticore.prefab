@@ -781,7 +781,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1402736437522690}
   m_LocalRotation: {x: -0, y: 0.6448348, z: -0, w: 0.764322}
-  m_LocalPosition: {x: 122.5, y: -24.5, z: 12.5}
+  m_LocalPosition: {x: 65.5, y: 0, z: 12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4498134455102708}
@@ -859,7 +859,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!65 &65850425199479730
 BoxCollider:
@@ -985,7 +985,7 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: acb820fd905a27343a7e17f37867f7f1, type: 2}
+  - {fileID: 2100000, guid: 6ed1f39f79d6b45c19960a4f8e62f0d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

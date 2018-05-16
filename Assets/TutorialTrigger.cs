@@ -6,6 +6,8 @@ public class TutorialTrigger : MonoBehaviour {
 
     [SerializeField]
     string newText;
+    [SerializeField]
+    TutorialDoor doorController;
 
     TutorialController tutorialController;
 
@@ -17,5 +19,6 @@ public class TutorialTrigger : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         tutorialController.ChangeTutorialBub(newText);
+        doorController.CloseDoor();
     }
 }
