@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialController : MonoBehaviour {
 
@@ -11,12 +12,14 @@ public class TutorialController : MonoBehaviour {
 
     float resetPositionOffset;
     RectTransform elementRectTransform;
+    Text tutorialText; 
 
     float x, height, width;
 
     private void Awake()
     {
         elementRectTransform = transform.GetChild(0).GetComponent<RectTransform>();
+        tutorialText = elementRectTransform.GetChild(0).GetComponent<Text>();
 
         x = elementRectTransform.anchoredPosition.x;
         height = elementRectTransform.rect.height;
@@ -25,6 +28,11 @@ public class TutorialController : MonoBehaviour {
         resetPositionOffset = height * 1.5f;
 
         StartCoroutine(TransitionIn());
+    }
+
+    public void ChangeTutorialBub(string newText)
+    {
+        StartCoroutine(TransitionOutAndIn(newText));
     }
 
     IEnumerator TransitionIn()
@@ -47,6 +55,46 @@ public class TutorialController : MonoBehaviour {
         }
 
         UpdateOffset(targetPositionOffset);
+    }
+
+    IEnumerator TransitionOutAndIn(string newText)
+    {
+        float timeElapsed = 0.0f;
+
+        while (timeElapsed < transitionTime)
+        {
+            float percentageComplete = timeElapsed / transitionTime;
+            float curvedPercentageComplete = GameManager.BelovedSwingCurve.Evaluate(percentageComplete);
+
+            float newYOffset = Mathf.Lerp(targetPositionOffset, resetPositionOffset, curvedPercentageComplete);
+
+            UpdateOffset(newYOffset);
+
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        UpdateOffset(resetPositionOffset);
+
+        tutorialText.text = newText;
+
+        timeElapsed = 0.0f;
+
+        while (timeElapsed < transitionTime)
+        {
+            float percentageComplete = timeElapsed / transitionTime;
+            float curvedPercentageComplete = GameManager.BelovedSwingCurve.Evaluate(percentageComplete);
+
+            float newYOffset = Mathf.Lerp(resetPositionOffset, targetPositionOffset, curvedPercentageComplete);
+
+            UpdateOffset(newYOffset);
+
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        UpdateOffset(targetPositionOffset);
+
     }
 
     void UpdateOffset(float newOffset)
