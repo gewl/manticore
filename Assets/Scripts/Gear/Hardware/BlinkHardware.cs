@@ -89,6 +89,11 @@ public class BlinkHardware : EntityComponent, IHardware
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Busy, Lock);
     }
 
+    public void BlinkToPosition(Vector3 position)
+    {
+        StartCoroutine(FireBlinkToPosition(position));
+    }
+
     #region IHardware methods
     public void UseActiveHardware()
     {
@@ -272,7 +277,7 @@ public class BlinkHardware : EntityComponent, IHardware
     Vector3 GetBlinkDestination(Vector3 origin, Vector3 currentDirection)
     {
         Vector3 testClearPathOrigin = origin;
-        testClearPathOrigin.y -= entityInformation.EntityCollider.bounds.extents.y / 2f;
+        testClearPathOrigin.y += entityInformation.EntityCollider.bounds.extents.y / 2f;
         Vector3 destination;
 
         // Check to see if blink can carry target to full range, or if 
@@ -329,5 +334,50 @@ public class BlinkHardware : EntityComponent, IHardware
 		}
 
         return destination;
+    }
+
+    // Currently used for resetting player position in tutorial - travels through colliders.
+    IEnumerator FireBlinkToPosition(Vector3 targetPosition)
+    {
+        StartCoroutine(GoOnCooldown());
+        // Entering blink state
+        inputComponent.LockActions(true);
+        inputComponent.LockMovement(true);
+
+        Material originalSkin = entityMeshRenderer.material;
+        entityMeshRenderer.material = blinkMaterial;
+        trailRenderer.enabled = true;
+
+        Collider entityCollider = GetComponent<Collider>();
+        entityCollider.enabled = false;
+
+		// Brief pause before blink proper begins
+		yield return new WaitForSeconds(HangTimeBeforeBlinkStarts);
+
+        // Get blink destination based on current movement.
+        Vector3 origin = transform.position;
+        Vector3 destination = targetPosition;
+
+		float step = 0f;
+        float rate = 1 / TimeToCompleteBlink;
+
+        while (step < 1f)
+        {
+            step += Time.deltaTime * rate;
+            float curvedStep = GameManager.BlinkCompletionCurve.Evaluate(step);
+
+			transform.position = Vector3.Lerp(origin, destination, curvedStep);
+            yield return new WaitForEndOfFrame();
+        }
+
+        // Exiting blink state
+        entityMeshRenderer.material = originalSkin;
+        trailRenderer.enabled = false;
+        entityCollider.enabled = true;
+
+        inputComponent.LockActions(false);
+        inputComponent.LockMovement(false);
+
+		yield break;
     }
 }
