@@ -14,6 +14,11 @@ public class TutorialController : MonoBehaviour {
     RectTransform primaryBubRectTransform;
     Text primaryTutorialText;
 
+    [HideInInspector]
+    public bool InEquipActiveRoom = false;
+    [SerializeField]
+    GameObject equipActiveRoomPane;
+
     float x, defaultHeight;
 
     private void Awake()
@@ -31,6 +36,7 @@ public class TutorialController : MonoBehaviour {
 
     public void ChangeTutorialBub(string newText, GameObject secondaryBubPane = null)
     {
+        StopAllCoroutines();
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -42,6 +48,39 @@ public class TutorialController : MonoBehaviour {
         if (secondaryBubPane != null)
         {
             StartCoroutine(ShowSecondaryBubs(secondaryBubPane));
+        }
+    }
+
+    public void RegisterInventoryMenuOpen()
+    {
+        if (InEquipActiveRoom)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            equipActiveRoomPane.SetActive(true);
+        }
+    }
+    
+    public void RegisterInventoryMenuClose()
+    {
+        if (InEquipActiveRoom)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+            primaryBubRectTransform.gameObject.SetActive(true);
+            if (InventoryController.GetEquippedActiveHardware()[2] == HardwareType.Nullify)
+            {
+                primaryTutorialText.text = "Now you can RIGHT-CLICK to NULLIFY incoming enemy bullets!";
+            }
+            else
+            {
+                primaryTutorialText.text = "Talk to the robot to INSTALL your new HARDWARE!";
+            }
         }
     }
 

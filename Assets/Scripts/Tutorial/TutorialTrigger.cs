@@ -11,6 +11,8 @@ public class TutorialTrigger : MonoBehaviour {
 
     public GameObject secondaryBubSet;
 
+    public bool IsEquipActiveRoom = false;
+
     TutorialController tutorialController;
 
     private void Awake()
@@ -22,5 +24,18 @@ public class TutorialTrigger : MonoBehaviour {
     {
         tutorialController.ChangeTutorialBub(newText, secondaryBubSet);
         doorController.CloseDoor();
+
+        if (IsEquipActiveRoom)
+        {
+            tutorialController.InEquipActiveRoom = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (IsEquipActiveRoom)
+        {
+            tutorialController.InEquipActiveRoom = false;
+        } 
     }
 }

@@ -48,9 +48,6 @@ public class InventoryData {
 
         ObtainHardwareType(HardwareType.Parry);
         ObtainHardwareType(HardwareType.Blink);
-        ObtainHardwareType(HardwareType.Fracture);
-        ObtainHardwareType(HardwareType.Nullify);
-        ObtainHardwareType(HardwareType.Yank);
 
         ObtainRenewableType(RenewableTypes.NoetherFrictionConverter);
         ObtainRenewableType(RenewableTypes.GravesandeImpulseAdapter);

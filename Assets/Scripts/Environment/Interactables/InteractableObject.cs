@@ -38,8 +38,8 @@ public class InteractableObject : MonoBehaviour {
         }
 
         floatingLetter.SetActive(true);
-        floatingLetter.transform.position = originalLetterPosition;
-        floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
+        //floatingLetter.transform.position = originalLetterPosition;
+        //floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
 
         StartCoroutine("ActivateTerminal");
     }
@@ -68,9 +68,9 @@ public class InteractableObject : MonoBehaviour {
             float pingPongTime = Mathf.PingPong(timeElapsed, 1.0f);
             objectRenderer.material.SetFloat("_OutlineExtrusion", pingPongTime);
 
-            Vector3 letterRotationEuler = originalLetterRotationEuler;
-            letterRotationEuler.z += timeElapsed * 90f;
-            floatingLetter.transform.rotation = Quaternion.Euler(letterRotationEuler);
+            //Vector3 letterRotationEuler = originalLetterRotationEuler;
+            //letterRotationEuler.z += timeElapsed * 90f;
+            //floatingLetter.transform.rotation = Quaternion.Euler(letterRotationEuler);
 
             float verticalAdjustment = Mathf.PingPong(timeElapsed + 1f, 2.0f);
             verticalAdjustment -= 1f;
