@@ -7,6 +7,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     EntityGearManagement gear;
     HardwareType type = HardwareType.Nullify;
     public HardwareType Type { get { return type; } }
+    Collider entityCollider;
 
     public bool IsInUse { get { return false; } }
 
@@ -76,6 +77,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
     void OnEnable()
     {
         gear = GetComponent<EntityGearManagement>();
+        entityCollider = GetComponent<Collider>();
     }
 
     #region Active hardware use
@@ -86,7 +88,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
     IEnumerator FireNullifyEffect(float duration, bool shouldFollow = false, bool isActiveHardware = true)
     {
-        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, transform.position, Quaternion.identity);
+        GameObject spawnedNullification = Instantiate(NullifyEmanateEffect, entityCollider.bounds.center, Quaternion.identity);
         spawnedNullification.GetComponent<Nullify>().TimeToComplete = TotalTimeToComplete;
         if (isActiveHardware)
         {
@@ -95,7 +97,7 @@ public class NullifyHardware : MonoBehaviour, IHardware {
 
         float timeElapsed = 0.0f;
         Vector3 originalSize = spawnedNullification.transform.localScale;
-        Vector3 targetSize = new Vector3(NullifyRadius, 1f, NullifyRadius);
+        Vector3 targetSize = new Vector3(NullifyRadius, 5f, NullifyRadius);
 
         while (timeElapsed < TimeToExpandActiveEffect)
         {
