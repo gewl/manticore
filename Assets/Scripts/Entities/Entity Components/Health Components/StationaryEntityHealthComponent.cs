@@ -96,11 +96,11 @@ public class StationaryEntityHealthComponent : EntityComponent {
 
     protected override void Subscribe() {
         entityEmitter.SubscribeToEvent(EntityEvents.Respawning, OnRespawn);
-	}
+    }
 
     protected override void Unsubscribe() {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Respawning, OnRespawn);
-	}
+    }
 
     void OnRespawn()
     {
@@ -113,7 +113,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         for (int i = 0; i < renderersCount; i++)
         {
             renderers[i].material = defaultMaterials[i];
-        }           
+        }
 
         unitHealthBar.enabled = true;
 
@@ -143,7 +143,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
 
     public void OnCollisionEnter(Collision projectile)
     {
-        if (DoesBulletDamage(projectile.gameObject) && !IsInvulnerable) 
+        if (DoesBulletDamage(projectile.gameObject) && !IsInvulnerable)
         {
             // Get & deal damage.
             BulletController bullet = projectile.transform.GetComponent<BulletController>();
@@ -158,7 +158,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
             {
                 RespondToDeath();
             }
-		}
+        }
     }
 
     public void ReceiveDamageDirectly(Transform damagingEntity, float damage)
@@ -196,7 +196,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         unitHealthBarObject.SetActive(true);
         unitHealthBar.UpdateHealth(currentHealth);
     }
-    
+
     void TakeDamage(float damage)
     {
         if (IsInvulnerable)
@@ -247,7 +247,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         }
         else
         {
-            return false; 
+            return false;
         }
     }
 
@@ -262,14 +262,14 @@ public class StationaryEntityHealthComponent : EntityComponent {
             renderers[i].material = damageFlashMaterial;
         }
 
-        StartCoroutine("HandleDamage");
+        StartCoroutine(HandleDamage());
     }
 
     void RespondToDeath()
     {
         isDead = true;
         GameManager.FreezeGame(GlobalConstants.GameFreezeEvent.EntityDead);
-		entityEmitter.EmitEvent(EntityEvents.Dead);
+        entityEmitter.EmitEvent(EntityEvents.Dead);
 
         for (int i = 0; i < renderersCount; i++)
         {
@@ -277,7 +277,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
 
         }
 
-        StartCoroutine("HandleDeath");
+        StartCoroutine(HandleDeath());
 
     }
 
@@ -305,7 +305,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
     IEnumerator HandleDeath()
     {
         float deathTransitionCompletionTime = Time.time + timeToDie;
-        GetComponent<Collider>().enabled = false;
 
         while (Time.time < deathTransitionCompletionTime)
         {
@@ -318,7 +317,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
             yield return null;
         }
 
-           
         unitHealthBar.enabled = false;
         for (int i = 0; i < renderersCount; i++)
         {
@@ -326,7 +324,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         }
         entityEmitter.isMuted = true;
 
-        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        entityInformation.EntityRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         entityInformation.EntityRigidbody.isKinematic = true;
         entityInformation.EntityRigidbody.useGravity = false;
 
@@ -344,7 +342,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
 
             Vector3 newPosition = Vector3.Lerp(startingPosition, destinationPosition, sinkingCompletion);
             transform.position = newPosition;
-
             yield return null;
         }
 
