@@ -12,6 +12,7 @@ public class TutorialTrigger : MonoBehaviour {
     public GameObject secondaryBubSet;
 
     public bool IsEquipActiveRoom = false;
+    public bool IsEquipPassiveRoom = false;
 
     TutorialController tutorialController;
 
@@ -29,6 +30,10 @@ public class TutorialTrigger : MonoBehaviour {
         {
             tutorialController.InEquipActiveRoom = true;
         }
+        else if (IsEquipPassiveRoom)
+        {
+            tutorialController.InEquipPassiveRoom = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -37,5 +42,9 @@ public class TutorialTrigger : MonoBehaviour {
         {
             tutorialController.InEquipActiveRoom = false;
         } 
+        else if (IsEquipPassiveRoom)
+        {
+            tutorialController.InEquipPassiveRoom = false;
+        }
     }
 }

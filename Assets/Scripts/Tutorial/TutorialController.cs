@@ -16,8 +16,12 @@ public class TutorialController : MonoBehaviour {
 
     [HideInInspector]
     public bool InEquipActiveRoom = false;
+    [HideInInspector]
+    public bool InEquipPassiveRoom = false;
     [SerializeField]
-    GameObject equipActiveRoomPane;
+    GameObject equipActiveRoomInventoryPane;
+    [SerializeField]
+    GameObject equipPassiveRoomInventoryPane;
 
     float x, defaultHeight;
 
@@ -60,7 +64,16 @@ public class TutorialController : MonoBehaviour {
                 child.gameObject.SetActive(false);
             }
 
-            equipActiveRoomPane.SetActive(true);
+            equipActiveRoomInventoryPane.SetActive(true);
+        }
+        else if (InEquipPassiveRoom)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            equipPassiveRoomInventoryPane.SetActive(true);
         }
     }
     
@@ -80,6 +93,22 @@ public class TutorialController : MonoBehaviour {
             else
             {
                 primaryTutorialText.text = "Talk to the robot to INSTALL your new HARDWARE!";
+            }
+        }
+        else if (InEquipPassiveRoom)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+            primaryBubRectTransform.gameObject.SetActive(true);
+            if (InventoryController.GetEquippedPassiveHardware()[0] == HardwareType.Nullify)
+            {
+                primaryTutorialText.text = "Now your parried bullets have a NULLIFY effect!";
+            }
+            else
+            {
+                primaryTutorialText.text = "Talk to the robot to INSTALL NULLIFY as PASSIVE HARDWARE!";
             }
         }
     }
