@@ -346,7 +346,7 @@ public class BulletController : MonoBehaviour {
     {
         if (Strength == 0f)
         {
-            Strength = defaultStrength;
+            return;
         }
         else
         {

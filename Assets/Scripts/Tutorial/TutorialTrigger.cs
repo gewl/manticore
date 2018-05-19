@@ -13,6 +13,7 @@ public class TutorialTrigger : MonoBehaviour {
 
     public bool IsEquipActiveRoom = false;
     public bool IsEquipPassiveRoom = false;
+    public bool IsRenewableRoom = false;
 
     TutorialController tutorialController;
 
@@ -34,6 +35,11 @@ public class TutorialTrigger : MonoBehaviour {
         {
             tutorialController.InEquipPassiveRoom = true;
         }
+        else if (IsRenewableRoom)
+        {
+            GameManager.GetPlayerTransform().GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(50f);
+            tutorialController.InRenewableRoom = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -45,6 +51,10 @@ public class TutorialTrigger : MonoBehaviour {
         else if (IsEquipPassiveRoom)
         {
             tutorialController.InEquipPassiveRoom = false;
+        }
+        else if (IsRenewableRoom)
+        {
+            tutorialController.InRenewableRoom = false;
         }
     }
 }

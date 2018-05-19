@@ -181,6 +181,11 @@ public class MobileEntityHealthComponent : EntityComponent {
 		}
     }
 
+    public void ReceiveDamageDirectly(float damage)
+    {
+        ReceiveDamageDirectly(GameManager.GetPlayerTransform(), damage);
+    }
+
     public void ReceiveDamageDirectly(Transform damagingEntity, float damage)
     {
         if (IsInvulnerable)
@@ -244,7 +249,10 @@ public class MobileEntityHealthComponent : EntityComponent {
             Invoke("SetInvulnerable", invulnLag);
             GameManager.ShakeScreen();
         }
-        entityEmitter.EmitEvent(EntityEvents.HealthChanged);
+        if (damage > 0f)
+        {
+            entityEmitter.EmitEvent(EntityEvents.HealthChanged);
+        }
     }
 
     // Used to slightly delay invulnerability so blasts go through.

@@ -18,6 +18,8 @@ public class TutorialController : MonoBehaviour {
     public bool InEquipActiveRoom = false;
     [HideInInspector]
     public bool InEquipPassiveRoom = false;
+    [HideInInspector]
+    public bool InRenewableRoom = false;
     [SerializeField]
     GameObject equipActiveRoomInventoryPane;
     [SerializeField]
