@@ -59,7 +59,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     void GameStateEventHandler(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
     {
-        string primaryTextContents = GetPrimaryTextContents(gameStateEvent);
+        string primaryTextContents = GetPrimaryTextContents(gameStateEvent, eventInformation);
         string secondaryTextContents = GetSecondaryTextContents(gameStateEvent, eventInformation);
 
         if (primaryTextContents.Length > 0 && secondaryTextContents.Length > 0)
@@ -158,7 +158,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
         }
     }
 
-    string GetPrimaryTextContents(GlobalConstants.GameStateEvents gameStateEvent)
+    string GetPrimaryTextContents(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
     {
         switch (gameStateEvent)
         {
@@ -167,7 +167,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "New Momentum Point Earned";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
-                return "New Hardware Discovered";
+                return "New Hardware Discovered: " + eventInformation;
             case GlobalConstants.GameStateEvents.MomentumLost:
                 return "A Little Momentum Lost, No Big Deal";
             default:
@@ -184,9 +184,24 @@ public class ScrollingAlertTextController : MonoBehaviour {
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "Spend It and Accelerate";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
-                return "Now You Can " + eventInformation;
+                return "Now You Can " + GetDiscoveredHardwareFlavorText(eventInformation);
             case GlobalConstants.GameStateEvents.MomentumLost:
                 return "Try It Again";
+            default:
+                return "";
+        }
+    }
+
+    string GetDiscoveredHardwareFlavorText(string hardwareName)
+    {
+        switch (hardwareName)
+        {
+            case "Nullify":
+                return "Cancel and Eliminate";
+            case "Fracture":
+                return "Smash and Splinter";
+            case "Yank":
+                return "Twist and Shoot";
             default:
                 return "";
         }

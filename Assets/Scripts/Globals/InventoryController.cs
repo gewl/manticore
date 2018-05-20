@@ -53,6 +53,7 @@ public class InventoryController {
 
     public static void DiscoverHardware(HardwareType hardwareType)
     {
+        GlobalEventEmitter.OnGameStateEvent(GlobalConstants.GameStateEvents.HardwareDiscovered, hardwareType.ToString());
         Inventory.ObtainHardwareType(hardwareType);
         OnInventoryUpdated(Inventory);
     }
