@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ElevatorController : MonoBehaviour {
 
+    public bool isUsingZ = false;
+
     float baseHeight;
     [SerializeField]
     float alternateHeight;
@@ -15,10 +17,19 @@ public class ElevatorController : MonoBehaviour {
 
     private void Awake()
     {
-        baseHeight = transform.localPosition.z;
+        baseHeight = transform.localPosition.y;
+        if (isUsingZ)
+        {
+            baseHeight = transform.localPosition.z;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
+    {
+        StartElevator();
+    }
+
+    public void StartElevator()
     {
         if (!hasMoved)
         {
@@ -40,7 +51,14 @@ public class ElevatorController : MonoBehaviour {
 
             Vector3 newPosition = transform.localPosition;
 
-            newPosition.z = Mathf.Lerp(baseHeight, alternateHeight, curvedPercentage);
+            if (isUsingZ)
+            {
+                newPosition.z = Mathf.Lerp(baseHeight, alternateHeight, curvedPercentage);
+            }
+            else
+            {
+                newPosition.y = Mathf.Lerp(baseHeight, alternateHeight, curvedPercentage);
+            }
 
             transform.localPosition = newPosition;
 
@@ -48,7 +66,14 @@ public class ElevatorController : MonoBehaviour {
             yield return null;
         }
 
-        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, alternateHeight);
+        if (isUsingZ)
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, alternateHeight);
+        }
+        else
+        {
+            transform.localPosition = new Vector3(transform.localPosition.x, alternateHeight, transform.localPosition.z);
+        }
     }
 
 }

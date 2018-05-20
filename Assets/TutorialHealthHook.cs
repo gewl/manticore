@@ -8,6 +8,8 @@ public class TutorialHealthHook : EntityComponent {
     public string newBubText;
     public GameObject secondaryBubPane;
 
+    public ElevatorController trapdoor;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,6 +32,7 @@ public class TutorialHealthHook : EntityComponent {
         if (tutorialController.InRenewableRoom)
         {
             tutorialController.ChangeTutorialBub(newBubText, secondaryBubPane);
+            trapdoor.StartElevator();
         }
     }
 }

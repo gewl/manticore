@@ -25,7 +25,10 @@ public class TutorialTrigger : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         tutorialController.ChangeTutorialBub(newText, secondaryBubSet);
-        doorController.CloseDoor();
+        if (doorController != null)
+        {
+            doorController.CloseDoor();
+        }
 
         if (IsEquipActiveRoom)
         {
