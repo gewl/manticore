@@ -16,6 +16,7 @@ public class EntityEvents
 	public const string Move = "move";
     public const string Stop = "stop";
 
+    public const string ParrySwing = "parry_swing";
     public const string Parry = "parry";
 
     // 'Stun' is both a status effect and the name for the state which the

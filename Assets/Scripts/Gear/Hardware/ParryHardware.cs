@@ -131,6 +131,8 @@ public class ParryHardware : EntityComponent, IHardware {
 
     IEnumerator ForwardParry()
     {
+        entityEmitter.EmitEvent(EntityEvents.ParrySwing);
+
         isInParry = true;
         isOnCooldown = true;
         LimitEntityInParry();
@@ -178,6 +180,7 @@ public class ParryHardware : EntityComponent, IHardware {
 
 	IEnumerator BackwardParry()
 	{
+        entityEmitter.EmitEvent(EntityEvents.ParrySwing);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
         isInParry = true;
         parryCollider.enabled = true;

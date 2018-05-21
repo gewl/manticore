@@ -15,6 +15,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
     const string IS_DEAD = "isDead";
     const string IS_STUNNED = "isStunned";
     const string FIRE_PRIMARY = "firePrimary";
+    const string PARRY = "parry";
 
     protected override void Awake()
     {
@@ -32,6 +33,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnUnstun);
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
+        entityEmitter.SubscribeToEvent(EntityEvents.ParrySwing, OnParry);
     }
 
     protected override void Unsubscribe()
@@ -42,6 +44,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnStun);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnUnstun);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.ParrySwing, OnParry);
     }
 
     void OnMove()
@@ -101,6 +104,14 @@ public class AnimatorStateChangeComponent : EntityComponent {
             animator.SetTrigger(FIRE_PRIMARY);
         }
 
+    }
+
+    void OnParry()
+    {
+        if (AnimatorContainsParameter(PARRY))
+        {
+            animator.SetTrigger(PARRY);
+        }
     }
 
     // Only runs while moving.

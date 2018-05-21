@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: ManticoreTop
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 1
+  - m_Path: Armature/Root
+    m_Weight: 1
+  - m_Path: Armature/Root/Foot.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot.L/Foot.L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot.R/Foot.R_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/Pelvis
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L/Hoof.L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R/Hoof.R_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Torso/UpperArm.L
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.L/Forearm.L
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.L/Forearm.L/Forearm.L_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.R
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.R/Forearm.R
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe/Pipe_end
+    m_Weight: 1
+  - m_Path: Manticore
+    m_Weight: 1
