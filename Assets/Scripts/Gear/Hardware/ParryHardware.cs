@@ -43,7 +43,7 @@ public class ParryHardware : EntityComponent, IHardware {
     }
 
     GameObject parryBox;
-    const string PARRY_BOX_NAME = "ParryBox";
+    const string PARRY_BOX_NAME = "ParryBone";
 
     bool isOnCooldown = false;
     public bool IsOnCooldown { get { return isOnCooldown; } }
@@ -140,35 +140,36 @@ public class ParryHardware : EntityComponent, IHardware {
         parryCollider.enabled = true;
 		yield return new WaitForSeconds(0.05f);
 
-        AnimationCurve swingCurve = GameManager.ParrySwingCurve;
-		float step = 0f;
-        float lastStep = 0f;
-		float rate = 1 / subtypeData.GetTimeToCompleteParry(ParryMomentum);
+        yield return new WaitForSeconds(subtypeData.GetTimeToCompleteParry(ParryMomentum));
+  //      AnimationCurve swingCurve = GameManager.ParrySwingCurve;
+		//float step = 0f;
+  //      float lastStep = 0f;
+		//float rate = 1 / subtypeData.GetTimeToCompleteParry(ParryMomentum);
 
-        while (step < 1f)
-        {
-            step += Time.deltaTime * rate;
+  //      while (step < 1f)
+  //      {
+  //          step += Time.deltaTime * rate;
 
-            float curvedStep = swingCurve.Evaluate(step);
-            parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
-            lastStep = curvedStep;
+  //          float curvedStep = swingCurve.Evaluate(step);
+  //          parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
+  //          lastStep = curvedStep;
 
-            if (step >= 0.8f && !inComboWindow)
-            {
-                isOnCooldown = false;
-                parryCollider.enabled = false;
-                inComboWindow = true;
-			}
+  //          if (step >= 0.8f && !inComboWindow)
+  //          {
+  //              isOnCooldown = false;
+  //              parryCollider.enabled = false;
+  //              inComboWindow = true;
+		//	}
 
-            yield return null;
-        }
+  //          yield return null;
+  //      }
 
-		if (parryQueued)
-        {
-			parryQueued = false;
-			StartCoroutine("BackwardParry");
-            yield break;
-        }
+		//if (parryQueued)
+  //      {
+		//	parryQueued = false;
+		//	StartCoroutine("BackwardParry");
+  //          yield break;
+  //      }
 
         currentComboTimer = subtypeData.GetTimeToCombo(ParryMomentum);
 
