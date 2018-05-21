@@ -77,7 +77,6 @@ public class ParryHardware : EntityComponent, IHardware {
     {
 		parryBox.transform.localPosition = parryReadyPosition;
 		parryBox.transform.localRotation = parryReadyRotation;
-		parryBox.SetActive(false);
 	}
 
     protected override void Unsubscribe() { }
@@ -95,13 +94,13 @@ public class ParryHardware : EntityComponent, IHardware {
             }
             else
             {
-                StartCoroutine("BackwardParry");
+                entityEmitter.EmitEvent(EntityEvents.ParrySwing);
             }
             isOnCooldown = true;
         }
         else
         {
-            StartCoroutine("ForwardParry");
+            entityEmitter.EmitEvent(EntityEvents.ParrySwing);
         }
     }
 
@@ -129,97 +128,111 @@ public class ParryHardware : EntityComponent, IHardware {
 
     #endregion
 
-    IEnumerator ForwardParry()
+    public void PlaceInParryState()
     {
-        entityEmitter.EmitEvent(EntityEvents.ParrySwing);
-
         isInParry = true;
         isOnCooldown = true;
         LimitEntityInParry();
-		parryBox.SetActive(true);
         parryCollider.enabled = true;
-		yield return new WaitForSeconds(0.05f);
+    }
 
-        yield return new WaitForSeconds(subtypeData.GetTimeToCompleteParry(ParryMomentum));
-  //      AnimationCurve swingCurve = GameManager.ParrySwingCurve;
-		//float step = 0f;
-  //      float lastStep = 0f;
-		//float rate = 1 / subtypeData.GetTimeToCompleteParry(ParryMomentum);
-
-  //      while (step < 1f)
-  //      {
-  //          step += Time.deltaTime * rate;
-
-  //          float curvedStep = swingCurve.Evaluate(step);
-  //          parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
-  //          lastStep = curvedStep;
-
-  //          if (step >= 0.8f && !inComboWindow)
-  //          {
-  //              isOnCooldown = false;
-  //              parryCollider.enabled = false;
-  //              inComboWindow = true;
-		//	}
-
-  //          yield return null;
-  //      }
-
-		//if (parryQueued)
-  //      {
-		//	parryQueued = false;
-		//	StartCoroutine("BackwardParry");
-  //          yield break;
-  //      }
-
-        currentComboTimer = subtypeData.GetTimeToCombo(ParryMomentum);
-
-        entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+    public void ExitParryState()
+    {
         isOnCooldown = false;
         isInParry = false;
-		yield break;
-	}
-
-	IEnumerator BackwardParry()
-	{
-        entityEmitter.EmitEvent(EntityEvents.ParrySwing);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-        isInParry = true;
-        parryCollider.enabled = true;
-
-        AnimationCurve swingCurve = GameManager.ParrySwingCurve;
-		float step = 0f;
-		float smoothStep;
-		float lastStep = 0f;
-
-		yield return new WaitForSeconds(0.1f);
-
-        float rate = 1 / (subtypeData.GetTimeToCompleteParry(ParryMomentum) * 2/3);
-
-		while (step < 1f)
-		{
-			step += Time.deltaTime * rate;
-
-			smoothStep = swingCurve.Evaluate(step);
-			parryBox.transform.RotateAround(transform.position, Vector3.up, 150f * (smoothStep - lastStep));
-			lastStep = smoothStep;
-			yield return null;
-
-            if (step >= 0.8f)
-            {
-                parryCollider.enabled = false;
-            }
-        }
-		entityEmitter.EmitEvent(EntityEvents.Available);
-
-        parryBox.transform.localPosition = parryReadyPosition;
-        parryBox.transform.localRotation = parryReadyRotation;
-        parryBox.SetActive(false);
-
+        parryCollider.enabled = false;
         UnlimitEntityAfterParry();
+    }
 
-        isOnCooldown = false;
-		yield break;
-	}
+ //   IEnumerator ForwardParry()
+ //   {
+ //       //entityEmitter.EmitEvent(EntityEvents.ParrySwing);
+ //isInParry = true;
+ //       isOnCooldown = true;
+ //       LimitEntityInParry();
+	//	parryBox.SetActive(true);
+ //       parryCollider.enabled = true;
+	//	yield return new WaitForSeconds(0.05f);
+
+ //       yield return new WaitForSeconds(subtypeData.GetTimeToCompleteParry(ParryMomentum));
+ //       //      AnimationCurve swingCurve = GameManager.ParrySwingCurve;
+ //       //float step = 0f;
+ //       //      float lastStep = 0f;
+
+ //       //      while (step < 1f)
+ //       //      {
+ //       //          step += Time.deltaTime * rate;
+
+ //       //          float curvedStep = swingCurve.Evaluate(step);
+ //       //          parryBox.transform.RotateAround(transform.position, Vector3.up * -1f, 150f * (curvedStep - lastStep));
+ //       //          lastStep = curvedStep;
+
+ //       //          if (step >= 0.8f && !inComboWindow)
+ //       //          {
+ //       //              isOnCooldown = false;
+ //       //              parryCollider.enabled = false;
+ //       //              inComboWindow = true;
+ //       //	}
+
+ //       //          yield return null;
+ //       //      }
+
+ //       //if (parryQueued)
+ //       //      {
+ //       //	parryQueued = false;
+ //       //	StartCoroutine("BackwardParry");
+ //       //          yield break;
+ //       //      }
+
+ //       currentComboTimer = subtypeData.GetTimeToCombo(ParryMomentum);
+
+ //       entityEmitter.SubscribeToEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+ //       isOnCooldown = false;
+ //       isInParry = false;
+	//	yield break;
+	//}
+
+	//IEnumerator BackwardParry()
+	//{
+ //       entityEmitter.EmitEvent(EntityEvents.ParrySwing);
+ //       entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
+ //       isInParry = true;
+ //       parryCollider.enabled = true;
+
+ //       AnimationCurve swingCurve = GameManager.ParrySwingCurve;
+	//	float step = 0f;
+	//	float smoothStep;
+	//	float lastStep = 0f;
+
+	//	yield return new WaitForSeconds(0.1f);
+
+ //       float rate = 1 / (subtypeData.GetTimeToCompleteParry(ParryMomentum) * 2/3);
+
+	//	while (step < 1f)
+	//	{
+	//		step += Time.deltaTime * rate;
+
+	//		smoothStep = swingCurve.Evaluate(step);
+	//		parryBox.transform.RotateAround(transform.position, Vector3.up, 150f * (smoothStep - lastStep));
+	//		lastStep = smoothStep;
+	//		yield return null;
+
+ //           if (step >= 0.8f)
+ //           {
+ //               parryCollider.enabled = false;
+ //           }
+ //       }
+	//	entityEmitter.EmitEvent(EntityEvents.Available);
+
+ //       parryBox.transform.localPosition = parryReadyPosition;
+ //       parryBox.transform.localRotation = parryReadyRotation;
+ //       parryBox.SetActive(false);
+
+ //       UnlimitEntityAfterParry();
+
+ //       isOnCooldown = false;
+	//	yield break;
+	//}
 
     void LimitEntityInParry()
     {

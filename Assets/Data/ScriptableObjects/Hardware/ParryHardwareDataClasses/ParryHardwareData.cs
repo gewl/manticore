@@ -11,14 +11,6 @@ public abstract class ParryHardwareData : HardwareData {
         return baseDamageDealt + (damageDealtMomentumIncrement * currentMomentum);
     }
 
-    protected abstract float baseTimeToCompleteParry { get; }
-    protected abstract float timeToCompleteMomentumIncrement { get; }
-
-    public virtual float GetTimeToCompleteParry(int currentMomentum)
-    {
-        return baseTimeToCompleteParry - (timeToCompleteMomentumIncrement * currentMomentum);
-    }
-
     protected abstract float baseMovementModifier { get; }
     protected abstract float movementModifierMomentumIncrement { get; }
 

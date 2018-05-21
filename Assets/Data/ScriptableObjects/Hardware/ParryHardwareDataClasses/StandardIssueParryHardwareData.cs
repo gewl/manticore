@@ -41,13 +41,4 @@ public class StandardIssueParryHardwareData : ParryHardwareData {
     {
         get { return 4f; }
     }
-
-    protected override float baseTimeToCompleteParry
-    {
-        get { return 0.12f; }
-    }
-    protected override float timeToCompleteMomentumIncrement
-    {
-        get { return 0f; }
-    }
 }
