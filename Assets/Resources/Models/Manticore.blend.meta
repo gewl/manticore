@@ -45,6 +45,7 @@ ModelImporter:
     400036: UpperLeg_R
     2100000: unnamed
     2100002: Material__ManticoreTex
+    2100004: Material__ManticoreUV_HD
     4300000: Manticore
     7400000: Default Take
     7400002: 0_IdleCycle
