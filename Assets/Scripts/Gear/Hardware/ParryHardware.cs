@@ -88,15 +88,8 @@ public class ParryHardware : EntityComponent, IHardware {
         if (inComboWindow)
         {
             inComboWindow = false;
-            if (isInParry)
-            {
-                parryQueued = true;
-            }
-            else
-            {
-                entityEmitter.EmitEvent(EntityEvents.ParrySwing);
-            }
             isOnCooldown = true;
+            entityEmitter.EmitEvent(EntityEvents.ParrySwing);
         }
         else
         {
@@ -109,26 +102,9 @@ public class ParryHardware : EntityComponent, IHardware {
         Debug.LogError("Trying to apply Parry passively.");
     }
 
-    // Listener for Parry event received while in Ready state (has not yet parried).
-	void OnUpdate_AfterFirstParry()
-    {
-        if (currentComboTimer > 0f)
-        {
-            currentComboTimer -= Time.deltaTime;
-        }
-        else
-        {
-            inComboWindow = false;
-            isOnCooldown = false;
-            entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate_AfterFirstParry);
-            UnlimitEntityAfterParry();
-			Subscribe();
-		}
-    }
-
     #endregion
 
-    public void PlaceInParryState()
+    public void EnterParryState()
     {
         isInParry = true;
         isOnCooldown = true;
@@ -255,4 +231,15 @@ public class ParryHardware : EntityComponent, IHardware {
 		entityEmitter.EmitEvent(EntityEvents.ResumeRotation);
 	}
 
+    // "Combo window" refers to accepting Parry input & queueing a back parry after first parry is complete
+    void EnterComboWindow()
+    {
+        isOnCooldown = false;
+        inComboWindow = true;
+    }
+
+    void ExitComboWindow()
+    {
+        inComboWindow = false;   
+    }
 }

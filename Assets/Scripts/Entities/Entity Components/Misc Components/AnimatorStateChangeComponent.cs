@@ -33,7 +33,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.SubscribeToEvent(EntityEvents.Stun, OnStun);
         entityEmitter.SubscribeToEvent(EntityEvents.Unstun, OnUnstun);
         entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
-        entityEmitter.SubscribeToEvent(EntityEvents.ParrySwing, OnParry);
+        entityEmitter.SubscribeToEvent(EntityEvents.ParrySwing, OnParrySwing);
     }
 
     protected override void Unsubscribe()
@@ -44,7 +44,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Stun, OnStun);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Unstun, OnUnstun);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
-        entityEmitter.UnsubscribeFromEvent(EntityEvents.ParrySwing, OnParry);
+        entityEmitter.UnsubscribeFromEvent(EntityEvents.ParrySwing, OnParrySwing);
     }
 
     void OnMove()
@@ -106,7 +106,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
 
     }
 
-    void OnParry()
+    void OnParrySwing()
     {
         if (AnimatorContainsParameter(PARRY))
         {
