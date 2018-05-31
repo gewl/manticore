@@ -16,6 +16,10 @@ public class AnimatorStateChangeComponent : EntityComponent {
     const string IS_STUNNED = "isStunned";
     const string FIRE_PRIMARY = "firePrimary";
     const string PARRY = "parry";
+    const string MOVE_X = "MoveX";
+    const string MOVE_Z = "MoveZ";
+
+    bool hasBlendedDirectionalMovement = false;
 
     protected override void Awake()
     {
@@ -23,6 +27,9 @@ public class AnimatorStateChangeComponent : EntityComponent {
 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        hasBlendedDirectionalMovement = AnimatorContainsParameter(MOVE_X) && AnimatorContainsParameter(MOVE_Z);
+        Debug.Log(hasBlendedDirectionalMovement);
     }
 
     protected override void Subscribe()
@@ -53,7 +60,7 @@ public class AnimatorStateChangeComponent : EntityComponent {
         {
             animator.SetBool(IS_MOVING, true);
 
-            if (agent != null)
+            if (agent != null || hasBlendedDirectionalMovement)
             {
                 entityEmitter.SubscribeToEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
             }
@@ -66,9 +73,14 @@ public class AnimatorStateChangeComponent : EntityComponent {
         {
             animator.SetBool(IS_MOVING, false);
 
-            if (agent != null)
+            if (agent != null || hasBlendedDirectionalMovement)
             {
                 entityEmitter.UnsubscribeFromEvent(EntityEvents.FixedUpdate, OnFixedUpdate);
+            }
+            if (hasBlendedDirectionalMovement)
+            {
+                animator.SetFloat(MOVE_X, 0f);
+                animator.SetFloat(MOVE_Z, 0f);
             }
         }   
     }
@@ -117,10 +129,23 @@ public class AnimatorStateChangeComponent : EntityComponent {
     // Only runs while moving.
     void OnFixedUpdate()
     {
-        float currentMoveSpeed = agent.speed;
-        float percentageOfMaxSpeed = currentMoveSpeed / MaxSpeed;
+        if (agent != null)
+        {
+            float currentMoveSpeed = agent.speed;
+            float percentageOfMaxSpeed = currentMoveSpeed / MaxSpeed;
 
-        animator.speed = percentageOfMaxSpeed;
+            animator.speed = percentageOfMaxSpeed;
+        }
+
+        if (hasBlendedDirectionalMovement)
+        {
+            Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
+            currentDirection.Normalize();
+
+            Debug.Log("setting float");
+            animator.SetFloat(MOVE_X, currentDirection.x);
+            animator.SetFloat(MOVE_Z, currentDirection.z);
+        }
     }
 
     bool AnimatorContainsParameter(string name)
