@@ -68,6 +68,8 @@ ModelImporter:
     7400014: Armature|6.ManticoreParrySwing
     7400016: Armature|3.ManticoreBackwardsWalk
     7400018: Armature|7.ManticoreLeftStrafe
+    7400020: Armature|2.ManticoreWalkCycle
+    7400022: 0.ManticoreIdleCycle
     9500000: //RootNode
     13700000: Manticore
   externalObjects:
@@ -439,6 +441,162 @@ ModelImporter:
       takeName: Armature|7.ManticoreLeftStrafe
       firstFrame: 0
       lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Foot.L
+        weight: 1
+      - path: Armature/Root/Foot.L/Foot.L_end
+        weight: 1
+      - path: Armature/Root/Foot.R
+        weight: 1
+      - path: Armature/Root/Foot.R/Foot.R_end
+        weight: 1
+      - path: Armature/Root/Torso
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L/Hoof.L_end
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R/Hoof.R_end
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L/Forearm.L
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L/Forearm.L/Forearm.L_end
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe/Pipe_end
+        weight: 1
+      - path: Manticore
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|2.ManticoreWalkCycle
+      takeName: Armature|2.ManticoreWalkCycle
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Foot.L
+        weight: 1
+      - path: Armature/Root/Foot.L/Foot.L_end
+        weight: 1
+      - path: Armature/Root/Foot.R
+        weight: 1
+      - path: Armature/Root/Foot.R/Foot.R_end
+        weight: 1
+      - path: Armature/Root/Torso
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.L/Calf.L/Hoof.L/Hoof.L_end
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R
+        weight: 1
+      - path: Armature/Root/Torso/Pelvis/UpperLeg.R/Calf.R/Hoof.R/Hoof.R_end
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L/Forearm.L
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.L/Forearm.L/Forearm.L_end
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe
+        weight: 1
+      - path: Armature/Root/Torso/UpperArm.R/Forearm.R/Pipe/Pipe_end
+        weight: 1
+      - path: Manticore
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: 0.ManticoreIdleCycle
+      takeName: 0.ManticoreIdleCycle
+      firstFrame: 0
+      lastFrame: 39
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

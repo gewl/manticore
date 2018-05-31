@@ -29,7 +29,6 @@ public class AnimatorStateChangeComponent : EntityComponent {
         animator = GetComponent<Animator>();
 
         hasBlendedDirectionalMovement = AnimatorContainsParameter(MOVE_X) && AnimatorContainsParameter(MOVE_Z);
-        Debug.Log(hasBlendedDirectionalMovement);
     }
 
     protected override void Subscribe()
@@ -140,11 +139,10 @@ public class AnimatorStateChangeComponent : EntityComponent {
         if (hasBlendedDirectionalMovement)
         {
             Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
-            currentDirection.Normalize();
+            Vector3 localizedDirection = transform.InverseTransformDirection(currentDirection).normalized;
 
-            Debug.Log("setting float");
-            animator.SetFloat(MOVE_X, currentDirection.x);
-            animator.SetFloat(MOVE_Z, currentDirection.z);
+            animator.SetFloat(MOVE_X, localizedDirection.x);
+            animator.SetFloat(MOVE_Z, localizedDirection.z);
         }
     }
 
