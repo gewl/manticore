@@ -164,7 +164,7 @@ ModelImporter:
       name: Armature|6.ManticoreParrySwing
       takeName: Armature|6.ManticoreParrySwing
       firstFrame: 0
-      lastFrame: 23
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -270,7 +270,7 @@ ModelImporter:
       name: Armature|5.ManticoreBackParrySwing
       takeName: Armature|5.ManticoreBackParrySwing
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
