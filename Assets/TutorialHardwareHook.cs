@@ -21,9 +21,10 @@ public class TutorialHardwareHook : MonoBehaviour {
     {
         isApplicationQuitting = true; 
     }
+
     private void OnDestroy()
     {
-        if (!isApplicationQuitting)
+        if (!isApplicationQuitting && tutorialController != null)
         {
             tutorialController.ChangeTutorialBub(newBubText, tutorialPane);
         }

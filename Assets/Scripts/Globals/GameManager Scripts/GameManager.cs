@@ -15,7 +15,8 @@ public class GameManager : SerializedMonoBehaviour {
     public enum GameStates
     {
         InPlay,
-        InMenu
+        InMenu,
+        InMainMenu
     }
     public static GameStates CurrentGameState = GameStates.InPlay;
 
@@ -66,12 +67,31 @@ public class GameManager : SerializedMonoBehaviour {
         }
         collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
         PauseMenu.SetActive(false);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene == SceneManager.GetSceneByBuildIndex(0))
+        {
+            CurrentGameState = GameStates.InMainMenu;
+        }
+        else
+        {
+            CurrentGameState = GameStates.InPlay;
+            Time.timeScale = 1f;
+            isPaused = false;
+        }
     }
 
     void Update()
     {
+        if (CurrentGameState == GameStates.InPlay)
+        {
+            playerPlane = new Plane(Vector3.up, GetPlayerPosition());
+        }
         // Update plane at player's y-position for raycasting mouseclicks
-        playerPlane = new Plane(Vector3.up, GetPlayerPosition());
 
         if (Input.GetButtonDown("Pause"))
         {
@@ -79,7 +99,7 @@ public class GameManager : SerializedMonoBehaviour {
             {
                 MenuManager.LeaveMenu();
             }
-            else
+            else if (CurrentGameState == GameStates.InPlay)
             {
                 MenuManager.EnterMenu(PauseMenu);
             }
@@ -411,6 +431,16 @@ public class GameManager : SerializedMonoBehaviour {
             Time.timeScale = 1f;
             CameraController.RevertToOriginalProfile();
         }
+    }
+
+    public void ExitToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     #endregion
