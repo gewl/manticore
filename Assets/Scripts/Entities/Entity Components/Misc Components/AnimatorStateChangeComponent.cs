@@ -121,7 +121,6 @@ public class AnimatorStateChangeComponent : EntityComponent {
     {
         if (AnimatorContainsParameter(PARRY))
         {
-            Debug.Log("setting parry trigger");
             animator.SetTrigger(PARRY);
         }
     }

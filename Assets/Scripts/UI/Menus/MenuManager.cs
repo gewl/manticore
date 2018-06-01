@@ -37,19 +37,19 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     InformationTextController informationText;
 
-    void EnterMenu(GameObject menu)
+    public void EnterMenu(GameObject menu)
     {
         isInMenu = true;
-        GameManager.EnterMenu();
+        GameManager.EnterMenuState();
         menu.SetActive(true);
         currentlyActiveMenu = menu;
     }
 
-    void LeaveMenu()
+    public void LeaveMenu()
     {
         isInMenu = false;
         currentlyActiveMenu.SetActive(false);
-        GameManager.ExitMenu();
+        GameManager.ExitMenuState();
         currentlyActiveMenu = null;
     }
 
@@ -97,7 +97,7 @@ public class MenuManager : MonoBehaviour {
         }
         else
         {
-            GameManager.ExitMenu();
+            GameManager.ExitMenuState();
         }
     }
 

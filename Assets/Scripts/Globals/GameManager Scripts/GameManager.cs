@@ -65,6 +65,7 @@ public class GameManager : SerializedMonoBehaviour {
             Destroy(gameObject);
         }
         collectibleTracker = new bool[Enum.GetNames(typeof(GlobalConstants.Collectibles)).Length];
+        PauseMenu.SetActive(false);
     }
 
     void Update()
@@ -72,13 +73,34 @@ public class GameManager : SerializedMonoBehaviour {
         // Update plane at player's y-position for raycasting mouseclicks
         playerPlane = new Plane(Vector3.up, GetPlayerPosition());
 
-        if (CurrentGameState == GameStates.InPlay && Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause"))
         {
-            TogglePause();
+            if (CurrentGameState == GameStates.InMenu)
+            {
+                MenuManager.LeaveMenu();
+            }
+            else
+            {
+                MenuManager.EnterMenu(PauseMenu);
+            }
         }		
     }
 
     #region lazyload references
+    static GameObject _pauseMenu;
+    static GameObject PauseMenu
+    {
+        get
+        {
+            if (_pauseMenu == null)
+            {
+                _pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
+            }
+
+            return _pauseMenu;
+        }
+    }
+
     static Transform _terrain;
     static Transform Terrain
     {
@@ -357,21 +379,21 @@ public class GameManager : SerializedMonoBehaviour {
         CameraController.JoltScreen(direction, magnitude);
     }
 
-    public static void EnterMenu()
+    public static void EnterMenuState()
     {
-        TogglePause();
+        TogglePauseState();
 
         CurrentGameState = GameStates.InMenu;
     }
 
-    public static void ExitMenu()
+    public static void ExitMenuState()
     {
-        TogglePause();
+        TogglePauseState();
 
         CurrentGameState = GameStates.InPlay;
     }
 
-    public static void TogglePause()
+    public static void TogglePauseState()
     {
         isPaused = !isPaused;
 
