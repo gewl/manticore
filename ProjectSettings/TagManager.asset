@@ -15,6 +15,7 @@ TagManager:
   - EnemyBox
   - ScenePostProcessingVolume
   - TutorialController
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
