@@ -1,0 +1,47 @@
+{
+	"_entry": 
+	{
+		"TEXT": "Hey. HEY! I know that look. You're here for some INSTALLATION, aren't you? You have some...some remarkable tech. Mmnhph.",
+		"CLICKABLE_TERMS": ["INSTALLATION", "tech"]
+	},
+	"tech": 
+	{
+		"TEXT": "The really good stuff I crave. Hardware...software. I can smell it. Smells like my own passion. And I'm right there with it.",
+		"CLICKABLE_TERMS": ["hardware", "software"]
+	},
+	"hardware": 
+	{
+		"TEXT": "Every peoples made their own little chips. You know that? Humeys, Conjunctivists, Functionalists, whoever.",
+		"CLICKABLE_TERMS": ["their own little chips", "Humeys", "Conjunctivists", "Functionalists"]
+	},
+		"their own little chips": 
+		{
+			"TEXT": "Through experimenting...working. They're shaping our bodies. The limits of the possible. Isn't that beautiful?",
+			"CLICKABLE_TERMS": []
+		},
+		"Humeys": 
+		{
+			"TEXT": "Bleuch. Yeah. Haven't you seen them? The ones that...dress up. No thank you.",
+			"CLICKABLE_TERMS": []
+		},
+		"Conjunctivists": 
+		{
+			"TEXT": "Or whatever they're called. I don't know, man. I'm illustrating a point.",
+			"CLICKABLE_TERMS": []
+		},
+		"Functionalists": 
+		{
+			"TEXT": "I have to say, I respect those guys. I get it. Their commitment. I think it's laud",
+			"CLICKABLE_TERMS": []
+		},
+	"software": 
+	{
+		"TEXT": "You haven't seen any? Hoo-ee. You have to try...installing some, sometime. Plugging it in. Boy.",
+		"CLICKABLE_TERMS": ["installing"]
+	},
+		"installing": 
+		{
+			"TEXT": "You just plug it into something else, and off you go. Changes hardware without changing it. I love the stuff.",
+			"CLICKABLE_TERMS": []
+		}
+}

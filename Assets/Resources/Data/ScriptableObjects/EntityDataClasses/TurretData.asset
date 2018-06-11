@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca37263b142ebf641833b0b003a9ae48, type: 3}
+  m_Name: TurretData
+  m_EditorClassIdentifier: 
+  ID: Entity
+  Health: 40
+  BaseDamage: 40
+  MomentumValue: 6
+  BaseMoveSpeed: 0
+  AggroRange: 15
+  Allegiance: 1
+  isPlayer: 0
+  ArcOfFire: 25
+  AttackRange: 30
+  AttackCooldown: 0.6
+  BulletSpeed: 20
+  AimNoiseInDegrees: 2
+  Projectile: {fileID: 4748067459592758, guid: 9352d8e745d2eae4ca3c4bf769225963, type: 2}
+  NumberOfProjectiles: 1
+  RotationStrength: 2

@@ -11,7 +11,7 @@ public class MasterSerializer : MonoBehaviour {
     static string INVENTORY_SAVE_FILE_PATH { get { return SAVE_DIRECTORY_PATH + "/inventory.binary"; } }
     static string MOMENTUM_SAVE_FILE_PATH { get { return SAVE_DIRECTORY_PATH + "/momentum.binary"; } }
 
-    static string DATA_DIRECTORY_PATH { get { return Application.dataPath + "/Data"; } }
+    static string DATA_DIRECTORY_PATH { get { return "Data"; } }
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/HardwareDescriptions"; } }
     static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/RenewableDescriptions"; } }
     static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return DATA_DIRECTORY_PATH + "/DialogueText"; } }
@@ -193,15 +193,15 @@ public class MasterSerializer : MonoBehaviour {
 
     static JSONObject RetrieveDescriptionsObject(HardwareType hardwareType)
     {
-        string hardwareDescriptionsObjectString = File.ReadAllText(HARDWARE_DESCRIPTIONS_DIRECTORY_PATH + "/" + hardwareType.ToString() + ".json");
-        JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsObjectString);
+        TextAsset hardwareDescriptionsTextAsset = Resources.Load<TextAsset>(HARDWARE_DESCRIPTIONS_DIRECTORY_PATH + "/" + hardwareType.ToString());
+        JSONObject hardwareDescriptionsObject = new JSONObject(hardwareDescriptionsTextAsset.text);
         return hardwareDescriptionsObject;
     }
 
     static JSONObject RetrieveDescriptionsObject(RenewableTypes renewableType)
     {
-        string renewableDescriptionObjectString = File.ReadAllText(RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH + "/" + renewableType.ToString() + ".json");
-        JSONObject renewableDescriptionObject = new JSONObject(renewableDescriptionObjectString);
+        TextAsset renewableDescriptionAsset = Resources.Load<TextAsset>(RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH + "/" + renewableType.ToString());
+        JSONObject renewableDescriptionObject = new JSONObject(renewableDescriptionAsset.text);
         return renewableDescriptionObject;
     }
     #endregion
@@ -209,8 +209,8 @@ public class MasterSerializer : MonoBehaviour {
     #region Dialogue
     public static JSONObject RetrieveDialogueObject(string conversationalPartnerID)
     {
-        string dialogueObjectString = File.ReadAllText(DIALOGUE_OBJECT_DIRECTORY_PATH + "/" + conversationalPartnerID + DIALOGUE_OBJECT_SUFFIX + ".json");
-        JSONObject dialogueObject = new JSONObject(dialogueObjectString);
+        TextAsset dialogueText = Resources.Load<TextAsset>(DIALOGUE_OBJECT_DIRECTORY_PATH + "/" + conversationalPartnerID + DIALOGUE_OBJECT_SUFFIX);
+        JSONObject dialogueObject = new JSONObject(dialogueText.text);
         return dialogueObject;
     }
     #endregion

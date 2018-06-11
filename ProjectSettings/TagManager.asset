@@ -42,7 +42,7 @@ TagManager:
   - HUD
   - EnvironmentPostProcessing
   - HUDPostProcessing
-  - 
+  - MovableTerrain
   - 
   - 
   - 

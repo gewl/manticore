@@ -1,0 +1,10 @@
+{
+	"_entry": {
+		"TEXT": "Haha! Hello! I'm here to help you! I'm the only one!",
+		"CLICKABLE_TERMS": ["help"]
+	},
+	"help": {
+		"TEXT": "Yeah! Help! You got some parts? I can help you with INSTALLATION! That's it!",
+		"CLICKABLE_TERMS": ["INSTALLATION"]
+	},
+}
