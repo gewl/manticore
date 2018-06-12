@@ -7,15 +7,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MasterSerializer : MonoBehaviour {
-    static string SAVE_DIRECTORY_PATH { get { return Path.Combine(Application.persistentDataPath, "/Saves"); } }
-    static string INVENTORY_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "/inventory.binary"); } }
-    static string MOMENTUM_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "/momentum.binary"); } }
+    static string SAVE_DIRECTORY_PATH { get { return Path.Combine(Application.persistentDataPath, "Saves"); } }
+    static string INVENTORY_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "inventory.binary"); } }
+    static string MOMENTUM_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "momentum.binary"); } }
 
     static string DATA_DIRECTORY_PATH { get { return "Data"; } }
-    static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "/HardwareDescriptions"); } }
-    static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "/RenewableDescriptions"); } }
-    static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "/DialogueText"); } }
-    static string LEVEL_STATE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "/LevelStates"); } }
+    static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "HardwareDescriptions"); } }
+    static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "RenewableDescriptions"); } }
+    static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "DialogueText"); } }
+    static string LEVEL_STATE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "LevelStates"); } }
 
     static string DIALOGUE_OBJECT_SUFFIX = "_Dialogue";
     static string LEVEL_STATE_OBJECT_SUFFIX = "_State";
