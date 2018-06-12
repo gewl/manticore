@@ -141,8 +141,8 @@ public class AnimatorStateChangeComponent : EntityComponent {
             Vector3 currentDirection = (Vector3)entityInformation.GetAttribute(EntityAttributes.CurrentDirection);
             Vector3 localizedDirection = transform.InverseTransformDirection(currentDirection).normalized;
 
-            animator.SetFloat(MOVE_X, localizedDirection.x);
-            animator.SetFloat(MOVE_Z, localizedDirection.z);
+            animator.SetFloat(MOVE_X, localizedDirection.x, 1f, Time.deltaTime * 10f);
+            animator.SetFloat(MOVE_Z, localizedDirection.z, 1f, Time.deltaTime * 10f);
         }
     }
 
