@@ -30,7 +30,8 @@ public static class GlobalConstants {
         NewMomentumPoint,
         HardwareDiscovered,
         MomentumLost,
-        NewSceneLoaded
+        NewSceneLoaded,
+        MomentumAssigned
     }
 
     public enum Menus

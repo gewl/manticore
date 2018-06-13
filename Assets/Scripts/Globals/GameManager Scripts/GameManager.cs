@@ -445,6 +445,15 @@ public class GameManager : SerializedMonoBehaviour {
 
     #endregion
 
+    #region settings
+
+    public void ToggleFullscreen()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    #endregion
+
     #region gamestate data flags
 
     public static void SetIsPlayerLowHealth(bool _isPlayerLowHealth)

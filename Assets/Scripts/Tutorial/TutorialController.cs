@@ -25,6 +25,8 @@ public class TutorialController : MonoBehaviour {
     [SerializeField]
     GameObject equipPassiveRoomInventoryPane;
 
+    string momentumAssignedBubText = "You did it. That was exactly right. You're all done here now.";
+
     float x, defaultHeight;
 
     private void Awake()
@@ -189,5 +191,17 @@ public class TutorialController : MonoBehaviour {
     void UpdatePrimaryOffset(float newOffset)
     {
         primaryBubRectTransform.anchoredPosition = new Vector3(x, newOffset, 0f);
+    }
+
+    public void SubscribeToMomentumAssignment()
+    {
+        MomentumManager.OnMomentumUpdated += OnMomentumAssigned;
+    }
+
+    void OnMomentumAssigned(MomentumData momentum)
+    {
+        ChangeTutorialBub(momentumAssignedBubText);
+
+        MomentumManager.OnMomentumUpdated -= OnMomentumAssigned;
     }
 }

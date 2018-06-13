@@ -6,6 +6,8 @@ public class TutorialDeathTrigger : EntityComponent {
 
     [SerializeField]
     string newText;
+    [SerializeField]
+    bool shouldSubscribeToMomentumAssignment = false;
 
     public GameObject secondaryBubSet;
 
@@ -28,5 +30,9 @@ public class TutorialDeathTrigger : EntityComponent {
     private void OnDeath()
     {
         tutorialController.ChangeTutorialBub(newText, secondaryBubSet);
+        if (shouldSubscribeToMomentumAssignment)
+        {
+            tutorialController.SubscribeToMomentumAssignment();
+        }
     }
 }
