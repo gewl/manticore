@@ -39,7 +39,6 @@ public class StationaryEntityHealthComponent : EntityComponent {
     const string IGNORE_ALL = "IgnoreAll";
 
     float currentHealth = -1;
-    [HideInInspector]
     public bool IsInvulnerable = false;
     bool isDead = false;
 

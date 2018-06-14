@@ -7,6 +7,7 @@ public class TutorialHealthHook : EntityComponent {
     TutorialController tutorialController;
     public string newBubText;
     public GameObject secondaryBubPane;
+    public StationaryEntityHealthComponent entityToMakeVulnerable;
 
     public ElevatorController trapdoor;
 
@@ -33,6 +34,7 @@ public class TutorialHealthHook : EntityComponent {
         {
             tutorialController.ChangeTutorialBub(newBubText, secondaryBubPane);
             trapdoor.StartElevator();
+            entityToMakeVulnerable.IsInvulnerable = false;
         }
     }
 }

@@ -8,6 +8,8 @@ public class TutorialTrigger : MonoBehaviour {
     string newText;
     [SerializeField]
     TutorialDoor doorController;
+    [SerializeField]
+    GameObject objectToActivate;
 
     public GameObject secondaryBubSet;
 
@@ -25,6 +27,10 @@ public class TutorialTrigger : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         tutorialController.ChangeTutorialBub(newText, secondaryBubSet);
+        if (objectToActivate != null)
+        {
+            objectToActivate.SetActive(true);
+        }
         if (doorController != null)
         {
             doorController.CloseDoor();
