@@ -192,8 +192,8 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
     {
         generator = DialogueBubbleText.cachedTextGenerator;
         Vector2 clickPosition = DialogueBubbleText.transform.worldToLocalMatrix.MultiplyPoint(eventData.position);
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(DialogueBubbleText.rectTransform, eventData.position, Camera.main, out localPoint);
+        //Vector2 localPoint;
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(DialogueBubbleText.rectTransform, eventData.position, GameManager.UICamera, out localPoint);
 
         for (int i = 0; i < _clickableTerms.Count; i++)
         {
@@ -206,22 +206,47 @@ public class DialogueBubbleController : MonoBehaviour, IPointerClickHandler
 
             int termIndex = DialogueBubbleText.text.IndexOf(clickableTerm);
 
-            for (int pos = termIndex; pos < termIndex + clickableTerm.Length; pos++)
+            Debug.Log("Click position: " + clickPosition);
+            int firstTermIndex = termIndex;
+            int lastTermIndex = termIndex + clickableTerm.Length;
+
+            Vector2 upperLeft = new Vector2(generator.verts[firstTermIndex * 4].position.x, generator.verts[firstTermIndex * 4].position.y);
+            Vector2 bottomRight = new Vector2(generator.verts[lastTermIndex * 4 + 2].position.x, generator.verts[lastTermIndex * 4 + 2].position.y);
+
+            bool clickInBounds = clickPosition.x >= upperLeft.x && clickPosition.y >= upperLeft.y && clickPosition.x <= bottomRight.x && clickPosition.y <= bottomRight.y;
+
+            if (clickInBounds)
             {
-                Vector2 upperLeft = new Vector2(generator.verts[pos * 4].position.x, generator.verts[pos * 4 + 2].position.y);
-                Vector2 bottomRight = new Vector2(generator.verts[pos * 4 + 2].position.x, generator.verts[pos * 4].position.y);
-
-                bool clickInBounds = clickPosition.x >= upperLeft.x && clickPosition.y >= upperLeft.y && clickPosition.x <= bottomRight.x && clickPosition.y <= bottomRight.y;
-
-                if (clickInBounds)
-                {
-                    dialogueMenu.RegisterTermClick(this, clickableTerm);
-                    termsClicked[i] = true;
-                    UpdateClickableTermsHighlighting();
-                    return;
-                }
-
+                dialogueMenu.RegisterTermClick(this, clickableTerm);
+                termsClicked[i] = true;
+                UpdateClickableTermsHighlighting();
+                return;
             }
+
+            //for (int pos = termIndex; pos < termIndex + clickableTerm.Length; pos++)
+            //{
+            //    Vector2 upperLeft = new Vector2(generator.verts[pos * 4].position.x, generator.verts[pos * 4].position.y);
+            //    Vector2 bottomRight = new Vector2(generator.verts[pos * 4 + 2].position.x, generator.verts[pos * 4 + 2].position.y);
+            //    if (pos == termIndex)
+            //    {
+            //        Debug.Log("Upper left: " + upperLeft);
+            //    }
+            //    else if (pos == termIndex + clickableTerm.Length - 1)
+            //    {
+            //        Debug.Log("Bottom right: " + bottomRight);
+            //    }
+
+            //    bool clickInBounds = clickPosition.x >= upperLeft.x && clickPosition.y >= upperLeft.y && clickPosition.x <= bottomRight.x && clickPosition.y <= bottomRight.y;
+
+            //    if (clickInBounds)
+            //    {
+            //        dialogueMenu.RegisterTermClick(this, clickableTerm);
+            //        termsClicked[i] = true;
+            //        UpdateClickableTermsHighlighting();
+            //        return;
+            //    }
+
+            //}
         }
     }
 

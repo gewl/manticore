@@ -149,6 +149,20 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
+    static Camera _uiCamera;
+    public static Camera UICamera
+    {
+        get
+        {
+            if (_uiCamera == null)
+            {
+                _uiCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
+            }
+
+            return _uiCamera;
+        }
+    }
+
     static GameObject _hud;
     public static GameObject HUD
     {

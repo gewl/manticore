@@ -16,6 +16,7 @@ TagManager:
   - ScenePostProcessingVolume
   - TutorialController
   - PauseMenu
+  - UICamera
   layers:
   - Default
   - TransparentFX

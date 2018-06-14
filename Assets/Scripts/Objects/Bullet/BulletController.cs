@@ -277,6 +277,9 @@ public class BulletController : MonoBehaviour {
         {
             targetPosition = target.position; 
         }
+        // Always parries along same plane as it came in on.
+        targetPosition.y = transform.position.y;
+
         speed *= speedModifier;
 
         Vector3 direction = (targetPosition - transform.position).normalized;
