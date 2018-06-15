@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: TutorialTurretData_MomentumRoom
   m_EditorClassIdentifier: 
   ID: Entity
-  Health: 50
+  Health: 100
   BaseDamage: 0
   MomentumValue: 5
   BaseMoveSpeed: 0

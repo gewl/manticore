@@ -20,6 +20,7 @@ public class UnitHealthBar : MonoBehaviour {
     AnimationCurve damageBarAdjustmentCurve;
 
     bool isAdjustingDamageBar = false;
+    RectTransform rectTransform;
 
     void Awake()
     {
@@ -29,16 +30,20 @@ public class UnitHealthBar : MonoBehaviour {
         healthBarBackground = transform.GetChild(0).GetComponent<Image>();
         damageBar = transform.GetChild(1).GetComponent<Image>();
         healthBar = transform.GetChild(2).GetComponent<Image>();
+
+        rectTransform = GetComponent<RectTransform>();
     }
 
     void Update()
     {
         Vector3 attachedUnitPosition = mainCamera.WorldToScreenPoint(attachedUnit.position);
+        Debug.Log(attachedUnitPosition);
 
         attachedUnitPosition.x -= 30f;
         attachedUnitPosition.y -= 50f;
+        attachedUnitPosition.z = 1f;
 
-        transform.position = attachedUnitPosition;
+        rectTransform.anchoredPosition = attachedUnitPosition;
     }
 
     public void SetTotalHealth(float totalHealth)
