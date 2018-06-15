@@ -80,11 +80,8 @@ public class StationaryEntityHealthComponent : EntityComponent {
         // Instantiate attached health bar, assign values, then hide.
         if (unitHealthBar == null)
         {
-            Vector3 healthBarPosition = mainCamera.WorldToScreenPoint(transform.position);
-            healthBarPosition.x -= 30f;
-            healthBarPosition.y -= 30f;
             Transform unitHealthBarParent = GameManager.HUD.transform.Find("Unit Health Bars");
-            unitHealthBarObject = Instantiate(unitHealthBarPrefab, healthBarPosition, Quaternion.identity, unitHealthBarParent);
+            unitHealthBarObject = Instantiate(unitHealthBarPrefab, unitHealthBarParent);
             unitHealthBar = unitHealthBarObject.GetComponent<UnitHealthBar>();
             unitHealthBar.attachedUnit = transform;
             unitHealthBar.SetTotalHealth(initialHealth);
