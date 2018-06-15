@@ -47,7 +47,6 @@ public class RotateToFaceMouse : EntityComponent {
         {
             return;
         }
-
         Vector3 relativeMousePosition = GameManager.GetMousePositionOnPlayerPlane();
 
         transform.LookAt(relativeMousePosition);
