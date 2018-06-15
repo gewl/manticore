@@ -182,7 +182,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         // Trigger floating damage text.
         Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
         damageTextPosition.y += 15f;
-        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, GameManager.HUD.transform);
         FloatingDamageText floatingDamageText = instantiatedDamageText.GetComponent<FloatingDamageText>();
         floatingDamageText.isHealing = true;
         floatingDamageText.DamageValue = healing;
@@ -205,7 +205,7 @@ public class StationaryEntityHealthComponent : EntityComponent {
         // Trigger floating damage text.
         Vector3 damageTextPosition = mainCamera.WorldToScreenPoint(transform.position);
         damageTextPosition.y += 15f;
-        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, damageTextPosition, Quaternion.identity, GameManager.HUD.transform);
+        Transform instantiatedDamageText = Instantiate(floatingDamageTextPrefab, GameManager.HUD.transform);
         FloatingDamageText floatingDamageText = instantiatedDamageText.GetComponent<FloatingDamageText>();
         floatingDamageText.DamageValue = damage;
         floatingDamageText.attachedTransform = transform;

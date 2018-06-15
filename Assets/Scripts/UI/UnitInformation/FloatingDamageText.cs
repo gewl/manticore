@@ -7,8 +7,8 @@ public class FloatingDamageText : MonoBehaviour {
 
     [SerializeField]
     float timeToComplete = 1f;
-    float destinationYDisplacement = 50f;
-    float baseYDisplacement = 5f;
+    float destinationYDisplacement = 100f;
+    float baseYDisplacement = 75f;
 
     Camera mainCamera;
     public float DamageValue;
@@ -41,7 +41,7 @@ public class FloatingDamageText : MonoBehaviour {
         float timeElapsed = 0f;
         RectTransform rectTransform = GetComponent<RectTransform>();
 
-        Color originalColor = new Color(1.0f, 0.5f, 0f);
+        Color originalColor = new Color(1.0f, 0f, 0f);
         if (isHealing)
         {
             originalColor = Color.green;
@@ -55,12 +55,13 @@ public class FloatingDamageText : MonoBehaviour {
             float percentageComplete = timeElapsed / timeToComplete;
 
             Vector3 initialScreenPosition = mainCamera.WorldToScreenPoint(initialWorldPosition);
+            initialScreenPosition.z = 1f;
             Vector3 destinationPosition = initialScreenPosition;
 
             initialScreenPosition.y += baseYDisplacement;
             destinationPosition.y += destinationYDisplacement;
 
-            rectTransform.position = Vector3.Lerp(initialScreenPosition, destinationPosition, percentageComplete);
+            rectTransform.anchoredPosition = Vector3.Lerp(initialScreenPosition, destinationPosition, percentageComplete);
             text.color = new Color(originalColor.r, originalColor.g, originalColor.b, Mathf.Lerp(originalColor.a, 0f, percentageComplete));
             yield return null;
         }

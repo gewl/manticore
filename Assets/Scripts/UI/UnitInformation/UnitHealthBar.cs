@@ -37,7 +37,6 @@ public class UnitHealthBar : MonoBehaviour {
     void Update()
     {
         Vector3 attachedUnitPosition = mainCamera.WorldToScreenPoint(attachedUnit.position);
-        Debug.Log(attachedUnitPosition);
 
         attachedUnitPosition.x -= 50f;
         attachedUnitPosition.y -= 50f;
