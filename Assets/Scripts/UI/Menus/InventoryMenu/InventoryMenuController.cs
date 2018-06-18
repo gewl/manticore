@@ -31,6 +31,7 @@ public class InventoryMenuController : MonoBehaviour {
     private void OnDisable()
     {
         DeactivateTooltip();
+        InventoryController.OnInventoryUpdated(InventoryController.Inventory);
     }
 
     // TODO: Overload this for other gearTypes, or cast enum value to int,

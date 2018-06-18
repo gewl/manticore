@@ -47,9 +47,9 @@ public class MenuManager : MonoBehaviour {
 
     public void LeaveMenu()
     {
+        GameManager.ExitMenuState();
         isInMenu = false;
         currentlyActiveMenu.SetActive(false);
-        GameManager.ExitMenuState();
         currentlyActiveMenu = null;
     }
 
