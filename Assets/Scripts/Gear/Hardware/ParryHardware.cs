@@ -70,6 +70,7 @@ public class ParryHardware : EntityComponent, IHardware {
 		parryReadyRotation = parryBox.transform.localRotation;
 
         parryCollider = parryBox.GetComponent<BoxCollider>();
+        parryCollider.enabled = false;
 	}
 
     // Generally use to prime parry box (and controller) for "Ready" state.
