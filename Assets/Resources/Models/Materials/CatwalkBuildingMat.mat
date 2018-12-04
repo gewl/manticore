@@ -40,7 +40,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: d324f38cc57aa534cb58f43a757d8dfe, type: 3}
-        m_Scale: {x: -0.09, y: -0.1}
+        m_Scale: {x: 0.58, y: 0.56}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -75,9 +75,9 @@ Material:
     - _Color: {r: 0.72794116, g: 1, b: 0.88742393, a: 1}
     - _CrossColor: {r: 0.9632353, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Plane1Normal: {r: 0, g: 1, b: -0.04, a: 0}
-    - _Plane1Position: {r: 0, g: 43.74, b: 0, a: 1}
-    - _Plane2Normal: {r: 0.23, g: 6.84, b: -6.04, a: 0}
-    - _Plane2Position: {r: 0.83, g: -27.08, b: -0.89, a: 1}
-    - _Plane3Normal: {r: 1, g: 0, b: 0, a: 0}
-    - _Plane3Position: {r: 7.04, g: 0, b: 0, a: 1}
+    - _Plane1Normal: {r: 0.33, g: 3.46, b: -0.36, a: 7.2}
+    - _Plane1Position: {r: 0, g: 40.28, b: 1.11, a: 1}
+    - _Plane2Normal: {r: 1, g: 0, b: 0, a: 7.2}
+    - _Plane2Position: {r: 16.32, g: 5.81, b: -25.5, a: 1}
+    - _Plane3Normal: {r: 0, g: 0.17, b: -0.06, a: 0}
+    - _Plane3Position: {r: 0, g: -4.9, b: 58.88, a: 0}

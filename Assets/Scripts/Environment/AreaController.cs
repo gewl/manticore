@@ -96,7 +96,7 @@ public class AreaController : MonoBehaviour {
         }
     }
 
-    IEnumerator ToggleStructureVisibility(bool isVisible)
+    IEnumerator ToggleStructureVisibility(bool settingVisible)
     {
         float transitionTime = GameManager.RoomTransitionTime;
 
@@ -105,7 +105,7 @@ public class AreaController : MonoBehaviour {
         Vector4 initialPosition = baseXZPlanePosition;
         Vector4 destinationPosition = baseXZPlanePosition;
 
-        if (isVisible)
+        if (settingVisible)
         {
             initialPosition.y = hiddenXZPlaneHeight;
             destinationPosition.y = revealedXZPlaneHeight;
