@@ -32,8 +32,11 @@ public class CameraController : MonoBehaviour {
     Camera mainCamera;
     bool isShaking = false;
 
+    float rotationXValue;
+
     void Start()
     {
+        rotationXValue = transform.rotation.eulerAngles.x;
         mainCamera = Camera.main;
         if (followEntity == null)
         {
@@ -49,6 +52,10 @@ public class CameraController : MonoBehaviour {
         Vector3 nextCameraPosition = GetNextCameraPosition();
 
         transform.position = Vector3.SmoothDamp(transform.position, nextCameraPosition, ref dampVelocity, smoothTime);
+
+        float rotationDelta = Mathf.PingPong(Time.time, 1) - 0.5f;
+
+        transform.rotation = Quaternion.Euler(new Vector3(rotationXValue, -45f + rotationDelta, 0f));
     }
 
     Vector3 GetNextCameraPosition()

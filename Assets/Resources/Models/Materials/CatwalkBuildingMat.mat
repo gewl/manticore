@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: CatwalkBuildingMat
   m_Shader: {fileID: 4800000, guid: d148d5478e6a24341b40da3c6a0f9ffa, type: 3}
@@ -80,4 +80,4 @@ Material:
     - _Plane2Normal: {r: 0.23, g: 6.84, b: -6.04, a: 0}
     - _Plane2Position: {r: 0.83, g: -27.08, b: -0.89, a: 1}
     - _Plane3Normal: {r: 1, g: 0, b: 0, a: 0}
-    - _Plane3Position: {r: 0, g: 0, b: 0, a: 1}
+    - _Plane3Position: {r: 7.04, g: 0, b: 0, a: 1}

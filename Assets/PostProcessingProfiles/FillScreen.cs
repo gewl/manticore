@@ -10,7 +10,7 @@ public class FillScreen : MonoBehaviour
 
         transform.position = cam.transform.position + cam.transform.forward * pos;
 
-        float h = Mathf.Tan(cam.fov * Mathf.Deg2Rad * 0.5f) * pos * 2f;
+        float h = Mathf.Tan(cam.fieldOfView * Mathf.Deg2Rad * 0.5f) * pos * 2f;
 
     }
 }

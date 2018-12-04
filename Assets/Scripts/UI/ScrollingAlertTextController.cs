@@ -60,6 +60,11 @@ public class ScrollingAlertTextController : MonoBehaviour {
         secondaryText.gameObject.SetActive(false);
     }
 
+    public void ForceEnqueueScrollAction(string primaryTextContents, string secondaryTextContents)
+    {
+        scrollCoroutineQueue.EnqueueAction(ScrollText(primaryTextContents, secondaryTextContents));
+    }
+
     void GameStateEventHandler(GlobalConstants.GameStateEvents gameStateEvent, string eventInformation)
     {
         string primaryTextContents = GetPrimaryTextContents(gameStateEvent, eventInformation);

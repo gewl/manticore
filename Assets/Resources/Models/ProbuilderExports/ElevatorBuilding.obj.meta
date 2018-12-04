@@ -1,18 +1,22 @@
 fileFormatVersion: 2
 guid: 1b38d9f36feb72147b1fc9acc44ba615
-timeCreated: 1526061783
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: pb-MergedObject-43092
+    100004: default
     400000: //RootNode
     400002: pb-MergedObject-43092
+    400004: default
     2100000: Default_Prototype
+    2100002: Default_Prototype_NONE
     2300000: pb-MergedObject-43092
+    2300002: default
     3300000: pb-MergedObject-43092
+    3300002: default
     4300000: pb-MergedObject-43092
+    4300002: default
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -32,6 +36,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -63,6 +68,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -82,7 +89,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

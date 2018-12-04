@@ -25,7 +25,7 @@ public class MasterSerializer : MonoBehaviour {
 
     static string GetSceneStateFilePath()
     {
-        return LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + SceneManager.GetActiveScene().name + "_State.json";
+        return LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + SceneManager.GetActiveScene().name + "_State";
     }
 
     static string _activeSceneName;
@@ -38,9 +38,11 @@ public class MasterSerializer : MonoBehaviour {
             string currentSceneName = SceneManager.GetActiveScene().name;
             if (_activeSceneObject == null || _activeSceneName != currentSceneName)
             {
-                string sceneObjectString = File.ReadAllText(GetSceneStateFilePath());
+                TextAsset sceneObjectText = Resources.Load<TextAsset>(GetSceneStateFilePath());
+                JSONObject sceneObject = new JSONObject(sceneObjectText.text);
+
                 _activeSceneName = currentSceneName;
-                _activeSceneObject = new JSONObject(sceneObjectString);
+                _activeSceneObject = sceneObject;
             }
 
             return _activeSceneObject;

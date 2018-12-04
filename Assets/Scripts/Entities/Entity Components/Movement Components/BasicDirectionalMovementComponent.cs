@@ -20,11 +20,14 @@ public class BasicDirectionalMovementComponent : EntityComponent {
     float currentMoveSpeed;
     Vector3 currentDirection;
 
+    const string RAMP_TAG = "Ramp";
+    const string TERRAIN_LAYER_ID = "Terrain";
+
     protected override void OnEnable()
     {
         base.OnEnable();
         entityBounds = GetComponent<Collider>().bounds;
-        terrainMask = LayerMask.NameToLayer("Terrain");
+        terrainMask = LayerMask.NameToLayer(TERRAIN_LAYER_ID);
         allButTerrainMask = 1 << terrainMask;
         distanceToGround = entityBounds.extents.y;
         entityInformation.SetAttribute(EntityAttributes.BaseMoveSpeed, baseMoveSpeed);
@@ -63,11 +66,16 @@ public class BasicDirectionalMovementComponent : EntityComponent {
 
         if (rampCount != 0 || groundedCount != 0)
         {
+            if (projectedMovement == Vector3.zero)
+            {
+                return;
+            }
             Vector3 testPosition = transform.position + projectedMovement;
             testPosition.y += entityBounds.extents.y;
             Ray checkTestPosition = new Ray(testPosition, Vector3.down);
+            Debug.DrawLine(transform.position, entityBounds.center, Color.red, 1f);
             RaycastHit hit;
-            if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y * 2f, allButTerrainMask, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y, allButTerrainMask, QueryTriggerInteraction.Ignore))
             {
                 transform.position = hit.point;
                 return;
@@ -108,7 +116,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         {
             groundedCount++;
         }
-        if (collision.gameObject.CompareTag("Ramp"))
+        if (collision.gameObject.CompareTag(RAMP_TAG))
         {
             rampCount++;
         }
@@ -120,7 +128,7 @@ public class BasicDirectionalMovementComponent : EntityComponent {
         {
             groundedCount--;
         }
-        if (collision.gameObject.CompareTag("Ramp"))
+        if (collision.gameObject.CompareTag(RAMP_TAG))
         {
             rampCount--;
         }
