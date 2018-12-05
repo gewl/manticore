@@ -10,15 +10,6 @@ public class LevelManager : MonoBehaviour {
     public Transform SpawnPoint { get { return spawnPoint; } }
 
     const string LEVEL_ENEMIES_ID = "Enemies";
-
-    private void Awake()
-    {
-        //if (enemiesPrefab == null)
-        //{
-        //    Debug.LogError("Enemies prefab not assigned.");
-        //}
-    }
-
     private void OnEnable()
     {
         spawnPoint = transform.Find(SPAWN_POINT_ID);
