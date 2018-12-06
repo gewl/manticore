@@ -73,7 +73,6 @@ public class BasicDirectionalMovementComponent : EntityComponent {
             Vector3 testPosition = transform.position + projectedMovement;
             testPosition.y += entityBounds.extents.y;
             Ray checkTestPosition = new Ray(testPosition, Vector3.down);
-            Debug.DrawLine(transform.position, entityBounds.center, Color.red, 1f);
             RaycastHit hit;
             if (Physics.Raycast(checkTestPosition, out hit, entityBounds.size.y, allButTerrainMask, QueryTriggerInteraction.Ignore))
             {
