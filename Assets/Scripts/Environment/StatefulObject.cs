@@ -5,7 +5,9 @@ using Sirenix.OdinInspector;
 public class StatefulObject : SerializedMonoBehaviour {
 
     [SerializeField]
-    Vector3 destinationPosition;
+    Vector3 toggledPosition;
+    [SerializeField]
+    Vector3 toggledRotationEuler;
 
     [SerializeField]
     string stateBoolTag;
@@ -13,13 +15,18 @@ public class StatefulObject : SerializedMonoBehaviour {
     bool hasMoved = false;
     float timeToMove = 1.0f;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (MasterSerializer.GetSceneState(stateBoolTag))
+        if (MasterSerializer.GetObjectState(stateBoolTag))
         {
             hasMoved = true;
             StartCoroutine(ChangePosition());
         }
+    }
+
+    public string GetStateTag()
+    {
+        return stateBoolTag;
     }
 
     public void Move()
@@ -36,7 +43,17 @@ public class StatefulObject : SerializedMonoBehaviour {
 
     IEnumerator ChangePosition()
     {
-        Vector3 initialPosition = transform.localPosition;
+        Vector3 initialPosition = transform.position;
+
+        Vector3 destinationPosition = toggledPosition != Vector3.zero ?
+            toggledPosition :
+            initialPosition;
+
+        Vector3 initialRotation = transform.rotation.eulerAngles;
+
+        Vector3 destinationRotation = toggledRotationEuler != Vector3.zero ?
+            toggledRotationEuler :
+            initialRotation;
 
         float timeElapsed = 0.0f;
 
@@ -45,12 +62,14 @@ public class StatefulObject : SerializedMonoBehaviour {
             float percentageComplete = timeElapsed / timeToMove;
             float curvedCompletion = GameManager.BelovedSwingCurve.Evaluate(percentageComplete);
 
-            transform.localPosition = Vector3.Lerp(initialPosition, destinationPosition, curvedCompletion);
+            transform.position = Vector3.Lerp(initialPosition, toggledPosition, curvedCompletion);
+            transform.rotation = Quaternion.Euler(Vector3.Lerp(initialRotation, destinationRotation, curvedCompletion));
 
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.localPosition = destinationPosition;
+        transform.position = destinationPosition;
+        transform.rotation = Quaternion.Euler(destinationRotation);
     }
 }

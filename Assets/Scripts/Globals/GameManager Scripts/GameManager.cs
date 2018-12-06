@@ -33,7 +33,7 @@ public class GameManager : SerializedMonoBehaviour {
     }
 
     // Environment references
-    static LevelManager currentlyActiveLevel;
+    public static LevelManager currentlyActiveLevel;
 
     // Player references
     static GameObject playerObject;

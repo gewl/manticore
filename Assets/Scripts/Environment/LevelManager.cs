@@ -31,16 +31,4 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    //void ClearAndRespawnEnemies()
-    //{
-    //    Transform currentEnemies = transform.Find(LEVEL_ENEMIES_ID);
-
-    //    if (currentEnemies != null)
-    //    {
-    //        Destroy(currentEnemies.gameObject);
-    //    }
-
-    //    GameObject newEnemies = Instantiate(enemiesPrefab);
-    //    newEnemies.name = LEVEL_ENEMIES_ID;
-    //}
 }

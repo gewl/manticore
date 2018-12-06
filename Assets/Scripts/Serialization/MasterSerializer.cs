@@ -11,21 +11,25 @@ public class MasterSerializer : MonoBehaviour {
     static string INVENTORY_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "inventory.binary"); } }
     static string MOMENTUM_SAVE_FILE_PATH { get { return Path.Combine(SAVE_DIRECTORY_PATH, "momentum.binary"); } }
 
+    static string LEVEL_STATE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(Application.persistentDataPath, "LevelStates"); } }
+
     static string DATA_DIRECTORY_PATH { get { return "Data"; } }
     static string HARDWARE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "HardwareDescriptions"); } }
     static string RENEWABLE_DESCRIPTIONS_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "RenewableDescriptions"); } }
     static string DIALOGUE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "DialogueText"); } }
-    static string LEVEL_STATE_OBJECT_DIRECTORY_PATH { get { return Path.Combine(DATA_DIRECTORY_PATH, "LevelStates"); } }
 
     static string DIALOGUE_OBJECT_SUFFIX = "_Dialogue";
     static string LEVEL_STATE_OBJECT_SUFFIX = "_State";
+
+    static string LEVEL_MANAGER_TAG = "LevelManager";
 
     static Dictionary<HardwareType, JSONObject> hardwareTypeToDescriptionsMap;
     static Dictionary<RenewableTypes, JSONObject> renewableTypeToDescriptionsMap;
 
     static string GetSceneStateFilePath()
     {
-        return LEVEL_STATE_OBJECT_DIRECTORY_PATH + "/" + SceneManager.GetActiveScene().name + "_State";
+        string sceneFileName = SceneManager.GetActiveScene().name + "_State";
+        return Path.Combine(LEVEL_STATE_OBJECT_DIRECTORY_PATH, sceneFileName);
     }
 
     static string _activeSceneName;
@@ -38,20 +42,39 @@ public class MasterSerializer : MonoBehaviour {
             string currentSceneName = SceneManager.GetActiveScene().name;
             if (_activeSceneObject == null || _activeSceneName != currentSceneName)
             {
-                TextAsset sceneObjectText = Resources.Load<TextAsset>(GetSceneStateFilePath());
-                JSONObject sceneObject = new JSONObject(sceneObjectText.text);
+                string sceneObjectText = File.ReadAllText(GetSceneStateFilePath());
+                if (sceneObjectText == null)
+                {
+                    JSONObject sceneObject = new JSONObject();
+                    List<string> sceneObjectTags = GameObject.FindGameObjectWithTag(LEVEL_MANAGER_TAG).GetComponent<StatefulObjectManager>().GetAllStatefulSceneTags();
+                    foreach (string tag in sceneObjectTags)
+                    {
+                        sceneObject.AddField(tag, false);
+                    }
+
+                    _activeSceneObject = sceneObject;
+                    string sceneObjectString = sceneObject.ToString(true);
+                    WriteActiveSceneObject(sceneObjectString);
+                }
+                else
+                {
+                    JSONObject sceneObject = new JSONObject(sceneObjectText);
+                    _activeSceneObject = sceneObject;
+                }
 
                 _activeSceneName = currentSceneName;
-                _activeSceneObject = sceneObject;
             }
 
             return _activeSceneObject;
         }
     }
 
-    static void WriteActiveSceneObject()
+    static void WriteActiveSceneObject(string stateObjectString)
     {
-        string stateObjectString = ActiveSceneObject.ToString(true);
+        if (!Directory.Exists(LEVEL_STATE_OBJECT_DIRECTORY_PATH))
+        {
+            Directory.CreateDirectory(LEVEL_STATE_OBJECT_DIRECTORY_PATH);
+        }
 
         File.WriteAllText(GetSceneStateFilePath(), stateObjectString);
     }
@@ -219,7 +242,7 @@ public class MasterSerializer : MonoBehaviour {
 
     #region Level states
 
-    public static bool GetSceneState(string StateTag)
+    public static bool GetObjectState(string StateTag)
     {
         if (!ActiveSceneObject.HasField(StateTag))
         {
@@ -238,8 +261,9 @@ public class MasterSerializer : MonoBehaviour {
             return;
         }
         ActiveSceneObject.SetField(StateTag, true);
+        string sceneObjectString = ActiveSceneObject.ToString(true);
 
-        WriteActiveSceneObject();
+        WriteActiveSceneObject(sceneObjectString);
     }
 
     #endregion

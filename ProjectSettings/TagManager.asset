@@ -17,6 +17,7 @@ TagManager:
   - TutorialController
   - PauseMenu
   - UICamera
+  - LevelManager
   layers:
   - Default
   - TransparentFX
