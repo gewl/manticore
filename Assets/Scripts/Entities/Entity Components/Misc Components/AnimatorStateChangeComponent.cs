@@ -114,7 +114,6 @@ public class AnimatorStateChangeComponent : EntityComponent {
         {
             animator.SetTrigger(FIRE_PRIMARY);
         }
-
     }
 
     void OnParrySwing()

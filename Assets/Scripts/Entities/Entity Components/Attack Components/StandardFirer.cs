@@ -47,6 +47,8 @@ public class StandardFirer : EntityComponent {
     Transform target;
     Rigidbody targetRigidbody;
 
+    GenericEntityAudioComponent audioComponent;
+
     // Experimenting with enemies beginning shooting inaccurately (large amount
     // of noise added to shots), then accuracy increases over period of time until
     // noise floor reached. Should allow players to get the sense of a room at the outset
@@ -67,6 +69,8 @@ public class StandardFirer : EntityComponent {
         {
             _spawnPoint = firer.transform;
         }
+
+        audioComponent = GetComponent<GenericEntityAudioComponent>();
     }
 
     protected override void OnEnable()
@@ -100,6 +104,10 @@ public class StandardFirer : EntityComponent {
         for (int i = 0; i < NumberOfProjectiles; i++)
         {
             FireProjectile(currentTarget);
+        }
+        if (audioComponent != null)
+        {
+            audioComponent.OnPrimaryFire();
         }
     }
 
