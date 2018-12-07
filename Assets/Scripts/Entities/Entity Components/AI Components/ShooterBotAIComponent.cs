@@ -231,7 +231,7 @@ public class ShooterBotAIComponent : EntityComponent {
 
             float movementPause = UnityEngine.Random.Range(minCombatPause, maxCombatPause);
             reachedDestination = true;
-            //Invoke("GenerateCombatMovementPosition", movementPause);
+            Invoke("GenerateCombatMovementPosition", movementPause);
         }
     }
 
