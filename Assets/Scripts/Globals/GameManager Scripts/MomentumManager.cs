@@ -76,7 +76,6 @@ public class MomentumManager : MonoBehaviour {
     {
         if (CurrentMomentumData.UnassignedAvailableMomentumPoints == 0)
         {
-            Debug.Log("Attempting to assign momentum points; no momentum points to assign.");
             return;
         }
         if (!CurrentMomentumData.HardwareTypeToMomentumMap.ContainsKey(hardwareType))
