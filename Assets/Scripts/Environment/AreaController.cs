@@ -267,6 +267,11 @@ public class AreaController : MonoBehaviour {
 
             foreach (GameObject entity in entitiesOnFloorTracker.Keys)
             {
+                if (entity == null)
+                {
+                    entitiesOnFloorTracker.Remove(entity);
+                    continue;
+                }
                 entity.GetComponent<EntityManagement>().SetEntityVisibility(areEntitiesVisible);
             }
         }

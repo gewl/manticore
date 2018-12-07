@@ -1,0 +1,14 @@
+{
+  "_entry": {
+    "TEXT": "No! NO! I do not want to talk! I am too bored! I barely want to help you with INSTALLATION!",
+    "CLICKABLE_TERMS": [ "INSTALLATION", "talk" ]
+  },
+    "talk": {
+      "TEXT": "Can't stand it! Don't want it! No thank you! I loathe a chat!",
+      "CLICKABLE_TERMS": ["chat"]
+    },
+      "chat": {
+        "TEXT": "Fully uninterested! Not even a bit! None for me! I am all set on that front!",
+        "CLICKABLE_TERMS": []
+      }
+}

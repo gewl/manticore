@@ -7,4 +7,80 @@ AvatarMask:
   m_PrefabInternal: {fileID: 0}
   m_Name: ShooterBotBeak
   m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-  m_Elements: []
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/Root
+    m_Weight: 0
+  - m_Path: Armature/Root/Body
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.L/Arm_2.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.L/Arm_2.L/Arm_3.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.L/Arm_2.L/Arm_3.L/Arm_4.L
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.L/Arm_2.L/Arm_3.L/Arm_4.L/Arm_4.L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.R/Arm_2.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.R/Arm_2.R/Arm_3.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.R/Arm_2.R/Arm_3.R/Arm_4.R
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Arm_1.R/Arm_2.R/Arm_3.R/Arm_4.R/Arm_4.R_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/Head 1
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.0
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.0/Beak.0_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.1
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.1/Beak.1_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.2
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.2/Beak.2_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.3
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.3/Beak.3_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.4
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/Head 1/Beak.4/Beak.4_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Body/LegBone_UpperLeft
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/LegBone_UpperLeft/LegBone_LowerLeft
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/LegBone_UpperLeft/LegBone_LowerLeft/LegBone_LowerLeft_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/LegBone_UpperRight
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/LegBone_UpperRight/LegBone_LowerRight
+    m_Weight: 0
+  - m_Path: Armature/Root/Body/LegBone_UpperRight/LegBone_LowerRight/LegBone_LowerRight_end
+    m_Weight: 0
+  - m_Path: Armature/Root/FootBone_Left
+    m_Weight: 0
+  - m_Path: Armature/Root/FootBone_Left/FootBone_Left_end
+    m_Weight: 0
+  - m_Path: Armature/Root/FootBone_Right
+    m_Weight: 0
+  - m_Path: Armature/Root/FootBone_Right/FootBone_Right_end
+    m_Weight: 0
+  - m_Path: Firer
+    m_Weight: 0
+  - m_Path: ShooterBot
+    m_Weight: 0
+  - m_Path: ShooterBot/Head
+    m_Weight: 0

@@ -29,14 +29,6 @@ public class ShooterBotAIComponent : EntityComponent {
     float minCombatPause = 0.1f;
     [SerializeField]
     float maxCombatPause = 0.5f;
-    [SerializeField]
-    float basePercentageOfRangeFromTarget = 0.66f;
-    [SerializeField]
-    float percentageOfRangeMovementVariance = 0.25f;
-    [SerializeField]
-    float rotationAroundTargetMinimumVariance = 60f;
-    [SerializeField]
-    float rotationAroundTargetMaximumVariance = 120f;
 
     RangedEntityData _entityData;
     RangedEntityData EntityData
@@ -262,16 +254,16 @@ public class ShooterBotAIComponent : EntityComponent {
 
         Vector3 targetToSelf = transform.position - currentTarget.position;
 
-        float positionDistanceModifier = UnityEngine.Random.Range(-percentageOfRangeMovementVariance, percentageOfRangeMovementVariance);
+        float minimumDistanceFromTarget = AttackRange * 0.2f;
+        float maximumDistanceFromTarget = AttackRange * 0.8f;
 
-        Vector3 baseTargetPosition = targetToSelf.normalized * (AttackRange * (basePercentageOfRangeFromTarget + positionDistanceModifier));
+        NavMeshHit sampleHit;
+        Vector3 vectorFromTarget = UnityEngine.Random.insideUnitCircle * UnityEngine.Random.RandomRange(minimumDistanceFromTarget, maximumDistanceFromTarget);
+        Vector3 samplePosition = currentTarget.position + vectorFromTarget;
+        NavMesh.SamplePosition(samplePosition, out sampleHit, maximumDistanceFromTarget, 1);
 
-        float rotationAroundTargetModifier = UnityEngine.Random.Range(rotationAroundTargetMinimumVariance, rotationAroundTargetMaximumVariance);
-        rotationAroundTargetModifier = UnityEngine.Random.value > 0.5f ? rotationAroundTargetModifier : -rotationAroundTargetModifier;
-
-        Vector3 rotatedTargetPosition = VectorUtilities.RotatePointAroundPivot(baseTargetPosition, currentTarget.position, rotationAroundTargetModifier);
-
-        navMeshAgent.SetDestination(AdjustPositionForUninterruptedLoS(currentTarget.position, rotatedTargetPosition));
+        Vector3 targetPosition = sampleHit.position;
+        navMeshAgent.SetDestination(samplePosition);
         navMeshAgent.speed = EntityData.BaseMoveSpeed;
         entityEmitter.EmitEvent(EntityEvents.Move);
 

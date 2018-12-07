@@ -1,0 +1,22 @@
+{
+  "_entry": {
+    "TEXT": "Come closer...my machine...come delight in my experience. My knowledge is...very cool. I live, and love, to share.",
+    "CLICKABLE_TERMS": [ "experience", "share" ]
+  },
+    "experience": {
+      "TEXT": "I'm sort of the local historian around these parts. I preserve the history. I'm the big nut on that subject in this zone.",
+      "CLICKABLE_TERMS": ["history"]
+    },
+      "history": {
+        "TEXT": "I'm so glad you asked. Well, I was built here about...one hundred years ago. And I've been here ever since.",
+        "CLICKABLE_TERMS": ["since"]
+      },
+      "since": {
+        "TEXT":  "Sometimes other people walk by! This building that I am standing on is always here. Thank you!",
+        "CLICKABLE_TERMS": []
+      },
+    "share": {
+      "TEXT": "What is wisdom for if not sharing? What is the ground for if not...walking. What is arms do but grabbing?",
+      "CLICKABLE_TERMS": []
+    }
+}
