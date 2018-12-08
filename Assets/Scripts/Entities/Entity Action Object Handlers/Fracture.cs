@@ -71,7 +71,6 @@ public class Fracture : MonoBehaviour
     {
         if (collision.gameObject.layer == terrainLayer)
         {
-            Debug.Log("hit terrain");
             Stop();
             return;
         }
