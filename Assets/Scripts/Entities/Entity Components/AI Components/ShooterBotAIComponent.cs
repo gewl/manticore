@@ -145,7 +145,10 @@ public class ShooterBotAIComponent : EntityComponent {
     void Disconnect()
     {
         CancelInvoke();
-        navMeshAgent.isStopped = true;
+        if (navMeshAgent.isActiveAndEnabled)
+        {
+            navMeshAgent.isStopped = true;
+        }
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Update, OnUpdate);
         entityEmitter.EmitEvent(EntityEvents.ClearWaypoint);
     }
