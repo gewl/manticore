@@ -149,7 +149,8 @@ public class AreaController : MonoBehaviour {
 
         if (floor == currentlyActiveFloor || currentlyActiveFloor == -1)
         {
-            entity.GetComponent<EntityManagement>().SetEntityVisibility(true);
+            // TODO: Reenable this, figure out how entity/building visibility should actually work.
+            //entity.GetComponent<EntityManagement>().SetEntityVisibility(true);
         }
     }
 
@@ -180,7 +181,7 @@ public class AreaController : MonoBehaviour {
 
             if (floor == currentlyActiveFloor && isEntityOnHigherFloor)
             {
-                entity.GetComponent<EntityManagement>().SetEntityVisibility(false);
+                //entity.GetComponent<EntityManagement>().SetEntityVisibility(false);
             }
         }
     }
@@ -272,7 +273,7 @@ public class AreaController : MonoBehaviour {
                     entitiesOnFloorTracker.Remove(entity);
                     continue;
                 }
-                entity.GetComponent<EntityManagement>().SetEntityVisibility(areEntitiesVisible);
+                //entity.GetComponent<EntityManagement>().SetEntityVisibility(areEntitiesVisible);
             }
         }
     }
