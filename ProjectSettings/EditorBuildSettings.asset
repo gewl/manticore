@@ -11,3 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tutorial.unity
     guid: 0ca1b29aa5a1e3d4995ee740b2504363
+  - enabled: 1
+    path: Assets/OldBath.unity
+    guid: 552a827cc1f9e274f91191ebd89b3abf
+  m_configObjects: {}

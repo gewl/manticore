@@ -291,6 +291,32 @@ public class GameManager : SerializedMonoBehaviour {
             return _bulletPrefab;
         }
     }
+
+    static AbilityBarController _abilityBar;
+    public static AbilityBarController AbilityBar
+    {
+        get
+        {
+            if (_abilityBar == null)
+            {
+                _abilityBar = GameObject.FindGameObjectWithTag("AbilityBar").GetComponent<AbilityBarController>();
+            }
+            return _abilityBar;
+        }
+    }
+
+    static DamageFlashController _damageFlash;
+    public static DamageFlashController DamageFlash
+    {
+        get
+        {
+            if (_damageFlash == null)
+            {
+                _damageFlash = GameObject.FindGameObjectWithTag("DamageFlasher").GetComponent<DamageFlashController>();
+            }
+            return _damageFlash;
+        }
+    }
     #endregion
 
     #region Collectible management
@@ -675,13 +701,6 @@ public class GameManager : SerializedMonoBehaviour {
     AnimationCurve easeOutCurve;
     public static AnimationCurve EaseOutCurve { get { return instance.easeOutCurve; } }
 
-    [SerializeField]
-    AbilityBarController abilityBar;
-    public static AbilityBarController AbilityBar { get { return instance.abilityBar; } }
-
-    [SerializeField]
-    DamageFlashController damageFlash;
-    public static DamageFlashController DamageFlash { get { return instance.damageFlash; } }
 
     #endregion
 

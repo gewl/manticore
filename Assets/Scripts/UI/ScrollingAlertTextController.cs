@@ -171,7 +171,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
         switch (gameStateEvent)
         {
             case GlobalConstants.GameStateEvents.PlayerDied:
-                return "ya";
+                return "Unfortunately,";
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "New Momentum Point Earned";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
@@ -188,7 +188,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
         switch (gameStateEvent)
         {
             case GlobalConstants.GameStateEvents.PlayerDied:
-                return "dead";
+                return "you have died.";
             case GlobalConstants.GameStateEvents.NewMomentumPoint:
                 return "Spend It and Accelerate";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
