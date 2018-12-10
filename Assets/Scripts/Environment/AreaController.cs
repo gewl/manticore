@@ -7,7 +7,7 @@ public class AreaController : MonoBehaviour {
 
     private const string FLOOR_PREFIX = "Floor";
 
-    Material areaMaterial;
+    Material[] areaMaterials;
 
     [Header("Area Sections")]
     [SerializeField]
@@ -50,8 +50,8 @@ public class AreaController : MonoBehaviour {
 
     void Awake()
     {
-        areaMaterial = GetComponent<Renderer>().material;
-        baseXZPlanePosition = areaMaterial.GetVector(xzPlaneTag);
+        areaMaterials = GetComponent<Renderer>().materials;
+        baseXZPlanePosition = areaMaterials[0].GetVector(xzPlaneTag);
 
         fadableSectionRenderers = new List<MeshRenderer>();
         floorGroups = new List<GameObject>();
@@ -71,18 +71,6 @@ public class AreaController : MonoBehaviour {
                 floorGroups.Add(transform.Find(FLOOR_PREFIX + i).gameObject);
             }
         }
-    }
-
-    void InitializeClippingPlanes()
-    {
-        areaMaterial.SetVector("_Plane1Normal", Vector4.zero);
-        areaMaterial.SetVector("_Plane1Position", Vector4.zero);
-
-        areaMaterial.SetVector("_Plane2Normal", Vector4.zero);
-        areaMaterial.SetVector("_Plane2Position", Vector4.zero);
-
-        areaMaterial.SetVector("_Plane3Normal", Vector4.zero);
-        areaMaterial.SetVector("_Plane3Position", Vector4.zero);
     }
 
     void ToggleAreaActive(bool isActive)
@@ -122,13 +110,19 @@ public class AreaController : MonoBehaviour {
             float curvedPercentageCompletion = GameManager.RoomTransitionCurve.Evaluate(percentageComplete);
 
             Vector4 newPlanePosition = Vector4.Lerp(initialPosition, destinationPosition, curvedPercentageCompletion);
-            areaMaterial.SetVector(xzPlaneTag, newPlanePosition);
+            foreach (Material material in areaMaterials)
+            {
+                material.SetVector(xzPlaneTag, newPlanePosition);
+            }
 
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        areaMaterial.SetVector(xzPlaneTag, destinationPosition);
+        foreach (Material material in areaMaterials)
+        {
+            material.SetVector(xzPlaneTag, destinationPosition);
+        }
     }
 
     #region Entity entrance/exit handling

@@ -18,6 +18,8 @@ TagManager:
   - PauseMenu
   - UICamera
   - LevelManager
+  - AbilityBar
+  - DamageFlasher
   layers:
   - Default
   - TransparentFX

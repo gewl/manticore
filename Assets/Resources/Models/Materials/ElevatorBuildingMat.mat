@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: ElevatorBuildingMat
   m_Shader: {fileID: 4800000, guid: d148d5478e6a24341b40da3c6a0f9ffa, type: 3}
@@ -39,8 +39,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: fb28081f4cefc0047858e77e21deb92c, type: 3}
+        m_Scale: {x: 0.01, y: 0.01}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -73,11 +73,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CrossColor: {r: 0, g: 0, b: 0, a: 1}
+    - _CrossColor: {r: 0, g: 0.17935541, b: 0.9339623, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Plane1Normal: {r: 0, g: 1, b: 0, a: 0}
-    - _Plane1Position: {r: 0, g: -12.5, b: 0, a: 1}
+    - _Plane1Position: {r: 0, g: -2.13, b: 0, a: 1}
     - _Plane2Normal: {r: 1, g: 0, b: -0.05, a: 0}
-    - _Plane2Position: {r: 79.4, g: 0, b: 0, a: 1}
+    - _Plane2Position: {r: 81, g: 0, b: 0, a: 1}
     - _Plane3Normal: {r: 0, g: 0, b: -1, a: 0}
-    - _Plane3Position: {r: 0, g: 0, b: 55.29, a: 1}
+    - _Plane3Position: {r: 0, g: 0, b: 64.2, a: 1}

@@ -42,19 +42,15 @@ public class MasterSerializer : MonoBehaviour {
             string currentSceneName = SceneManager.GetActiveScene().name;
             if (_activeSceneObject == null || _activeSceneName != currentSceneName)
             {
+                if (!File.Exists(GetSceneStateFilePath()))
+                {
+                    CreateNewSceneStateFile();
+                }
+
                 string sceneObjectText = File.ReadAllText(GetSceneStateFilePath());
                 if (sceneObjectText == null)
                 {
-                    JSONObject sceneObject = new JSONObject();
-                    List<string> sceneObjectTags = GameObject.FindGameObjectWithTag(LEVEL_MANAGER_TAG).GetComponent<StatefulObjectManager>().GetAllStatefulSceneTags();
-                    foreach (string tag in sceneObjectTags)
-                    {
-                        sceneObject.AddField(tag, false);
-                    }
-
-                    _activeSceneObject = sceneObject;
-                    string sceneObjectString = sceneObject.ToString(true);
-                    WriteActiveSceneObject(sceneObjectString);
+                    CreateNewSceneStateFile();
                 }
                 else
                 {
@@ -67,6 +63,20 @@ public class MasterSerializer : MonoBehaviour {
 
             return _activeSceneObject;
         }
+    }
+
+    static void CreateNewSceneStateFile()
+    {
+        JSONObject sceneObject = new JSONObject();
+        List<string> sceneObjectTags = GameObject.FindGameObjectWithTag(LEVEL_MANAGER_TAG).GetComponent<StatefulObjectManager>().GetAllStatefulSceneTags();
+        foreach (string tag in sceneObjectTags)
+        {
+            sceneObject.AddField(tag, false);
+        }
+
+        _activeSceneObject = sceneObject;
+        string sceneObjectString = sceneObject.ToString(true);
+        WriteActiveSceneObject(sceneObjectString);
     }
 
     static void WriteActiveSceneObject(string stateObjectString)
