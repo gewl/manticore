@@ -1,0 +1,39 @@
+{
+  "_entry": {
+    "TEXT": "Shouldn't you be building?",
+    "CLICKABLE_TERMS": [ "building" ]
+  },
+    "building": {
+      "TEXT": "Isn't that what you guys do? Wait, you're not a birdbot. What the hell are you?",
+      "CLICKABLE_TERMS": [ "do", "birdbot" ]
+    },
+      "do": {
+        "TEXT": "Build! All frigging day! No care for how it's supposed to be, no thought about what they're building for. It's...irresponsible.",
+        "CLICKABLE_TERMS": [ "supposed", "for" ]
+      },
+        "supposed": {
+          "TEXT": "City codes! Schematics! Blueprints! There was a PLAN here! You can still see it, down in the old parts of the city.",
+          "CLICKABLE_TERMS": ["PLAN", "old"]
+        },
+          "old": {
+            "TEXT": "It's...sedimental. Right? Up top you have the newest stuff. Down low it's older. Things...changed, as time passed.",
+            "CLICKABLE_TERMS": ["changed"]
+          },
+          "changed": {
+            "TEXT": "Something got off course. I don't know what will correct it. They're just dragging me along. Tear me down when they're done, move me wherever, build me back up.",
+            "CLICKABLE_TERMS": []
+          },
+          "PLAN": {
+            "TEXT": "Not anymore. Something got knocked loose, or was loose to start with. Now they just go and go. Whatever possessed them.",
+            "CLICKABLE_TERMS": []
+          },
+        "for": {
+          "TEXT": "At one point, these buildings were supposed to hold things. Lives. Old skis. I don't know. Now they're built for building.",
+          "CLICKABLE_TERMS": ["building"]
+        },
+      "birdbot": {
+        "TEXT": "You had to have seen them to get here. They used to just be for construction. Now they beak bullets somehow. I used to read books but now I just watch shows. A lot has changed.",
+        "CLICKABLE_TERMS": []
+      }
+
+}
