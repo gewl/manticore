@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Sirenix.OdinInspector;
 
 public class GroupReferenceComponent : SerializedMonoBehaviour {
@@ -27,5 +28,10 @@ public class GroupReferenceComponent : SerializedMonoBehaviour {
     public void UpdateGroup(List<Transform> newGroup)
     {
         groupMembers = newGroup;
+    }
+
+    public bool AreAllGroupMembersDestroyed()
+    {
+        return groupMembers.All(m => m == null);
     }
 }

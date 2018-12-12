@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class BossPhaseHandler : MonoBehaviour {
 
+    public void EndFirstPhase()
+    {
+        Debug.Log("First phase ended");
+    }
 
 }

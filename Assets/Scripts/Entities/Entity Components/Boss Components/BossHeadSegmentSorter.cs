@@ -8,6 +8,8 @@ public class BossHeadSegmentSorter : EntityComponent {
     GroupReferenceComponent segmentManager;
     float slideTime = 2f;
 
+    int childCount = 6;
+
     protected override void Subscribe()
     {
         segmentManager = GetComponent<GroupReferenceComponent>();
@@ -19,10 +21,16 @@ public class BossHeadSegmentSorter : EntityComponent {
 
     public void OnSegmentDeath(int index)
     {
+        childCount--;
         List<Transform> bodySegments = segmentManager.GetGroup();
         Transform dyingSegment = bodySegments[index];
         ConfigurableJoint dyingJoint = dyingSegment.GetComponent<ConfigurableJoint>();
         dyingJoint.connectedBody = null;
+
+        if (childCount == 0)
+        {
+            GetComponent<BossPhaseHandler>().EndFirstPhase();
+        }
 
         if (index == bodySegments.Count - 1)
         {
@@ -49,12 +57,6 @@ public class BossHeadSegmentSorter : EntityComponent {
         Transform replacingSegment = bodySegments[index + 1];
 
         bodySegments.RemoveAt(index);
-
-        if (bodySegments.Count <= 0)
-        {
-            Debug.Log("All segments destroyed.");
-            return;
-        }
 
         Vector3 lastSegmentPosition = dyingSegment.position;
         Rigidbody nextConnectedBody = newConnectedBody.GetComponent<Rigidbody>();
