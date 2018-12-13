@@ -8,7 +8,14 @@ public class VelocityWatcherMovementComponent : EntityComponent {
     float velocityMagnitudeThreshold = 0.08f;
 
     Rigidbody entityRigidbody;
+    Vector3 cachedPosition;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        cachedPosition = transform.position;
+    }
     protected override void Subscribe()
     {
         entityRigidbody = GetComponent<Rigidbody>();

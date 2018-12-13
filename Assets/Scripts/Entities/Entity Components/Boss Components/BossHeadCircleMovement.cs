@@ -20,6 +20,18 @@ public class BossHeadCircleMovement : EntityComponent {
     [SerializeField]
     float lingerTime = 2f;
 
+    List<EntityEmitter> bodyPartEntityEmitters;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        bodyPartEntityEmitters = GetComponent<GroupReferenceComponent>()
+            .GetGroup()
+            .Select(m => m.GetComponent<EntityEmitter>())
+            .ToList();
+    }
+
     protected override void Subscribe()
     {
         waypoints = new Transform[bossWaypointsParent.transform.childCount];
@@ -48,12 +60,26 @@ public class BossHeadCircleMovement : EntityComponent {
     void OnStop()
     {
         StopAllCoroutines();
+        BroadcastToBodyParts(EntityEvents.Stop);
         wasInterrupted = true;
     }
 
     void Move()
     {
         StartCoroutine(WaitThenTravelToNextNode());
+    }
+
+    void BroadcastToBodyParts(string entityEvent)
+    {
+        foreach (EntityEmitter emitter in bodyPartEntityEmitters)
+        {
+            if (emitter == null)
+            {
+                continue;
+            }
+
+            emitter.EmitEvent(entityEvent);
+        }
     }
 
     IEnumerator WaitThenTravelToNextNode()
@@ -73,6 +99,7 @@ public class BossHeadCircleMovement : EntityComponent {
             wasInterrupted = false;
         }
 
+        BroadcastToBodyParts(EntityEvents.Move);
         Vector3 nextNodePosition = waypoints[nextWaypointPointer].position + patrolPointOffset;
         Quaternion nextNodeRotation = waypoints[nextWaypointPointer].rotation;
 
@@ -93,6 +120,7 @@ public class BossHeadCircleMovement : EntityComponent {
             yield return null;
         }
 
+        BroadcastToBodyParts(EntityEvents.Stop);
         entityEmitter.EmitEvent(EntityEvents.WaypointReached);
     }
 }
