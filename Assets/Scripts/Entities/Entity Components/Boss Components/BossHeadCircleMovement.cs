@@ -12,6 +12,8 @@ public class BossHeadCircleMovement : EntityComponent {
 
     Transform[] waypoints;
     int nextWaypointPointer = 0;
+    Animator animator;
+    const string IS_MOVING = "isMoving";
 
     Vector3 patrolPointOffset;
 
@@ -25,6 +27,7 @@ public class BossHeadCircleMovement : EntityComponent {
     protected override void Awake()
     {
         base.Awake();
+        animator = GetComponent<Animator>();
 
         bodyPartEntityEmitters = GetComponent<GroupReferenceComponent>()
             .GetGroup()
@@ -71,6 +74,15 @@ public class BossHeadCircleMovement : EntityComponent {
 
     void BroadcastToBodyParts(string entityEvent)
     {
+        if (entityEvent == EntityEvents.Move)
+        {
+            animator.SetBool(IS_MOVING, true);
+        }
+        else if (entityEvent == EntityEvents.Stop)
+        {
+            animator.SetBool(IS_MOVING, false);
+        }
+
         foreach (EntityEmitter emitter in bodyPartEntityEmitters)
         {
             if (emitter == null)
@@ -123,4 +135,5 @@ public class BossHeadCircleMovement : EntityComponent {
         BroadcastToBodyParts(EntityEvents.Stop);
         entityEmitter.EmitEvent(EntityEvents.WaypointReached);
     }
+
 }

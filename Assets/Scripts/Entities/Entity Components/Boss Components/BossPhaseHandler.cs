@@ -1,12 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class BossPhaseHandler : MonoBehaviour {
+public class BossPhaseHandler : SerializedMonoBehaviour {
+
+    [SerializeField]
+    List<MonoBehaviour> firstPhaseComponentsToDisable;
+    [SerializeField]
+    List<MonoBehaviour> secondPhaseComponentsToEnable;
 
     public void EndFirstPhase()
     {
-        Debug.Log("First phase ended");
+        foreach (MonoBehaviour component in firstPhaseComponentsToDisable)
+        {
+            component.enabled = false;
+        }
     }
 
 }
