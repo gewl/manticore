@@ -358,6 +358,7 @@ public class GameManager : SerializedMonoBehaviour {
 
     IEnumerator PlayerDeathSequence()
     {
+        MomentumManager.ResetMomentum();
         float fadeOutCompleteTime = Time.time + playerDeathFadeScreenTimer;
 
         while (Time.time < fadeOutCompleteTime)
@@ -412,8 +413,6 @@ public class GameManager : SerializedMonoBehaviour {
             FadeScreen.color = fadeColor;
             yield return null;
         }
-
-        MomentumManager.RemoveLastMomentumPoint();
     }
 
     public static void FreezeGame(GlobalConstants.GameFreezeEvent freezeEvent)

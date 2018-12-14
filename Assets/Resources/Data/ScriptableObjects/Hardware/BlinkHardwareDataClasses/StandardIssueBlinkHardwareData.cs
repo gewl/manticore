@@ -5,11 +5,11 @@ public class StandardIssueBlinkHardwareData : BlinkHardwareData {
 
     protected override int baseStaminaCost
     {
-        get { return 40; }
+        get { return 60; }
     }
     protected override int staminaCostMomentumIncrement
     {
-        get { return 7; }
+        get { return 5; }
     }
 
     protected override float baseCooldown

@@ -113,6 +113,11 @@ public class MomentumManager : MonoBehaviour {
 
     static void ResetMomentum(InventoryData inventory)
     {
+        ResetMomentum();
+    }
+
+    public static void ResetMomentum()
+    {
         _currentMomentumData = new MomentumData();
         OnMomentumUpdated(CurrentMomentumData);
     }

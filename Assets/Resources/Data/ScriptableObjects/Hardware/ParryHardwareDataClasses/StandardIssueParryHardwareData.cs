@@ -8,11 +8,11 @@ public class StandardIssueParryHardwareData : ParryHardwareData {
 
     protected override int baseStaminaCost
     {
-        get { return 30; }
+        get { return 60; }
     }
     protected override int staminaCostMomentumIncrement
     {
-        get { return 2; }
+        get { return 5; }
     }
 
     protected override float baseCooldown

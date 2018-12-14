@@ -378,6 +378,11 @@ public class MobileEntityHealthComponent : EntityComponent {
             yield return null;
         }
 
+        if (isPlayer)
+        {
+            MomentumManager.RemoveLastMomentumPoint();
+        }
+
         if (!isDead)
         {
             // Once entity has recovered, disable physics and resume action.

@@ -29,6 +29,7 @@ public class BossHeadSegmentSorter : EntityComponent {
 
         if (childCount == 0)
         {
+            entityEmitter.EmitEvent(EntityEvents.Stop);
             GetComponent<BossPhaseHandler>().EndFirstPhase();
         }
 
