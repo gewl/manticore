@@ -66,6 +66,7 @@ public class FractureHardware : MonoBehaviour, IHardware {
 
     IEnumerator GoOnCooldown()
     {
+        isOnCooldown = true;
         float timeOffCooldown = Time.time + FractureCooldown;
 
         while (Time.time < timeOffCooldown)

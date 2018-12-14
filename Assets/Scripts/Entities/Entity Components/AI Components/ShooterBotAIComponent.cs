@@ -172,7 +172,7 @@ public class ShooterBotAIComponent : EntityComponent {
     void UnaggroedUpdate()
     {
         float sqrDistanceToNextPatrolPosition = (patrolPositions[currentPatrolPositionIndex] - transform.position).sqrMagnitude;
-        if (sqrDistanceToNextPatrolPosition <= 0.5f && !reachedDestination)
+        if (sqrDistanceToNextPatrolPosition <= 2f && !reachedDestination)
         {
             entityEmitter.EmitEvent(EntityEvents.Stop);
 

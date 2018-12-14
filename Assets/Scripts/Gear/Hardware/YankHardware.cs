@@ -8,6 +8,7 @@ public class YankHardware : MonoBehaviour, IHardware {
     EntityGearManagement gear;
     HardwareType type = HardwareType.Yank;
     public HardwareType Type { get { return type; } }
+    CapsuleCollider manticoreCollider;
 
     bool isInUse;
     public bool IsInUse { get { return isInUse; } }
@@ -52,6 +53,7 @@ public class YankHardware : MonoBehaviour, IHardware {
     private void OnEnable()
     {
         gear = GetComponent<EntityGearManagement>();
+        manticoreCollider = GetComponent<CapsuleCollider>();
     }
 
     #region Active hardware use
@@ -65,7 +67,8 @@ public class YankHardware : MonoBehaviour, IHardware {
     {
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(GoOnCooldown());
-        Vector3 instantiationPosition = transform.position + transform.forward + (transform.up * 2f);
+        Vector3 centerPoint = manticoreCollider.bounds.center;
+        Vector3 instantiationPosition = centerPoint + transform.forward + (transform.up * 2f);
         GameObject newYankProjectile = Instantiate(YankProjectile, instantiationPosition, transform.rotation);
 
         gear.ApplyPassiveHardware(typeof(YankHardware), newYankProjectile);
@@ -78,6 +81,7 @@ public class YankHardware : MonoBehaviour, IHardware {
 
     IEnumerator GoOnCooldown()
     {
+        isOnCooldown = true;
         float timeOffCooldown = Time.time + YankCooldown;
 
         while (Time.time < timeOffCooldown)

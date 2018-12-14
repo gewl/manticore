@@ -47,8 +47,11 @@ public class TutorialTrigger : MonoBehaviour {
         }
         else if (IsRenewableRoom && !hasAppliedRenewableRoomDamage)
         {
-            hasAppliedRenewableRoomDamage = true;
-            GameManager.GetPlayerTransform().GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(50f);
+            if (!hasAppliedRenewableRoomDamage)
+            {
+                hasAppliedRenewableRoomDamage = true;
+                GameManager.GetPlayerTransform().GetComponent<MobileEntityHealthComponent>().ReceiveDamageDirectly(50f);
+            }
             tutorialController.InRenewableRoom = true;
         }
     }
@@ -62,10 +65,6 @@ public class TutorialTrigger : MonoBehaviour {
         else if (IsEquipPassiveRoom)
         {
             tutorialController.InEquipPassiveRoom = false;
-        }
-        else if (IsRenewableRoom)
-        {
-            tutorialController.InRenewableRoom = false;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CanEditMultipleObjects]
 public class PositionResetTrigger : MonoBehaviour {
 
     [SerializeField]
@@ -12,7 +11,7 @@ public class PositionResetTrigger : MonoBehaviour {
     ScrollingAlertTextController scrollingAlertTextController;
 
     string firstScrollPrimaryText = "Yoops";
-    string firstScrollSecondaryText = "If you go down there you'll be left to wander forever.";
+    string firstScrollSecondaryText = "No way back up from down there.";
     string secondScrollPrimaryText = "Let's Just Put You Back";
     string secondScrollSecondaryText = "Make like it never happened.";
 
