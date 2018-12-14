@@ -1,10 +1,38 @@
 {
   "_entry": {
-    "TEXT": "im just a baby. dont mind me man",
-    "CLICKABLE_TERMS": [ "baby" ]
+    "TEXT": "Well, you killed all of my body parts by dealing damage to them. I'm not sure where we go from here.",
+    "CLICKABLE_TERMS": [ "parts", "go" ]
   },
-  "baby": {
-    "TEXT": "hell yeah I'm a baby",
-    "CLICKABLE_TERMS":  [ "baby" ]
-  }
+    "parts": {
+      "TEXT": "My sweet parts. Hell, I loved them.",
+      "CLICKABLE_TERMS":  [  ]
+    },
+    "go": {
+      "TEXT": "Well, normally, I'd drop my shield and begin trying to deal some serious damage to yourself with an arrangement of complex bullet situations.",
+      "CLICKABLE_TERMS":  [ "drop", "normally" ]
+    },
+    "drop": {
+      "TEXT": "I guess I'd still do that...if you'd buy the whole game. But that's impossible.",
+      "CLICKABLE_TERMS":  [ "impossible" ]
+    },
+    "impossible": {
+      "TEXT": "It just can't be done.",
+      "CLICKABLE_TERMS":  []
+    },
+    "normally": {
+      "TEXT": "I just don't see a reason! To do this thing! At this time! When I could just...",
+      "CLICKABLE_TERMS":  [ "just" ]
+    },
+    "just": {
+      "TEXT": "...just keep the shield up...hang out...take it easy. I dunno. I don't have any plans. What do you think?",
+      "CLICKABLE_TERMS":  [ "think" ]
+    },
+    "think": {
+      "TEXT": "You want to...marry...me?",
+      "CLICKABLE_TERMS":  [ "marry" ]
+    },
+    "marry": {
+      "TEXT": "This is highly unorthodox...but yes, I will be your husband. We are married now. Talk to you later, honey.",
+      "CLICKABLE_TERMS":  []
+    }
 }

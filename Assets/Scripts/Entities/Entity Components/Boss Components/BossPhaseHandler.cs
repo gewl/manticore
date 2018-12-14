@@ -14,6 +14,9 @@ public class BossPhaseHandler : SerializedMonoBehaviour {
     Transform secondPhasePosition;
 
     [SerializeField]
+    GameObject floatingLetter;
+
+    [SerializeField]
     float timeToTransition = 1.5f;
 
     public void EndFirstPhase()
@@ -55,5 +58,6 @@ public class BossPhaseHandler : SerializedMonoBehaviour {
         {
             component.enabled = true;
         }
+        floatingLetter.SetActive(true);
     }
 }

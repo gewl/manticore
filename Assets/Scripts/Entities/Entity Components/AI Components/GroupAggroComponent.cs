@@ -7,7 +7,9 @@ public class GroupAggroComponent : EntityComponent {
     List<Transform> entitiesToAggro;
 
     [SerializeField]
-    float aggroDelay = 0.1f;
+    float minAggroDelay = 0.2f;
+    [SerializeField]
+    float maxAggroDelay = 0.4f;
 
     protected override void Subscribe()
     {
@@ -35,7 +37,8 @@ public class GroupAggroComponent : EntityComponent {
             emitter.EmitEvent(EntityEvents.Aggro);
             emitter.EmitEvent(EntityEvents.TargetUpdated);
 
-            yield return new WaitForSeconds(aggroDelay);
+            float aggroDelay = Random.Range(minAggroDelay, maxAggroDelay);
+            yield return new WaitForSeconds(maxAggroDelay);
         }
     }
 }

@@ -176,8 +176,6 @@ public class ScrollingAlertTextController : MonoBehaviour {
                 return "New Momentum Point Earned";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
                 return "New Hardware Discovered: " + eventInformation;
-            case GlobalConstants.GameStateEvents.MomentumLost:
-                return "A Little Momentum Lost, No Big Deal";
             default:
                 return "";
         }
@@ -193,8 +191,6 @@ public class ScrollingAlertTextController : MonoBehaviour {
                 return "Spend It and Accelerate";
             case GlobalConstants.GameStateEvents.HardwareDiscovered:
                 return "Now You Can " + GetDiscoveredHardwareFlavorText(eventInformation);
-            case GlobalConstants.GameStateEvents.MomentumLost:
-                return "Try It Again";
             default:
                 return "";
         }

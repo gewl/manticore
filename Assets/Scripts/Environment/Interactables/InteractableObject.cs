@@ -37,7 +37,10 @@ public class InteractableObject : MonoBehaviour {
             animator.SetBool(IS_ACTIVE_PARAMETER, true);
         }
 
-        floatingLetter.SetActive(true);
+        if (floatingLetter != null)
+        {
+            floatingLetter.SetActive(true);
+        }
         //floatingLetter.transform.position = originalLetterPosition;
         //floatingLetter.transform.rotation = Quaternion.Euler(originalLetterRotationEuler);
 
@@ -53,7 +56,10 @@ public class InteractableObject : MonoBehaviour {
 
         objectRenderer.material.SetFloat("_OutlineExtrusion", 0.0f);
 
-        floatingLetter.SetActive(false);
+        if (floatingLetter != null)
+        {
+            floatingLetter.SetActive(false);
+        }
         StopCoroutine("ActivateTerminal");
     }
 
@@ -74,7 +80,10 @@ public class InteractableObject : MonoBehaviour {
 
             float verticalAdjustment = Mathf.PingPong(timeElapsed + 1f, 2.0f);
             verticalAdjustment -= 1f;
-            floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
+            if (floatingLetter != null)
+            {
+                floatingLetter.transform.position = new Vector3(originalLetterPosition.x, originalLetterPosition.y + verticalAdjustment, originalLetterPosition.z);
+            }
             if (Input.GetKeyDown(KeyCode.F))
             {
                 if (objectController != null)
