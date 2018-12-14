@@ -11,6 +11,8 @@ public class MainMenuController : MonoBehaviour {
     GameObject settingsPane;
     [SerializeField]
     GameObject creditsPane;
+    [SerializeField]
+    GameObject birdGuy;
 
     void CloseAllPanes()
     {
@@ -25,6 +27,7 @@ public class MainMenuController : MonoBehaviour {
         CloseAllPanes();
 
         mainMenu.SetActive(true);
+        birdGuy.SetActive(true);
     }
 
     public void OpenSettingsPane()

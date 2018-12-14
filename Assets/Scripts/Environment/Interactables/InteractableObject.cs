@@ -26,8 +26,11 @@ public class InteractableObject : MonoBehaviour {
 
     private void OnEnable()
     {
-        originalLetterPosition = floatingLetter.transform.position;
-        originalLetterRotationEuler = floatingLetter.transform.rotation.eulerAngles;
+        if (floatingLetter != null)
+        {
+            originalLetterPosition = floatingLetter.transform.position;
+            originalLetterRotationEuler = floatingLetter.transform.rotation.eulerAngles;
+        } 
     }
 
     private void OnTriggerEnter(Collider other)

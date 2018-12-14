@@ -40,6 +40,11 @@ public class GroupAggroComponent : EntityComponent {
             float aggroDelay = Random.Range(minAggroDelay, maxAggroDelay);
             yield return new WaitForSeconds(maxAggroDelay);
         }
+        // If one dies before all are aggroed, it wigs. Just leaving them immune until all notified.
+        foreach (Transform entity in entitiesToAggro)
+        {
+            entity.GetComponent<StationaryEntityHealthComponent>().IsInvulnerable = false;
+        }
     }
 }
 

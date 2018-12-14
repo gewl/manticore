@@ -30,7 +30,9 @@ public class AreaTrigger : MonoBehaviour {
         }
         else if (collidedObjectLayer == entityLayer)
         {
-            areaController.RegisterEntityEnter(other.gameObject, floor);
+            // TODO: This was causing issues when an entity was killed before player exited,
+            // and wasn't being used for much anyway. Fix it up in the future.
+            //areaController.RegisterEntityEnter(other.gameObject, floor);
         }
     }
 
@@ -44,7 +46,7 @@ public class AreaTrigger : MonoBehaviour {
         }
         else if (collidedObjectLayer == entityLayer)
         {
-            areaController.RegisterEntityExit(other.gameObject, floor);
+            //areaController.RegisterEntityExit(other.gameObject, floor);
         }
     }
 }
