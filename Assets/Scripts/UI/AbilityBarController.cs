@@ -20,6 +20,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
     GameObject[] abilityMomentumCounters;
 
     Button[] assignMomentumButtons;
+    GameObject[] hotkeyBubs;
 
     // Used for diffing, so counters can flash different colors & give a little more 
     // visual feedback when these values change.
@@ -29,6 +30,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
     const string COOLDOWN_TEXT = "CooldownText";
     const string ABILITY_MOMENTUM_COUNTER = "AbilityMomentumCounter";
     const string ASSIGN_MOMENTUM_BUTTON = "AssignMomentumButton";
+    const string HOTKEY = "Hotkey";
 
     [SerializeField]
     Sprite emptyAbilityBub;
@@ -62,6 +64,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
         cooldownTexts = new Text[4];
         abilityMomentumCounters = new GameObject[4];
         assignMomentumButtons = new Button[4];
+        hotkeyBubs = new GameObject[4];
 
         displayedMomentumValues = new int[4];
 
@@ -82,6 +85,9 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
             Button assignMomentumButton = abilityBub.Find(ASSIGN_MOMENTUM_BUTTON).GetComponent<Button>();
             assignMomentumButtons[i] = assignMomentumButton;
+
+            GameObject hotkeyBub = abilityBub.Find(HOTKEY).gameObject;
+            hotkeyBubs[i] = hotkeyBub;
 
             abilityBubImages[i] = abilityBub.GetComponent<Image>();
         }
@@ -291,6 +297,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
         for (int i = 0; i < assignMomentumButtons.Length; i++)
         {
             assignMomentumButtons[i].gameObject.SetActive(isEnabled);
+            hotkeyBubs[i].gameObject.SetActive(!isEnabled);
         }
     }
 
