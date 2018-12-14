@@ -35,14 +35,12 @@ public class GenericEntityAudioComponent : EntityComponent {
 
     protected override void Subscribe()
     {
-        //entityEmitter.SubscribeToEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.SubscribeToEvent(EntityEvents.Dead, OnDead);
         entityEmitter.SubscribeToEvent(EntityEvents.Aggro, OnAggro);
     }
 
     protected override void Unsubscribe()
     {
-        //entityEmitter.UnsubscribeFromEvent(EntityEvents.PrimaryFire, OnPrimaryFire);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Dead, OnDead);
         entityEmitter.UnsubscribeFromEvent(EntityEvents.Aggro, OnAggro);
     }

@@ -928,7 +928,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -593, y: -166.3}
-  m_SizeDelta: {x: 500, y: 580}
+  m_SizeDelta: {x: 626, y: 580}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &738228318
 MonoBehaviour:
@@ -965,7 +965,8 @@ MonoBehaviour:
   m_Text: "design, programming, character modeling, rigging, animation, menu text,
     sound, music: \nit's gil baby\n\nextremely good unity tools from probuilder and
     sirenix\n\nall fonts purchased from ChevyRay\n\nbasically every building and prop
-    purchased from SyntyStudios\n\ncutaway shaders from github.com/\nDandarawy/\nUnity3DCrossSectionShader"
+    purchased from SyntyStudios\n\nevery good ability/inventory icon comes from opengameart\n\ncutaway
+    shaders from github.com/\nDandarawy/\nUnity3DCrossSectionShader"
 --- !u!222 &738228319
 CanvasRenderer:
   m_ObjectHideFlags: 0
