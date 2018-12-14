@@ -28,7 +28,6 @@ public class ScrollingAlertTextController : MonoBehaviour {
     Vector3 initialPosition, centerPosition, destinationPosition;
 
 	void Start () {
-        scrollCoroutineQueue = new CoroutineQueue(this);
         rectTransform = GetComponent<RectTransform>();
 
         float maxRightX = rectTransform.TransformPoint(rectTransform.rect.max).x;
@@ -49,6 +48,7 @@ public class ScrollingAlertTextController : MonoBehaviour {
 
     private void OnEnable()
     {
+        scrollCoroutineQueue = new CoroutineQueue(this);
         GlobalEventEmitter.OnGameStateEvent += GameStateEventHandler;
     }
 
