@@ -1,6 +1,6 @@
 {
   "_entry": {
-    "TEXT": "Well, you killed all of my body parts by dealing damage to them. I'm not sure where we go from here.",
+    "TEXT": "Well, you killed all of my body parts by dealing damage to them. You've completed the demo. I'm not sure where we go from here.",
     "CLICKABLE_TERMS": [ "parts", "go" ]
   },
     "parts": {
