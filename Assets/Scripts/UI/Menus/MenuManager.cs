@@ -114,6 +114,7 @@ public class MenuManager : MonoBehaviour {
 
     public void ExitToMainMenu()
     {
+        GameManager.ExitMenuState();
         SceneManager.LoadScene("MainMenu");
     }
 

@@ -664,6 +664,46 @@ Prefab:
       propertyPath: m_Name
       value: ShooterBotMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 114366256989504058, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114338713706591272, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114116995838194688, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114824643733955480, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842603374165382, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244416437557938, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114960614121812150, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82636286475089408, guid: f5c937e0b0686084eabf8de9a11b5c17,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114279124527099510, guid: f5c937e0b0686084eabf8de9a11b5c17, type: 2}
     - {fileID: 195527862142998206, guid: f5c937e0b0686084eabf8de9a11b5c17, type: 2}
