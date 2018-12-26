@@ -14,6 +14,11 @@ public class MainMenuController : MonoBehaviour {
     [SerializeField]
     GameObject birdGuy;
 
+    private void OnEnable()
+    {
+        Time.timeScale = 1f;
+    }
+
     void CloseAllPanes()
     {
         foreach (Transform child in transform)
@@ -55,5 +60,10 @@ public class MainMenuController : MonoBehaviour {
     public void ToggleFullscreen()
     {
         Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

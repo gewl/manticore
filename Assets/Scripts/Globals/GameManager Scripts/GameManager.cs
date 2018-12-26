@@ -472,12 +472,6 @@ public class GameManager : SerializedMonoBehaviour {
         }
     }
 
-    public void ExitToMainMenu()
-    {
-        GameManager.ExitMenuState();
-        SceneManager.LoadScene(0);
-    }
-
     public void QuitGame()
     {
         Application.Quit();
