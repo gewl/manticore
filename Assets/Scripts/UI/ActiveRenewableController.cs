@@ -23,6 +23,10 @@ public class ActiveRenewableController : MonoBehaviour {
         {
             if (_manticoreGear == null)
             {
+                if (GameManager.GetPlayerTransform() == null)
+                {
+                    return null;
+                }
                 _manticoreGear = GameManager.GetPlayerTransform().GetComponent<EntityGearManagement>();
             }
 
@@ -52,7 +56,7 @@ public class ActiveRenewableController : MonoBehaviour {
 
     private void OnDestroy()
     {
-        if (!isApplicationQuitting)
+        if (!isApplicationQuitting && ManticoreGear != null)
         {
             ManticoreGear.activeRenewableUpdated -= UpdateRenewable;
         }

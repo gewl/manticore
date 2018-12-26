@@ -590,6 +590,10 @@ public class GameManager : SerializedMonoBehaviour {
     {
         if (playerTransform == null)
         {
+            if (GetPlayerObject() == null)
+            {
+                return null;
+            }
             playerTransform = GetPlayerObject().transform;
         }
         return playerTransform;

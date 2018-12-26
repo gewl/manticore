@@ -50,6 +50,10 @@ public class AbilityBarController : SerializedMonoBehaviour {
         {
             if (_manticoreGear == null)
             {
+                if (GameManager.GetPlayerTransform() == null)
+                {
+                    return null;
+                }
                 _manticoreGear = GameManager.GetPlayerTransform().GetComponent<EntityGearManagement>();
             }
 
@@ -120,7 +124,7 @@ public class AbilityBarController : SerializedMonoBehaviour {
 
     void UnsubscribeFromEvents()
     {
-        if (!applicationQuitting)
+        if (!applicationQuitting && ManticoreGear != null)
         {
             ManticoreGear.activeHardwareUpdated -= UpdateAbilities;
         }
